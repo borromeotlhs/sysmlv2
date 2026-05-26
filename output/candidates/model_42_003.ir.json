@@ -1,0 +1,60 @@
+{
+  "schema": "sysml-ir-v0",
+  "id": "model_42_003",
+  "package": {
+    "name": "model_42_003",
+    "members": [
+      {
+        "kind": "part_def",
+        "name": "PowerSystem678",
+        "parts": [
+          {
+            "name": "powersubsystem888",
+            "type": "PowerUnit285"
+          },
+          {
+            "name": "communicationcontroller855",
+            "type": "NavigationSubsystem380"
+          }
+        ]
+      },
+      {
+        "kind": "part_def",
+        "name": "PowerUnit285"
+      },
+      {
+        "kind": "part_def",
+        "name": "NavigationSubsystem380"
+      },
+      {
+        "kind": "part_def",
+        "name": "FlightController274"
+      },
+      {
+        "kind": "requirement_def",
+        "name": "WeightRequirement83",
+        "doc": "The system shall maintain weight within specified limits."
+      },
+      {
+        "kind": "requirement_def",
+        "name": "SafetyRequirement82",
+        "doc": "The system shall maintain safety within specified limits."
+      },
+      {
+        "kind": "requirement_def",
+        "name": "SafetyRequirement94",
+        "doc": "The system shall maintain safety within specified limits."
+      },
+      {
+        "kind": "verification_case_def",
+        "name": "WeightVerification83",
+        "subject": "WeightRequirement83"
+      },
+      {
+        "kind": "verification_case_def",
+        "name": "SafetyVerification82",
+        "subject": "SafetyRequirement82"
+      }
+    ]
+  }
+}

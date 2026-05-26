@@ -1,0 +1,61 @@
+{
+  "schema": "sysml-ir-v0",
+  "id": "model_42_004",
+  "package": {
+    "name": "model_42_004",
+    "members": [
+      {
+        "kind": "part_def",
+        "name": "BatteryController571",
+        "parts": [
+          {
+            "name": "powersubsystem842",
+            "type": "PowerComponent411"
+          },
+          {
+            "name": "navigationsystem217",
+            "type": "SensorController323"
+          }
+        ]
+      },
+      {
+        "kind": "part_def",
+        "name": "PowerComponent411"
+      },
+      {
+        "kind": "part_def",
+        "name": "SensorController323"
+      },
+      {
+        "kind": "requirement_def",
+        "name": "PerformanceRequirement51",
+        "doc": "All performance parameters shall be monitored continuously."
+      },
+      {
+        "kind": "requirement_def",
+        "name": "PerformanceRequirement19",
+        "doc": "The performance shall meet operational requirements."
+      },
+      {
+        "kind": "requirement_def",
+        "name": "CurrentRequirement32",
+        "doc": "All current parameters shall be monitored continuously."
+      },
+      {
+        "kind": "verification_case_def",
+        "name": "PerformanceVerification51",
+        "subject": "PerformanceRequirement51"
+      },
+      {
+        "kind": "verification_case_def",
+        "name": "PerformanceVerification19",
+        "subject": "PerformanceRequirement19"
+      },
+      {
+        "kind": "verification_case_def",
+        "name": "CurrentVerification32",
+        "subject": "CurrentRequirement32"
+      }
+    ]
+  }
+}

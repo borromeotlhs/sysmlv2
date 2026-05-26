@@ -1,0 +1,34 @@
+{
+  "schema": "sysml-rules-v0",
+  "description": "Fallback MVP rules - NOT full SysML v2 grammar",
+  "note": "This is a minimal smoke-test rule catalog. Replace with Xtext grammar parser.",
+  "keywords": [
+    "package",
+    "part",
+    "def",
+    "requirement",
+    "verification",
+    "case",
+    "doc",
+    "subject",
+    "import",
+    "alias"
+  ],
+  "member_kinds": [
+    "part_def",
+    "requirement_def",
+    "verification_case_def"
+  ],
+  "patterns": {
+    "package_name": "^[A-Za-z][A-Za-z0-9_]*$",
+    "identifier": "^[A-Za-z][A-Za-z0-9_]*$",
+    "doc_text": ".*"
+  },
+  "syntax_rules": {
+    "package": "package <name> { <members> }",
+    "part_def": "part def <name> { <parts>? }",
+    "part": "part <name> : <type>;",
+    "requirement_def": "requirement def <name> { doc /* <text> */ }",
+    "verification_case_def": "verification case def <name> { subject <requirement>; }"
+  }
+}

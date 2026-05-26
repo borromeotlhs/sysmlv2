@@ -1,0 +1,56 @@
+{
+  "schema": "sysml-ir-v0",
+  "id": "model_42_002",
+  "package": {
+    "name": "model_42_002",
+    "members": [
+      {
+        "kind": "part_def",
+        "name": "PowerSubsystem715",
+        "parts": [
+          {
+            "name": "flightsubsystem981",
+            "type": "NavigationSystem095"
+          },
+          {
+            "name": "communicationsystem368",
+            "type": "NavigationModule271"
+          }
+        ]
+      },
+      {
+        "kind": "part_def",
+        "name": "NavigationSystem095"
+      },
+      {
+        "kind": "part_def",
+        "name": "NavigationModule271"
+      },
+      {
+        "kind": "requirement_def",
+        "name": "PerformanceRequirement69",
+        "doc": "The system shall maintain performance within specified limits."
+      },
+      {
+        "kind": "requirement_def",
+        "name": "PerformanceRequirement11",
+        "doc": "All performance parameters shall be monitored continuously."
+      },
+      {
+        "kind": "requirement_def",
+        "name": "TemperatureRequirement81",
+        "doc": "All temperature parameters shall be monitored continuously."
+      },
+      {
+        "kind": "verification_case_def",
+        "name": "PerformanceVerification11",
+        "subject": "PerformanceRequirement11"
+      },
+      {
+        "kind": "verification_case_def",
+        "name": "TemperatureVerification81",
+        "subject": "TemperatureRequirement81"
+      }
+    ]
+  }
+}

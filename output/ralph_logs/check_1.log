@@ -1,0 +1,67 @@
+[mvp-check] Checking required directories...
+[mvp-check] Checking required scripts...
+[mvp-check] Checking Python syntax...
+[mvp-check] Running unit tests if present...
+[mvp-check] pytest or tests not found; skipping pytest.
+[mvp-check] Running end-to-end corpus generation smoke test...
+======================================
+SysML v2 Generator Pipeline
+======================================
+Count: 5
+Seed: 42
+Prefix: model
+
+[pipeline] Step 1: Extracting rules...
+[extract-rules] Generated fallback rules: output/rules/rules.json
+[extract-rules] Rule catalog contains 3 member kinds
+
+[pipeline] Step 2: Generating IR...
+[generate-ir] Loaded rules from output/rules/rules.json
+[generate-ir] Generated output/candidates/model_42_000.ir.json
+[generate-ir] Generated output/candidates/model_42_001.ir.json
+[generate-ir] Generated output/candidates/model_42_002.ir.json
+[generate-ir] Generated output/candidates/model_42_003.ir.json
+[generate-ir] Generated output/candidates/model_42_004.ir.json
+[generate-ir] Generated 5 IR files with seed 42
+
+[pipeline] Step 3: Rendering to SysML...
+[render-ir] Rendered model_42_000.ir.json -> model_42_000.sysml
+[render-ir] Rendered model_42_001.ir.json -> model_42_001.sysml
+[render-ir] Rendered model_42_002.ir.json -> model_42_002.sysml
+[render-ir] Rendered model_42_003.ir.json -> model_42_003.sysml
+[render-ir] Rendered model_42_004.ir.json -> model_42_004.sysml
+[render-ir] Rendered 5 files
+
+[pipeline] Step 4: Validating SysML files...
+  Validating: model_42_000
+    ✓ VALID
+  Validating: model_42_001
+    ✓ VALID
+  Validating: model_42_002
+    ✓ VALID
+  Validating: model_42_003
+    ✓ VALID
+  Validating: model_42_004
+    ✓ VALID
+
+[pipeline] Validation complete:
+  Valid: 5
+  Invalid: 0
+
+[pipeline] Step 5: Building corpus...
+[build-corpus] Built corpus: output/corpus/train.jsonl
+[build-corpus] Valid examples: 5
+[build-corpus] Invalid examples: 0
+[build-corpus] Total entries: 5
+
+======================================
+Pipeline complete!
+======================================
+Results:
+  Valid examples: output/valid/
+  Invalid examples: output/invalid/
+  Training corpus: output/corpus/train.jsonl
+  Repair corpus: output/corpus/repair.jsonl
+
+[mvp-check] Checking generated outputs...
+[mvp-check] PASS

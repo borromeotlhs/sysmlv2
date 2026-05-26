@@ -1,0 +1,7 @@
+{
+  "validator": "fallback-smoke-v0",
+  "disclaimer": "NOT full SysML v2 validation - smoke test only",
+  "valid": true,
+  "errors": [],
+  "warnings": []
+}

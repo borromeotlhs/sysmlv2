@@ -1,0 +1,23 @@
+{
+  "schema": "sysml-ir-v0",
+  "id": "model_42_000",
+  "package": {
+    "name": "model_42_000",
+    "members": [
+      {
+        "kind": "part_def",
+        "name": "BatterySystem026"
+      },
+      {
+        "kind": "requirement_def",
+        "name": "CurrentRequirement95",
+        "doc": "The system shall maintain current within specified limits."
+      },
+      {
+        "kind": "verification_case_def",
+        "name": "CurrentVerification95",
+        "subject": "CurrentRequirement95"
+      }
+    ]
+  }
+}

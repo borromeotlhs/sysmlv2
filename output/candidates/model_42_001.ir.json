@@ -1,0 +1,36 @@
+{
+  "schema": "sysml-ir-v0",
+  "id": "model_42_001",
+  "package": {
+    "name": "model_42_001",
+    "members": [
+      {
+        "kind": "part_def",
+        "name": "SensorSystem605",
+        "parts": [
+          {
+            "name": "powersubsystem239",
+            "type": "SensorModule028"
+          }
+        ]
+      },
+      {
+        "kind": "part_def",
+        "name": "SensorModule028"
+      },
+      {
+        "kind": "part_def",
+        "name": "FlightController666"
+      },
+      {
+        "kind": "part_def",
+        "name": "BatteryModule430"
+      },
+      {
+        "kind": "requirement_def",
+        "name": "PerformanceRequirement76",
+        "doc": "The performance shall meet operational requirements."
+      }
+    ]
+  }
+}
