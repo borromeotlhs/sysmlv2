@@ -87,8 +87,26 @@ def generate_bdd_plantuml(arch: dict) -> str:
 
 
 def generate_ibd_plantuml(arch: dict) -> str:
-    """Generate Internal Block Diagram PlantUML from architecture JSON"""
-    lines = ['@startuml', '']
+    """Generate Internal Block Diagram PlantUML from architecture JSON
+
+    Style based on SysML v2 IBD conventions with parts as rectangles,
+    ports on edges, and labeled connections.
+    """
+    lines = ['@startuml']
+    lines.append('!define PART_BG_COLOR #FEFECE')
+    lines.append('!define PORT_COLOR #ADD1B2')
+    lines.append('')
+    lines.append('skinparam rectangle {')
+    lines.append('    BackgroundColor PART_BG_COLOR')
+    lines.append('    BorderColor #A80036')
+    lines.append('    FontSize 11')
+    lines.append('}')
+    lines.append('skinparam component {')
+    lines.append('    BackgroundColor PORT_COLOR')
+    lines.append('    BorderColor #18A558')
+    lines.append('    FontSize 9')
+    lines.append('}')
+    lines.append('')
 
     # Build port ownership map
     port_owners = {}
@@ -98,31 +116,54 @@ def generate_ibd_plantuml(arch: dict) -> str:
             port_owners[owner] = []
         port_owners[owner].append(port)
 
-    # Add components with ports as interfaces
-    for block in arch.get('blocks', []):
+    blocks = arch.get('blocks', [])
+
+    # System frame
+    system_name = blocks[0].get('name', 'System') if blocks else 'System'
+    lines.append(f'package "ibd [Block] {system_name}" {{')
+    lines.append('')
+
+    # Add parts (subsystems) as rectangles with ports
+    for block in blocks[1:]:  # Skip system block
         name = block.get('name', 'Unknown')
-        lines.append(f'component [{name}] as {name}')
+        part_name = name.lower()
 
-    lines.append('')
+        lines.append(f'  rectangle "{part_name} : {name}" as {part_name} {{')
 
-    # Add ports as separate interface elements
-    for port in arch.get('proxy_ports', []):
-        owner = port.get('owner', '')
-        port_name = port.get('name', '')
-        port_type = port.get('type', '')
-        port_id = f'{owner}_{port_name}'
-        lines.append(f'interface "{port_name}\\n:{port_type}" as {port_id}')
-        lines.append(f'{owner} -- {port_id}')
+        # Add ports inside the part
+        if name in port_owners:
+            for port in port_owners[name]:
+                port_name = port.get('name', '')
+                port_type = port.get('type', '')
+                port_id = f'{part_name}_{port_name}'
+                lines.append(f'    component "p\\n:{port_type}" as {port_id}')
 
-    lines.append('')
+        lines.append('  }')
+        lines.append('')
 
-    # Add connectors
-    for conn in arch.get('connectors', []):
-        end_a = conn.get('end_a', '').replace('.', '_')  # e.g., MissionComputer.cmdOut -> MissionComputer_cmdOut
-        end_b = conn.get('end_b', '').replace('.', '_')
-        flow = conn.get('item_flow', '')
-        lines.append(f'{end_a} --> {end_b} : {flow}')
+    # Add connections between ports
+    connectors = arch.get('connectors', [])
+    if connectors:
+        lines.append('  \' Connections')
+        for conn in connectors:
+            end_a = conn.get('end_a', '')
+            end_b = conn.get('end_b', '')
+            flow = conn.get('item_flow', '')
 
+            if '.' in end_a and '.' in end_b:
+                part_a, port_a = end_a.split('.', 1)
+                part_b, port_b = end_b.split('.', 1)
+
+                part_a_lower = part_a.lower()
+                part_b_lower = part_b.lower()
+
+                port_a_id = f'{part_a_lower}_{port_a}'
+                port_b_id = f'{part_b_lower}_{port_b}'
+
+                label = flow if flow else ''
+                lines.append(f'  {port_a_id} --> {port_b_id} : {label}')
+
+    lines.append('}')
     lines.append('@enduml')
     return '\n'.join(lines)
 
@@ -208,9 +249,10 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/architectures':
                 ARCH_DIR.mkdir(parents=True, exist_ok=True)
                 items = []
-                for p in sorted(ARCH_DIR.glob('*.json')):
+                # Scan for both .sysml (primary) and .json (legacy/academic) files
+                for p in sorted(list(ARCH_DIR.glob('*.sysml')) + list(ARCH_DIR.glob('*.json'))):
                     try:
-                        data = json.loads(p.read_text(encoding='utf-8'))
+                        data = load_architecture(p)
                         items.append({'id': data.get('id', p.stem), 'name': data.get('name', p.name), 'path': str(p.relative_to(ROOT)).replace('\\','/'), 'domain': data.get('domain','')})
                     except Exception as e:
                         items.append({'id': p.stem, 'name': p.name, 'path': str(p.relative_to(ROOT)).replace('\\','/'), 'error': str(e)})

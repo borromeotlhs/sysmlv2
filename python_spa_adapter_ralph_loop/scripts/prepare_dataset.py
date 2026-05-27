@@ -14,9 +14,16 @@ counts = {'train': 0, 'validation': 0}
 try:
     for r in records:
         target_text = Path(r['target_path']).read_text(encoding='utf-8')
+        # Determine format from target file extension
+        target_path = Path(r['target_path'])
+        if target_path.suffix.lower() == '.sysml':
+            system_msg = 'Generate a SysML v2 architecture definition matching the user request.'
+        else:
+            system_msg = 'Generate a SysML-style architecture JSON artifact matching the user request.'
+
         item = {
             'messages': [
-                {'role': 'system', 'content': 'Generate a SysML-style architecture JSON artifact matching the user request.'},
+                {'role': 'system', 'content': system_msg},
                 {'role': 'user', 'content': r['prompt']},
                 {'role': 'assistant', 'content': target_text},
             ],

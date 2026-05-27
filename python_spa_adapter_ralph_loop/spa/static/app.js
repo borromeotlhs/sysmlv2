@@ -259,9 +259,8 @@ function resetTreeRoot() {
 
 function renderTreeNode(node, level = 0) {
   if (node.type === 'file') {
-    // Check if file is an architecture (JSON or .sysml)
-    const isArchitecture = (node.name.endsWith('.json') || node.name.endsWith('.sysml')) &&
-                          (node.path.includes('data/architectures') || node.path.includes('outputs/sysml'));
+    // Check if file is an architecture (JSON or .sysml) - recognize anywhere
+    const isArchitecture = node.name.endsWith('.json') || node.name.endsWith('.sysml');
     const className = isArchitecture ? 'tree-item file architecture-file' : 'tree-item file';
     return `<div class="${className}" data-path="${escapeHtml(node.path)}" data-type="file">${escapeHtml(node.name)}</div>`;
   }
@@ -281,9 +280,8 @@ function renderTreeNode(node, level = 0) {
 }
 
 function handleFileClick(path) {
-  // Handle both JSON and .sysml architecture files
-  if ((path.endsWith('.json') || path.endsWith('.sysml')) &&
-      (path.includes('data/architectures') || path.includes('outputs/sysml'))) {
+  // Handle both JSON and .sysml architecture files anywhere
+  if (path.endsWith('.json') || path.endsWith('.sysml')) {
     loadArchitectureFromPath(path);
   }
 }

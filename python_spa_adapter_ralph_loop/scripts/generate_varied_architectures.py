@@ -1,14 +1,24 @@
 #!/usr/bin/env python
 """
-Generate varied architecture JSON files for training adapter.
+Generate varied architecture files in SysML v2 format.
+
 Creates diverse system architectures with randomized structure.
+Generates .sysml files directly (primary output).
+Can optionally generate JSON IR for academic/training purposes with --json flag.
 """
 import json
 import random
+import sys
 from pathlib import Path
 
-OUT = Path('data/architectures')
-OUT.mkdir(parents=True, exist_ok=True)
+# Add lib directory to path
+sys.path.insert(0, str(Path(__file__).parent.parent / 'lib'))
+
+from sysml_generator import generate_sysml_from_dict
+
+OUT_SYSML = Path('data/architectures')
+OUT_JSON = Path('data/architectures_json')  # Optional JSON IR output
+OUT_SYSML.mkdir(parents=True, exist_ok=True)
 
 # Configuration
 NUM_ARCHITECTURES = 50  # Change this to generate more
@@ -176,17 +186,50 @@ def generate_architecture(arch_id, domain):
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(
+        description='Generate varied architectures in SysML v2 format'
+    )
+    parser.add_argument(
+        '--json',
+        action='store_true',
+        help='Also generate JSON IR files for academic/training purposes'
+    )
+    parser.add_argument(
+        '--count',
+        type=int,
+        default=NUM_ARCHITECTURES,
+        help=f'Number of architectures to generate (default: {NUM_ARCHITECTURES})'
+    )
+    parser.add_argument(
+        '--start-id',
+        type=int,
+        default=START_ID,
+        help=f'Starting architecture ID (default: {START_ID})'
+    )
+    args = parser.parse_args()
+
     random.seed(42)  # For reproducibility
 
-    for i in range(START_ID, START_ID + NUM_ARCHITECTURES):
+    for i in range(args.start_id, args.start_id + args.count):
         domain = random.choice(DOMAINS)
-        arch = generate_architecture(i, domain)
+        arch_dict = generate_architecture(i, domain)
 
-        p = OUT / f'arch_{i:06d}.json'
-        p.write_text(json.dumps(arch, indent=2), encoding='utf-8')
+        # Primary output: .sysml files
+        sysml_content = generate_sysml_from_dict(arch_dict)
+        sysml_path = OUT_SYSML / f'arch_{i:06d}.sysml'
+        sysml_path.write_text(sysml_content, encoding='utf-8')
 
-    print(f'Generated {NUM_ARCHITECTURES} varied architectures in {OUT}')
-    print(f'Architecture IDs: arch_{START_ID:06d} to arch_{START_ID + NUM_ARCHITECTURES - 1:06d}')
+        # Optional output: JSON IR for academic purposes
+        if args.json:
+            OUT_JSON.mkdir(parents=True, exist_ok=True)
+            json_path = OUT_JSON / f'arch_{i:06d}.json'
+            json_path.write_text(json.dumps(arch_dict, indent=2), encoding='utf-8')
+
+    print(f'Generated {args.count} varied architectures in {OUT_SYSML}')
+    print(f'Architecture IDs: arch_{args.start_id:06d} to arch_{args.start_id + args.count - 1:06d}')
+    if args.json:
+        print(f'Also generated JSON IR in {OUT_JSON}')
 
 
 if __name__ == '__main__':
