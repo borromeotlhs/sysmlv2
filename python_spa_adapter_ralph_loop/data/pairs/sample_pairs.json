@@ -4,8 +4,8 @@
     "architecture_id": "arch_000001",
     "prompt_id": "prompt_000001_human_editable_demo",
     "prompt": "model a Uav Payload Reference Architecture 1.",
-    "target_path": "data/architectures/arch_000001.json",
-    "target_format": "json",
+    "target_path": "data/architectures/arch_000001.sysml",
+    "target_format": "sysml",
     "metadata": {
       "split": "validation",
       "authoring_mode": "demo_editable"
@@ -16,8 +16,8 @@
     "architecture_id": "arch_000002",
     "prompt_id": "prompt_000002_human_editable_demo",
     "prompt": "make a sysmlv2 model for an Autonomous Rover Reference Architecture 2.",
-    "target_path": "data/architectures/arch_000002.json",
-    "target_format": "json",
+    "target_path": "data/architectures/arch_000002.sysml",
+    "target_format": "sysml",
     "metadata": {
       "split": "train",
       "authoring_mode": "demo_editable"
@@ -28,8 +28,8 @@
     "architecture_id": "arch_000003",
     "prompt_id": "prompt_000003_human_editable_demo",
     "prompt": "create a sysmlv2 model for a Lunar Habitat Reference Architecture 3.",
-    "target_path": "data/architectures/arch_000003.json",
-    "target_format": "json",
+    "target_path": "data/architectures/arch_000003.sysml",
+    "target_format": "sysml",
     "metadata": {
       "split": "train",
       "authoring_mode": "demo_editable"
@@ -40,8 +40,8 @@
     "architecture_id": "arch_000002",
     "prompt_id": "prompt_arch_000002_004",
     "prompt": "Make a reference model for an autonomous Rover.  ensure subsystem design is traced to all requirements. it will be used to take sample data from a sensor.",
-    "target_path": "data/architectures/arch_000002.json",
-    "target_format": "json",
+    "target_path": "data/architectures/arch_000002.sysml",
+    "target_format": "sysml",
     "metadata": {
       "split": "train",
       "authoring_mode": "human_spa"
