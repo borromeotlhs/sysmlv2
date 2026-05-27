@@ -89,28 +89,12 @@ def generate_bdd_plantuml(arch: dict) -> str:
 def generate_ibd_plantuml(arch: dict) -> str:
     """Generate Internal Block Diagram PlantUML from architecture JSON
 
-    Style based on SysML v2 IBD conventions with parts as rectangles,
-    ports on edges, and labeled connections.
+    Style based on SysML v2 IBD conventions with proper port syntax.
     """
     lines = ['@startuml']
-    lines.append('!define PART_BG_COLOR #FEFECE')
-    lines.append('!define PORT_COLOR #ADD1B2')
-    lines.append('')
-    lines.append('skinparam rectangle {')
-    lines.append('    BackgroundColor PART_BG_COLOR')
-    lines.append('    BorderColor #A80036')
-    lines.append('    FontSize 11')
-    lines.append('}')
-    lines.append('skinparam component {')
-    lines.append('    BackgroundColor PORT_COLOR')
-    lines.append('    BorderColor #18A558')
-    lines.append('    FontSize 9')
-    lines.append('}')
-    lines.append('skinparam node {')
-    lines.append('    BackgroundColor PORT_COLOR')
-    lines.append('    BorderColor #18A558')
-    lines.append('    FontSize 9')
-    lines.append('}')
+    lines.append('skinparam componentStyle rectangle')
+    lines.append('skinparam shadowing false')
+    lines.append('skinparam roundcorner 12')
     lines.append('')
 
     # Build port ownership map
@@ -123,52 +107,42 @@ def generate_ibd_plantuml(arch: dict) -> str:
 
     blocks = arch.get('blocks', [])
 
-    # System frame
+    # System component (outer frame)
     system_name = blocks[0].get('name', 'System') if blocks else 'System'
-    lines.append(f'package "ibd [Block] {system_name}" {{')
+    system_id = system_name.upper().replace(' ', '_')[:3]
+
+    lines.append(f'component "«part» {system_name.lower()}:{system_name}" as {system_id} {{')
     lines.append('')
 
-    # Add parts (subsystems) as rectangles
+    # Add subsystem parts with their ports
     for block in blocks[1:]:  # Skip system block
         name = block.get('name', 'Unknown')
         part_name = name.lower()
-        lines.append(f'  rectangle "{part_name} : {name}" as {part_name}')
+        part_id = name.upper().replace(' ', '_')[:10]
 
-    lines.append('')
+        lines.append(f'  component "«part» {part_name}:{name}" as {part_id} {{')
+        lines.append('')
 
-    # Add ports as separate nodes positioned near their parent blocks
-    for block in blocks[1:]:
-        name = block.get('name', 'Unknown')
-        part_name = name.lower()
-
+        # Add ports inside this component
         if name in port_owners:
             for port in port_owners[name]:
                 port_name = port.get('name', '')
                 port_type = port.get('type', '')
-                port_id = f'{part_name}_{port_name}'
-                # Use node for ports (smaller boxes)
-                lines.append(f'  node "p\\n:{port_type}" as {port_id}')
+                port_id = f'{part_id}_{port_name.upper()}'
 
-    lines.append('')
+                # Use portin/portout - default to portin
+                lines.append(f'    portin "{port_name}" as {port_id}')
 
-    # Position ports near their parent blocks
-    for block in blocks[1:]:
-        name = block.get('name', 'Unknown')
-        part_name = name.lower()
+        lines.append('  }')
+        lines.append('')
 
-        if name in port_owners:
-            for i, port in enumerate(port_owners[name]):
-                port_name = port.get('name', '')
-                port_id = f'{part_name}_{port_name}'
-                # Use hidden connections to position ports near blocks
-                lines.append(f'  {part_name} -[hidden]- {port_id}')
-
+    lines.append('}')
     lines.append('')
 
     # Add connections between ports
     connectors = arch.get('connectors', [])
     if connectors:
-        lines.append('  \' Connections')
+        lines.append('\' Connectors')
         for conn in connectors:
             end_a = conn.get('end_a', '')
             end_b = conn.get('end_b', '')
@@ -178,16 +152,15 @@ def generate_ibd_plantuml(arch: dict) -> str:
                 part_a, port_a = end_a.split('.', 1)
                 part_b, port_b = end_b.split('.', 1)
 
-                part_a_lower = part_a.lower()
-                part_b_lower = part_b.lower()
+                part_a_id = part_a.upper().replace(' ', '_')[:10]
+                part_b_id = part_b.upper().replace(' ', '_')[:10]
 
-                port_a_id = f'{part_a_lower}_{port_a}'
-                port_b_id = f'{part_b_lower}_{port_b}'
+                port_a_id = f'{part_a_id}_{port_a.upper()}'
+                port_b_id = f'{part_b_id}_{port_b.upper()}'
 
-                label = flow if flow else ''
-                lines.append(f'  {port_a_id} --> {port_b_id} : {label}')
+                label = f'«itemFlow» {flow}' if flow else ''
+                lines.append(f'{port_a_id} --> {port_b_id} : {label}')
 
-    lines.append('}')
     lines.append('@enduml')
     return '\n'.join(lines)
 
