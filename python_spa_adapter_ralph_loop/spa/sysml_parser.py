@@ -22,8 +22,12 @@ def parse_sysml_to_json(sysml_content: str) -> Dict:
     blocks = extract_part_definitions(sysml_content)
     proxy_ports = extract_ports_from_parts(sysml_content)
     requirements = extract_requirements(sysml_content)
-    connectors = extract_connections(sysml_content)
-    relationships = extract_satisfy_relationships(sysml_content)
+
+    # Build instance-to-type mapping for proper name resolution
+    instance_map = extract_part_instances(sysml_content)
+
+    connectors = extract_connections(sysml_content, instance_map)
+    relationships = extract_satisfy_relationships(sysml_content, instance_map)
 
     return {
         'id': package_name or 'unknown',
@@ -91,23 +95,36 @@ def extract_ports_from_parts(content: str) -> List[Dict]:
     """Extract ports from part definitions"""
     ports = []
 
-    # Find each part def block
-    part_pattern = r'part\s+def\s+(\w+)\s*\{([^}]*)\}'
+    # Find each part def block with balanced braces
+    part_pattern = r'part\s+def\s+(\w+)\s*\{'
 
-    for part_match in re.finditer(part_pattern, content, re.DOTALL):
+    for part_match in re.finditer(part_pattern, content):
         owner = part_match.group(1)
-        part_body = part_match.group(2)
+        start_pos = part_match.end()
 
-        # Find ports in this part
-        port_pattern = r'port\s+(\w+)\s*:\s*(\w+)'
-        for port_match in re.finditer(port_pattern, part_body):
-            port_name = port_match.group(1)
-            port_type = port_match.group(2)
-            ports.append({
-                'owner': owner,
-                'name': port_name,
-                'type': port_type
-            })
+        # Find matching closing brace
+        brace_count = 1
+        pos = start_pos
+        while pos < len(content) and brace_count > 0:
+            if content[pos] == '{':
+                brace_count += 1
+            elif content[pos] == '}':
+                brace_count -= 1
+            pos += 1
+
+        if brace_count == 0:
+            part_body = content[start_pos:pos-1]
+
+            # Find ports in this part
+            port_pattern = r'port\s+(\w+)\s*:\s*(\w+)'
+            for port_match in re.finditer(port_pattern, part_body):
+                port_name = port_match.group(1)
+                port_type = port_match.group(2)
+                ports.append({
+                    'owner': owner,
+                    'name': port_name,
+                    'type': port_type
+                })
 
     return ports
 
@@ -132,32 +149,56 @@ def extract_requirements(content: str) -> List[Dict]:
     return requirements
 
 
-def extract_connections(content: str) -> List[Dict]:
+def extract_part_instances(content: str) -> Dict[str, str]:
+    """Extract part instance to type mapping
+
+    Parses: part instanceName : TypeName;
+    Returns: {'instancename': 'TypeName'}
+    """
+    instance_map = {}
+
+    # Match part instances: part instanceName : TypeName;
+    pattern = r'part\s+(\w+)\s*:\s*(\w+)\s*[;{]'
+
+    for match in re.finditer(pattern, content):
+        instance_name = match.group(1).lower()
+        type_name = match.group(2)
+        instance_map[instance_name] = type_name
+
+    return instance_map
+
+
+def extract_connections(content: str, instance_map: Dict[str, str]) -> List[Dict]:
     """Extract connection definitions"""
     connectors = []
 
     # Match: connection : linkName connect
     #          partA.portA to partB.portB;
+    # Allow whitespace including newlines between elements
     pattern = r'connection\s*:\s*(\w+)\s+connect\s+(\w+)\.(\w+)\s+to\s+(\w+)\.(\w+)'
 
-    for match in re.finditer(pattern, content):
+    for match in re.finditer(pattern, content, re.DOTALL):
         conn_name = match.group(1)
-        part_a = match.group(2)
+        part_a = match.group(2).lower()
         port_a = match.group(3)
-        part_b = match.group(4)
+        part_b = match.group(4).lower()
         port_b = match.group(5)
+
+        # Resolve instance names to type names
+        type_a = instance_map.get(part_a, capitalize_part_name(part_a))
+        type_b = instance_map.get(part_b, capitalize_part_name(part_b))
 
         connectors.append({
             'name': conn_name,
-            'end_a': f'{capitalize_part_name(part_a)}.{port_a}',
-            'end_b': f'{capitalize_part_name(part_b)}.{port_b}',
+            'end_a': f'{type_a}.{port_a}',
+            'end_b': f'{type_b}.{port_b}',
             'item_flow': ''  # Not captured in simple syntax
         })
 
     return connectors
 
 
-def extract_satisfy_relationships(content: str) -> List[Dict]:
+def extract_satisfy_relationships(content: str, instance_map: Dict[str, str]) -> List[Dict]:
     """Extract satisfy relationships"""
     relationships = []
 
@@ -166,11 +207,14 @@ def extract_satisfy_relationships(content: str) -> List[Dict]:
 
     for match in re.finditer(pattern, content):
         req_id = match.group(1)
-        client = match.group(2)
+        client = match.group(2).lower()
+
+        # Resolve instance name to type name
+        type_name = instance_map.get(client, capitalize_part_name(client))
 
         relationships.append({
             'type': 'satisfy',
-            'client': capitalize_part_name(client),
+            'client': type_name,
             'supplier': req_id
         })
 

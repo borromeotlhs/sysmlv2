@@ -106,6 +106,11 @@ def generate_ibd_plantuml(arch: dict) -> str:
     lines.append('    BorderColor #18A558')
     lines.append('    FontSize 9')
     lines.append('}')
+    lines.append('skinparam node {')
+    lines.append('    BackgroundColor PORT_COLOR')
+    lines.append('    BorderColor #18A558')
+    lines.append('    FontSize 9')
+    lines.append('}')
     lines.append('')
 
     # Build port ownership map
@@ -123,23 +128,42 @@ def generate_ibd_plantuml(arch: dict) -> str:
     lines.append(f'package "ibd [Block] {system_name}" {{')
     lines.append('')
 
-    # Add parts (subsystems) as rectangles with ports
+    # Add parts (subsystems) as rectangles
     for block in blocks[1:]:  # Skip system block
         name = block.get('name', 'Unknown')
         part_name = name.lower()
+        lines.append(f'  rectangle "{part_name} : {name}" as {part_name}')
 
-        lines.append(f'  rectangle "{part_name} : {name}" as {part_name} {{')
+    lines.append('')
 
-        # Add ports inside the part
+    # Add ports as separate nodes positioned near their parent blocks
+    for block in blocks[1:]:
+        name = block.get('name', 'Unknown')
+        part_name = name.lower()
+
         if name in port_owners:
             for port in port_owners[name]:
                 port_name = port.get('name', '')
                 port_type = port.get('type', '')
                 port_id = f'{part_name}_{port_name}'
-                lines.append(f'    component "p\\n:{port_type}" as {port_id}')
+                # Use node for ports (smaller boxes)
+                lines.append(f'  node "p\\n:{port_type}" as {port_id}')
 
-        lines.append('  }')
-        lines.append('')
+    lines.append('')
+
+    # Position ports near their parent blocks
+    for block in blocks[1:]:
+        name = block.get('name', 'Unknown')
+        part_name = name.lower()
+
+        if name in port_owners:
+            for i, port in enumerate(port_owners[name]):
+                port_name = port.get('name', '')
+                port_id = f'{part_name}_{port_name}'
+                # Use hidden connections to position ports near blocks
+                lines.append(f'  {part_name} -[hidden]- {port_id}')
+
+    lines.append('')
 
     # Add connections between ports
     connectors = arch.get('connectors', [])
