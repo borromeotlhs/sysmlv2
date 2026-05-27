@@ -1,0 +1,130 @@
+{
+  "id": "arch_000005",
+  "name": "Power Distribution System Reference Architecture 5",
+  "domain": "power distribution system",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "PowerDistributionSystemSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionSubsystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataController",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommAssembly",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommSubsystem",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "DistributionSubsystem",
+      "name": "cmdIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "DistributionSubsystem",
+      "name": "cmdIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "DataController",
+      "name": "pwrOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "DataController",
+      "name": "dataOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DataController",
+      "name": "dataOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "FlightInterface",
+      "name": "dataIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "FlightInterface",
+      "name": "dataIn",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "CommAssembly",
+      "name": "dataOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "CommAssembly",
+      "name": "ctrlIn",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "CommSubsystem",
+      "name": "cmdIn",
+      "type": "ConfigIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "DistributionSubsystem.cmdIn",
+      "end_b": "DataController.dataOut",
+      "item_flow": "Power"
+    },
+    {
+      "name": "link2",
+      "end_a": "FlightInterface.dataIn",
+      "end_b": "CommAssembly.dataOut",
+      "item_flow": "Config"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The power distribution system system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The power distribution system system shall trace subsystem design to requirements."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "DistributionSubsystem",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "DataController",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionSubsystem",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommAssembly",
+      "supplier": "REQ-002"
+    }
+  ]
+}

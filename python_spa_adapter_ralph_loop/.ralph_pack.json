@@ -1,0 +1,24 @@
+{
+  "name": "python_spa_adapter_ralph_loop",
+  "version": "1.0.0",
+  "owned_paths": [
+    "ralph/",
+    "tasks/",
+    "specs/",
+    "scripts/",
+    "spa/",
+    ".claude/agents/",
+    ".claude/settings.json",
+    "CLAUDE.md",
+    "README.md"
+  ],
+  "preserved_paths": [
+    "data/architectures/",
+    "data/pairs/",
+    "data/targets/",
+    "outputs/",
+    "logs/",
+    ".git/"
+  ],
+  "cleanup_policy": "manual_only_preserve_user_data"
+}

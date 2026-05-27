@@ -1,0 +1,101 @@
+{
+  "id": "arch_000014",
+  "name": "Avionics Bay Reference Architecture 14",
+  "domain": "avionics bay",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "AvionicsBaySystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ControlProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataProcessor",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "ControlProcessor",
+      "name": "telemetryOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "ControlProcessor",
+      "name": "configIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DataProcessor",
+      "name": "pwrIn",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "DataProcessor",
+      "name": "dataIn",
+      "type": "DiagnosticIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "ControlProcessor.configIn",
+      "end_b": "DataProcessor.pwrIn",
+      "item_flow": "Data"
+    },
+    {
+      "name": "link2",
+      "end_a": "ControlProcessor.telemetryOut",
+      "end_b": "DataProcessor.pwrIn",
+      "item_flow": "Diagnostic"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The avionics bay system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The avionics bay system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The avionics bay system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The avionics bay system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "DataProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "ControlProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "ControlProcessor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DataProcessor",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "ControlProcessor",
+      "supplier": "REQ-004"
+    }
+  ]
+}

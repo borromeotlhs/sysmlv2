@@ -1,0 +1,194 @@
+{
+  "id": "arch_000036",
+  "name": "Thermal Control Reference Architecture 36",
+  "domain": "thermal control",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "ThermalControlSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionComputer",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorSubsystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ThermalSensor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionBus",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionProcessor",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "DistributionComputer",
+      "name": "telemetryOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DistributionComputer",
+      "name": "cmdIn",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "DistributionComputer",
+      "name": "cmdOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "FlightInterface",
+      "name": "pwrOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "FlightInterface",
+      "name": "statusOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "FlightInterface",
+      "name": "cmdIn",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "MonitorSubsystem",
+      "name": "telemetryOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "ThermalSensor",
+      "name": "pwrOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "ThermalSensor",
+      "name": "cmdOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "DistributionBus",
+      "name": "sensorOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "MonitorProcessor",
+      "name": "pwrOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "MonitorProcessor",
+      "name": "dataOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "MissionProcessor",
+      "name": "dataIn",
+      "type": "TelemetryIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "ThermalSensor.cmdOut",
+      "end_b": "DistributionComputer.cmdIn",
+      "item_flow": "Control"
+    },
+    {
+      "name": "link2",
+      "end_a": "MissionProcessor.dataIn",
+      "end_b": "FlightInterface.statusOut",
+      "item_flow": "Config"
+    },
+    {
+      "name": "link3",
+      "end_a": "FlightInterface.pwrOut",
+      "end_b": "DistributionBus.sensorOut",
+      "item_flow": "Control"
+    },
+    {
+      "name": "link4",
+      "end_a": "MonitorProcessor.dataOut",
+      "end_b": "ThermalSensor.pwrOut",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link5",
+      "end_a": "DistributionComputer.cmdIn",
+      "end_b": "ThermalSensor.pwrOut",
+      "item_flow": "Power"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The thermal control system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The thermal control system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The thermal control system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The thermal control system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "DistributionComputer",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "MonitorProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "MonitorProcessor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "MonitorSubsystem",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionBus",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "MonitorSubsystem",
+      "supplier": "REQ-004"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightInterface",
+      "supplier": "REQ-004"
+    }
+  ]
+}

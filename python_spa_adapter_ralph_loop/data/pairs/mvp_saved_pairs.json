@@ -1,0 +1,38 @@
+[
+  {
+    "id": "pair_000001_human_editable_demo",
+    "architecture_id": "arch_000001",
+    "prompt_id": "prompt_000001_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Uav Payload Reference Architecture 1.",
+    "target_path": "data/architectures/arch_000001.json",
+    "target_format": "json",
+    "metadata": {
+      "split": "validation",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000002_human_editable_demo",
+    "architecture_id": "arch_000002",
+    "prompt_id": "prompt_000002_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 2.",
+    "target_path": "data/architectures/arch_000002.json",
+    "target_format": "json",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000003_human_editable_demo",
+    "architecture_id": "arch_000003",
+    "prompt_id": "prompt_000003_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Lunar Habitat Reference Architecture 3.",
+    "target_path": "data/architectures/arch_000003.json",
+    "target_format": "json",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  }
+]

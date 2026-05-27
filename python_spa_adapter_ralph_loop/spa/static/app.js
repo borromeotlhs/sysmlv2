@@ -32,10 +32,14 @@ async function loadArchitectureFromPath(path) {
 
     // Update info box
     const filename = path.split('/').pop();
+    const format = currentArchitecture.format || 'unknown';
+    const isSysML = path.endsWith('.sysml');
+
     $('architectureInfo').innerHTML = `
       <strong>File: ${escapeHtml(filename)}</strong>
       <p>ID: ${escapeHtml(currentArchitecture.id || 'N/A')}</p>
       <p>Name: ${escapeHtml(currentArchitecture.name || 'N/A')}</p>
+      <p>Format: ${isSysML ? 'SysML v2 Textual' : 'JSON IR'} (${escapeHtml(format)})</p>
       <p>Path: ${escapeHtml(path)}</p>
     `;
 
@@ -255,7 +259,9 @@ function resetTreeRoot() {
 
 function renderTreeNode(node, level = 0) {
   if (node.type === 'file') {
-    const isArchitecture = node.path.includes('data/architectures') && node.name.endsWith('.json');
+    // Check if file is an architecture (JSON or .sysml)
+    const isArchitecture = (node.name.endsWith('.json') || node.name.endsWith('.sysml')) &&
+                          (node.path.includes('data/architectures') || node.path.includes('outputs/sysml'));
     const className = isArchitecture ? 'tree-item file architecture-file' : 'tree-item file';
     return `<div class="${className}" data-path="${escapeHtml(node.path)}" data-type="file">${escapeHtml(node.name)}</div>`;
   }
@@ -275,7 +281,9 @@ function renderTreeNode(node, level = 0) {
 }
 
 function handleFileClick(path) {
-  if (path.includes('data/architectures') && path.endsWith('.json')) {
+  // Handle both JSON and .sysml architecture files
+  if ((path.endsWith('.json') || path.endsWith('.sysml')) &&
+      (path.includes('data/architectures') || path.includes('outputs/sysml'))) {
     loadArchitectureFromPath(path);
   }
 }

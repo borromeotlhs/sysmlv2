@@ -1,0 +1,175 @@
+{
+  "id": "arch_000041",
+  "name": "Docking Mechanism Reference Architecture 41",
+  "domain": "docking mechanism",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "DockingMechanismSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommandSensor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorBus",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ControlSubsystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommandInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataComputer",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "CommandSensor",
+      "name": "cmdOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "CommandSensor",
+      "name": "cmdIn",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "CommandSensor",
+      "name": "pwrOut",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "MonitorBus",
+      "name": "statusOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "ControlSubsystem",
+      "name": "sensorOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "ControlSubsystem",
+      "name": "ctrlIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "CommandInterface",
+      "name": "dataIn",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "CommandInterface",
+      "name": "dataOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "CommandInterface",
+      "name": "pwrOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DataComputer",
+      "name": "statusOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "DataComputer",
+      "name": "dataIn",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DataComputer",
+      "name": "sensorOut",
+      "type": "ControlIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "DataComputer.sensorOut",
+      "end_b": "ControlSubsystem.sensorOut",
+      "item_flow": "Diagnostic"
+    },
+    {
+      "name": "link2",
+      "end_a": "CommandInterface.dataOut",
+      "end_b": "MonitorBus.statusOut",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link3",
+      "end_a": "ControlSubsystem.sensorOut",
+      "end_b": "CommandInterface.pwrOut",
+      "item_flow": "Control"
+    },
+    {
+      "name": "link4",
+      "end_a": "MonitorBus.statusOut",
+      "end_b": "ControlSubsystem.sensorOut",
+      "item_flow": "Control"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The docking mechanism system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The docking mechanism system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The docking mechanism system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The docking mechanism system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "CommandInterface",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommandInterface",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "ControlSubsystem",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "ControlSubsystem",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommandSensor",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommandInterface",
+      "supplier": "REQ-004"
+    },
+    {
+      "type": "satisfy",
+      "client": "ControlSubsystem",
+      "supplier": "REQ-004"
+    }
+  ]
+}

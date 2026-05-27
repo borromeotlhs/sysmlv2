@@ -1,0 +1,138 @@
+{
+  "id": "arch_000004",
+  "name": "Satellite Bus Reference Architecture 4",
+  "domain": "satellite bus",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "SatelliteBusSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionUnit",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataComputer",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataActuator",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightController",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "DistributionUnit",
+      "name": "ctrlIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "DistributionUnit",
+      "name": "sensorOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "DistributionUnit",
+      "name": "dataIn",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DataComputer",
+      "name": "dataIn",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "DataComputer",
+      "name": "sensorOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "DataComputer",
+      "name": "statusOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DataActuator",
+      "name": "dataOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "DataActuator",
+      "name": "statusOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "DataActuator",
+      "name": "ctrlIn",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "FlightController",
+      "name": "cmdOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "FlightController",
+      "name": "dataOut",
+      "type": "DataIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "DistributionUnit.ctrlIn",
+      "end_b": "FlightController.cmdOut",
+      "item_flow": "Sensor"
+    },
+    {
+      "name": "link2",
+      "end_a": "DataComputer.dataIn",
+      "end_b": "FlightController.cmdOut",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link3",
+      "end_a": "FlightController.dataOut",
+      "end_b": "DistributionUnit.ctrlIn",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link4",
+      "end_a": "DataComputer.statusOut",
+      "end_b": "DistributionUnit.sensorOut",
+      "item_flow": "Sensor"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The satellite bus system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The satellite bus system shall trace subsystem design to requirements."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "FlightController",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionUnit",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightController",
+      "supplier": "REQ-002"
+    }
+  ]
+}

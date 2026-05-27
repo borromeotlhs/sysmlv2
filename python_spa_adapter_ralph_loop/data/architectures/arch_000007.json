@@ -1,0 +1,127 @@
+{
+  "id": "arch_000007",
+  "name": "Lunar Habitat Reference Architecture 7",
+  "domain": "lunar habitat",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "LunarHabitatSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorActuator",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ControlSensor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ThermalUnit",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ProcessingAssembly",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "MonitorActuator",
+      "name": "pwrIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "ControlSensor",
+      "name": "telemetryOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "ThermalUnit",
+      "name": "pwrOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "ThermalUnit",
+      "name": "cmdIn",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DataInterface",
+      "name": "configIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "DataInterface",
+      "name": "cmdOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "DataInterface",
+      "name": "dataOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "ProcessingAssembly",
+      "name": "dataIn",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "ProcessingAssembly",
+      "name": "cmdOut",
+      "type": "ThermalIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "DataInterface.configIn",
+      "end_b": "ThermalUnit.pwrOut",
+      "item_flow": "Config"
+    },
+    {
+      "name": "link2",
+      "end_a": "ProcessingAssembly.cmdOut",
+      "end_b": "DataInterface.configIn",
+      "item_flow": "Diagnostic"
+    },
+    {
+      "name": "link3",
+      "end_a": "ProcessingAssembly.cmdOut",
+      "end_b": "MonitorActuator.pwrIn",
+      "item_flow": "Alert"
+    },
+    {
+      "name": "link4",
+      "end_a": "ControlSensor.telemetryOut",
+      "end_b": "ThermalUnit.pwrOut",
+      "item_flow": "Control"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The lunar habitat system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The lunar habitat system shall trace subsystem design to requirements."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "ProcessingAssembly",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "ThermalUnit",
+      "supplier": "REQ-002"
+    }
+  ]
+}

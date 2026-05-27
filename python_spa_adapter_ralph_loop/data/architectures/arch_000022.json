@@ -1,0 +1,136 @@
+{
+  "id": "arch_000022",
+  "name": "Sensor Suite Reference Architecture 22",
+  "domain": "sensor suite",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "SensorSuiteSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataSensor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommActuator",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorProcessor",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "CommProcessor",
+      "name": "dataIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "DataSensor",
+      "name": "statusOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "DataSensor",
+      "name": "telemetryOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DataSensor",
+      "name": "ctrlIn",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "CommActuator",
+      "name": "dataOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "MonitorProcessor",
+      "name": "pwrIn",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "MonitorProcessor",
+      "name": "pwrIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MonitorProcessor",
+      "name": "ctrlIn",
+      "type": "SignalIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "DataSensor.statusOut",
+      "end_b": "MonitorProcessor.ctrlIn",
+      "item_flow": "Signal"
+    },
+    {
+      "name": "link2",
+      "end_a": "CommActuator.dataOut",
+      "end_b": "MonitorProcessor.pwrIn",
+      "item_flow": "Control"
+    },
+    {
+      "name": "link3",
+      "end_a": "MonitorProcessor.ctrlIn",
+      "end_b": "CommActuator.dataOut",
+      "item_flow": "Status"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The sensor suite system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The sensor suite system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The sensor suite system shall provide fault detection and recovery."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "CommProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "MonitorProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommActuator",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "MonitorProcessor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommActuator",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommProcessor",
+      "supplier": "REQ-003"
+    }
+  ]
+}

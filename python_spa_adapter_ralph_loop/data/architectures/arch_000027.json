@@ -1,0 +1,151 @@
+{
+  "id": "arch_000027",
+  "name": "Telemetry System Reference Architecture 27",
+  "domain": "telemetry system",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "TelemetrySystemSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataSubsystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ThermalPayload",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommSubsystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ProcessingController",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ThermalSubsystem",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "DataSubsystem",
+      "name": "telemetryOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "DataSubsystem",
+      "name": "pwrOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "ThermalPayload",
+      "name": "ctrlIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "ThermalPayload",
+      "name": "cmdOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "ThermalPayload",
+      "name": "cmdOut",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "CommSubsystem",
+      "name": "pwrOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "ProcessingController",
+      "name": "cmdIn",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "ProcessingController",
+      "name": "sensorOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "ProcessingController",
+      "name": "pwrOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "ThermalSubsystem",
+      "name": "pwrOut",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "ThermalSubsystem",
+      "name": "cmdIn",
+      "type": "SignalIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "CommSubsystem.pwrOut",
+      "end_b": "DataSubsystem.pwrOut",
+      "item_flow": "Diagnostic"
+    },
+    {
+      "name": "link2",
+      "end_a": "ProcessingController.pwrOut",
+      "end_b": "ThermalPayload.cmdOut",
+      "item_flow": "Power"
+    },
+    {
+      "name": "link3",
+      "end_a": "ThermalSubsystem.cmdIn",
+      "end_b": "ProcessingController.sensorOut",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link4",
+      "end_a": "ProcessingController.pwrOut",
+      "end_b": "CommSubsystem.pwrOut",
+      "item_flow": "Data"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The telemetry system system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The telemetry system system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The telemetry system system shall provide fault detection and recovery."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "ProcessingController",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "ThermalSubsystem",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DataSubsystem",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "ThermalPayload",
+      "supplier": "REQ-003"
+    }
+  ]
+}

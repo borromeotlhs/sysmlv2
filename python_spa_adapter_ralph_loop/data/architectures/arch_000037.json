@@ -1,0 +1,187 @@
+{
+  "id": "arch_000037",
+  "name": "Attitude Control Reference Architecture 37",
+  "domain": "attitude control",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "AttitudeControlSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ProcessingInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommandAssembly",
+      "stereotype": "Block"
+    },
+    {
+      "name": "SensorModule",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightModule",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataPayload",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionAssembly",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "ProcessingInterface",
+      "name": "configIn",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "ProcessingInterface",
+      "name": "ctrlIn",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "ProcessingInterface",
+      "name": "dataIn",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "CommandAssembly",
+      "name": "cmdOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "SensorModule",
+      "name": "ctrlIn",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "SensorModule",
+      "name": "statusOut",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "FlightModule",
+      "name": "cmdOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "FlightModule",
+      "name": "pwrOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "FlightModule",
+      "name": "ctrlIn",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DistributionProcessor",
+      "name": "sensorOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "DistributionProcessor",
+      "name": "dataIn",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "DistributionProcessor",
+      "name": "telemetryOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "DataPayload",
+      "name": "dataIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "MissionAssembly",
+      "name": "cmdIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "MissionAssembly",
+      "name": "sensorOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "MissionAssembly",
+      "name": "pwrIn",
+      "type": "PowerIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "DistributionProcessor.dataIn",
+      "end_b": "FlightModule.pwrOut",
+      "item_flow": "Signal"
+    },
+    {
+      "name": "link2",
+      "end_a": "DistributionProcessor.sensorOut",
+      "end_b": "ProcessingInterface.dataIn",
+      "item_flow": "Control"
+    },
+    {
+      "name": "link3",
+      "end_a": "SensorModule.ctrlIn",
+      "end_b": "DistributionProcessor.sensorOut",
+      "item_flow": "Diagnostic"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The attitude control system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The attitude control system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The attitude control system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The attitude control system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "DistributionProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionProcessor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommandAssembly",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "MissionAssembly",
+      "supplier": "REQ-004"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionProcessor",
+      "supplier": "REQ-004"
+    }
+  ]
+}

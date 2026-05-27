@@ -1,0 +1,5 @@
+{
+  "project": "python-spa-adapter-ralph-loop",
+  "allowedTools": ["Bash", "Read", "Write", "Edit", "Glob", "Grep"],
+  "notes": "Python-only SPA; do not add npm dependency unless user explicitly requests it."
+}

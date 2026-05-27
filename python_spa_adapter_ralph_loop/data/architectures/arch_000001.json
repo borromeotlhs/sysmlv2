@@ -1,0 +1,92 @@
+{
+  "id": "arch_000001",
+  "name": "Solar Array Reference Architecture 1",
+  "domain": "solar array",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "SolarArraySystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionBus",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerModule",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "MissionBus",
+      "name": "dataIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "PowerModule",
+      "name": "sensorOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "PowerModule",
+      "name": "configIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "PowerModule",
+      "name": "cmdIn",
+      "type": "CommandIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "MissionBus.dataIn",
+      "end_b": "PowerModule.sensorOut",
+      "item_flow": "Alert"
+    },
+    {
+      "name": "link2",
+      "end_a": "PowerModule.cmdIn",
+      "end_b": "MissionBus.dataIn",
+      "item_flow": "Signal"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The solar array system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The solar array system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The solar array system shall provide fault detection and recovery."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "MissionBus",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerModule",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerModule",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerModule",
+      "supplier": "REQ-003"
+    }
+  ]
+}

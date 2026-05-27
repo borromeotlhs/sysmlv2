@@ -1,0 +1,157 @@
+{
+  "id": "arch_000028",
+  "name": "Thermal Control Reference Architecture 28",
+  "domain": "thermal control",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "ThermalControlSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionUnit",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ThermalAssembly",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommandActuator",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorSubsystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ProcessingInterface",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "DistributionUnit",
+      "name": "cmdOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "ThermalAssembly",
+      "name": "statusOut",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "MissionProcessor",
+      "name": "pwrOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "MissionProcessor",
+      "name": "pwrOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "CommandActuator",
+      "name": "pwrOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "CommandActuator",
+      "name": "configIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "CommandActuator",
+      "name": "cmdIn",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "MonitorSubsystem",
+      "name": "configIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "FlightProcessor",
+      "name": "cmdOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "FlightProcessor",
+      "name": "ctrlIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "FlightProcessor",
+      "name": "ctrlIn",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "ProcessingInterface",
+      "name": "statusOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "ProcessingInterface",
+      "name": "dataOut",
+      "type": "ConfigIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "ThermalAssembly.statusOut",
+      "end_b": "CommandActuator.pwrOut",
+      "item_flow": "Alert"
+    },
+    {
+      "name": "link2",
+      "end_a": "MonitorSubsystem.configIn",
+      "end_b": "FlightProcessor.cmdOut",
+      "item_flow": "Alert"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The thermal control system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The thermal control system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The thermal control system shall provide fault detection and recovery."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "ThermalAssembly",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "MonitorSubsystem",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionUnit",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "ThermalAssembly",
+      "supplier": "REQ-003"
+    }
+  ]
+}

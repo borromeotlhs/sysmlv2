@@ -1,0 +1,194 @@
+{
+  "id": "arch_000023",
+  "name": "Avionics Bay Reference Architecture 23",
+  "domain": "avionics bay",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "AvionicsBaySystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommUnit",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionActuator",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorBus",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ProcessingPayload",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerModule",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ControlAssembly",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataInterface",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "CommUnit",
+      "name": "configIn",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "MissionActuator",
+      "name": "telemetryOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "MissionActuator",
+      "name": "telemetryOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "MissionActuator",
+      "name": "telemetryOut",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MonitorBus",
+      "name": "ctrlIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MonitorBus",
+      "name": "configIn",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "ProcessingPayload",
+      "name": "dataIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "ProcessingPayload",
+      "name": "pwrIn",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "ProcessingPayload",
+      "name": "statusOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "PowerModule",
+      "name": "dataIn",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "ControlAssembly",
+      "name": "sensorOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "ControlAssembly",
+      "name": "pwrIn",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "DataInterface",
+      "name": "ctrlIn",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "DataInterface",
+      "name": "pwrOut",
+      "type": "DataIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "DataInterface.ctrlIn",
+      "end_b": "MissionActuator.telemetryOut",
+      "item_flow": "Alert"
+    },
+    {
+      "name": "link2",
+      "end_a": "ProcessingPayload.dataIn",
+      "end_b": "DataInterface.pwrOut",
+      "item_flow": "Sensor"
+    },
+    {
+      "name": "link3",
+      "end_a": "MonitorBus.configIn",
+      "end_b": "MissionActuator.telemetryOut",
+      "item_flow": "Telemetry"
+    },
+    {
+      "name": "link4",
+      "end_a": "CommUnit.configIn",
+      "end_b": "MonitorBus.ctrlIn",
+      "item_flow": "Sensor"
+    },
+    {
+      "name": "link5",
+      "end_a": "MissionActuator.telemetryOut",
+      "end_b": "ProcessingPayload.pwrIn",
+      "item_flow": "Signal"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The avionics bay system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The avionics bay system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The avionics bay system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The avionics bay system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "PowerModule",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "ProcessingPayload",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommUnit",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "ControlAssembly",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "ProcessingPayload",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerModule",
+      "supplier": "REQ-004"
+    }
+  ]
+}

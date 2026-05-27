@@ -1,0 +1,98 @@
+{
+  "id": "arch_000042",
+  "name": "Thruster Assembly Reference Architecture 42",
+  "domain": "thruster assembly",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "ThrusterAssemblySystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerComputer",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerBus",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightAssembly",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "PowerComputer",
+      "name": "telemetryOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "PowerComputer",
+      "name": "ctrlIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "PowerBus",
+      "name": "sensorOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "FlightAssembly",
+      "name": "pwrIn",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "FlightAssembly",
+      "name": "cmdOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "FlightAssembly",
+      "name": "configIn",
+      "type": "ThermalIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "PowerComputer.telemetryOut",
+      "end_b": "FlightAssembly.configIn",
+      "item_flow": "Sensor"
+    },
+    {
+      "name": "link2",
+      "end_a": "PowerComputer.ctrlIn",
+      "end_b": "FlightAssembly.configIn",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link3",
+      "end_a": "FlightAssembly.pwrIn",
+      "end_b": "PowerBus.sensorOut",
+      "item_flow": "Config"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The thruster assembly system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The thruster assembly system shall trace subsystem design to requirements."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "PowerComputer",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerBus",
+      "supplier": "REQ-002"
+    }
+  ]
+}

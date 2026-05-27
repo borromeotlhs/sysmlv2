@@ -1,0 +1,131 @@
+{
+  "id": "arch_000011",
+  "name": "Autonomous Rover Reference Architecture 11",
+  "domain": "autonomous rover",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "AutonomousRoverSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "NavActuator",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionController",
+      "stereotype": "Block"
+    },
+    {
+      "name": "NavSubsystem",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "NavActuator",
+      "name": "configIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "NavActuator",
+      "name": "statusOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "NavActuator",
+      "name": "statusOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DistributionController",
+      "name": "telemetryOut",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "NavSubsystem",
+      "name": "statusOut",
+      "type": "ThermalIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "NavSubsystem.statusOut",
+      "end_b": "DistributionController.telemetryOut",
+      "item_flow": "Command"
+    },
+    {
+      "name": "link2",
+      "end_a": "NavSubsystem.statusOut",
+      "end_b": "NavActuator.statusOut",
+      "item_flow": "Data"
+    },
+    {
+      "name": "link3",
+      "end_a": "DistributionController.telemetryOut",
+      "end_b": "NavActuator.statusOut",
+      "item_flow": "Config"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The autonomous rover system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The autonomous rover system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The autonomous rover system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The autonomous rover system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "DistributionController",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "NavSubsystem",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "NavActuator",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionController",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionController",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "NavActuator",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "NavSubsystem",
+      "supplier": "REQ-004"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionController",
+      "supplier": "REQ-004"
+    }
+  ]
+}

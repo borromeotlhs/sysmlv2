@@ -1,0 +1,141 @@
+{
+  "id": "arch_000026",
+  "name": "Uav Payload Reference Architecture 26",
+  "domain": "uav payload",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "UavPayloadSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionModule",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ControlAssembly",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerComputer",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "DistributionModule",
+      "name": "statusOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "ControlAssembly",
+      "name": "cmdOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "MissionProcessor",
+      "name": "pwrOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "MissionProcessor",
+      "name": "configIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "PowerComputer",
+      "name": "sensorOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "PowerComputer",
+      "name": "configIn",
+      "type": "CommandIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "MissionProcessor.configIn",
+      "end_b": "PowerComputer.configIn",
+      "item_flow": "Command"
+    },
+    {
+      "name": "link2",
+      "end_a": "DistributionModule.statusOut",
+      "end_b": "MissionProcessor.configIn",
+      "item_flow": "Telemetry"
+    },
+    {
+      "name": "link3",
+      "end_a": "MissionProcessor.pwrOut",
+      "end_b": "PowerComputer.sensorOut",
+      "item_flow": "Power"
+    },
+    {
+      "name": "link4",
+      "end_a": "DistributionModule.statusOut",
+      "end_b": "ControlAssembly.cmdOut",
+      "item_flow": "Control"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The uav payload system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The uav payload system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The uav payload system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The uav payload system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "PowerComputer",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "MissionProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerComputer",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "MissionProcessor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionModule",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "MissionProcessor",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "ControlAssembly",
+      "supplier": "REQ-004"
+    }
+  ]
+}

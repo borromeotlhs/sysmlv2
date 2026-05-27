@@ -1,0 +1,110 @@
+{
+  "id": "arch_000049",
+  "name": "Propulsion Module Reference Architecture 49",
+  "domain": "propulsion module",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "PropulsionModuleSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataModule",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ProcessingController",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "DataModule",
+      "name": "ctrlIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DataModule",
+      "name": "configIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DataModule",
+      "name": "statusOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "ProcessingController",
+      "name": "pwrOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "ProcessingController",
+      "name": "statusOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "ProcessingController",
+      "name": "sensorOut",
+      "type": "ControlIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "ProcessingController.pwrOut",
+      "end_b": "DataModule.ctrlIn",
+      "item_flow": "Config"
+    },
+    {
+      "name": "link2",
+      "end_a": "ProcessingController.statusOut",
+      "end_b": "DataModule.configIn",
+      "item_flow": "Power"
+    },
+    {
+      "name": "link3",
+      "end_a": "ProcessingController.pwrOut",
+      "end_b": "DataModule.statusOut",
+      "item_flow": "Power"
+    },
+    {
+      "name": "link4",
+      "end_a": "DataModule.configIn",
+      "end_b": "ProcessingController.pwrOut",
+      "item_flow": "Diagnostic"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The propulsion module system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The propulsion module system shall trace subsystem design to requirements."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "ProcessingController",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "DataModule",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "ProcessingController",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DataModule",
+      "supplier": "REQ-002"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "id": "arch_000018",
+  "name": "Solar Array Reference Architecture 18",
+  "domain": "solar array",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "SolarArraySystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataProcessor",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "PowerInterface",
+      "name": "cmdOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "PowerInterface",
+      "name": "cmdIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "PowerInterface",
+      "name": "ctrlIn",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "FlightProcessor",
+      "name": "pwrIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "FlightProcessor",
+      "name": "dataOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "DataProcessor",
+      "name": "pwrIn",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DataProcessor",
+      "name": "cmdOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DataProcessor",
+      "name": "pwrIn",
+      "type": "DiagnosticIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "DataProcessor.cmdOut",
+      "end_b": "PowerInterface.cmdIn",
+      "item_flow": "Sensor"
+    },
+    {
+      "name": "link2",
+      "end_a": "FlightProcessor.pwrIn",
+      "end_b": "PowerInterface.ctrlIn",
+      "item_flow": "Control"
+    },
+    {
+      "name": "link3",
+      "end_a": "DataProcessor.pwrIn",
+      "end_b": "PowerInterface.cmdIn",
+      "item_flow": "Config"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The solar array system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The solar array system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The solar array system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The solar array system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "DataProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "DataProcessor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightProcessor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerInterface",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "DataProcessor",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "DataProcessor",
+      "supplier": "REQ-004"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightProcessor",
+      "supplier": "REQ-004"
+    }
+  ]
+}

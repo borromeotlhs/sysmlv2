@@ -1,0 +1,140 @@
+{
+  "id": "arch_000043",
+  "name": "Solar Array Reference Architecture 43",
+  "domain": "solar array",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "SolarArraySystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "NavInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataUnit",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ThermalUnit",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorComputer",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionController",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "NavInterface",
+      "name": "configIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "NavInterface",
+      "name": "sensorOut",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "NavInterface",
+      "name": "dataIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "DataUnit",
+      "name": "cmdIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "ThermalUnit",
+      "name": "dataIn",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "ThermalUnit",
+      "name": "cmdIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MonitorComputer",
+      "name": "configIn",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "MonitorComputer",
+      "name": "cmdOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "DistributionController",
+      "name": "ctrlIn",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "DistributionController",
+      "name": "sensorOut",
+      "type": "TelemetryIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "DistributionController.ctrlIn",
+      "end_b": "MonitorComputer.cmdOut",
+      "item_flow": "Control"
+    },
+    {
+      "name": "link2",
+      "end_a": "DataUnit.cmdIn",
+      "end_b": "NavInterface.sensorOut",
+      "item_flow": "Signal"
+    },
+    {
+      "name": "link3",
+      "end_a": "NavInterface.dataIn",
+      "end_b": "MonitorComputer.cmdOut",
+      "item_flow": "Alert"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The solar array system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The solar array system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The solar array system shall provide fault detection and recovery."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "NavInterface",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "ThermalUnit",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DataUnit",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionController",
+      "supplier": "REQ-003"
+    }
+  ]
+}

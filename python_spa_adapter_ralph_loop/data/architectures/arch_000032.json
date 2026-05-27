@@ -1,0 +1,157 @@
+{
+  "id": "arch_000032",
+  "name": "Ground Station Reference Architecture 32",
+  "domain": "ground station",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "GroundStationSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ProcessingController",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerSensor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionAssembly",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommandInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ProcessingBus",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "ProcessingController",
+      "name": "sensorOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "ProcessingController",
+      "name": "telemetryOut",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "ProcessingController",
+      "name": "sensorOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "PowerSensor",
+      "name": "pwrOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "CommInterface",
+      "name": "dataOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "DistributionAssembly",
+      "name": "dataOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DistributionAssembly",
+      "name": "dataIn",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "CommandInterface",
+      "name": "pwrIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "ProcessingBus",
+      "name": "sensorOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "ProcessingBus",
+      "name": "cmdIn",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "ProcessingBus",
+      "name": "configIn",
+      "type": "PowerIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "ProcessingController.sensorOut",
+      "end_b": "ProcessingBus.cmdIn",
+      "item_flow": "Power"
+    },
+    {
+      "name": "link2",
+      "end_a": "CommandInterface.pwrIn",
+      "end_b": "ProcessingController.sensorOut",
+      "item_flow": "Telemetry"
+    },
+    {
+      "name": "link3",
+      "end_a": "DistributionAssembly.dataOut",
+      "end_b": "ProcessingBus.configIn",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link4",
+      "end_a": "CommandInterface.pwrIn",
+      "end_b": "ProcessingBus.cmdIn",
+      "item_flow": "Control"
+    },
+    {
+      "name": "link5",
+      "end_a": "CommandInterface.pwrIn",
+      "end_b": "PowerSensor.pwrOut",
+      "item_flow": "Sensor"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The ground station system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The ground station system shall trace subsystem design to requirements."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "DistributionAssembly",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerSensor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "ProcessingBus",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommandInterface",
+      "supplier": "REQ-002"
+    }
+  ]
+}

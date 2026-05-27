@@ -1,0 +1,109 @@
+{
+  "id": "arch_000038",
+  "name": "Autonomous Rover Reference Architecture 38",
+  "domain": "autonomous rover",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "AutonomousRoverSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightComputer",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorActuator",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "FlightComputer",
+      "name": "telemetryOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "FlightComputer",
+      "name": "configIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "MonitorActuator",
+      "name": "telemetryOut",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MonitorActuator",
+      "name": "ctrlIn",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "MonitorActuator",
+      "name": "pwrIn",
+      "type": "SignalIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "FlightComputer.configIn",
+      "end_b": "MonitorActuator.ctrlIn",
+      "item_flow": "Control"
+    },
+    {
+      "name": "link2",
+      "end_a": "MonitorActuator.ctrlIn",
+      "end_b": "FlightComputer.telemetryOut",
+      "item_flow": "Command"
+    },
+    {
+      "name": "link3",
+      "end_a": "FlightComputer.configIn",
+      "end_b": "MonitorActuator.telemetryOut",
+      "item_flow": "Signal"
+    },
+    {
+      "name": "link4",
+      "end_a": "FlightComputer.telemetryOut",
+      "end_b": "MonitorActuator.telemetryOut",
+      "item_flow": "Status"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The autonomous rover system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The autonomous rover system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The autonomous rover system shall provide fault detection and recovery."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "MonitorActuator",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightComputer",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "MonitorActuator",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightComputer",
+      "supplier": "REQ-003"
+    }
+  ]
+}

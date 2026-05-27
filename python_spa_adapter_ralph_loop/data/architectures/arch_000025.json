@@ -1,0 +1,97 @@
+{
+  "id": "arch_000025",
+  "name": "Thermal Control Reference Architecture 25",
+  "domain": "thermal control",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "ThermalControlSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightPayload",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataInterface",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "FlightPayload",
+      "name": "configIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "FlightPayload",
+      "name": "cmdIn",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "FlightPayload",
+      "name": "dataOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "FlightInterface",
+      "name": "dataOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "FlightInterface",
+      "name": "sensorOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "FlightInterface",
+      "name": "configIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DataInterface",
+      "name": "pwrOut",
+      "type": "PowerIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "FlightPayload.dataOut",
+      "end_b": "DataInterface.pwrOut",
+      "item_flow": "Power"
+    },
+    {
+      "name": "link2",
+      "end_a": "FlightPayload.cmdIn",
+      "end_b": "FlightInterface.sensorOut",
+      "item_flow": "Control"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The thermal control system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The thermal control system shall trace subsystem design to requirements."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "DataInterface",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightPayload",
+      "supplier": "REQ-002"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "id": "arch_000040",
+  "name": "Robotic Arm Reference Architecture 40",
+  "domain": "robotic arm",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "RoboticArmSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightSubsystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "SensorPayload",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionSensor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerActuator",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "FlightSubsystem",
+      "name": "configIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "FlightSubsystem",
+      "name": "dataIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "FlightSubsystem",
+      "name": "statusOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "SensorPayload",
+      "name": "sensorOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "SensorPayload",
+      "name": "dataIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "DistributionSensor",
+      "name": "sensorOut",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "DistributionSensor",
+      "name": "sensorOut",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "DistributionSensor",
+      "name": "cmdIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "PowerActuator",
+      "name": "pwrOut",
+      "type": "TelemetryIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "FlightSubsystem.statusOut",
+      "end_b": "PowerActuator.pwrOut",
+      "item_flow": "Power"
+    },
+    {
+      "name": "link2",
+      "end_a": "FlightSubsystem.statusOut",
+      "end_b": "DistributionSensor.sensorOut",
+      "item_flow": "Diagnostic"
+    },
+    {
+      "name": "link3",
+      "end_a": "SensorPayload.dataIn",
+      "end_b": "DistributionSensor.sensorOut",
+      "item_flow": "Sensor"
+    },
+    {
+      "name": "link4",
+      "end_a": "DistributionSensor.cmdIn",
+      "end_b": "SensorPayload.dataIn",
+      "item_flow": "Config"
+    },
+    {
+      "name": "link5",
+      "end_a": "FlightSubsystem.configIn",
+      "end_b": "DistributionSensor.sensorOut",
+      "item_flow": "Signal"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The robotic arm system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The robotic arm system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The robotic arm system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The robotic arm system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "PowerActuator",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightSubsystem",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionSensor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "DistributionSensor",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerActuator",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightSubsystem",
+      "supplier": "REQ-004"
+    }
+  ]
+}

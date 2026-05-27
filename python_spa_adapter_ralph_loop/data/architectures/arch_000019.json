@@ -1,0 +1,153 @@
+{
+  "id": "arch_000019",
+  "name": "Life Support Reference Architecture 19",
+  "domain": "life support",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "LifeSupportSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionController",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ControlActuator",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionInterface",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "MissionController",
+      "name": "configIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MissionController",
+      "name": "dataIn",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DataInterface",
+      "name": "telemetryOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DataInterface",
+      "name": "pwrIn",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "DataInterface",
+      "name": "configIn",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "ControlActuator",
+      "name": "ctrlIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "ControlActuator",
+      "name": "ctrlIn",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "ControlActuator",
+      "name": "statusOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "MissionInterface",
+      "name": "telemetryOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "MissionInterface",
+      "name": "dataIn",
+      "type": "ControlIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "ControlActuator.statusOut",
+      "end_b": "DataInterface.configIn",
+      "item_flow": "Alert"
+    },
+    {
+      "name": "link2",
+      "end_a": "ControlActuator.ctrlIn",
+      "end_b": "MissionInterface.telemetryOut",
+      "item_flow": "Command"
+    },
+    {
+      "name": "link3",
+      "end_a": "ControlActuator.statusOut",
+      "end_b": "MissionController.dataIn",
+      "item_flow": "Signal"
+    },
+    {
+      "name": "link4",
+      "end_a": "DataInterface.configIn",
+      "end_b": "ControlActuator.ctrlIn",
+      "item_flow": "Data"
+    },
+    {
+      "name": "link5",
+      "end_a": "MissionController.configIn",
+      "end_b": "MissionInterface.telemetryOut",
+      "item_flow": "Config"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The life support system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The life support system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The life support system shall provide fault detection and recovery."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "DataInterface",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "MissionInterface",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "ControlActuator",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "MissionController",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "MissionInterface",
+      "supplier": "REQ-003"
+    }
+  ]
+}

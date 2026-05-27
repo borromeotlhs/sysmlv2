@@ -9,6 +9,12 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse, unquote
 
+# Import SysML parser
+try:
+    from spa.sysml_parser import parse_sysml_to_json
+except ImportError:
+    from sysml_parser import parse_sysml_to_json
+
 ROOT = Path(__file__).resolve().parents[1]
 STATIC = Path(__file__).resolve().parent / 'static'
 ARCH_DIR = ROOT / 'data' / 'architectures'
@@ -20,6 +26,19 @@ def safe_data_path(base: Path, rel: str) -> Path:
     if base.resolve() not in candidate.parents and candidate != base.resolve():
         raise ValueError('path escapes data directory')
     return candidate
+
+
+def load_architecture(file_path: Path) -> dict:
+    """Load architecture from either JSON or .sysml file"""
+    content = file_path.read_text(encoding='utf-8')
+
+    # Detect format by extension
+    if file_path.suffix.lower() == '.sysml':
+        # Parse SysML v2 textual syntax
+        return parse_sysml_to_json(content)
+    else:
+        # Assume JSON
+        return json.loads(content)
 
 
 def plantuml_encode(source: str) -> str:
@@ -200,7 +219,8 @@ class Handler(BaseHTTPRequestHandler):
                 rel = unquote(path[len('/api/architecture/'):])
                 p = safe_data_path(ROOT, rel)
                 if not p.exists(): return self.send_json({'error': 'not found'}, 404)
-                return self.send_json(json.loads(p.read_text(encoding='utf-8')))
+                arch = load_architecture(p)
+                return self.send_json(arch)
             if path == '/api/pair-files':
                 PAIR_DIR.mkdir(parents=True, exist_ok=True)
                 files = [{'name': p.name, 'path': str(p.relative_to(ROOT)).replace('\\','/')} for p in sorted(PAIR_DIR.glob('*.json'))]
@@ -214,7 +234,7 @@ class Handler(BaseHTTPRequestHandler):
                 rel = unquote(path[len('/api/diagram/bdd/'):])
                 p = safe_data_path(ROOT, rel)
                 if not p.exists(): return self.send_json({'error': 'not found'}, 404)
-                arch = json.loads(p.read_text(encoding='utf-8'))
+                arch = load_architecture(p)
                 plantuml_src = generate_bdd_plantuml(arch)
                 encoded = plantuml_encode(plantuml_src)
                 return self.send_json({
@@ -225,7 +245,7 @@ class Handler(BaseHTTPRequestHandler):
                 rel = unquote(path[len('/api/diagram/ibd/'):])
                 p = safe_data_path(ROOT, rel)
                 if not p.exists(): return self.send_json({'error': 'not found'}, 404)
-                arch = json.loads(p.read_text(encoding='utf-8'))
+                arch = load_architecture(p)
                 plantuml_src = generate_ibd_plantuml(arch)
                 encoded = plantuml_encode(plantuml_src)
                 return self.send_json({

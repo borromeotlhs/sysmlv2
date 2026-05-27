@@ -1,0 +1,199 @@
+{
+  "id": "arch_000044",
+  "name": "Instrument Platform Reference Architecture 44",
+  "domain": "instrument platform",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "InstrumentPlatformSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommSubsystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "SensorAssembly",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightSubsystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MonitorController",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommandProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "NavAssembly",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DataComputer",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "CommSubsystem",
+      "name": "statusOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "CommSubsystem",
+      "name": "ctrlIn",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "SensorAssembly",
+      "name": "pwrIn",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "SensorAssembly",
+      "name": "configIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "FlightSubsystem",
+      "name": "telemetryOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "FlightSubsystem",
+      "name": "dataOut",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MonitorController",
+      "name": "cmdOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "MonitorController",
+      "name": "pwrIn",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "MonitorController",
+      "name": "statusOut",
+      "type": "ConfigIF"
+    },
+    {
+      "owner": "CommandProcessor",
+      "name": "pwrIn",
+      "type": "DataIF"
+    },
+    {
+      "owner": "CommandProcessor",
+      "name": "telemetryOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "CommandProcessor",
+      "name": "pwrOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "NavAssembly",
+      "name": "dataOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "DataComputer",
+      "name": "dataIn",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "DataComputer",
+      "name": "configIn",
+      "type": "ControlIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "CommandProcessor.pwrOut",
+      "end_b": "MonitorController.statusOut",
+      "item_flow": "Config"
+    },
+    {
+      "name": "link2",
+      "end_a": "NavAssembly.dataOut",
+      "end_b": "MonitorController.statusOut",
+      "item_flow": "Alert"
+    },
+    {
+      "name": "link3",
+      "end_a": "DataComputer.dataIn",
+      "end_b": "SensorAssembly.configIn",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link4",
+      "end_a": "CommandProcessor.telemetryOut",
+      "end_b": "NavAssembly.dataOut",
+      "item_flow": "Diagnostic"
+    },
+    {
+      "name": "link5",
+      "end_a": "DataComputer.dataIn",
+      "end_b": "NavAssembly.dataOut",
+      "item_flow": "Data"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The instrument platform system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The instrument platform system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The instrument platform system shall provide fault detection and recovery."
+    },
+    {
+      "id": "REQ-004",
+      "text": "The instrument platform system shall maintain operational status monitoring."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "CommandProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "NavAssembly",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommSubsystem",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommandProcessor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommSubsystem",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "CommandProcessor",
+      "supplier": "REQ-004"
+    }
+  ]
+}

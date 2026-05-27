@@ -1,0 +1,172 @@
+{
+  "id": "arch_000050",
+  "name": "Communication Relay Reference Architecture 50",
+  "domain": "communication relay",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "CommunicationRelaySystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "DistributionAssembly",
+      "stereotype": "Block"
+    },
+    {
+      "name": "CommandProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "ProcessingSensor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "NavProcessor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "SensorInterface",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionSensor",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionController",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "DistributionAssembly",
+      "name": "cmdIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "DistributionAssembly",
+      "name": "statusOut",
+      "type": "PowerIF"
+    },
+    {
+      "owner": "DistributionAssembly",
+      "name": "telemetryOut",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "CommandProcessor",
+      "name": "dataIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "ProcessingSensor",
+      "name": "sensorOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "NavProcessor",
+      "name": "cmdIn",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "NavProcessor",
+      "name": "telemetryOut",
+      "type": "DiagnosticIF"
+    },
+    {
+      "owner": "SensorInterface",
+      "name": "telemetryOut",
+      "type": "TelemetryIF"
+    },
+    {
+      "owner": "SensorInterface",
+      "name": "cmdIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MissionSensor",
+      "name": "sensorOut",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "MissionSensor",
+      "name": "cmdIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MissionSensor",
+      "name": "sensorOut",
+      "type": "SignalIF"
+    },
+    {
+      "owner": "MissionController",
+      "name": "pwrIn",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "MissionController",
+      "name": "sensorOut",
+      "type": "StatusIF"
+    },
+    {
+      "owner": "MissionController",
+      "name": "dataIn",
+      "type": "DataIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "SensorInterface.cmdIn",
+      "end_b": "DistributionAssembly.telemetryOut",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link2",
+      "end_a": "CommandProcessor.dataIn",
+      "end_b": "MissionSensor.sensorOut",
+      "item_flow": "Sensor"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The communication relay system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The communication relay system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The communication relay system shall provide fault detection and recovery."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "ProcessingSensor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "NavProcessor",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "ProcessingSensor",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "NavProcessor",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "SensorInterface",
+      "supplier": "REQ-003"
+    }
+  ]
+}

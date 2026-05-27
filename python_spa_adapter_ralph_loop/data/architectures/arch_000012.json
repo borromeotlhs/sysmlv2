@@ -1,0 +1,123 @@
+{
+  "id": "arch_000012",
+  "name": "Solar Array Reference Architecture 12",
+  "domain": "solar array",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "SolarArraySystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerPayload",
+      "stereotype": "Block"
+    },
+    {
+      "name": "FlightBus",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerModule",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "PowerPayload",
+      "name": "pwrOut",
+      "type": "ControlIF"
+    },
+    {
+      "owner": "PowerPayload",
+      "name": "sensorOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "FlightBus",
+      "name": "dataIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "PowerModule",
+      "name": "dataIn",
+      "type": "ThermalIF"
+    },
+    {
+      "owner": "PowerModule",
+      "name": "cmdOut",
+      "type": "StatusIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "link1",
+      "end_a": "FlightBus.dataIn",
+      "end_b": "PowerModule.cmdOut",
+      "item_flow": "Config"
+    },
+    {
+      "name": "link2",
+      "end_a": "PowerModule.dataIn",
+      "end_b": "PowerPayload.pwrOut",
+      "item_flow": "Status"
+    },
+    {
+      "name": "link3",
+      "end_a": "PowerModule.cmdOut",
+      "end_b": "PowerPayload.pwrOut",
+      "item_flow": "Diagnostic"
+    },
+    {
+      "name": "link4",
+      "end_a": "PowerPayload.pwrOut",
+      "end_b": "FlightBus.dataIn",
+      "item_flow": "Control"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The solar array system shall exchange data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The solar array system shall trace subsystem design to requirements."
+    },
+    {
+      "id": "REQ-003",
+      "text": "The solar array system shall provide fault detection and recovery."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "PowerModule",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerPayload",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerPayload",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightBus",
+      "supplier": "REQ-002"
+    },
+    {
+      "type": "satisfy",
+      "client": "FlightBus",
+      "supplier": "REQ-003"
+    },
+    {
+      "type": "satisfy",
+      "client": "PowerPayload",
+      "supplier": "REQ-003"
+    }
+  ]
+}
