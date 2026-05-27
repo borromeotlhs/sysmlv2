@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adapter Pair Authoring SPA</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Adapter Pair Authoring SPA</h1>
+    <p>Python-only, no npm. Author and edit prompt → architecture pairs.</p>
+  </header>
+  <div class="container">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h3>Directory Tree</h3>
+        <button id="refreshTree" title="Refresh tree">↻</button>
+      </div>
+      <div class="directory-chooser">
+        <input type="text" id="rootPath" placeholder="Enter directory path..." />
+        <button id="changeRoot">Go</button>
+        <button id="goUp" title="Go to parent directory">↑</button>
+        <button id="resetRoot" title="Reset to project root">⌂</button>
+      </div>
+      <div id="currentRoot" class="current-root"></div>
+      <div id="fileTree"></div>
+    </aside>
+    <main>
+    <section class="panel wide">
+      <h2>1. Selected Architecture</h2>
+      <div id="architectureInfo" class="info-box">
+        <p class="hint">Click on an architecture file in the tree to view it here.</p>
+      </div>
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="text">Text</button>
+            <button class="tab-btn" data-tab="bdd">BDD</button>
+            <button class="tab-btn" data-tab="ibd">IBD</button>
+          </div>
+          <div class="tab-content">
+            <div id="tab-text" class="tab-pane active">
+              <pre id="architecturePreview"></pre>
+            </div>
+            <div id="tab-bdd" class="tab-pane">
+              <div class="diagram-controls">
+                <button id="copyBddSource" title="Copy PlantUML source">📋 Copy Source</button>
+              </div>
+              <img id="bddDiagram" alt="Block Definition Diagram" />
+              <textarea id="bddSource" readonly style="display: none;"></textarea>
+            </div>
+            <div id="tab-ibd" class="tab-pane">
+              <div class="diagram-controls">
+                <button id="copyIbdSource" title="Copy PlantUML source">📋 Copy Source</button>
+              </div>
+              <img id="ibdDiagram" alt="Internal Block Diagram" />
+              <textarea id="ibdSource" readonly style="display: none;"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="split-right" id="promptSection" style="display: none;">
+          <h3>Create Pair</h3>
+          <label>Split
+            <select id="splitSelect"><option>train</option><option>validation</option></select>
+          </label>
+          <label>Prompt</label>
+          <textarea id="promptText" rows="15" placeholder="Write the prompt you would have given to produce this architecture."></textarea>
+          <button id="addPair">Add pair for this architecture</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel wide">
+      <h2>2. Completed pair files</h2>
+      <button id="refreshPairFiles">Refresh pair files</button>
+      <select id="pairFileSelect"></select>
+      <button id="loadPairFile">Load pair file for editing</button>
+      <p class="hint">This is the feature for reopening completed pair files, editing them, and saving again.</p>
+    </section>
+
+    <section class="panel wide">
+      <h2>3. Pair collection</h2>
+      <label>Output filename <input id="outputFilename" value="authored_pairs.json" /></label>
+      <div class="row">
+        <button id="savePairs">Save all pairs</button>
+        <button id="downloadPairs">Download current pairs</button>
+        <button id="clearPairs">Clear all pairs</button>
+      </div>
+      <h3>Current pairs (<span id="pairCount">0</span>)</h3>
+      <div id="pairsList"></div>
+    </section>
+  </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

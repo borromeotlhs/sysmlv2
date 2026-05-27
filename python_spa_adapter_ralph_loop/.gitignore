@@ -1,0 +1,25 @@
+# User-specific directories
+look/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Output directories
+outputs/
+
+# Environment
+.env
+.venv
+env/
+venv/

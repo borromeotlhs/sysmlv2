@@ -1,0 +1,59 @@
+body { font-family: system-ui, sans-serif; margin: 0; background: #f7f7f7; color: #222; }
+header { padding: 20px 28px; background: #1f2937; color: white; }
+header h1 { margin: 0 0 6px; }
+.container { display: flex; height: calc(100vh - 90px); }
+#sidebar { width: 280px; background: white; border-right: 1px solid #ddd; overflow-y: auto; flex-shrink: 0; }
+.sidebar-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 16px 12px 16px; border-bottom: 1px solid #e5e7eb; }
+.sidebar-header h3 { margin: 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+#refreshTree { background: none; border: none; cursor: pointer; font-size: 18px; padding: 4px 8px; }
+#refreshTree:hover { background: #f3f4f6; border-radius: 4px; }
+.directory-chooser { padding: 8px 16px; border-bottom: 1px solid #e5e7eb; display: flex; gap: 4px; }
+.directory-chooser input { flex: 1; padding: 6px 8px; font-size: 12px; border: 1px solid #d1d5db; border-radius: 4px; }
+.directory-chooser button { padding: 6px 10px; font-size: 12px; border: 1px solid #d1d5db; background: white; cursor: pointer; border-radius: 4px; }
+.directory-chooser button:hover { background: #f3f4f6; }
+.current-root { padding: 8px 16px; font-size: 11px; color: #6b7280; word-break: break-all; border-bottom: 1px solid #f3f4f6; }
+#fileTree { padding: 8px; font-size: 13px; }
+.tree-item { cursor: pointer; padding: 4px 8px; margin: 2px 0; border-radius: 4px; user-select: none; }
+.tree-item:hover { background: #f3f4f6; }
+.tree-item.directory { font-weight: 500; }
+.tree-item.file { color: #6b7280; padding-left: 24px; }
+.tree-item.architecture-file { color: #2563eb; font-weight: 500; }
+.tree-item.architecture-file:hover { background: #dbeafe; }
+.tree-item.directory::before { content: '▶ '; display: inline-block; width: 16px; }
+.tree-item.directory.expanded::before { content: '▼ '; }
+.tree-children { margin-left: 12px; }
+.tree-children.collapsed { display: none; }
+main { display: flex; flex-direction: column; gap: 16px; padding: 16px; flex: 1; overflow-y: auto; }
+.panel { background: white; border-radius: 14px; padding: 16px; box-shadow: 0 1px 8px rgba(0,0,0,.08); }
+.wide { width: 100%; }
+.split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+.split-left, .split-right { display: flex; flex-direction: column; }
+.split-left h3, .split-right h3 { margin: 0 0 12px 0; font-size: 16px; }
+.split-left pre { flex: 1; margin: 0; }
+.split-right { padding: 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+button, select, input, textarea { font: inherit; margin: 6px 4px 6px 0; padding: 8px; }
+select, input, textarea { width: 100%; box-sizing: border-box; }
+textarea { resize: vertical; }
+pre { background: #111827; color: #e5e7eb; padding: 12px; border-radius: 10px; overflow: auto; max-height: 360px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+.pair { border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin: 10px 0; background: #fafafa; }
+.pair textarea { min-height: 90px; }
+.hint { color: #555; }
+.info-box { padding: 12px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; margin: 8px 0; }
+.info-box p { margin: 0; }
+.info-box strong { display: block; margin-bottom: 4px; }
+#promptSection { margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb; }
+.tabs { display: flex; border-bottom: 2px solid #e5e7eb; margin-bottom: 12px; }
+.tab-btn { padding: 8px 16px; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; font-size: 14px; }
+.tab-btn:hover { background: #f3f4f6; }
+.tab-btn.active { border-bottom-color: #2563eb; color: #2563eb; font-weight: 500; }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+.diagram-controls { display: flex; gap: 8px; margin-bottom: 8px; }
+#bddDiagram, #ibdDiagram { max-width: 100%; border: 1px solid #e5e7eb; border-radius: 4px; background: white; }
+#bddSource, #ibdSource { width: 100%; height: 150px; font-family: monospace; font-size: 11px; margin-top: 8px; padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px; }
+@media (max-width: 900px) {
+  .container { flex-direction: column; }
+  #sidebar { width: 100%; height: 200px; border-right: none; border-bottom: 1px solid #ddd; }
+  .split-layout { grid-template-columns: 1fr; }
+}
