@@ -1,0 +1,146 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam class {
+    BackgroundColor<<block>> LightSkyBlue
+    BackgroundColor<<requirement>> LightYellow
+    BorderColor Black
+}
+
+title Python SPA Adapter - Block Definition Diagram (BDD)
+
+' Block Definitions
+class SPAServer <<block>> {
+    + host: String
+    + port: Integer
+    + threadCount: Integer
+}
+
+class SysMLParser <<block>> {
+    + supportedSyntax: String[*]
+}
+
+class SysMLGenerator <<block>> {
+    + outputFormat: String
+    + indentSize: Integer
+}
+
+class SysMLValidator <<block>> {
+    + validationRules: String[*]
+    + errorThreshold: Real
+}
+
+class PlantUMLRenderer <<block>> {
+    + diagramTypes: String[*]
+    + encodingAlgorithm: String
+}
+
+class TestSuite <<block>> {
+    + testCount: Integer
+    + passRate: Real
+    + coveragePercent: Real
+}
+
+class ParserTests <<block>> {
+    + edgeCaseTests: Integer
+    + unicodeTests: Integer
+}
+
+class VVTests <<block>> {
+    + syntaxTests: Integer
+    + semanticTests: Integer
+    + filesValidated: Integer
+}
+
+class IntegrationTests <<block>> {
+    + endpointTests: Integer
+    + concurrencyTests: Integer
+}
+
+class DatasetPipeline <<block>> {
+    + pairCount: Integer
+    + trainingSplit: Real
+    + validationSplit: Real
+}
+
+class ArchitectureGenerator <<block>> {
+    + generationStrategy: String
+    + varietyLevel: String
+}
+
+class FileStorage <<block>> {
+    + storagePath: String
+    + formatSupport: String[*]
+}
+
+class PythonSPAAdapter <<block>>
+
+' Requirements
+object "REQ-001" as REQ_001 <<requirement>> {
+    text = "Must generate valid SysML v2 textual syntax"
+}
+
+object "REQ-002" as REQ_002 <<requirement>> {
+    text = "Must support separated format (model + views)"
+}
+
+object "REQ-003" as REQ_003 <<requirement>> {
+    text = "Must validate syntax and semantics"
+}
+
+object "REQ-004" as REQ_004 <<requirement>> {
+    text = "API must be thread-safe"
+}
+
+object "REQ-005" as REQ_005 <<requirement>> {
+    text = "Round-trip consistency required"
+}
+
+object "REQ-006" as REQ_006 <<requirement>> {
+    text = "Test suite must achieve >90% coverage"
+}
+
+object "REQ-007" as REQ_007 <<requirement>> {
+    text = "Must generate valid PlantUML diagrams"
+}
+
+object "REQ-008" as REQ_008 <<requirement>> {
+    text = "Dataset in JSONL format"
+}
+
+' System Composition (directed - parent contains child)
+PythonSPAAdapter *--> "1" SPAServer : spaServer
+PythonSPAAdapter *--> "1" SysMLParser : parser
+PythonSPAAdapter *--> "1" SysMLGenerator : generator
+PythonSPAAdapter *--> "1" SysMLValidator : validator
+PythonSPAAdapter *--> "1" PlantUMLRenderer : renderer
+PythonSPAAdapter *--> "1" TestSuite : testSuite
+PythonSPAAdapter *--> "1" ParserTests : parserTests
+PythonSPAAdapter *--> "1" VVTests : vvTests
+PythonSPAAdapter *--> "1" IntegrationTests : integrationTests
+PythonSPAAdapter *--> "1" DatasetPipeline : datasetPipeline
+PythonSPAAdapter *--> "1" ArchitectureGenerator : archGenerator
+PythonSPAAdapter *--> "1" FileStorage : storage
+
+' Test Aggregation
+TestSuite *--> "1" ParserTests : includes
+TestSuite *--> "1" VVTests : includes
+TestSuite *--> "1" IntegrationTests : includes
+
+' Requirement Satisfaction
+SPAServer ..> REQ_004 : <<satisfy>>
+SysMLParser ..> REQ_001 : <<satisfy>>
+SysMLParser ..> REQ_003 : <<satisfy>>
+SysMLParser ..> REQ_005 : <<satisfy>>
+SysMLGenerator ..> REQ_001 : <<satisfy>>
+SysMLGenerator ..> REQ_002 : <<satisfy>>
+SysMLGenerator ..> REQ_005 : <<satisfy>>
+SysMLValidator ..> REQ_003 : <<satisfy>>
+PlantUMLRenderer ..> REQ_007 : <<satisfy>>
+TestSuite ..> REQ_006 : <<satisfy>>
+DatasetPipeline ..> REQ_008 : <<satisfy>>
+ArchitectureGenerator ..> REQ_001 : <<satisfy>>
+FileStorage ..> REQ_002 : <<satisfy>>
+
+@enduml
