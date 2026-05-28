@@ -28,6 +28,99 @@ def safe_data_path(base: Path, rel: str) -> Path:
     return candidate
 
 
+def detect_architecture_format(arch_path: Path) -> str:
+    """
+    Detect if architecture uses new separated format or legacy monolithic.
+
+    Args:
+        arch_path: Path to architecture (file or directory)
+
+    Returns:
+        'separated' if directory with model.sysml exists
+        'monolithic' if single .sysml file
+        'json' if .json file (legacy)
+    """
+    if arch_path.is_dir():
+        model_file = arch_path / 'model.sysml'
+        if model_file.exists():
+            return 'separated'
+    elif arch_path.is_file():
+        if arch_path.suffix.lower() == '.sysml':
+            return 'monolithic'
+        elif arch_path.suffix.lower() == '.json':
+            return 'json'
+    return 'unknown'
+
+
+def load_architecture_separated(arch_dir: Path) -> dict:
+    """
+    Load architecture from separated format (model.sysml + views/).
+
+    Args:
+        arch_dir: Directory containing model.sysml and views/
+
+    Returns:
+        Architecture dictionary with model content
+    """
+    model_file = arch_dir / 'model.sysml'
+    if not model_file.exists():
+        raise FileNotFoundError(f"model.sysml not found in {arch_dir}")
+
+    content = model_file.read_text(encoding='utf-8')
+    arch_dict = parse_sysml_to_json(content)
+
+    # Add metadata about available views
+    views_dir = arch_dir / 'views'
+    if views_dir.exists() and views_dir.is_dir():
+        arch_dict['available_views'] = [
+            v.stem for v in views_dir.glob('*.sysml')
+        ]
+
+    arch_dict['format'] = 'separated'
+    return arch_dict
+
+
+def list_views(arch_dir: Path) -> list:
+    """
+    List available views for an architecture.
+
+    Args:
+        arch_dir: Directory containing views/
+
+    Returns:
+        List of view metadata dictionaries
+    """
+    views_dir = arch_dir / 'views'
+    if not views_dir.exists() or not views_dir.is_dir():
+        return []
+
+    views = []
+    for view_file in sorted(views_dir.glob('*.sysml')):
+        view_name = view_file.stem
+        try:
+            content = view_file.read_text(encoding='utf-8')
+            # Extract basic metadata from comments
+            view_type = 'unknown'
+            if 'BlockDefinitionDiagram' in content or 'bdd' in view_name.lower():
+                view_type = 'bdd'
+            elif 'InternalBlockDiagram' in content or 'ibd' in view_name.lower():
+                view_type = 'ibd'
+
+            views.append({
+                'name': view_name,
+                'type': view_type,
+                'path': str(view_file.relative_to(arch_dir))
+            })
+        except Exception as e:
+            views.append({
+                'name': view_name,
+                'type': 'error',
+                'error': str(e)
+            })
+
+    return views
+
+
 def load_architecture(file_path: Path) -> dict:
     """Load architecture from either JSON or .sysml file"""
     content = file_path.read_text(encoding='utf-8')
@@ -35,10 +128,14 @@ def load_architecture(file_path: Path) -> dict:
     # Detect format by extension
     if file_path.suffix.lower() == '.sysml':
         # Parse SysML v2 textual syntax
-        return parse_sysml_to_json(content)
+        arch_dict = parse_sysml_to_json(content)
+        arch_dict['format'] = 'monolithic'
+        return arch_dict
     else:
         # Assume JSON
-        return json.loads(content)
+        arch_dict = json.loads(content)
+        arch_dict['format'] = 'json'
+        return arch_dict
 
 
 def plantuml_encode(source: str) -> str:
@@ -53,16 +150,50 @@ def plantuml_encode(source: str) -> str:
     return custom.rstrip('=')
 
 
-def generate_bdd_plantuml(arch: dict) -> str:
-    """Generate Block Definition Diagram PlantUML from architecture JSON"""
+def generate_bdd_plantuml(sysml_path: Path) -> str:
+    """Generate Block Definition Diagram PlantUML from .sysml file
+
+    Args:
+        sysml_path: Path to .sysml file or directory with model.sysml
+
+    Returns:
+        PlantUML source code as string
+    """
+    # Parse the .sysml file to get architecture dict
+    if sysml_path.is_dir():
+        # Separated format: load from model.sysml
+        model_file = sysml_path / 'model.sysml'
+        if not model_file.exists():
+            raise FileNotFoundError(f"model.sysml not found in {sysml_path}")
+        content = model_file.read_text(encoding='utf-8')
+    else:
+        # Monolithic format: load directly
+        content = sysml_path.read_text(encoding='utf-8')
+
+    # Parse to JSON IR
+    arch = parse_sysml_to_json(content)
+
+    # Generate PlantUML from parsed architecture
     lines = ['@startuml', 'skinparam componentStyle rectangle', '']
 
-    # Add blocks
+    # Add all blocks
     for block in arch.get('blocks', []):
         name = block.get('name', 'Unknown')
         lines.append(f'class {name} <<block>>')
 
     lines.append('')
+
+    # Add composition relationships from actual SysML structure
+    # Use *--> (directed composition) to show parent contains child
+    compositions = arch.get('compositions', [])
+    if compositions:
+        for comp in compositions:
+            parent = comp.get('parent', '')
+            child = comp.get('child', '')
+            mult = comp.get('multiplicity', '1')
+            lines.append(f'{parent} *--> "{mult}" {child}')
+
+        lines.append('')
 
     # Add requirements - use note style to avoid syntax issues
     for req in arch.get('requirements', []):
@@ -75,7 +206,7 @@ def generate_bdd_plantuml(arch: dict) -> str:
 
     lines.append('')
 
-    # Add relationships
+    # Add satisfy relationships
     for rel in arch.get('relationships', []):
         client = rel.get('client', '')
         supplier = rel.get('supplier', '').replace('-', '_')  # Handle requirement IDs
@@ -86,15 +217,41 @@ def generate_bdd_plantuml(arch: dict) -> str:
     return '\n'.join(lines)
 
 
-def generate_ibd_plantuml(arch: dict) -> str:
-    """Generate Internal Block Diagram PlantUML from architecture JSON
+def generate_ibd_plantuml(sysml_path: Path) -> str:
+    """Generate Internal Block Diagram PlantUML from .sysml file
 
-    Style based on SysML v2 IBD conventions with proper port syntax.
+    Uses component-based syntax with real ports that straddle component boundaries.
+    Recursively renders nested subsystems to show all components and connections.
+
+    Args:
+        sysml_path: Path to .sysml file or directory with model.sysml
+
+    Returns:
+        PlantUML source code as string
     """
+    # Parse the .sysml file to get architecture dict
+    if sysml_path.is_dir():
+        # Separated format: load from model.sysml
+        model_file = sysml_path / 'model.sysml'
+        if not model_file.exists():
+            raise FileNotFoundError(f"model.sysml not found in {sysml_path}")
+        content = model_file.read_text(encoding='utf-8')
+    else:
+        # Monolithic format: load directly
+        content = sysml_path.read_text(encoding='utf-8')
+
+    # Parse to JSON IR
+    arch = parse_sysml_to_json(content)
+
+    # Generate PlantUML from parsed architecture
     lines = ['@startuml']
     lines.append('skinparam componentStyle rectangle')
     lines.append('skinparam shadowing false')
     lines.append('skinparam roundcorner 12')
+    lines.append('')
+    lines.append("'=================================================='")
+    lines.append("' SYSTEM STRUCTURE")
+    lines.append("'=================================================='")
     lines.append('')
 
     # Build port ownership map
@@ -106,61 +263,156 @@ def generate_ibd_plantuml(arch: dict) -> str:
         port_owners[owner].append(port)
 
     blocks = arch.get('blocks', [])
+    compositions = arch.get('compositions', [])
 
-    # System component (outer frame)
-    system_name = blocks[0].get('name', 'System') if blocks else 'System'
-    system_id = system_name.upper().replace(' ', '_')[:3]
+    # Build composition hierarchy map
+    children_map = {}
+    for comp in compositions:
+        parent = comp.get('parent', '')
+        child = comp.get('child', '')
+        if parent not in children_map:
+            children_map[parent] = []
+        children_map[parent].append(comp)
 
-    lines.append(f'component "«part» {system_name.lower()}:{system_name}" as {system_id} {{')
+    # Find the system-level block
+    system_block = blocks[-1] if blocks else None
+    system_name = system_block.get('name', 'System') if system_block else 'System'
+
+    # Track port aliases for connections
+    port_aliases = {}
+    port_aliases_lower = {}  # Case-insensitive lookup map
+    used_aliases = set()
+
+    def render_component(parent_name, indent_level, parent_alias=''):
+        """Recursively render a component and its children"""
+        nonlocal used_aliases
+
+        children = children_map.get(parent_name, [])
+        if not children:
+            return []
+
+        indent = '  ' * indent_level
+        component_lines = []
+
+        for comp in children:
+            child_name = comp['child']
+
+            # Create unique alias
+            base_alias = child_name.upper().replace(' ', '_')
+            child_alias = base_alias[:8]
+            counter = 1
+            while child_alias in used_aliases:
+                child_alias = base_alias[:6] + str(counter)
+                counter += 1
+            used_aliases.add(child_alias)
+
+            # Check if this child has its own children (is a subsystem)
+            has_children = child_name in children_map
+
+            component_lines.append(f'{indent}component "«part» {child_name.lower()}:{child_name}" as {child_alias} {{')
+            component_lines.append('')
+
+            # Add ports for this component
+            if child_name in port_owners:
+                for port in port_owners[child_name]:
+                    port_name = port.get('name', '')
+                    port_type = port.get('type', '')
+
+                    # Create port alias: COMPONENTNAME_PORTNAME
+                    port_alias = f'{child_alias}_{port_name.upper()}'
+                    port_key = f'{child_name}.{port_name}'
+                    port_aliases[port_key] = port_alias
+                    # Also store lowercase version for case-insensitive lookup
+                    port_aliases_lower[port_key.lower()] = port_alias
+
+                    # Determine port direction
+                    if 'in' in port_name.lower() or 'In' in port_name:
+                        component_lines.append(f'{indent}  portin "{port_name}" as {port_alias}')
+                    elif 'out' in port_name.lower() or 'Out' in port_name:
+                        component_lines.append(f'{indent}  portout "{port_name}" as {port_alias}')
+                    else:
+                        component_lines.append(f'{indent}  port "{port_name}" as {port_alias}')
+
+            # Recursively render nested children
+            if has_children:
+                component_lines.append('')
+                nested_lines = render_component(child_name, indent_level + 1, child_alias)
+                component_lines.extend(nested_lines)
+
+            component_lines.append(f'{indent}}}')
+            component_lines.append('')
+
+        return component_lines
+
+    # Create system component container
+    system_alias = 'SYS'
+    used_aliases.add(system_alias)
+    lines.append(f'component "«part» {system_name.lower()}:{system_name}" as {system_alias} {{')
     lines.append('')
 
-    # Add subsystem parts with their ports
-    for block in blocks[1:]:  # Skip system block
-        name = block.get('name', 'Unknown')
-        part_name = name.lower()
-        part_id = name.upper().replace(' ', '_')[:10]
-
-        lines.append(f'  component "«part» {part_name}:{name}" as {part_id} {{')
-        lines.append('')
-
-        # Add ports inside this component
-        if name in port_owners:
-            for port in port_owners[name]:
-                port_name = port.get('name', '')
-                port_type = port.get('type', '')
-                port_id = f'{part_id}_{port_name.upper()}'
-
-                # Use portin/portout - default to portin
-                lines.append(f'    portin "{port_name}" as {port_id}')
-
-        lines.append('  }')
-        lines.append('')
+    # Recursively render all components
+    component_lines = render_component(system_name, 1, system_alias)
+    lines.extend(component_lines)
 
     lines.append('}')
     lines.append('')
+    lines.append("'=================================================='")
+    lines.append("' CONNECTORS")
+    lines.append("'=================================================='")
+    lines.append('')
+
+    # Build a map of boundary port names to their full qualified names
+    boundary_port_map = {}
+    for port_key in port_aliases.keys():
+        if '.' in port_key:
+            parts = port_key.split('.')
+            owner = parts[0]
+            port_name = parts[1]
+            # Map bare port name to full qualified name for this owner's ports
+            # This helps resolve connections like "connect foo.bar to portName"
+            boundary_port_map[port_name] = boundary_port_map.get(port_name, [])
+            boundary_port_map[port_name].append(port_key)
 
     # Add connections between ports
     connectors = arch.get('connectors', [])
     if connectors:
-        lines.append('\' Connectors')
         for conn in connectors:
             end_a = conn.get('end_a', '')
             end_b = conn.get('end_b', '')
             flow = conn.get('item_flow', '')
 
-            if '.' in end_a and '.' in end_b:
-                part_a, port_a = end_a.split('.', 1)
-                part_b, port_b = end_b.split('.', 1)
+            # Helper function to resolve port alias
+            def resolve_port_alias(end):
+                if '.' in end:
+                    # Try exact match first, then case-insensitive
+                    return port_aliases.get(end) or port_aliases_lower.get(end.lower())
+                else:
+                    # Boundary port without qualifier - try to find it
+                    # Look for a port with this name in the port_aliases
+                    for port_key, alias in port_aliases.items():
+                        if port_key.endswith('.' + end):
+                            return alias
+                    # Try case-insensitive
+                    for port_key, alias in port_aliases_lower.items():
+                        if port_key.endswith('.' + end.lower()):
+                            return alias
+                return None
 
-                part_a_id = part_a.upper().replace(' ', '_')[:10]
-                part_b_id = part_b.upper().replace(' ', '_')[:10]
+            alias_a = resolve_port_alias(end_a)
+            alias_b = resolve_port_alias(end_b)
 
-                port_a_id = f'{part_a_id}_{port_a.upper()}'
-                port_b_id = f'{part_b_id}_{port_b.upper()}'
+            if alias_a and alias_b:
+                # Build connection label
+                if flow:
+                    label = f'«itemFlow» {flow}'
+                else:
+                    port_a_name = end_a.split('.')[-1]  # Get last part (port name)
+                    port_b_name = end_b.split('.')[-1]  # Get last part (port name)
+                    label = f'{port_a_name}→{port_b_name}'
 
-                label = f'«itemFlow» {flow}' if flow else ''
-                lines.append(f'{port_a_id} --> {port_b_id} : {label}')
+                lines.append(f'{alias_a} --> {alias_b} : {label}')
 
+    lines.append('')
     lines.append('@enduml')
     return '\n'.join(lines)
 
@@ -246,20 +498,127 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/architectures':
                 ARCH_DIR.mkdir(parents=True, exist_ok=True)
                 items = []
-                # Scan for both .sysml (primary) and .json (legacy/academic) files
+
+                # Scan for monolithic files (.sysml and .json)
                 for p in sorted(list(ARCH_DIR.glob('*.sysml')) + list(ARCH_DIR.glob('*.json'))):
                     try:
                         data = load_architecture(p)
-                        items.append({'id': data.get('id', p.stem), 'name': data.get('name', p.name), 'path': str(p.relative_to(ROOT)).replace('\\','/'), 'domain': data.get('domain','')})
+                        items.append({
+                            'id': data.get('id', p.stem),
+                            'name': data.get('name', p.name),
+                            'path': str(p.relative_to(ROOT)).replace('\\','/'),
+                            'domain': data.get('domain',''),
+                            'format': data.get('format', 'unknown')
+                        })
                     except Exception as e:
-                        items.append({'id': p.stem, 'name': p.name, 'path': str(p.relative_to(ROOT)).replace('\\','/'), 'error': str(e)})
+                        items.append({
+                            'id': p.stem,
+                            'name': p.name,
+                            'path': str(p.relative_to(ROOT)).replace('\\','/'),
+                            'error': str(e)
+                        })
+
+                # Scan for separated directories (arch_NNNNNN/ with model.sysml)
+                for p in sorted(ARCH_DIR.iterdir()):
+                    if p.is_dir() and not p.name.startswith('.'):
+                        model_file = p / 'model.sysml'
+                        if model_file.exists():
+                            try:
+                                data = load_architecture_separated(p)
+                                items.append({
+                                    'id': data.get('id', p.name),
+                                    'name': data.get('name', p.name),
+                                    'path': str(p.relative_to(ROOT)).replace('\\','/'),
+                                    'domain': data.get('domain',''),
+                                    'format': 'separated',
+                                    'available_views': data.get('available_views', [])
+                                })
+                            except Exception as e:
+                                items.append({
+                                    'id': p.name,
+                                    'name': p.name,
+                                    'path': str(p.relative_to(ROOT)).replace('\\','/'),
+                                    'error': str(e),
+                                    'format': 'separated'
+                                })
+
                 return self.send_json({'architectures': items})
             if path.startswith('/api/architecture/'):
                 rel = unquote(path[len('/api/architecture/'):])
-                p = safe_data_path(ROOT, rel)
-                if not p.exists(): return self.send_json({'error': 'not found'}, 404)
-                arch = load_architecture(p)
-                return self.send_json(arch)
+
+                # Check if this is a views or view subroute first
+                if '/views' in rel or '/view/' in rel:
+                    # Handle separately below
+                    pass
+                else:
+                    p = safe_data_path(ROOT, rel)
+                    if not p.exists(): return self.send_json({'error': 'not found'}, 404)
+
+                    # Auto-detect format
+                    fmt = detect_architecture_format(p)
+
+                    if fmt == 'separated':
+                        arch = load_architecture_separated(p)
+                    elif fmt in ('monolithic', 'json'):
+                        arch = load_architecture(p)
+                    else:
+                        return self.send_json({'error': 'unknown architecture format'}, 400)
+
+                    return self.send_json(arch)
+
+            # New endpoint: /api/architecture/<id>/views - List available views
+            if '/views' in path and not '/view/' in path:
+                # Extract architecture path before /views
+                parts = path.split('/views')
+                if len(parts) == 2:
+                    arch_rel = unquote(parts[0][len('/api/architecture/'):])
+                    arch_p = safe_data_path(ROOT, arch_rel)
+
+                    if not arch_p.exists():
+                        return self.send_json({'error': 'architecture not found'}, 404)
+
+                    if not arch_p.is_dir():
+                        # Monolithic architecture - no separate views
+                        return self.send_json({'views': [], 'format': 'monolithic'})
+
+                    views = list_views(arch_p)
+                    return self.send_json({'views': views, 'format': 'separated'})
+
+            # New endpoint: /api/architecture/<id>/view/<view_name> - Get specific view
+            if '/view/' in path:
+                # Extract architecture path and view name
+                match_parts = path.split('/view/')
+                if len(match_parts) == 2:
+                    arch_rel = unquote(match_parts[0][len('/api/architecture/'):])
+                    view_name = unquote(match_parts[1])
+
+                    arch_p = safe_data_path(ROOT, arch_rel)
+                    if not arch_p.exists() or not arch_p.is_dir():
+                        return self.send_json({'error': 'architecture directory not found'}, 404)
+
+                    # Load the specific view file
+                    view_file = arch_p / 'views' / f'{view_name}.sysml'
+                    if not view_file.exists():
+                        return self.send_json({'error': f'view {view_name} not found'}, 404)
+
+                    try:
+                        # First load the base model
+                        arch = load_architecture_separated(arch_p)
+
+                        # Then parse the view file content for metadata
+                        view_content = view_file.read_text(encoding='utf-8')
+                        view_data = parse_sysml_to_json(view_content)
+
+                        # Merge view metadata into architecture
+                        arch['view'] = {
+                            'name': view_name,
+                            'content': view_data
+                        }
+
+                        return self.send_json(arch)
+                    except Exception as e:
+                        return self.send_json({'error': str(e)}, 500)
+
             if path == '/api/pair-files':
                 PAIR_DIR.mkdir(parents=True, exist_ok=True)
                 files = [{'name': p.name, 'path': str(p.relative_to(ROOT)).replace('\\','/')} for p in sorted(PAIR_DIR.glob('*.json'))]
@@ -273,24 +632,48 @@ class Handler(BaseHTTPRequestHandler):
                 rel = unquote(path[len('/api/diagram/bdd/'):])
                 p = safe_data_path(ROOT, rel)
                 if not p.exists(): return self.send_json({'error': 'not found'}, 404)
-                arch = load_architecture(p)
-                plantuml_src = generate_bdd_plantuml(arch)
-                encoded = plantuml_encode(plantuml_src)
-                return self.send_json({
-                    'plantuml': plantuml_src,
-                    'url': f'http://www.plantuml.com/plantuml/png/{encoded}'
-                })
+
+                # Auto-detect format
+                fmt = detect_architecture_format(p)
+                if fmt == 'json':
+                    # Legacy JSON format - need to convert to .sysml first
+                    # For now, load and use old method
+                    arch = load_architecture(p)
+                    # TODO: This should eventually write a temp .sysml file
+                    # For now, we'll need to keep backward compat with JSON
+                    return self.send_json({'error': 'JSON format not supported for diagram generation. Convert to .sysml first.'}, 400)
+                elif fmt in ('separated', 'monolithic'):
+                    # Pass the path directly to the generator
+                    # It will handle parsing internally
+                    plantuml_src = generate_bdd_plantuml(p)
+                    encoded = plantuml_encode(plantuml_src)
+                    return self.send_json({
+                        'plantuml': plantuml_src,
+                        'url': f'http://www.plantuml.com/plantuml/png/{encoded}'
+                    })
+                else:
+                    return self.send_json({'error': 'unknown architecture format'}, 400)
             if path.startswith('/api/diagram/ibd/'):
                 rel = unquote(path[len('/api/diagram/ibd/'):])
                 p = safe_data_path(ROOT, rel)
                 if not p.exists(): return self.send_json({'error': 'not found'}, 404)
-                arch = load_architecture(p)
-                plantuml_src = generate_ibd_plantuml(arch)
-                encoded = plantuml_encode(plantuml_src)
-                return self.send_json({
-                    'plantuml': plantuml_src,
-                    'url': f'http://www.plantuml.com/plantuml/png/{encoded}'
-                })
+
+                # Auto-detect format
+                fmt = detect_architecture_format(p)
+                if fmt == 'json':
+                    # Legacy JSON format - need to convert to .sysml first
+                    return self.send_json({'error': 'JSON format not supported for diagram generation. Convert to .sysml first.'}, 400)
+                elif fmt in ('separated', 'monolithic'):
+                    # Pass the path directly to the generator
+                    # It will handle parsing internally
+                    plantuml_src = generate_ibd_plantuml(p)
+                    encoded = plantuml_encode(plantuml_src)
+                    return self.send_json({
+                        'plantuml': plantuml_src,
+                        'url': f'http://www.plantuml.com/plantuml/png/{encoded}'
+                    })
+                else:
+                    return self.send_json({'error': 'unknown architecture format'}, 400)
             return self.serve_static(path)
         except Exception as e:
             return self.send_json({'error': str(e)}, 500)
