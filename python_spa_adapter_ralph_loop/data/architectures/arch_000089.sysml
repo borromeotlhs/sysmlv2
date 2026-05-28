@@ -1,5 +1,7 @@
 package arch_000089 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 89
     // Domain: ground station
 
@@ -12,53 +14,64 @@ package arch_000089 {
         doc "The ground station system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port configIn;
-        port pwrOut;
+        port configIn : PowerIF;
+        port configIn : DiagnosticIF;
+        port pwrOut : ControlIF;
     }
 
     public part def FlightUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port pwrOut;
+        port dataIn : CommandIF;
+        port pwrOut : ThermalIF;
     }
 
     public part def ControlController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
+        port telemetryOut : StatusIF;
     }
 
     public part def DataAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port telemetryOut;
+        port pwrOut : PowerIF;
+        port telemetryOut : ControlIF;
     }
 
     public part def NavPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-        port pwrOut;
+        port ctrlIn : TelemetryIF;
+        port pwrOut : SignalIF;
     }
 
     public part def ThermalActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port dataIn;
+        port sensorOut : DataIF;
+        port dataIn : DiagnosticIF;
     }
 
     public part def MonitorUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : PowerIF;
     }
 
     // System Definition
@@ -88,6 +101,6 @@ package arch_000089 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

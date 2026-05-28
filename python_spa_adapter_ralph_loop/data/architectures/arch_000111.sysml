@@ -1,5 +1,7 @@
 package arch_000111 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 111
     // Domain: ground station
 
@@ -16,36 +18,42 @@ package arch_000111 {
         doc "The ground station system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def SignalIF;
+
     // Component Definitions
     public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
+        port dataIn : ControlIF;
     }
 
     public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
+        port cmdIn : ControlIF;
     }
 
     public part def CommandAssembly {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port statusOut;
-        port ctrlIn;
+        port statusOut : SignalIF;
+        port ctrlIn : SignalIF;
     }
 
     public part def FlightSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
+        port dataOut : DataIF;
     }
 
     public part def SensorBus {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
+        port dataIn : CommandIF;
     }
 
     // System Definition
@@ -73,6 +81,6 @@ package arch_000111 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

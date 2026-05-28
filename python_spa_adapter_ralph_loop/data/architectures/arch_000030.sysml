@@ -1,5 +1,7 @@
 package arch_000030 {
 
+    import ScalarValues::*;
+
     // Antenna Subsystem Reference Architecture 30
     // Domain: antenna subsystem
 
@@ -12,54 +14,62 @@ package arch_000030 {
         doc "The antenna subsystem system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ThermalController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
+        port pwrOut : PowerIF;
     }
 
     public part def CommController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
+        port sensorOut : DataIF;
     }
 
     public part def DataSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port pwrOut;
-        port telemetryOut;
+        port sensorOut : ThermalIF;
+        port pwrOut : ControlIF;
+        port telemetryOut : PowerIF;
     }
 
     public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : PowerIF;
     }
 
     public part def SensorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port configIn;
+        port dataOut : PowerIF;
+        port configIn : PowerIF;
     }
 
     public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
-        port telemetryOut;
-        port ctrlIn;
+        port cmdOut : PowerIF;
+        port telemetryOut : TelemetryIF;
+        port ctrlIn : DiagnosticIF;
     }
 
     public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port telemetryOut;
-        port pwrOut;
+        port ctrlIn : DiagnosticIF;
+        port telemetryOut : DiagnosticIF;
+        port pwrOut : ControlIF;
     }
 
     // System Definition
@@ -90,6 +100,6 @@ package arch_000030 {
     }
 
     // System Instance
-    part antennasubsystemsystem : AntennaSubsystemSystem;
+    public part antennasubsystemsystem : AntennaSubsystemSystem;
 
 }

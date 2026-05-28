@@ -1,5 +1,7 @@
 package arch_000025 {
 
+    import ScalarValues::*;
+
     // Thermal Control Reference Architecture 25
     // Domain: thermal control
 
@@ -12,27 +14,34 @@ package arch_000025 {
         doc "The thermal control system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def FlightPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port cmdIn;
-        port dataOut;
+        port configIn : CommandIF;
+        port cmdIn : ControlIF;
+        port dataOut : PowerIF;
     }
 
     public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port sensorOut;
-        port configIn;
+        port dataOut : DataIF;
+        port sensorOut : ThermalIF;
+        port configIn : ThermalIF;
     }
 
     public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
+        port pwrOut : PowerIF;
     }
 
     // System Definition
@@ -52,6 +61,6 @@ package arch_000025 {
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    public part thermalcontrolsystem : ThermalControlSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000098 {
 
+    import ScalarValues::*;
+
     // Telemetry System Reference Architecture 98
     // Domain: telemetry system
 
@@ -16,42 +18,50 @@ package arch_000098 {
         doc "The telemetry system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def CommandInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port configIn;
-        port statusOut;
-        port dataIn;
+        port configIn : CommandIF;
+        port statusOut : DataIF;
+        port dataIn : CommandIF;
     }
 
     public part def SensorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
+        port pwrIn : TelemetryIF;
     }
 
     public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port pwrOut;
-        port pwrOut;
+        port cmdOut : TelemetryIF;
+        port pwrOut : SignalIF;
+        port pwrOut : ControlIF;
     }
 
     public part def DistributionPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port pwrOut;
-        port statusOut;
+        port sensorOut : SignalIF;
+        port pwrOut : CommandIF;
+        port statusOut : DataIF;
     }
 
     public part def PowerUnit {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port telemetryOut;
-        port dataOut;
+        port telemetryOut : DiagnosticIF;
+        port dataOut : DiagnosticIF;
     }
 
     // System Definition
@@ -79,6 +89,6 @@ package arch_000098 {
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    public part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

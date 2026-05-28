@@ -1,5 +1,7 @@
 package arch_000069 {
 
+    import ScalarValues::*;
+
     // Docking Mechanism Reference Architecture 69
     // Domain: docking mechanism
 
@@ -16,38 +18,45 @@ package arch_000069 {
         doc "The docking mechanism system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def ThermalProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port configIn;
-        port dataIn;
+        port cmdIn : ControlIF;
+        port configIn : DiagnosticIF;
+        port dataIn : DiagnosticIF;
     }
 
     public part def CommandModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port ctrlIn;
+        port ctrlIn : ConfigIF;
     }
 
     public part def ControlAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port cmdIn;
+        port dataIn : TelemetryIF;
+        port cmdIn : DataIF;
     }
 
     public part def DistributionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
+        port dataOut : DiagnosticIF;
     }
 
     public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
+        port cmdIn : ConfigIF;
     }
 
     // System Definition
@@ -77,6 +86,6 @@ package arch_000069 {
     }
 
     // System Instance
-    part dockingmechanismsystem : DockingMechanismSystem;
+    public part dockingmechanismsystem : DockingMechanismSystem;
 
 }

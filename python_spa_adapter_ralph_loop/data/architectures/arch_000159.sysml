@@ -1,5 +1,7 @@
 package arch_000159 {
 
+    import ScalarValues::*;
+
     // Radar System Reference Architecture 159
     // Domain: radar system
 
@@ -20,50 +22,59 @@ package arch_000159 {
         doc "The radar system system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port dataIn;
+        port pwrIn : ConfigIF;
+        port dataIn : DataIF;
     }
 
     public part def MonitorAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port pwrOut;
+        port pwrOut : StatusIF;
+        port pwrOut : ThermalIF;
     }
 
     public part def ThermalProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
+        port sensorOut : StatusIF;
     }
 
     public part def FlightModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port dataIn : StatusIF;
     }
 
     public part def NavSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port sensorOut;
+        port statusOut : TelemetryIF;
+        port sensorOut : ControlIF;
     }
 
     public part def DistributionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port ctrlIn;
+        port ctrlIn : PowerIF;
     }
 
     public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
+        port sensorOut : DataIF;
     }
 
     // System Definition
@@ -95,6 +106,6 @@ package arch_000159 {
     }
 
     // System Instance
-    part radarsystemsystem : RadarSystemSystem;
+    public part radarsystemsystem : RadarSystemSystem;
 
 }

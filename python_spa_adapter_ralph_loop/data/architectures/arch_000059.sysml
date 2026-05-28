@@ -1,5 +1,7 @@
 package arch_000059 {
 
+    import ScalarValues::*;
+
     // Solar Array Reference Architecture 59
     // Domain: solar array
 
@@ -12,43 +14,52 @@ package arch_000059 {
         doc "The solar array system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def CommPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port ctrlIn;
-        port configIn;
+        port pwrOut : TelemetryIF;
+        port ctrlIn : ControlIF;
+        port configIn : CommandIF;
     }
 
     public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port telemetryOut;
-        port cmdOut;
+        port cmdOut : TelemetryIF;
+        port telemetryOut : ControlIF;
+        port cmdOut : ConfigIF;
     }
 
     public part def DistributionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port dataOut;
+        port dataOut : StatusIF;
+        port dataOut : TelemetryIF;
     }
 
     public part def CommSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port pwrOut;
+        port pwrOut : SignalIF;
+        port pwrOut : ConfigIF;
     }
 
     public part def ProcessingUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port ctrlIn;
-        port telemetryOut;
+        port dataIn : DiagnosticIF;
+        port ctrlIn : ControlIF;
+        port telemetryOut : CommandIF;
     }
 
     // System Definition
@@ -74,6 +85,6 @@ package arch_000059 {
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    public part solararraysystem : SolarArraySystem;
 
 }

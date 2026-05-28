@@ -1,5 +1,7 @@
 package arch_000014 {
 
+    import ScalarValues::*;
+
     // Avionics Bay Reference Architecture 14
     // Domain: avionics bay
 
@@ -20,19 +22,25 @@ package arch_000014 {
         doc "The avionics bay system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ControlProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port configIn;
+        port telemetryOut : DataIF;
+        port configIn : ThermalIF;
     }
 
     public part def DataProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port dataIn;
+        port pwrIn : ControlIF;
+        port dataIn : DiagnosticIF;
     }
 
     // System Definition
@@ -53,6 +61,6 @@ package arch_000014 {
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    public part avionicsbaysystem : AvionicsBaySystem;
 
 }

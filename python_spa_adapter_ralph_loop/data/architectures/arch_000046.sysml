@@ -1,5 +1,7 @@
 package arch_000046 {
 
+    import ScalarValues::*;
+
     // Telemetry System Reference Architecture 46
     // Domain: telemetry system
 
@@ -12,31 +14,38 @@ package arch_000046 {
         doc "The telemetry system system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port telemetryOut;
+        port dataIn : PowerIF;
+        port telemetryOut : StatusIF;
     }
 
     public part def SensorComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port statusOut;
+        port statusOut : TelemetryIF;
+        port statusOut : StatusIF;
     }
 
     public part def FlightPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
+        port telemetryOut : ConfigIF;
     }
 
     public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port telemetryOut : ControlIF;
     }
 
     // System Definition
@@ -60,6 +69,6 @@ package arch_000046 {
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    public part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

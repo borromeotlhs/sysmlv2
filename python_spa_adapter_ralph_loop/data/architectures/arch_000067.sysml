@@ -1,5 +1,7 @@
 package arch_000067 {
 
+    import ScalarValues::*;
+
     // Robotic Arm Reference Architecture 67
     // Domain: robotic arm
 
@@ -16,25 +18,31 @@ package arch_000067 {
         doc "The robotic arm system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+
     // Component Definitions
     public part def FlightPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
+        port dataOut : PowerIF;
     }
 
     public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
+        port statusOut : ControlIF;
     }
 
     public part def FlightComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port configIn;
-        port pwrIn;
+        port telemetryOut : DataIF;
+        port configIn : DiagnosticIF;
+        port pwrIn : DataIF;
     }
 
     // System Definition
@@ -57,6 +65,6 @@ package arch_000067 {
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    public part roboticarmsystem : RoboticArmSystem;
 
 }

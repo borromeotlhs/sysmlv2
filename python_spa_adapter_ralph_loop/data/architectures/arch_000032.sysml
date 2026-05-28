@@ -1,5 +1,7 @@
 package arch_000032 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 32
     // Domain: ground station
 
@@ -12,46 +14,55 @@ package arch_000032 {
         doc "The ground station system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port telemetryOut;
-        port sensorOut;
+        port sensorOut : DataIF;
+        port telemetryOut : StatusIF;
+        port sensorOut : ControlIF;
     }
 
     public part def PowerSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
+        port pwrOut : SignalIF;
     }
 
     public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataOut;
+        port dataOut : ControlIF;
     }
 
     public part def DistributionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port dataIn;
+        port dataOut : ThermalIF;
+        port dataIn : PowerIF;
     }
 
     public part def CommandInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrIn;
+        port pwrIn : DataIF;
     }
 
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port cmdIn;
-        port configIn;
+        port sensorOut : ConfigIF;
+        port cmdIn : ControlIF;
+        port configIn : PowerIF;
     }
 
     // System Definition
@@ -82,6 +93,6 @@ package arch_000032 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

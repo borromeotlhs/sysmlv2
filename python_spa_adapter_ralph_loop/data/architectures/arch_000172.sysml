@@ -1,5 +1,7 @@
 package arch_000172 {
 
+    import ScalarValues::*;
+
     // Radar System Reference Architecture 172
     // Domain: radar system
 
@@ -16,32 +18,41 @@ package arch_000172 {
         doc "The radar system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port ctrlIn : ThermalIF;
     }
 
     public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port statusOut;
+        port dataOut : SignalIF;
+        port statusOut : StatusIF;
     }
 
     public part def MonitorComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port pwrIn;
-        port cmdOut;
+        port dataIn : ControlIF;
+        port pwrIn : ConfigIF;
+        port cmdOut : PowerIF;
     }
 
     public part def DataModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : TelemetryIF;
     }
 
     // System Definition
@@ -66,6 +77,6 @@ package arch_000172 {
     }
 
     // System Instance
-    part radarsystemsystem : RadarSystemSystem;
+    public part radarsystemsystem : RadarSystemSystem;
 
 }

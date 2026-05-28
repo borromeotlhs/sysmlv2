@@ -1,5 +1,7 @@
 package arch_000178 {
 
+    import ScalarValues::*;
+
     // Sensor Suite Reference Architecture 178
     // Domain: sensor suite
 
@@ -16,27 +18,34 @@ package arch_000178 {
         doc "The sensor suite system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DataController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port dataOut;
+        port dataOut : DataIF;
+        port dataOut : DataIF;
     }
 
     public part def MissionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port cmdIn;
-        port sensorOut;
+        port dataIn : PowerIF;
+        port cmdIn : StatusIF;
+        port sensorOut : DataIF;
     }
 
     public part def MissionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port telemetryOut;
+        port pwrOut : ConfigIF;
+        port telemetryOut : ThermalIF;
     }
 
     // System Definition
@@ -59,6 +68,6 @@ package arch_000178 {
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    public part sensorsuitesystem : SensorSuiteSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000085 {
 
+    import ScalarValues::*;
+
     // Imaging Payload Reference Architecture 85
     // Domain: imaging payload
 
@@ -20,19 +22,24 @@ package arch_000085 {
         doc "The imaging payload system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MissionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port pwrIn;
-        port pwrIn;
+        port cmdIn : ThermalIF;
+        port pwrIn : PowerIF;
+        port pwrIn : SignalIF;
     }
 
     public part def CommandComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
+        port cmdIn : SignalIF;
     }
 
     // System Definition
@@ -54,6 +61,6 @@ package arch_000085 {
     }
 
     // System Instance
-    part imagingpayloadsystem : ImagingPayloadSystem;
+    public part imagingpayloadsystem : ImagingPayloadSystem;
 
 }

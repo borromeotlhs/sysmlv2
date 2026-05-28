@@ -1,5 +1,7 @@
 package arch_000140 {
 
+    import ScalarValues::*;
+
     // Power Distribution System Reference Architecture 140
     // Domain: power distribution system
 
@@ -12,26 +14,31 @@ package arch_000140 {
         doc "The power distribution system system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port statusOut;
-        port cmdOut;
+        port sensorOut : DataIF;
+        port statusOut : TelemetryIF;
+        port cmdOut : DataIF;
     }
 
     public part def ControlBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
+        port cmdIn : TelemetryIF;
     }
 
     public part def SensorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port dataIn;
+        port pwrIn : ControlIF;
+        port dataIn : TelemetryIF;
     }
 
     // System Definition
@@ -55,6 +62,6 @@ package arch_000140 {
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    public part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000129 {
 
+    import ScalarValues::*;
+
     // Instrument Platform Reference Architecture 129
     // Domain: instrument platform
 
@@ -12,53 +14,64 @@ package arch_000129 {
         doc "The instrument platform system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port dataIn;
+        port statusOut : TelemetryIF;
+        port dataIn : ThermalIF;
     }
 
     public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
+        port telemetryOut : SignalIF;
     }
 
     public part def MissionPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-        port dataOut;
-        port configIn;
+        port ctrlIn : StatusIF;
+        port dataOut : PowerIF;
+        port configIn : CommandIF;
     }
 
     public part def FlightComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port configIn;
-        port telemetryOut;
+        port dataIn : TelemetryIF;
+        port configIn : DataIF;
+        port telemetryOut : SignalIF;
     }
 
     public part def MissionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port sensorOut;
+        port statusOut : CommandIF;
+        port sensorOut : ThermalIF;
     }
 
     public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : ConfigIF;
     }
 
     public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port configIn : ControlIF;
     }
 
     // System Definition
@@ -88,6 +101,6 @@ package arch_000129 {
     }
 
     // System Instance
-    part instrumentplatformsystem : InstrumentPlatformSystem;
+    public part instrumentplatformsystem : InstrumentPlatformSystem;
 
 }

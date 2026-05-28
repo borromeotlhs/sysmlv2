@@ -1,5 +1,7 @@
 package arch_000055 {
 
+    import ScalarValues::*;
+
     // Reaction Wheel Reference Architecture 55
     // Domain: reaction wheel
 
@@ -16,48 +18,55 @@ package arch_000055 {
         doc "The reaction wheel system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
-        port cmdIn;
-        port cmdOut;
+        port dataIn : ControlIF;
+        port cmdIn : TelemetryIF;
+        port cmdOut : SignalIF;
     }
 
     public part def ProcessingActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port dataIn;
+        port cmdOut : DataIF;
+        port dataIn : ControlIF;
     }
 
     public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port dataOut;
+        port pwrOut : TelemetryIF;
+        port dataOut : ConfigIF;
     }
 
     public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port cmdOut;
+        port pwrOut : TelemetryIF;
+        port cmdOut : TelemetryIF;
     }
 
     public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port cmdOut;
-        port cmdIn;
+        port ctrlIn : ControlIF;
+        port cmdOut : SignalIF;
+        port cmdIn : DataIF;
     }
 
     public part def ControlBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
+        port pwrOut : DataIF;
     }
 
     // System Definition
@@ -86,6 +95,6 @@ package arch_000055 {
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    public part reactionwheelsystem : ReactionWheelSystem;
 
 }

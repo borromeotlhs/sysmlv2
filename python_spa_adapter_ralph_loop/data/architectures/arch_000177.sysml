@@ -1,5 +1,7 @@
 package arch_000177 {
 
+    import ScalarValues::*;
+
     // Satellite Bus Reference Architecture 177
     // Domain: satellite bus
 
@@ -12,27 +14,35 @@ package arch_000177 {
         doc "The satellite bus system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def PowerController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
+        port telemetryOut : CommandIF;
     }
 
     public part def SensorBus {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port ctrlIn;
-        port dataIn;
+        port pwrIn : PowerIF;
+        port ctrlIn : ControlIF;
+        port dataIn : ThermalIF;
     }
 
     public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port dataOut;
-        port cmdIn;
+        port cmdIn : ConfigIF;
+        port dataOut : TelemetryIF;
+        port cmdIn : ConfigIF;
     }
 
     // System Definition
@@ -52,6 +62,6 @@ package arch_000177 {
     }
 
     // System Instance
-    part satellitebussystem : SatelliteBusSystem;
+    public part satellitebussystem : SatelliteBusSystem;
 
 }

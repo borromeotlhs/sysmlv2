@@ -1,5 +1,7 @@
 package arch_000200 {
 
+    import ScalarValues::*;
+
     // Communication Relay Reference Architecture 200
     // Domain: communication relay
 
@@ -12,35 +14,43 @@ package arch_000200 {
         doc "The communication relay system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MissionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port telemetryOut;
+        port telemetryOut : SignalIF;
+        port telemetryOut : DiagnosticIF;
     }
 
     public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port dataOut;
-        port pwrIn;
+        port dataOut : TelemetryIF;
+        port dataOut : ControlIF;
+        port pwrIn : ThermalIF;
     }
 
     public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port dataIn;
-        port dataOut;
+        port telemetryOut : StatusIF;
+        port dataIn : TelemetryIF;
+        port dataOut : StatusIF;
     }
 
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port cmdOut;
+        port dataIn : TelemetryIF;
+        port cmdOut : TelemetryIF;
     }
 
     // System Definition
@@ -64,6 +74,6 @@ package arch_000200 {
     }
 
     // System Instance
-    part communicationrelaysystem : CommunicationRelaySystem;
+    public part communicationrelaysystem : CommunicationRelaySystem;
 
 }

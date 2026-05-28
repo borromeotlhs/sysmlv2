@@ -1,5 +1,7 @@
 package arch_000147 {
 
+    import ScalarValues::*;
+
     // Fuel Cell Reference Architecture 147
     // Domain: fuel cell
 
@@ -16,31 +18,37 @@ package arch_000147 {
         doc "The fuel cell system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def PowerIF;
+    public port def SignalIF;
+
     // Component Definitions
     public part def NavPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
+        port pwrIn : PowerIF;
     }
 
     public part def SensorSubsystem {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
+        port pwrIn : SignalIF;
     }
 
     public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port sensorOut;
-        port telemetryOut;
-        port ctrlIn;
+        port sensorOut : PowerIF;
+        port telemetryOut : CommandIF;
+        port ctrlIn : CommandIF;
     }
 
     public part def MissionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : ControlIF;
     }
 
     // System Definition
@@ -67,6 +75,6 @@ package arch_000147 {
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    public part fuelcellsystem : FuelCellSystem;
 
 }

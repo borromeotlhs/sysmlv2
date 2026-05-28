@@ -1,5 +1,7 @@
 package arch_000068 {
 
+    import ScalarValues::*;
+
     // Radar System Reference Architecture 68
     // Domain: radar system
 
@@ -20,19 +22,25 @@ package arch_000068 {
         doc "The radar system system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+
     // Component Definitions
     public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataOut;
-        port pwrIn;
+        port dataOut : PowerIF;
+        port pwrIn : SignalIF;
     }
 
     public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port configIn;
+        port dataIn : CommandIF;
+        port configIn : DiagnosticIF;
     }
 
     // System Definition
@@ -54,6 +62,6 @@ package arch_000068 {
     }
 
     // System Instance
-    part radarsystemsystem : RadarSystemSystem;
+    public part radarsystemsystem : RadarSystemSystem;
 
 }

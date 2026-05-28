@@ -1,5 +1,7 @@
 package arch_000135 {
 
+    import ScalarValues::*;
+
     // Satellite Bus Reference Architecture 135
     // Domain: satellite bus
 
@@ -12,53 +14,63 @@ package arch_000135 {
         doc "The satellite bus system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommandPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-        port pwrIn;
+        port ctrlIn : CommandIF;
+        port pwrIn : ThermalIF;
     }
 
     public part def CommandModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdIn;
+        port cmdIn : ThermalIF;
     }
 
     public part def SensorInterface {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port statusOut;
-        port pwrOut;
+        port telemetryOut : ControlIF;
+        port statusOut : DiagnosticIF;
+        port pwrOut : ControlIF;
     }
 
     public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port sensorOut;
+        port configIn : ConfigIF;
+        port sensorOut : TelemetryIF;
     }
 
     public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrIn;
-        port dataIn;
+        port pwrIn : DiagnosticIF;
+        port dataIn : SignalIF;
     }
 
     public part def SensorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port pwrIn : ThermalIF;
     }
 
     public part def NavAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port cmdIn;
+        port pwrOut : SignalIF;
+        port cmdIn : PowerIF;
     }
 
     // System Definition
@@ -88,6 +100,6 @@ package arch_000135 {
     }
 
     // System Instance
-    part satellitebussystem : SatelliteBusSystem;
+    public part satellitebussystem : SatelliteBusSystem;
 
 }

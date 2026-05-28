@@ -1,5 +1,7 @@
 package arch_000010 {
 
+    import ScalarValues::*;
+
     // Fuel Cell Reference Architecture 10
     // Domain: fuel cell
 
@@ -12,47 +14,55 @@ package arch_000010 {
         doc "The fuel cell system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port pwrIn;
+        port telemetryOut : DataIF;
+        port pwrIn : ConfigIF;
     }
 
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port pwrOut;
+        port telemetryOut : StatusIF;
+        port pwrOut : StatusIF;
     }
 
     public part def MonitorModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port dataIn;
-        port statusOut;
+        port pwrIn : ConfigIF;
+        port dataIn : ThermalIF;
+        port statusOut : StatusIF;
     }
 
     public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port configIn;
-        port statusOut;
+        port dataIn : DiagnosticIF;
+        port configIn : SignalIF;
+        port statusOut : ConfigIF;
     }
 
     public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : SignalIF;
     }
 
     public part def ThermalActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : DiagnosticIF;
     }
 
     // System Definition
@@ -81,6 +91,6 @@ package arch_000010 {
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    public part fuelcellsystem : FuelCellSystem;
 
 }

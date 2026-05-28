@@ -1,5 +1,7 @@
 package arch_000199 {
 
+    import ScalarValues::*;
+
     // Attitude Control Reference Architecture 199
     // Domain: attitude control
 
@@ -16,21 +18,27 @@ package arch_000199 {
         doc "The attitude control system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port pwrIn;
-        port pwrIn;
+        port sensorOut : SignalIF;
+        port pwrIn : ThermalIF;
+        port pwrIn : SignalIF;
     }
 
     public part def NavSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port dataOut;
-        port sensorOut;
+        port cmdOut : PowerIF;
+        port dataOut : CommandIF;
+        port sensorOut : ThermalIF;
     }
 
     // System Definition
@@ -52,6 +60,6 @@ package arch_000199 {
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    public part attitudecontrolsystem : AttitudeControlSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000004 {
 
+    import ScalarValues::*;
+
     // Satellite Bus Reference Architecture 4
     // Domain: satellite bus
 
@@ -12,36 +14,46 @@ package arch_000004 {
         doc "The satellite bus system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port sensorOut;
-        port dataIn;
+        port ctrlIn : DataIF;
+        port sensorOut : PowerIF;
+        port dataIn : TelemetryIF;
     }
 
     public part def DataComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port sensorOut;
-        port statusOut;
+        port dataIn : SignalIF;
+        port sensorOut : DiagnosticIF;
+        port statusOut : ThermalIF;
     }
 
     public part def DataActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port statusOut;
-        port ctrlIn;
+        port dataOut : SignalIF;
+        port statusOut : ControlIF;
+        port ctrlIn : ConfigIF;
     }
 
     public part def FlightController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port dataOut;
+        port cmdOut : ThermalIF;
+        port dataOut : DataIF;
     }
 
     // System Definition
@@ -66,6 +78,6 @@ package arch_000004 {
     }
 
     // System Instance
-    part satellitebussystem : SatelliteBusSystem;
+    public part satellitebussystem : SatelliteBusSystem;
 
 }

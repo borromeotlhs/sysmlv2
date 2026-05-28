@@ -1,5 +1,7 @@
 package arch_000192 {
 
+    import ScalarValues::*;
+
     // Sensor Suite Reference Architecture 192
     // Domain: sensor suite
 
@@ -16,54 +18,64 @@ package arch_000192 {
         doc "The sensor suite system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
+        port statusOut : DiagnosticIF;
     }
 
     public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port telemetryOut;
-        port dataOut;
+        port pwrIn : CommandIF;
+        port telemetryOut : ControlIF;
+        port dataOut : DiagnosticIF;
     }
 
     public part def CommPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-        port ctrlIn;
+        port ctrlIn : PowerIF;
+        port ctrlIn : ControlIF;
     }
 
     public part def ControlProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port pwrIn;
+        port sensorOut : SignalIF;
+        port pwrIn : StatusIF;
     }
 
     public part def PowerComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port telemetryOut;
-        port pwrIn;
+        port dataOut : SignalIF;
+        port telemetryOut : DataIF;
+        port pwrIn : StatusIF;
     }
 
     public part def ProcessingProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port cmdOut;
+        port cmdOut : DataIF;
+        port cmdOut : ThermalIF;
     }
 
     public part def MonitorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
+        port dataIn : DiagnosticIF;
     }
 
     // System Definition
@@ -93,6 +105,6 @@ package arch_000192 {
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    public part sensorsuitesystem : SensorSuiteSystem;
 
 }

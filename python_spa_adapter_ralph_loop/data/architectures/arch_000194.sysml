@@ -1,5 +1,7 @@
 package arch_000194 {
 
+    import ScalarValues::*;
+
     // Command Data Handling Reference Architecture 194
     // Domain: command data handling
 
@@ -12,31 +14,38 @@ package arch_000194 {
         doc "The command data handling system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
+        port statusOut : DataIF;
     }
 
     public part def CommPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
-        port telemetryOut;
+        port cmdIn : PowerIF;
+        port telemetryOut : SignalIF;
     }
 
     public part def DataController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port ctrlIn;
+        port ctrlIn : StatusIF;
     }
 
     public part def SensorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port statusOut;
+        port pwrIn : ControlIF;
+        port statusOut : PowerIF;
     }
 
     // System Definition
@@ -60,6 +69,6 @@ package arch_000194 {
     }
 
     // System Instance
-    part commanddatahandlingsystem : CommandDataHandlingSystem;
+    public part commanddatahandlingsystem : CommandDataHandlingSystem;
 
 }

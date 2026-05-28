@@ -1,5 +1,7 @@
 package arch_000052 {
 
+    import ScalarValues::*;
+
     // Robotic Arm Reference Architecture 52
     // Domain: robotic arm
 
@@ -20,41 +22,48 @@ package arch_000052 {
         doc "The robotic arm system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+
     // Component Definitions
     public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port pwrIn;
-        port statusOut;
+        port cmdOut : DataIF;
+        port pwrIn : PowerIF;
+        port statusOut : PowerIF;
     }
 
     public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port pwrOut;
-        port cmdOut;
+        port statusOut : ControlIF;
+        port pwrOut : DataIF;
+        port cmdOut : CommandIF;
     }
 
     public part def MonitorSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port pwrIn;
+        port ctrlIn : ControlIF;
+        port pwrIn : DataIF;
     }
 
     public part def FlightActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : PowerIF;
     }
 
     public part def PowerModule {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port ctrlIn;
-        port sensorOut;
+        port ctrlIn : ConfigIF;
+        port sensorOut : ConfigIF;
     }
 
     // System Definition
@@ -85,6 +94,6 @@ package arch_000052 {
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    public part roboticarmsystem : RoboticArmSystem;
 
 }

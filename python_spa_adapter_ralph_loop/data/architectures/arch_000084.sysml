@@ -1,5 +1,7 @@
 package arch_000084 {
 
+    import ScalarValues::*;
+
     // Uav Payload Reference Architecture 84
     // Domain: uav payload
 
@@ -20,47 +22,56 @@ package arch_000084 {
         doc "The uav payload system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ProcessingComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
+        port cmdOut : StatusIF;
     }
 
     public part def SensorSubsystem {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port pwrOut;
-        port statusOut;
+        port configIn : DiagnosticIF;
+        port pwrOut : ConfigIF;
+        port statusOut : StatusIF;
     }
 
     public part def ControlPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
-        port statusOut;
-        port pwrIn;
+        port dataOut : SignalIF;
+        port statusOut : ControlIF;
+        port pwrIn : TelemetryIF;
     }
 
     public part def SensorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
+        port dataIn : StatusIF;
     }
 
     public part def ProcessingActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port sensorOut;
-        port sensorOut;
+        port sensorOut : SignalIF;
+        port sensorOut : ControlIF;
+        port sensorOut : ThermalIF;
     }
 
     public part def CommandBus {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataOut;
+        port dataOut : DiagnosticIF;
     }
 
     // System Definition
@@ -93,6 +104,6 @@ package arch_000084 {
     }
 
     // System Instance
-    part uavpayloadsystem : UavPayloadSystem;
+    public part uavpayloadsystem : UavPayloadSystem;
 
 }

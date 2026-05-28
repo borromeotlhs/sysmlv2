@@ -1,5 +1,7 @@
 package arch_000106 {
 
+    import ScalarValues::*;
+
     // Lunar Habitat Reference Architecture 106
     // Domain: lunar habitat
 
@@ -16,28 +18,37 @@ package arch_000106 {
         doc "The lunar habitat system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def SensorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port sensorOut;
+        port dataOut : ThermalIF;
+        port sensorOut : ThermalIF;
     }
 
     public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port sensorOut;
-        port statusOut;
+        port telemetryOut : PowerIF;
+        port sensorOut : ConfigIF;
+        port statusOut : DataIF;
     }
 
     public part def DataSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port telemetryOut;
-        port telemetryOut;
+        port configIn : ControlIF;
+        port telemetryOut : TelemetryIF;
+        port telemetryOut : StatusIF;
     }
 
     // System Definition
@@ -59,6 +70,6 @@ package arch_000106 {
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    public part lunarhabitatsystem : LunarHabitatSystem;
 
 }

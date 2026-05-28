@@ -1,5 +1,7 @@
 package arch_000094 {
 
+    import ScalarValues::*;
+
     // Fuel Cell Reference Architecture 94
     // Domain: fuel cell
 
@@ -12,55 +14,66 @@ package arch_000094 {
         doc "The fuel cell system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommandController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port cmdOut;
+        port telemetryOut : CommandIF;
+        port cmdOut : PowerIF;
     }
 
     public part def DataSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port cmdOut;
+        port configIn : StatusIF;
+        port cmdOut : DataIF;
     }
 
     public part def CommAssembly {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataOut;
-        port cmdOut;
+        port dataOut : ControlIF;
+        port cmdOut : DiagnosticIF;
     }
 
     public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
+        port statusOut : StatusIF;
     }
 
     public part def ControlBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port pwrIn;
-        port cmdIn;
+        port telemetryOut : ConfigIF;
+        port pwrIn : DiagnosticIF;
+        port cmdIn : PowerIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port cmdIn;
-        port telemetryOut;
+        port ctrlIn : TelemetryIF;
+        port cmdIn : ThermalIF;
+        port telemetryOut : ConfigIF;
     }
 
     public part def MissionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port configIn;
+        port dataOut : CommandIF;
+        port configIn : ConfigIF;
     }
 
     // System Definition
@@ -91,6 +104,6 @@ package arch_000094 {
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    public part fuelcellsystem : FuelCellSystem;
 
 }

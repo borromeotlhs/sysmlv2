@@ -1,5 +1,7 @@
 package arch_000047 {
 
+    import ScalarValues::*;
+
     // Power Distribution System Reference Architecture 47
     // Domain: power distribution system
 
@@ -16,39 +18,46 @@ package arch_000047 {
         doc "The power distribution system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DiagnosticIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ThermalProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
+        port dataOut : ThermalIF;
     }
 
     public part def PowerModule {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port cmdOut;
+        port cmdOut : DiagnosticIF;
     }
 
     public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port ctrlIn;
+        port ctrlIn : DiagnosticIF;
     }
 
     public part def MissionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port cmdIn;
-        port ctrlIn;
+        port cmdIn : ThermalIF;
+        port cmdIn : StatusIF;
+        port ctrlIn : ThermalIF;
     }
 
     public part def CommActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataOut;
-        port dataIn;
-        port pwrIn;
+        port dataOut : CommandIF;
+        port dataIn : ConfigIF;
+        port pwrIn : ThermalIF;
     }
 
     // System Definition
@@ -77,6 +86,6 @@ package arch_000047 {
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    public part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

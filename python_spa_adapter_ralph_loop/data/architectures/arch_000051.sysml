@@ -1,5 +1,7 @@
 package arch_000051 {
 
+    import ScalarValues::*;
+
     // Power Distribution System Reference Architecture 51
     // Domain: power distribution system
 
@@ -12,56 +14,66 @@ package arch_000051 {
         doc "The power distribution system system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DataUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port telemetryOut : CommandIF;
     }
 
     public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port ctrlIn;
-        port telemetryOut;
+        port dataIn : DataIF;
+        port ctrlIn : StatusIF;
+        port telemetryOut : ControlIF;
     }
 
     public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port dataOut;
+        port cmdOut : ConfigIF;
+        port cmdIn : ThermalIF;
+        port dataOut : DiagnosticIF;
     }
 
     public part def DistributionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port cmdOut;
+        port pwrIn : CommandIF;
+        port cmdOut : SignalIF;
     }
 
     public part def FlightSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port dataIn;
-        port cmdIn;
+        port configIn : CommandIF;
+        port dataIn : ControlIF;
+        port cmdIn : ThermalIF;
     }
 
     public part def CommSubsystem {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataIn;
-        port cmdOut;
-        port dataIn;
+        port dataIn : StatusIF;
+        port cmdOut : SignalIF;
+        port dataIn : DiagnosticIF;
     }
 
     public part def SensorPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
+        port configIn : StatusIF;
     }
 
     // System Definition
@@ -93,6 +105,6 @@ package arch_000051 {
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    public part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

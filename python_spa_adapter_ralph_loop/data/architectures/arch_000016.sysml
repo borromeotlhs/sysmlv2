@@ -1,5 +1,7 @@
 package arch_000016 {
 
+    import ScalarValues::*;
+
     // Thruster Assembly Reference Architecture 16
     // Domain: thruster assembly
 
@@ -20,24 +22,30 @@ package arch_000016 {
         doc "The thruster assembly system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ProcessingPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
+        port cmdOut : SignalIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : ThermalIF;
     }
 
     public part def NavPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port pwrOut;
+        port telemetryOut : DiagnosticIF;
+        port pwrOut : TelemetryIF;
     }
 
     // System Definition
@@ -62,6 +70,6 @@ package arch_000016 {
     }
 
     // System Instance
-    part thrusterassemblysystem : ThrusterAssemblySystem;
+    public part thrusterassemblysystem : ThrusterAssemblySystem;
 
 }

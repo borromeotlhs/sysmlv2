@@ -1,5 +1,7 @@
 package arch_000054 {
 
+    import ScalarValues::*;
+
     // Robotic Arm Reference Architecture 54
     // Domain: robotic arm
 
@@ -20,25 +22,31 @@ package arch_000054 {
         doc "The robotic arm system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def MonitorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
+        port ctrlIn : SignalIF;
     }
 
     public part def MissionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port telemetryOut;
-        port dataIn;
+        port cmdOut : StatusIF;
+        port telemetryOut : TelemetryIF;
+        port dataIn : SignalIF;
     }
 
     public part def NavBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : PowerIF;
     }
 
     // System Definition
@@ -63,6 +71,6 @@ package arch_000054 {
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    public part roboticarmsystem : RoboticArmSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000170 {
 
+    import ScalarValues::*;
+
     // Life Support Reference Architecture 170
     // Domain: life support
 
@@ -12,27 +14,35 @@ package arch_000170 {
         doc "The life support system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
-        port dataIn;
+        port dataOut : StatusIF;
+        port dataIn : CommandIF;
     }
 
     public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port pwrOut;
+        port cmdIn : DataIF;
+        port pwrOut : CommandIF;
     }
 
     public part def DistributionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port pwrIn;
-        port dataOut;
+        port cmdOut : PowerIF;
+        port pwrIn : TelemetryIF;
+        port dataOut : DiagnosticIF;
     }
 
     // System Definition
@@ -54,6 +64,6 @@ package arch_000170 {
     }
 
     // System Instance
-    part lifesupportsystem : LifeSupportSystem;
+    public part lifesupportsystem : LifeSupportSystem;
 
 }

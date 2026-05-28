@@ -1,5 +1,7 @@
 package arch_000168 {
 
+    import ScalarValues::*;
+
     // Guidance Navigation Reference Architecture 168
     // Domain: guidance navigation
 
@@ -12,53 +14,63 @@ package arch_000168 {
         doc "The guidance navigation system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port pwrIn : StatusIF;
     }
 
     public part def MissionPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port statusOut;
+        port cmdOut : DiagnosticIF;
+        port statusOut : ThermalIF;
     }
 
     public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port cmdIn;
-        port statusOut;
+        port telemetryOut : DiagnosticIF;
+        port cmdIn : TelemetryIF;
+        port statusOut : TelemetryIF;
     }
 
     public part def ControlInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port cmdOut;
+        port configIn : DiagnosticIF;
+        port cmdOut : ControlIF;
     }
 
     public part def CommController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port ctrlIn;
-        port pwrOut;
+        port telemetryOut : CommandIF;
+        port ctrlIn : ConfigIF;
+        port pwrOut : DiagnosticIF;
     }
 
     public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : DataIF;
     }
 
     public part def MissionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
+        port configIn : DataIF;
     }
 
     // System Definition
@@ -87,6 +99,6 @@ package arch_000168 {
     }
 
     // System Instance
-    part guidancenavigationsystem : GuidanceNavigationSystem;
+    public part guidancenavigationsystem : GuidanceNavigationSystem;
 
 }

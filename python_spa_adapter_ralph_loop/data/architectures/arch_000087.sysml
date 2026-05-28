@@ -1,5 +1,7 @@
 package arch_000087 {
 
+    import ScalarValues::*;
+
     // Communication Relay Reference Architecture 87
     // Domain: communication relay
 
@@ -16,50 +18,59 @@ package arch_000087 {
         doc "The communication relay system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def SensorComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port telemetryOut;
-        port cmdIn;
+        port statusOut : DataIF;
+        port telemetryOut : PowerIF;
+        port cmdIn : TelemetryIF;
     }
 
     public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port cmdOut;
-        port cmdIn;
+        port pwrOut : CommandIF;
+        port cmdOut : DataIF;
+        port cmdIn : PowerIF;
     }
 
     public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port configIn;
+        port sensorOut : DataIF;
+        port configIn : ThermalIF;
     }
 
     public part def MonitorModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port ctrlIn;
+        port statusOut : StatusIF;
+        port ctrlIn : StatusIF;
     }
 
     public part def MonitorSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port statusOut;
+        port pwrOut : CommandIF;
+        port statusOut : DataIF;
     }
 
     public part def FlightModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port cmdOut;
-        port cmdIn;
+        port cmdIn : DiagnosticIF;
+        port cmdOut : DiagnosticIF;
+        port cmdIn : DataIF;
     }
 
     // System Definition
@@ -88,6 +99,6 @@ package arch_000087 {
     }
 
     // System Instance
-    part communicationrelaysystem : CommunicationRelaySystem;
+    public part communicationrelaysystem : CommunicationRelaySystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000113 {
 
+    import ScalarValues::*;
+
     // Antenna Subsystem Reference Architecture 113
     // Domain: antenna subsystem
 
@@ -12,19 +14,24 @@ package arch_000113 {
         doc "The antenna subsystem system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def DataSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
-        port statusOut;
-        port telemetryOut;
+        port cmdIn : ConfigIF;
+        port statusOut : ConfigIF;
+        port telemetryOut : CommandIF;
     }
 
     public part def SensorSubsystem {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
+        port pwrIn : TelemetryIF;
     }
 
     // System Definition
@@ -43,6 +50,6 @@ package arch_000113 {
     }
 
     // System Instance
-    part antennasubsystemsystem : AntennaSubsystemSystem;
+    public part antennasubsystemsystem : AntennaSubsystemSystem;
 
 }

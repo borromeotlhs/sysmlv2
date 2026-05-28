@@ -1,5 +1,7 @@
 package arch_000151 {
 
+    import ScalarValues::*;
+
     // Propulsion Module Reference Architecture 151
     // Domain: propulsion module
 
@@ -16,33 +18,41 @@ package arch_000151 {
         doc "The propulsion module system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DataActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port ctrlIn;
+        port cmdOut : CommandIF;
+        port ctrlIn : PowerIF;
     }
 
     public part def NavModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port statusOut;
+        port statusOut : ThermalIF;
+        port statusOut : StatusIF;
     }
 
     public part def ThermalActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port cmdOut;
-        port sensorOut;
+        port configIn : SignalIF;
+        port cmdOut : DataIF;
+        port sensorOut : CommandIF;
     }
 
     public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
+        port pwrOut : ThermalIF;
     }
 
     // System Definition
@@ -68,6 +78,6 @@ package arch_000151 {
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    public part propulsionmodulesystem : PropulsionModuleSystem;
 
 }

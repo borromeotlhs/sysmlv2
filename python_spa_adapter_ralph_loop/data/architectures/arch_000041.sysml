@@ -1,5 +1,7 @@
 package arch_000041 {
 
+    import ScalarValues::*;
+
     // Docking Mechanism Reference Architecture 41
     // Domain: docking mechanism
 
@@ -20,42 +22,51 @@ package arch_000041 {
         doc "The docking mechanism system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommandSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port pwrOut;
+        port cmdOut : ThermalIF;
+        port cmdIn : TelemetryIF;
+        port pwrOut : StatusIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : ThermalIF;
     }
 
     public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port ctrlIn;
+        port sensorOut : DiagnosticIF;
+        port ctrlIn : CommandIF;
     }
 
     public part def CommandInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataIn;
-        port dataOut;
-        port pwrOut;
+        port dataIn : ConfigIF;
+        port dataOut : ConfigIF;
+        port pwrOut : TelemetryIF;
     }
 
     public part def DataComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port dataIn;
-        port sensorOut;
+        port statusOut : ControlIF;
+        port dataIn : TelemetryIF;
+        port sensorOut : ControlIF;
     }
 
     // System Definition
@@ -86,6 +97,6 @@ package arch_000041 {
     }
 
     // System Instance
-    part dockingmechanismsystem : DockingMechanismSystem;
+    public part dockingmechanismsystem : DockingMechanismSystem;
 
 }

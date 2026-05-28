@@ -1,5 +1,7 @@
 package arch_000165 {
 
+    import ScalarValues::*;
+
     // Uav Payload Reference Architecture 165
     // Domain: uav payload
 
@@ -20,39 +22,48 @@ package arch_000165 {
         doc "The uav payload system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ControlUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port configIn;
+        port telemetryOut : ThermalIF;
+        port configIn : ConfigIF;
     }
 
     public part def MonitorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port sensorOut;
+        port cmdIn : PowerIF;
+        port sensorOut : DiagnosticIF;
     }
 
     public part def MissionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port pwrIn : DataIF;
     }
 
     public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port sensorOut;
+        port cmdOut : PowerIF;
+        port sensorOut : SignalIF;
     }
 
     public part def MonitorSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port sensorOut;
+        port dataOut : DiagnosticIF;
+        port sensorOut : ControlIF;
     }
 
     // System Definition
@@ -82,6 +93,6 @@ package arch_000165 {
     }
 
     // System Instance
-    part uavpayloadsystem : UavPayloadSystem;
+    public part uavpayloadsystem : UavPayloadSystem;
 
 }

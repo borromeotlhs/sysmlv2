@@ -1,5 +1,7 @@
 package arch_000184 {
 
+    import ScalarValues::*;
+
     // Solar Array Reference Architecture 184
     // Domain: solar array
 
@@ -12,46 +14,55 @@ package arch_000184 {
         doc "The solar array system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port cmdIn;
+        port ctrlIn : DataIF;
+        port cmdIn : CommandIF;
     }
 
     public part def CommandController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port cmdIn;
+        port cmdIn : DiagnosticIF;
+        port cmdIn : DataIF;
     }
 
     public part def PowerController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
+        port sensorOut : CommandIF;
     }
 
     public part def CommController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port pwrIn;
+        port configIn : ConfigIF;
+        port pwrIn : TelemetryIF;
     }
 
     public part def ThermalComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port statusOut;
+        port pwrOut : DiagnosticIF;
+        port statusOut : ControlIF;
     }
 
     public part def ControlModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port pwrOut;
+        port telemetryOut : ControlIF;
+        port pwrOut : ThermalIF;
     }
 
     // System Definition
@@ -80,6 +91,6 @@ package arch_000184 {
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    public part solararraysystem : SolarArraySystem;
 
 }

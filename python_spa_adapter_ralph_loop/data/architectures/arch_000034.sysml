@@ -1,5 +1,7 @@
 package arch_000034 {
 
+    import ScalarValues::*;
+
     // Power Distribution System Reference Architecture 34
     // Domain: power distribution system
 
@@ -16,34 +18,43 @@ package arch_000034 {
         doc "The power distribution system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def FlightComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port ctrlIn;
+        port ctrlIn : DiagnosticIF;
     }
 
     public part def DataSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port configIn;
-        port dataIn;
+        port cmdIn : ConfigIF;
+        port configIn : ThermalIF;
+        port dataIn : SignalIF;
     }
 
     public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port pwrOut;
+        port cmdIn : DiagnosticIF;
+        port pwrOut : ThermalIF;
     }
 
     public part def NavController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port telemetryOut;
-        port sensorOut;
+        port statusOut : PowerIF;
+        port telemetryOut : DataIF;
+        port sensorOut : ControlIF;
     }
 
     // System Definition
@@ -67,6 +78,6 @@ package arch_000034 {
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    public part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

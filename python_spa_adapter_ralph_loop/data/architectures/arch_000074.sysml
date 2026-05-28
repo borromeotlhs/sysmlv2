@@ -1,5 +1,7 @@
 package arch_000074 {
 
+    import ScalarValues::*;
+
     // Communication Relay Reference Architecture 74
     // Domain: communication relay
 
@@ -16,27 +18,35 @@ package arch_000074 {
         doc "The communication relay system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DataModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port telemetryOut;
-        port configIn;
+        port statusOut : ThermalIF;
+        port telemetryOut : PowerIF;
+        port configIn : SignalIF;
     }
 
     public part def CommandComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port statusOut;
+        port cmdOut : DataIF;
+        port statusOut : ConfigIF;
     }
 
     public part def CommController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port pwrIn;
+        port sensorOut : ControlIF;
+        port pwrIn : ConfigIF;
     }
 
     // System Definition
@@ -63,6 +73,6 @@ package arch_000074 {
     }
 
     // System Instance
-    part communicationrelaysystem : CommunicationRelaySystem;
+    public part communicationrelaysystem : CommunicationRelaySystem;
 
 }

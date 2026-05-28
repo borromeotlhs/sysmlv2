@@ -1,5 +1,7 @@
 package arch_000121 {
 
+    import ScalarValues::*;
+
     // Attitude Control Reference Architecture 121
     // Domain: attitude control
 
@@ -12,46 +14,56 @@ package arch_000121 {
         doc "The attitude control system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def NavController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
+        port configIn : DataIF;
     }
 
     public part def ControlActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port pwrOut;
-        port telemetryOut;
+        port configIn : StatusIF;
+        port pwrOut : TelemetryIF;
+        port telemetryOut : CommandIF;
     }
 
     public part def NavAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
+        port dataOut : PowerIF;
     }
 
     public part def SensorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port dataIn;
-        port ctrlIn;
+        port telemetryOut : CommandIF;
+        port dataIn : PowerIF;
+        port ctrlIn : ConfigIF;
     }
 
     public part def NavProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port configIn;
+        port statusOut : DiagnosticIF;
+        port configIn : TelemetryIF;
     }
 
     public part def PowerSubsystem {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port dataOut;
+        port dataOut : ControlIF;
     }
 
     // System Definition
@@ -80,6 +92,6 @@ package arch_000121 {
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    public part attitudecontrolsystem : AttitudeControlSystem;
 
 }

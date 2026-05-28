@@ -1,5 +1,7 @@
 package arch_000153 {
 
+    import ScalarValues::*;
+
     // Instrument Platform Reference Architecture 153
     // Domain: instrument platform
 
@@ -20,34 +22,43 @@ package arch_000153 {
         doc "The instrument platform system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def CommandProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
+        port configIn : CommandIF;
     }
 
     public part def ProcessingSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port statusOut;
-        port dataOut;
+        port configIn : PowerIF;
+        port statusOut : DataIF;
+        port dataOut : TelemetryIF;
     }
 
     public part def PowerActuator {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port telemetryOut;
+        port cmdOut : ControlIF;
+        port cmdIn : SignalIF;
+        port telemetryOut : DataIF;
     }
 
     public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port cmdOut;
+        port pwrOut : DiagnosticIF;
+        port cmdOut : ControlIF;
     }
 
     // System Definition
@@ -73,6 +84,6 @@ package arch_000153 {
     }
 
     // System Instance
-    part instrumentplatformsystem : InstrumentPlatformSystem;
+    public part instrumentplatformsystem : InstrumentPlatformSystem;
 
 }

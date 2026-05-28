@@ -1,5 +1,7 @@
 package arch_000009 {
 
+    import ScalarValues::*;
+
     // Reaction Wheel Reference Architecture 9
     // Domain: reaction wheel
 
@@ -12,33 +14,39 @@ package arch_000009 {
         doc "The reaction wheel system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port dataOut;
+        port cmdOut : StatusIF;
+        port cmdIn : TelemetryIF;
+        port dataOut : ThermalIF;
     }
 
     public part def DistributionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port dataOut;
+        port pwrOut : SignalIF;
+        port dataOut : ThermalIF;
     }
 
     public part def ProcessingModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port telemetryOut : ThermalIF;
     }
 
     public part def PowerProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port cmdOut;
+        port pwrOut : SignalIF;
+        port cmdOut : SignalIF;
     }
 
     // System Definition
@@ -64,6 +72,6 @@ package arch_000009 {
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    public part reactionwheelsystem : ReactionWheelSystem;
 
 }

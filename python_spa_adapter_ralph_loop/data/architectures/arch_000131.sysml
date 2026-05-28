@@ -1,5 +1,7 @@
 package arch_000131 {
 
+    import ScalarValues::*;
+
     // Instrument Platform Reference Architecture 131
     // Domain: instrument platform
 
@@ -12,23 +14,28 @@ package arch_000131 {
         doc "The instrument platform system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def CommModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port statusOut;
+        port statusOut : PowerIF;
     }
 
     public part def FlightPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
+        port configIn : TelemetryIF;
     }
 
     public part def ControlPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
+        port statusOut : ControlIF;
     }
 
     // System Definition
@@ -48,6 +55,6 @@ package arch_000131 {
     }
 
     // System Instance
-    part instrumentplatformsystem : InstrumentPlatformSystem;
+    public part instrumentplatformsystem : InstrumentPlatformSystem;
 
 }

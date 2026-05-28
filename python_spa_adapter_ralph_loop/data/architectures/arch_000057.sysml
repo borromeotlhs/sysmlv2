@@ -1,5 +1,7 @@
 package arch_000057 {
 
+    import ScalarValues::*;
+
     // Propulsion Module Reference Architecture 57
     // Domain: propulsion module
 
@@ -16,25 +18,30 @@ package arch_000057 {
         doc "The propulsion module system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def CommandAssembly {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port ctrlIn;
+        port ctrlIn : PowerIF;
     }
 
     public part def NavActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : ConfigIF;
     }
 
     public part def MissionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port statusOut;
-        port statusOut;
+        port telemetryOut : TelemetryIF;
+        port statusOut : TelemetryIF;
+        port statusOut : TelemetryIF;
     }
 
     // System Definition
@@ -60,6 +67,6 @@ package arch_000057 {
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    public part propulsionmodulesystem : PropulsionModuleSystem;
 
 }

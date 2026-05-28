@@ -1,5 +1,7 @@
 package arch_000102 {
 
+    import ScalarValues::*;
+
     // Thruster Assembly Reference Architecture 102
     // Domain: thruster assembly
 
@@ -12,25 +14,29 @@ package arch_000102 {
         doc "The thruster assembly system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port pwrIn;
+        port dataIn : ThermalIF;
+        port pwrIn : StatusIF;
     }
 
     public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : ThermalIF;
     }
 
     public part def FlightSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-        port cmdIn;
+        port ctrlIn : ThermalIF;
+        port cmdIn : ThermalIF;
     }
 
     // System Definition
@@ -52,6 +58,6 @@ package arch_000102 {
     }
 
     // System Instance
-    part thrusterassemblysystem : ThrusterAssemblySystem;
+    public part thrusterassemblysystem : ThrusterAssemblySystem;
 
 }

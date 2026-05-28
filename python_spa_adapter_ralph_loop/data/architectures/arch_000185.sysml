@@ -1,5 +1,7 @@
 package arch_000185 {
 
+    import ScalarValues::*;
+
     // Sensor Suite Reference Architecture 185
     // Domain: sensor suite
 
@@ -16,41 +18,52 @@ package arch_000185 {
         doc "The sensor suite system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ControlInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port cmdIn;
+        port cmdIn : ControlIF;
+        port cmdIn : ControlIF;
     }
 
     public part def MonitorPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-        port configIn;
-        port statusOut;
+        port ctrlIn : ThermalIF;
+        port configIn : TelemetryIF;
+        port statusOut : DiagnosticIF;
     }
 
     public part def SensorSubsystem {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
+        port pwrOut : StatusIF;
     }
 
     public part def MonitorModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port statusOut;
+        port telemetryOut : DataIF;
+        port statusOut : SignalIF;
     }
 
     public part def MissionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port sensorOut;
-        port sensorOut;
+        port dataOut : PowerIF;
+        port sensorOut : DiagnosticIF;
+        port sensorOut : CommandIF;
     }
 
     // System Definition
@@ -77,6 +90,6 @@ package arch_000185 {
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    public part sensorsuitesystem : SensorSuiteSystem;
 
 }

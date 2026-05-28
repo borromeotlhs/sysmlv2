@@ -1,5 +1,7 @@
 package arch_000180 {
 
+    import ScalarValues::*;
+
     // Autonomous Rover Reference Architecture 180
     // Domain: autonomous rover
 
@@ -16,49 +18,57 @@ package arch_000180 {
         doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port cmdIn;
+        port cmdOut : ThermalIF;
+        port cmdIn : PowerIF;
     }
 
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port dataIn : DataIF;
     }
 
     public part def DataActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port configIn : ConfigIF;
     }
 
     public part def CommSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
+        port dataOut : ConfigIF;
     }
 
     public part def ThermalProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
+        port statusOut : TelemetryIF;
     }
 
     public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port dataOut;
+        port dataIn : ThermalIF;
+        port dataOut : StatusIF;
     }
 
     public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
+        port configIn : ThermalIF;
     }
 
     // System Definition
@@ -92,6 +102,6 @@ package arch_000180 {
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    public part autonomousroversystem : AutonomousRoverSystem;
 
 }

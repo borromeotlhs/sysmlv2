@@ -1,5 +1,7 @@
 package arch_000080 {
 
+    import ScalarValues::*;
+
     // Attitude Control Reference Architecture 80
     // Domain: attitude control
 
@@ -16,20 +18,27 @@ package arch_000080 {
         doc "The attitude control system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port dataIn;
-        port telemetryOut;
+        port pwrIn : TelemetryIF;
+        port dataIn : ThermalIF;
+        port telemetryOut : CommandIF;
     }
 
     public part def CommController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port telemetryOut;
+        port statusOut : DataIF;
+        port telemetryOut : ConfigIF;
     }
 
     // System Definition
@@ -51,6 +60,6 @@ package arch_000080 {
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    public part attitudecontrolsystem : AttitudeControlSystem;
 
 }

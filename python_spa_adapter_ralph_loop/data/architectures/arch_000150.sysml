@@ -1,5 +1,7 @@
 package arch_000150 {
 
+    import ScalarValues::*;
+
     // Telemetry System Reference Architecture 150
     // Domain: telemetry system
 
@@ -20,36 +22,46 @@ package arch_000150 {
         doc "The telemetry system system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommandSubsystem {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port configIn;
-        port cmdOut;
-        port dataOut;
+        port configIn : ThermalIF;
+        port cmdOut : TelemetryIF;
+        port dataOut : SignalIF;
     }
 
     public part def CommActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataIn;
-        port statusOut;
-        port statusOut;
+        port dataIn : CommandIF;
+        port statusOut : DiagnosticIF;
+        port statusOut : DiagnosticIF;
     }
 
     public part def DataComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port pwrOut;
+        port dataIn : DataIF;
+        port pwrOut : PowerIF;
     }
 
     public part def MissionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port sensorOut;
-        port ctrlIn;
+        port cmdOut : CommandIF;
+        port sensorOut : StatusIF;
+        port ctrlIn : TelemetryIF;
     }
 
     // System Definition
@@ -73,6 +85,6 @@ package arch_000150 {
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    public part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000143 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 143
     // Domain: ground station
 
@@ -20,20 +22,27 @@ package arch_000143 {
         doc "The ground station system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port dataIn;
+        port telemetryOut : CommandIF;
+        port dataIn : StatusIF;
     }
 
     public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port dataIn;
-        port configIn;
+        port telemetryOut : ControlIF;
+        port dataIn : SignalIF;
+        port configIn : DiagnosticIF;
     }
 
     // System Definition
@@ -57,6 +66,6 @@ package arch_000143 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

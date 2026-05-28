@@ -1,5 +1,7 @@
 package arch_000134 {
 
+    import ScalarValues::*;
+
     // Life Support Reference Architecture 134
     // Domain: life support
 
@@ -16,21 +18,28 @@ package arch_000134 {
         doc "The life support system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ThermalAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port dataOut;
-        port pwrOut;
+        port cmdOut : ConfigIF;
+        port dataOut : PowerIF;
+        port pwrOut : ThermalIF;
     }
 
     public part def CommandInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
-        port configIn;
-        port dataOut;
+        port cmdOut : TelemetryIF;
+        port configIn : ThermalIF;
+        port dataOut : ControlIF;
     }
 
     // System Definition
@@ -51,6 +60,6 @@ package arch_000134 {
     }
 
     // System Instance
-    part lifesupportsystem : LifeSupportSystem;
+    public part lifesupportsystem : LifeSupportSystem;
 
 }

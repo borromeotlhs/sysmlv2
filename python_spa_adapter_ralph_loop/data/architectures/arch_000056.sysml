@@ -1,5 +1,7 @@
 package arch_000056 {
 
+    import ScalarValues::*;
+
     // Reaction Wheel Reference Architecture 56
     // Domain: reaction wheel
 
@@ -20,49 +22,58 @@ package arch_000056 {
         doc "The reaction wheel system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
+        port configIn : DataIF;
     }
 
     public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port pwrOut;
-        port ctrlIn;
+        port dataIn : ControlIF;
+        port pwrOut : ThermalIF;
+        port ctrlIn : DataIF;
     }
 
     public part def CommComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port sensorOut;
+        port telemetryOut : TelemetryIF;
+        port sensorOut : ControlIF;
     }
 
     public part def ProcessingModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port statusOut;
-        port cmdOut;
+        port statusOut : DiagnosticIF;
+        port statusOut : DiagnosticIF;
+        port cmdOut : ControlIF;
     }
 
     public part def DataUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port dataIn;
+        port ctrlIn : DiagnosticIF;
+        port dataIn : SignalIF;
     }
 
     public part def DistributionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port telemetryOut;
-        port pwrOut;
+        port configIn : DataIF;
+        port telemetryOut : PowerIF;
+        port pwrOut : DataIF;
     }
 
     // System Definition
@@ -93,6 +104,6 @@ package arch_000056 {
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    public part reactionwheelsystem : ReactionWheelSystem;
 
 }

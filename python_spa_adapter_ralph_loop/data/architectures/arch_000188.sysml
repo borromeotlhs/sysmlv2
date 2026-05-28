@@ -1,5 +1,7 @@
 package arch_000188 {
 
+    import ScalarValues::*;
+
     // Reaction Wheel Reference Architecture 188
     // Domain: reaction wheel
 
@@ -12,34 +14,42 @@ package arch_000188 {
         doc "The reaction wheel system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port configIn;
-        port pwrIn;
+        port configIn : CommandIF;
+        port pwrIn : TelemetryIF;
     }
 
     public part def DataBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port dataIn;
-        port ctrlIn;
+        port dataIn : DiagnosticIF;
+        port dataIn : TelemetryIF;
+        port ctrlIn : SignalIF;
     }
 
     public part def SensorSubsystem {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
+        port dataOut : ThermalIF;
     }
 
     public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port pwrOut;
-        port cmdOut;
+        port dataOut : CommandIF;
+        port pwrOut : DiagnosticIF;
+        port cmdOut : PowerIF;
     }
 
     // System Definition
@@ -66,6 +76,6 @@ package arch_000188 {
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    public part reactionwheelsystem : ReactionWheelSystem;
 
 }

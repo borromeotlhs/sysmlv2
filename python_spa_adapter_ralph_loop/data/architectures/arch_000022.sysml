@@ -1,5 +1,7 @@
 package arch_000022 {
 
+    import ScalarValues::*;
+
     // Sensor Suite Reference Architecture 22
     // Domain: sensor suite
 
@@ -16,33 +18,41 @@ package arch_000022 {
         doc "The sensor suite system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
+        port dataIn : DataIF;
     }
 
     public part def DataSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
-        port telemetryOut;
-        port ctrlIn;
+        port statusOut : DiagnosticIF;
+        port telemetryOut : ThermalIF;
+        port ctrlIn : DiagnosticIF;
     }
 
     public part def CommActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataOut;
+        port dataOut : TelemetryIF;
     }
 
     public part def MonitorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port pwrIn;
-        port ctrlIn;
+        port pwrIn : TelemetryIF;
+        port pwrIn : CommandIF;
+        port ctrlIn : SignalIF;
     }
 
     // System Definition
@@ -69,6 +79,6 @@ package arch_000022 {
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    public part sensorsuitesystem : SensorSuiteSystem;
 
 }

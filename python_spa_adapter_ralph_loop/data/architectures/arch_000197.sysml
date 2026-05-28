@@ -1,5 +1,7 @@
 package arch_000197 {
 
+    import ScalarValues::*;
+
     // Satellite Bus Reference Architecture 197
     // Domain: satellite bus
 
@@ -20,30 +22,37 @@ package arch_000197 {
         doc "The satellite bus system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def ThermalUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
+        port cmdIn : CommandIF;
     }
 
     public part def ThermalBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port telemetryOut : ControlIF;
     }
 
     public part def CommModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrIn;
+        port pwrIn : TelemetryIF;
     }
 
     public part def ThermalComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port statusOut;
+        port configIn : DataIF;
+        port statusOut : PowerIF;
     }
 
     // System Definition
@@ -72,6 +81,6 @@ package arch_000197 {
     }
 
     // System Instance
-    part satellitebussystem : SatelliteBusSystem;
+    public part satellitebussystem : SatelliteBusSystem;
 
 }

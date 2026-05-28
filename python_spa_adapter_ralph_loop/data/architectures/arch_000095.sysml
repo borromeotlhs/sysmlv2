@@ -1,5 +1,7 @@
 package arch_000095 {
 
+    import ScalarValues::*;
+
     // Command Data Handling Reference Architecture 95
     // Domain: command data handling
 
@@ -16,48 +18,57 @@ package arch_000095 {
         doc "The command data handling system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def DataSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port dataOut;
+        port pwrOut : SignalIF;
+        port dataOut : DiagnosticIF;
     }
 
     public part def MissionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port ctrlIn : StatusIF;
     }
 
     public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port dataIn;
-        port sensorOut;
+        port cmdIn : SignalIF;
+        port dataIn : StatusIF;
+        port sensorOut : DataIF;
     }
 
     public part def FlightSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port pwrIn;
-        port cmdOut;
+        port cmdOut : ConfigIF;
+        port pwrIn : ControlIF;
+        port cmdOut : ConfigIF;
     }
 
     public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port sensorOut;
-        port pwrIn;
+        port sensorOut : DiagnosticIF;
+        port pwrIn : TelemetryIF;
     }
 
     public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port dataOut;
+        port configIn : TelemetryIF;
+        port dataOut : ControlIF;
     }
 
     // System Definition
@@ -89,6 +100,6 @@ package arch_000095 {
     }
 
     // System Instance
-    part commanddatahandlingsystem : CommandDataHandlingSystem;
+    public part commanddatahandlingsystem : CommandDataHandlingSystem;
 
 }

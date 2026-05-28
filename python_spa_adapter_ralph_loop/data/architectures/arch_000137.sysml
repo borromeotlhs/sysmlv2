@@ -1,5 +1,7 @@
 package arch_000137 {
 
+    import ScalarValues::*;
+
     // Life Support Reference Architecture 137
     // Domain: life support
 
@@ -16,26 +18,33 @@ package arch_000137 {
         doc "The life support system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def NavAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port sensorOut;
-        port pwrIn;
+        port dataOut : DiagnosticIF;
+        port sensorOut : ThermalIF;
+        port pwrIn : ThermalIF;
     }
 
     public part def FlightAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : ConfigIF;
     }
 
     public part def MissionActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port sensorOut;
+        port telemetryOut : DataIF;
+        port sensorOut : StatusIF;
     }
 
     // System Definition
@@ -60,6 +69,6 @@ package arch_000137 {
     }
 
     // System Instance
-    part lifesupportsystem : LifeSupportSystem;
+    public part lifesupportsystem : LifeSupportSystem;
 
 }

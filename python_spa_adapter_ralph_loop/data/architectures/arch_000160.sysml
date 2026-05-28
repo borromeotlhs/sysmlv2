@@ -1,5 +1,7 @@
 package arch_000160 {
 
+    import ScalarValues::*;
+
     // Guidance Navigation Reference Architecture 160
     // Domain: guidance navigation
 
@@ -20,35 +22,43 @@ package arch_000160 {
         doc "The guidance navigation system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port configIn;
-        port telemetryOut;
+        port dataOut : ConfigIF;
+        port configIn : DiagnosticIF;
+        port telemetryOut : TelemetryIF;
     }
 
     public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port dataOut;
-        port cmdOut;
+        port pwrOut : StatusIF;
+        port dataOut : SignalIF;
+        port cmdOut : CommandIF;
     }
 
     public part def CommandBus {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrOut;
-        port dataIn;
-        port sensorOut;
+        port pwrOut : StatusIF;
+        port dataIn : ConfigIF;
+        port sensorOut : SignalIF;
     }
 
     public part def CommPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
+        port cmdOut : ConfigIF;
     }
 
     // System Definition
@@ -76,6 +86,6 @@ package arch_000160 {
     }
 
     // System Instance
-    part guidancenavigationsystem : GuidanceNavigationSystem;
+    public part guidancenavigationsystem : GuidanceNavigationSystem;
 
 }

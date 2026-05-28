@@ -1,5 +1,7 @@
 package arch_000058 {
 
+    import ScalarValues::*;
+
     // Propulsion Module Reference Architecture 58
     // Domain: propulsion module
 
@@ -20,20 +22,25 @@ package arch_000058 {
         doc "The propulsion module system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def DiagnosticIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port dataOut;
+        port cmdOut : ThermalIF;
+        port dataOut : DiagnosticIF;
     }
 
     public part def ThermalController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port telemetryOut;
-        port dataIn;
+        port pwrOut : DiagnosticIF;
+        port telemetryOut : StatusIF;
+        port dataIn : DiagnosticIF;
     }
 
     // System Definition
@@ -56,6 +63,6 @@ package arch_000058 {
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    public part propulsionmodulesystem : PropulsionModuleSystem;
 
 }

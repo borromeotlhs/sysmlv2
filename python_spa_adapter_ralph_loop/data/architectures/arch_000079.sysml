@@ -1,5 +1,7 @@
 package arch_000079 {
 
+    import ScalarValues::*;
+
     // Battery Management Reference Architecture 79
     // Domain: battery management
 
@@ -12,21 +14,28 @@ package arch_000079 {
         doc "The battery management system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+
     // Component Definitions
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port dataIn;
-        port statusOut;
+        port pwrOut : SignalIF;
+        port dataIn : DataIF;
+        port statusOut : ConfigIF;
     }
 
     public part def DataModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port cmdOut;
-        port pwrIn;
+        port pwrIn : PowerIF;
+        port cmdOut : CommandIF;
+        port pwrIn : SignalIF;
     }
 
     // System Definition
@@ -47,6 +56,6 @@ package arch_000079 {
     }
 
     // System Instance
-    part batterymanagementsystem : BatteryManagementSystem;
+    public part batterymanagementsystem : BatteryManagementSystem;
 
 }

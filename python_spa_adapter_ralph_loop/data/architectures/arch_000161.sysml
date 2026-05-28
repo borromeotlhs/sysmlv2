@@ -1,5 +1,7 @@
 package arch_000161 {
 
+    import ScalarValues::*;
+
     // Fuel Cell Reference Architecture 161
     // Domain: fuel cell
 
@@ -16,52 +18,59 @@ package arch_000161 {
         doc "The fuel cell system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def ControlInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port statusOut;
+        port cmdOut : PowerIF;
+        port statusOut : StatusIF;
     }
 
     public part def CommandBus {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
+        port cmdOut : CommandIF;
     }
 
     public part def CommSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
-        port dataOut;
+        port dataIn : TelemetryIF;
+        port dataOut : TelemetryIF;
     }
 
     public part def ProcessingModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
+        port pwrOut : ConfigIF;
     }
 
     public part def FlightAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port sensorOut;
+        port configIn : ConfigIF;
+        port sensorOut : StatusIF;
     }
 
     public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port telemetryOut;
+        port configIn : TelemetryIF;
+        port telemetryOut : StatusIF;
     }
 
     public part def DataAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port dataIn;
+        port ctrlIn : StatusIF;
+        port dataIn : PowerIF;
     }
 
     // System Definition
@@ -93,6 +102,6 @@ package arch_000161 {
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    public part fuelcellsystem : FuelCellSystem;
 
 }

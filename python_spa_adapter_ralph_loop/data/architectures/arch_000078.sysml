@@ -1,5 +1,7 @@
 package arch_000078 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 78
     // Domain: ground station
 
@@ -12,57 +14,68 @@ package arch_000078 {
         doc "The ground station system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port statusOut;
-        port pwrOut;
+        port statusOut : ControlIF;
+        port pwrOut : SignalIF;
     }
 
     public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port cmdOut;
-        port cmdIn;
+        port pwrIn : TelemetryIF;
+        port cmdOut : TelemetryIF;
+        port cmdIn : DiagnosticIF;
     }
 
     public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port ctrlIn;
-        port sensorOut;
+        port configIn : DataIF;
+        port ctrlIn : ThermalIF;
+        port sensorOut : DataIF;
     }
 
     public part def MonitorAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port pwrIn;
-        port cmdIn;
+        port statusOut : ConfigIF;
+        port pwrIn : StatusIF;
+        port cmdIn : PowerIF;
     }
 
     public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
+        port dataOut : ControlIF;
     }
 
     public part def DataAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port dataIn;
+        port configIn : TelemetryIF;
+        port dataIn : ControlIF;
     }
 
     public part def DataBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port ctrlIn;
-        port telemetryOut;
+        port dataIn : DataIF;
+        port ctrlIn : ControlIF;
+        port telemetryOut : PowerIF;
     }
 
     // System Definition
@@ -93,6 +106,6 @@ package arch_000078 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

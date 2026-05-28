@@ -1,5 +1,7 @@
 package arch_000021 {
 
+    import ScalarValues::*;
+
     // Power Distribution System Reference Architecture 21
     // Domain: power distribution system
 
@@ -16,47 +18,57 @@ package arch_000021 {
         doc "The power distribution system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def CommModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataIn;
-        port cmdIn;
-        port sensorOut;
+        port dataIn : TelemetryIF;
+        port cmdIn : PowerIF;
+        port sensorOut : DiagnosticIF;
     }
 
     public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port cmdOut;
+        port cmdOut : TelemetryIF;
+        port cmdOut : ConfigIF;
     }
 
     public part def MissionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port statusOut;
+        port cmdIn : PowerIF;
+        port statusOut : PowerIF;
     }
 
     public part def ProcessingPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
+        port ctrlIn : SignalIF;
     }
 
     public part def ProcessingSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port telemetryOut;
+        port configIn : StatusIF;
+        port telemetryOut : DataIF;
     }
 
     public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port telemetryOut;
-        port statusOut;
+        port telemetryOut : ConfigIF;
+        port statusOut : ControlIF;
     }
 
     // System Definition
@@ -88,6 +100,6 @@ package arch_000021 {
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    public part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

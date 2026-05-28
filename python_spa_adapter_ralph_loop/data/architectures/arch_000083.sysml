@@ -1,5 +1,7 @@
 package arch_000083 {
 
+    import ScalarValues::*;
+
     // Satellite Bus Reference Architecture 83
     // Domain: satellite bus
 
@@ -12,19 +14,25 @@ package arch_000083 {
         doc "The satellite bus system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def DistributionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port sensorOut;
+        port pwrOut : SignalIF;
+        port sensorOut : ConfigIF;
     }
 
     public part def DataComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port dataIn;
+        port cmdOut : CommandIF;
+        port dataIn : TelemetryIF;
     }
 
     // System Definition
@@ -44,6 +52,6 @@ package arch_000083 {
     }
 
     // System Instance
-    part satellitebussystem : SatelliteBusSystem;
+    public part satellitebussystem : SatelliteBusSystem;
 
 }

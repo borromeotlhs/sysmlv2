@@ -1,5 +1,7 @@
 package arch_000133 {
 
+    import ScalarValues::*;
+
     // Imaging Payload Reference Architecture 133
     // Domain: imaging payload
 
@@ -20,43 +22,52 @@ package arch_000133 {
         doc "The imaging payload system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def NavBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port dataIn;
-        port pwrIn;
+        port statusOut : ThermalIF;
+        port dataIn : ControlIF;
+        port pwrIn : ThermalIF;
     }
 
     public part def FlightPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port ctrlIn;
-        port dataIn;
+        port cmdOut : CommandIF;
+        port ctrlIn : SignalIF;
+        port dataIn : TelemetryIF;
     }
 
     public part def NavModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port ctrlIn;
-        port dataIn;
+        port configIn : CommandIF;
+        port ctrlIn : TelemetryIF;
+        port dataIn : StatusIF;
     }
 
     public part def FlightSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
+        port pwrOut : TelemetryIF;
     }
 
     public part def DistributionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port telemetryOut;
-        port statusOut;
+        port telemetryOut : CommandIF;
+        port telemetryOut : DataIF;
+        port statusOut : ControlIF;
     }
 
     // System Definition
@@ -84,6 +95,6 @@ package arch_000133 {
     }
 
     // System Instance
-    part imagingpayloadsystem : ImagingPayloadSystem;
+    public part imagingpayloadsystem : ImagingPayloadSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000018 {
 
+    import ScalarValues::*;
+
     // Solar Array Reference Architecture 18
     // Domain: solar array
 
@@ -20,28 +22,37 @@ package arch_000018 {
         doc "The solar array system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def PowerInterface {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port ctrlIn;
+        port cmdOut : PowerIF;
+        port cmdIn : StatusIF;
+        port ctrlIn : DiagnosticIF;
     }
 
     public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port dataOut;
+        port pwrIn : CommandIF;
+        port dataOut : SignalIF;
     }
 
     public part def DataProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port cmdOut;
-        port pwrIn;
+        port pwrIn : TelemetryIF;
+        port cmdOut : ThermalIF;
+        port pwrIn : DiagnosticIF;
     }
 
     // System Definition
@@ -68,6 +79,6 @@ package arch_000018 {
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    public part solararraysystem : SolarArraySystem;
 
 }

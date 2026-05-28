@@ -1,5 +1,7 @@
 package arch_000008 {
 
+    import ScalarValues::*;
+
     // Propulsion Module Reference Architecture 8
     // Domain: propulsion module
 
@@ -16,47 +18,55 @@ package arch_000008 {
         doc "The propulsion module system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+
     // Component Definitions
     public part def DataBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port cmdIn;
-        port pwrOut;
+        port statusOut : SignalIF;
+        port cmdIn : CommandIF;
+        port pwrOut : PowerIF;
     }
 
     public part def ThermalModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port ctrlIn;
-        port statusOut;
+        port pwrIn : PowerIF;
+        port ctrlIn : ConfigIF;
+        port statusOut : ConfigIF;
     }
 
     public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : DataIF;
     }
 
     public part def PowerSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
-        port cmdIn;
-        port configIn;
+        port dataIn : ConfigIF;
+        port cmdIn : ControlIF;
+        port configIn : ConfigIF;
     }
 
     public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : PowerIF;
     }
 
     public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port pwrIn : ControlIF;
     }
 
     // System Definition
@@ -84,6 +94,6 @@ package arch_000008 {
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    public part propulsionmodulesystem : PropulsionModuleSystem;
 
 }

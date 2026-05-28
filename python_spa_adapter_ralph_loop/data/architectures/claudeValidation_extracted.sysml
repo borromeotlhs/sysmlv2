@@ -1,5 +1,7 @@
 package AutomotiveDomain {
 
+    import ScalarValues::*;
+
     // Port type definitions
     port def ControlPort;
     port def DataPort;
@@ -118,5 +120,5 @@ package AutomotiveDomain {
     }
 
     // System instance
-    part automotiveSystem : AutomotiveSystem;
+    public part automotiveSystem : AutomotiveSystem;
 }

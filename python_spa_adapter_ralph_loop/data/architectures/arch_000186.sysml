@@ -1,5 +1,7 @@
 package arch_000186 {
 
+    import ScalarValues::*;
+
     // Battery Management Reference Architecture 186
     // Domain: battery management
 
@@ -20,41 +22,50 @@ package arch_000186 {
         doc "The battery management system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port configIn;
+        port dataOut : DiagnosticIF;
+        port configIn : DataIF;
     }
 
     public part def MonitorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port statusOut;
-        port statusOut;
+        port pwrOut : StatusIF;
+        port statusOut : ConfigIF;
+        port statusOut : ThermalIF;
     }
 
     public part def SensorInterface {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
+        port pwrIn : DataIF;
     }
 
     public part def ProcessingPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port cmdOut;
+        port cmdOut : DataIF;
+        port cmdOut : ControlIF;
     }
 
     public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port cmdOut;
-        port pwrOut;
+        port configIn : ThermalIF;
+        port cmdOut : DiagnosticIF;
+        port pwrOut : PowerIF;
     }
 
     // System Definition
@@ -84,6 +95,6 @@ package arch_000186 {
     }
 
     // System Instance
-    part batterymanagementsystem : BatteryManagementSystem;
+    public part batterymanagementsystem : BatteryManagementSystem;
 
 }

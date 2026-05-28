@@ -1,5 +1,7 @@
 package arch_000060 {
 
+    import ScalarValues::*;
+
     // Lunar Habitat Reference Architecture 60
     // Domain: lunar habitat
 
@@ -20,53 +22,61 @@ package arch_000060 {
         doc "The lunar habitat system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ThermalUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port cmdOut;
+        port telemetryOut : DataIF;
+        port cmdOut : CommandIF;
     }
 
     public part def FlightAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port ctrlIn : DataIF;
     }
 
     public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port configIn : ThermalIF;
     }
 
     public part def CommandComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port cmdIn;
-        port pwrOut;
+        port telemetryOut : TelemetryIF;
+        port cmdIn : CommandIF;
+        port pwrOut : DataIF;
     }
 
     public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataIn;
-        port cmdOut;
+        port dataIn : TelemetryIF;
+        port cmdOut : ThermalIF;
     }
 
     public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port cmdOut;
-        port cmdOut;
+        port cmdOut : DataIF;
+        port cmdOut : ControlIF;
     }
 
     public part def ProcessingModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port statusOut;
+        port pwrIn : PowerIF;
+        port statusOut : PowerIF;
     }
 
     // System Definition
@@ -98,6 +108,6 @@ package arch_000060 {
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    public part lunarhabitatsystem : LunarHabitatSystem;
 
 }

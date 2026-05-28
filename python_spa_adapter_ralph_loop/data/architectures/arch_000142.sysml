@@ -1,5 +1,7 @@
 package arch_000142 {
 
+    import ScalarValues::*;
+
     // Robotic Arm Reference Architecture 142
     // Domain: robotic arm
 
@@ -16,55 +18,66 @@ package arch_000142 {
         doc "The robotic arm system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port statusOut;
-        port cmdOut;
+        port statusOut : SignalIF;
+        port statusOut : ThermalIF;
+        port cmdOut : TelemetryIF;
     }
 
     public part def ThermalPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port cmdIn;
-        port telemetryOut;
+        port pwrOut : PowerIF;
+        port cmdIn : TelemetryIF;
+        port telemetryOut : DataIF;
     }
 
     public part def FlightSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port telemetryOut;
+        port ctrlIn : ConfigIF;
+        port telemetryOut : DataIF;
     }
 
     public part def PowerPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
+        port dataIn : StatusIF;
     }
 
     public part def ControlBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port dataIn;
+        port configIn : DataIF;
+        port dataIn : DataIF;
     }
 
     public part def PowerInterface {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port dataOut;
-        port dataOut;
+        port dataOut : ControlIF;
+        port dataOut : DiagnosticIF;
     }
 
     public part def NavModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port statusOut;
+        port cmdOut : ThermalIF;
+        port statusOut : TelemetryIF;
     }
 
     // System Definition
@@ -96,6 +109,6 @@ package arch_000142 {
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    public part roboticarmsystem : RoboticArmSystem;
 
 }

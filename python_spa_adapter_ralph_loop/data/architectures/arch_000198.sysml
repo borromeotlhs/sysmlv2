@@ -1,5 +1,7 @@
 package arch_000198 {
 
+    import ScalarValues::*;
+
     // Autonomous Rover Reference Architecture 198
     // Domain: autonomous rover
 
@@ -20,47 +22,57 @@ package arch_000198 {
         doc "The autonomous rover system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def MonitorModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port dataIn;
+        port dataOut : ConfigIF;
+        port dataIn : CommandIF;
     }
 
     public part def DataBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
+        port dataOut : StatusIF;
     }
 
     public part def NavController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port pwrOut;
-        port ctrlIn;
+        port pwrIn : ConfigIF;
+        port pwrOut : ControlIF;
+        port ctrlIn : DataIF;
     }
 
     public part def FlightSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port statusOut;
+        port cmdOut : TelemetryIF;
+        port statusOut : ConfigIF;
     }
 
     public part def ControlAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port configIn;
-        port dataIn;
+        port cmdIn : PowerIF;
+        port configIn : SignalIF;
+        port dataIn : SignalIF;
     }
 
     public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port configIn;
+        port configIn : CommandIF;
     }
 
     // System Definition
@@ -91,6 +103,6 @@ package arch_000198 {
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    public part autonomousroversystem : AutonomousRoverSystem;
 
 }

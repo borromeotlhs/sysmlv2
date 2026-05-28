@@ -1,5 +1,7 @@
 package arch_000141 {
 
+    import ScalarValues::*;
+
     // Thruster Assembly Reference Architecture 141
     // Domain: thruster assembly
 
@@ -12,19 +14,25 @@ package arch_000141 {
         doc "The thruster assembly system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+
     // Component Definitions
     public part def DistributionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port telemetryOut;
-        port cmdIn;
+        port dataOut : PowerIF;
+        port telemetryOut : ControlIF;
+        port cmdIn : DataIF;
     }
 
     public part def ControlModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : DiagnosticIF;
     }
 
     // System Definition
@@ -45,6 +53,6 @@ package arch_000141 {
     }
 
     // System Instance
-    part thrusterassemblysystem : ThrusterAssemblySystem;
+    public part thrusterassemblysystem : ThrusterAssemblySystem;
 
 }

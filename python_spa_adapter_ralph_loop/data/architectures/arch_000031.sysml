@@ -1,5 +1,7 @@
 package arch_000031 {
 
+    import ScalarValues::*;
+
     // Autonomous Rover Reference Architecture 31
     // Domain: autonomous rover
 
@@ -16,19 +18,24 @@ package arch_000031 {
         doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DiagnosticIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def ThermalUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port configIn : DiagnosticIF;
     }
 
     public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port configIn;
-        port cmdIn;
+        port statusOut : TelemetryIF;
+        port configIn : ConfigIF;
+        port cmdIn : TelemetryIF;
     }
 
     // System Definition
@@ -49,6 +56,6 @@ package arch_000031 {
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    public part autonomousroversystem : AutonomousRoverSystem;
 
 }

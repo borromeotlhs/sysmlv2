@@ -1,5 +1,7 @@
 package arch_000171 {
 
+    import ScalarValues::*;
+
     // Solar Array Reference Architecture 171
     // Domain: solar array
 
@@ -20,19 +22,25 @@ package arch_000171 {
         doc "The solar array system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def ThermalModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
+        port pwrOut : ControlIF;
     }
 
     public part def PowerPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
-        port configIn;
-        port cmdOut;
+        port dataIn : ConfigIF;
+        port configIn : StatusIF;
+        port cmdOut : DataIF;
     }
 
     // System Definition
@@ -56,6 +64,6 @@ package arch_000171 {
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    public part solararraysystem : SolarArraySystem;
 
 }

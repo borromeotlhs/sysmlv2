@@ -1,5 +1,7 @@
 package arch_000120 {
 
+    import ScalarValues::*;
+
     // Avionics Bay Reference Architecture 120
     // Domain: avionics bay
 
@@ -16,54 +18,63 @@ package arch_000120 {
         doc "The avionics bay system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def NavController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port telemetryOut;
+        port statusOut : PowerIF;
+        port telemetryOut : ControlIF;
     }
 
     public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port cmdIn;
+        port ctrlIn : TelemetryIF;
+        port cmdIn : DataIF;
     }
 
     public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port ctrlIn;
+        port cmdOut : ControlIF;
+        port ctrlIn : TelemetryIF;
     }
 
     public part def ProcessingPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
+        port pwrIn : ControlIF;
     }
 
     public part def NavModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port sensorOut;
-        port statusOut;
+        port configIn : PowerIF;
+        port sensorOut : DataIF;
+        port statusOut : DataIF;
     }
 
     public part def DataProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port pwrIn;
+        port sensorOut : DataIF;
+        port pwrIn : ConfigIF;
     }
 
     public part def ControlUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port statusOut;
+        port statusOut : DiagnosticIF;
+        port statusOut : ThermalIF;
     }
 
     // System Definition
@@ -94,6 +105,6 @@ package arch_000120 {
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    public part avionicsbaysystem : AvionicsBaySystem;
 
 }

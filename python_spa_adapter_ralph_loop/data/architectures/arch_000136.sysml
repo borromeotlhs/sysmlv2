@@ -1,5 +1,7 @@
 package arch_000136 {
 
+    import ScalarValues::*;
+
     // Docking Mechanism Reference Architecture 136
     // Domain: docking mechanism
 
@@ -20,28 +22,36 @@ package arch_000136 {
         doc "The docking mechanism system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port pwrOut;
-        port pwrOut;
+        port cmdIn : ControlIF;
+        port pwrOut : PowerIF;
+        port pwrOut : TelemetryIF;
     }
 
     public part def ThermalProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port pwrIn;
-        port cmdIn;
+        port dataIn : ConfigIF;
+        port pwrIn : DataIF;
+        port cmdIn : StatusIF;
     }
 
     public part def DataSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
-        port pwrOut;
+        port dataIn : TelemetryIF;
+        port pwrOut : PowerIF;
     }
 
     // System Definition
@@ -64,6 +74,6 @@ package arch_000136 {
     }
 
     // System Instance
-    part dockingmechanismsystem : DockingMechanismSystem;
+    public part dockingmechanismsystem : DockingMechanismSystem;
 
 }

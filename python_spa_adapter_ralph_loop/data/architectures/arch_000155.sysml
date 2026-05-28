@@ -1,5 +1,7 @@
 package arch_000155 {
 
+    import ScalarValues::*;
+
     // Avionics Bay Reference Architecture 155
     // Domain: avionics bay
 
@@ -16,24 +18,30 @@ package arch_000155 {
         doc "The avionics bay system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DiagnosticIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def SensorSubsystem {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
+        port cmdIn : ConfigIF;
     }
 
     public part def PowerActuator {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port sensorOut;
+        port sensorOut : StatusIF;
     }
 
     public part def MissionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port telemetryOut;
+        port cmdOut : TelemetryIF;
+        port telemetryOut : DiagnosticIF;
     }
 
     // System Definition
@@ -56,6 +64,6 @@ package arch_000155 {
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    public part avionicsbaysystem : AvionicsBaySystem;
 
 }

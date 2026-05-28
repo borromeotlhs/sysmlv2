@@ -1,5 +1,7 @@
 package arch_000061 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 61
     // Domain: ground station
 
@@ -16,20 +18,26 @@ package arch_000061 {
         doc "The ground station system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ControlBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port dataOut;
+        port pwrOut : PowerIF;
+        port dataOut : SignalIF;
     }
 
     public part def CommAssembly {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
-        port sensorOut;
-        port configIn;
+        port cmdOut : ThermalIF;
+        port sensorOut : DiagnosticIF;
+        port configIn : DiagnosticIF;
     }
 
     // System Definition
@@ -53,6 +61,6 @@ package arch_000061 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

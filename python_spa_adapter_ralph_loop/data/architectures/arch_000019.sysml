@@ -1,5 +1,7 @@
 package arch_000019 {
 
+    import ScalarValues::*;
+
     // Life Support Reference Architecture 19
     // Domain: life support
 
@@ -16,35 +18,43 @@ package arch_000019 {
         doc "The life support system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port dataIn;
+        port configIn : CommandIF;
+        port dataIn : TelemetryIF;
     }
 
     public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port pwrIn;
-        port configIn;
+        port telemetryOut : TelemetryIF;
+        port pwrIn : PowerIF;
+        port configIn : StatusIF;
     }
 
     public part def ControlActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port ctrlIn;
-        port statusOut;
+        port ctrlIn : DataIF;
+        port ctrlIn : ControlIF;
+        port statusOut : ControlIF;
     }
 
     public part def MissionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port dataIn;
+        port telemetryOut : DataIF;
+        port dataIn : ControlIF;
     }
 
     // System Definition
@@ -72,6 +82,6 @@ package arch_000019 {
     }
 
     // System Instance
-    part lifesupportsystem : LifeSupportSystem;
+    public part lifesupportsystem : LifeSupportSystem;
 
 }

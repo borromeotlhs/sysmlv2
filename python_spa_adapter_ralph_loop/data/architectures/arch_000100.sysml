@@ -1,5 +1,7 @@
 package arch_000100 {
 
+    import ScalarValues::*;
+
     // Imaging Payload Reference Architecture 100
     // Domain: imaging payload
 
@@ -20,26 +22,33 @@ package arch_000100 {
         doc "The imaging payload system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def MissionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port sensorOut;
+        port sensorOut : SignalIF;
+        port sensorOut : TelemetryIF;
     }
 
     public part def MonitorAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
+        port sensorOut : PowerIF;
     }
 
     public part def ThermalPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port telemetryOut;
-        port statusOut;
+        port configIn : TelemetryIF;
+        port telemetryOut : DiagnosticIF;
+        port statusOut : ConfigIF;
     }
 
     // System Definition
@@ -65,6 +74,6 @@ package arch_000100 {
     }
 
     // System Instance
-    part imagingpayloadsystem : ImagingPayloadSystem;
+    public part imagingpayloadsystem : ImagingPayloadSystem;
 
 }

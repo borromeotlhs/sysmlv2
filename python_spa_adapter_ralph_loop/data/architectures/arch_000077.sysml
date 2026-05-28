@@ -1,5 +1,7 @@
 package arch_000077 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 77
     // Domain: ground station
 
@@ -20,56 +22,68 @@ package arch_000077 {
         doc "The ground station system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommandActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port ctrlIn;
-        port dataOut;
+        port ctrlIn : SignalIF;
+        port dataOut : TelemetryIF;
     }
 
     public part def DistributionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port configIn;
+        port telemetryOut : ConfigIF;
+        port configIn : StatusIF;
     }
 
     public part def DataUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port sensorOut;
-        port sensorOut;
+        port cmdOut : CommandIF;
+        port sensorOut : ControlIF;
+        port sensorOut : DiagnosticIF;
     }
 
     public part def ControlUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port telemetryOut;
-        port ctrlIn;
+        port pwrIn : SignalIF;
+        port telemetryOut : DataIF;
+        port ctrlIn : DataIF;
     }
 
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port pwrIn;
+        port pwrIn : ControlIF;
+        port pwrIn : SignalIF;
     }
 
     public part def MonitorUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port dataOut;
-        port sensorOut;
+        port telemetryOut : SignalIF;
+        port dataOut : PowerIF;
+        port sensorOut : ThermalIF;
     }
 
     public part def CommSubsystem {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port configIn;
+        port configIn : StatusIF;
     }
 
     // System Definition
@@ -103,6 +117,6 @@ package arch_000077 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

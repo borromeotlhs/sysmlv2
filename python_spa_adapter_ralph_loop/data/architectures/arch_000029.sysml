@@ -1,5 +1,7 @@
 package arch_000029 {
 
+    import ScalarValues::*;
+
     // Propulsion Module Reference Architecture 29
     // Domain: propulsion module
 
@@ -16,27 +18,34 @@ package arch_000029 {
         doc "The propulsion module system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
+        port cmdIn : TelemetryIF;
     }
 
     public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port dataIn;
-        port sensorOut;
+        port statusOut : PowerIF;
+        port dataIn : StatusIF;
+        port sensorOut : ThermalIF;
     }
 
     public part def PowerAssembly {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port sensorOut;
-        port cmdOut;
-        port cmdIn;
+        port sensorOut : ControlIF;
+        port cmdOut : StatusIF;
+        port cmdIn : StatusIF;
     }
 
     // System Definition
@@ -59,6 +68,6 @@ package arch_000029 {
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    public part propulsionmodulesystem : PropulsionModuleSystem;
 
 }

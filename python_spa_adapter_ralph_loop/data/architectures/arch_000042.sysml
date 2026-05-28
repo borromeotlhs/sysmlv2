@@ -1,5 +1,7 @@
 package arch_000042 {
 
+    import ScalarValues::*;
+
     // Thruster Assembly Reference Architecture 42
     // Domain: thruster assembly
 
@@ -12,26 +14,32 @@ package arch_000042 {
         doc "The thruster assembly system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def PowerComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port ctrlIn;
+        port telemetryOut : SignalIF;
+        port ctrlIn : ThermalIF;
     }
 
     public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port sensorOut;
+        port sensorOut : SignalIF;
     }
 
     public part def FlightAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port cmdOut;
-        port configIn;
+        port pwrIn : PowerIF;
+        port cmdOut : DiagnosticIF;
+        port configIn : ThermalIF;
     }
 
     // System Definition
@@ -52,6 +60,6 @@ package arch_000042 {
     }
 
     // System Instance
-    part thrusterassemblysystem : ThrusterAssemblySystem;
+    public part thrusterassemblysystem : ThrusterAssemblySystem;
 
 }

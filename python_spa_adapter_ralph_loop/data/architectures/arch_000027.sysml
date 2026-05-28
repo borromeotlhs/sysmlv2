@@ -1,5 +1,7 @@
 package arch_000027 {
 
+    import ScalarValues::*;
+
     // Telemetry System Reference Architecture 27
     // Domain: telemetry system
 
@@ -16,41 +18,49 @@ package arch_000027 {
         doc "The telemetry system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def DataSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port pwrOut;
+        port telemetryOut : SignalIF;
+        port pwrOut : PowerIF;
     }
 
     public part def ThermalPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-        port cmdOut;
-        port cmdOut;
+        port ctrlIn : DataIF;
+        port cmdOut : DataIF;
+        port cmdOut : StatusIF;
     }
 
     public part def CommSubsystem {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrOut;
+        port pwrOut : PowerIF;
     }
 
     public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port sensorOut;
-        port pwrOut;
+        port cmdIn : DiagnosticIF;
+        port sensorOut : ConfigIF;
+        port pwrOut : DataIF;
     }
 
     public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port cmdIn;
+        port pwrOut : StatusIF;
+        port cmdIn : SignalIF;
     }
 
     // System Definition
@@ -78,6 +88,6 @@ package arch_000027 {
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    public part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

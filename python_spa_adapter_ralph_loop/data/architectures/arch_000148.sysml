@@ -1,5 +1,7 @@
 package arch_000148 {
 
+    import ScalarValues::*;
+
     // Reaction Wheel Reference Architecture 148
     // Domain: reaction wheel
 
@@ -12,25 +14,31 @@ package arch_000148 {
         doc "The reaction wheel system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def CommModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port ctrlIn;
-        port pwrIn;
+        port ctrlIn : StatusIF;
+        port pwrIn : DiagnosticIF;
     }
 
     public part def CommandController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port ctrlIn;
+        port ctrlIn : ConfigIF;
     }
 
     public part def CommandModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
-        port sensorOut;
+        port cmdOut : ControlIF;
+        port sensorOut : StatusIF;
     }
 
     // System Definition
@@ -53,6 +61,6 @@ package arch_000148 {
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    public part reactionwheelsystem : ReactionWheelSystem;
 
 }

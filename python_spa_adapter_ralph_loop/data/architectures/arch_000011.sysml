@@ -1,5 +1,7 @@
 package arch_000011 {
 
+    import ScalarValues::*;
+
     // Autonomous Rover Reference Architecture 11
     // Domain: autonomous rover
 
@@ -20,25 +22,30 @@ package arch_000011 {
         doc "The autonomous rover system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def NavActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port statusOut;
-        port statusOut;
+        port configIn : ThermalIF;
+        port statusOut : TelemetryIF;
+        port statusOut : ThermalIF;
     }
 
     public part def DistributionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
+        port telemetryOut : CommandIF;
     }
 
     public part def NavSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : ThermalIF;
     }
 
     // System Definition
@@ -65,6 +72,6 @@ package arch_000011 {
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    public part autonomousroversystem : AutonomousRoverSystem;
 
 }

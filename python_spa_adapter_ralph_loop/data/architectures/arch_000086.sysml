@@ -1,5 +1,7 @@
 package arch_000086 {
 
+    import ScalarValues::*;
+
     // Sensor Suite Reference Architecture 86
     // Domain: sensor suite
 
@@ -20,25 +22,32 @@ package arch_000086 {
         doc "The sensor suite system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port configIn : ConfigIF;
     }
 
     public part def ThermalAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port cmdOut;
+        port sensorOut : CommandIF;
+        port cmdOut : ControlIF;
     }
 
     public part def ThermalUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port configIn;
+        port dataOut : DiagnosticIF;
+        port configIn : ThermalIF;
     }
 
     // System Definition
@@ -62,6 +71,6 @@ package arch_000086 {
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    public part sensorsuitesystem : SensorSuiteSystem;
 
 }

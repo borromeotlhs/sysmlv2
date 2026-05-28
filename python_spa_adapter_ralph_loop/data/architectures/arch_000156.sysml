@@ -1,5 +1,7 @@
 package arch_000156 {
 
+    import ScalarValues::*;
+
     // Communication Relay Reference Architecture 156
     // Domain: communication relay
 
@@ -12,52 +14,59 @@ package arch_000156 {
         doc "The communication relay system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def NavPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port pwrIn;
-        port dataIn;
+        port telemetryOut : StatusIF;
+        port pwrIn : DataIF;
+        port dataIn : PowerIF;
     }
 
     public part def ProcessingSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
+        port dataOut : DataIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
+        port dataOut : CommandIF;
     }
 
     public part def ControlBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port ctrlIn : PowerIF;
     }
 
     public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port telemetryOut;
-        port dataOut;
+        port dataOut : StatusIF;
+        port telemetryOut : ConfigIF;
+        port dataOut : DataIF;
     }
 
     public part def ControlActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port ctrlIn;
+        port ctrlIn : PowerIF;
+        port ctrlIn : StatusIF;
     }
 
     public part def ThermalBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : PowerIF;
     }
 
     // System Definition
@@ -88,6 +97,6 @@ package arch_000156 {
     }
 
     // System Instance
-    part communicationrelaysystem : CommunicationRelaySystem;
+    public part communicationrelaysystem : CommunicationRelaySystem;
 
 }

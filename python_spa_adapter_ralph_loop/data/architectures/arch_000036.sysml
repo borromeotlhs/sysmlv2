@@ -1,5 +1,7 @@
 package arch_000036 {
 
+    import ScalarValues::*;
+
     // Thermal Control Reference Architecture 36
     // Domain: thermal control
 
@@ -20,53 +22,62 @@ package arch_000036 {
         doc "The thermal control system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port cmdIn;
-        port cmdOut;
+        port telemetryOut : TelemetryIF;
+        port cmdIn : PowerIF;
+        port cmdOut : ThermalIF;
     }
 
     public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port statusOut;
-        port cmdIn;
+        port pwrOut : ControlIF;
+        port statusOut : DiagnosticIF;
+        port cmdIn : DiagnosticIF;
     }
 
     public part def MonitorSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port telemetryOut : TelemetryIF;
     }
 
     public part def ThermalSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port cmdOut;
+        port pwrOut : TelemetryIF;
+        port cmdOut : DiagnosticIF;
     }
 
     public part def DistributionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
+        port sensorOut : ControlIF;
     }
 
     public part def MonitorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port dataOut;
+        port pwrOut : SignalIF;
+        port dataOut : DataIF;
     }
 
     public part def MissionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
+        port dataIn : TelemetryIF;
     }
 
     // System Definition
@@ -102,6 +113,6 @@ package arch_000036 {
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    public part thermalcontrolsystem : ThermalControlSystem;
 
 }

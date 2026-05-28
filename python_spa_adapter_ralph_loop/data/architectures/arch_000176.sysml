@@ -1,5 +1,7 @@
 package arch_000176 {
 
+    import ScalarValues::*;
+
     // Attitude Control Reference Architecture 176
     // Domain: attitude control
 
@@ -20,54 +22,64 @@ package arch_000176 {
         doc "The attitude control system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port cmdOut;
-        port cmdIn;
+        port dataIn : DiagnosticIF;
+        port cmdOut : StatusIF;
+        port cmdIn : ThermalIF;
     }
 
     public part def CommActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrIn;
+        port pwrIn : ConfigIF;
     }
 
     public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port dataOut;
+        port telemetryOut : DataIF;
+        port dataOut : TelemetryIF;
     }
 
     public part def CommModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port sensorOut;
-        port pwrOut;
+        port sensorOut : DataIF;
+        port pwrOut : DataIF;
     }
 
     public part def CommandActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port sensorOut;
+        port sensorOut : ControlIF;
     }
 
     public part def ProcessingSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port pwrIn;
+        port ctrlIn : PowerIF;
+        port pwrIn : ThermalIF;
     }
 
     public part def NavSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port cmdIn;
-        port telemetryOut;
+        port cmdIn : TelemetryIF;
+        port cmdIn : DataIF;
+        port telemetryOut : TelemetryIF;
     }
 
     // System Definition
@@ -102,6 +114,6 @@ package arch_000176 {
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    public part attitudecontrolsystem : AttitudeControlSystem;
 
 }

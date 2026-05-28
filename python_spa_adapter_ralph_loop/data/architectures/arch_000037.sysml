@@ -1,5 +1,7 @@
 package arch_000037 {
 
+    import ScalarValues::*;
+
     // Attitude Control Reference Architecture 37
     // Domain: attitude control
 
@@ -20,56 +22,66 @@ package arch_000037 {
         doc "The attitude control system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def ProcessingInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port ctrlIn;
-        port dataIn;
+        port configIn : ControlIF;
+        port ctrlIn : ConfigIF;
+        port dataIn : DiagnosticIF;
     }
 
     public part def CommandAssembly {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
+        port cmdOut : SignalIF;
     }
 
     public part def SensorModule {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-        port statusOut;
+        port ctrlIn : ConfigIF;
+        port statusOut : StatusIF;
     }
 
     public part def FlightModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port pwrOut;
-        port ctrlIn;
+        port cmdOut : PowerIF;
+        port pwrOut : DataIF;
+        port ctrlIn : TelemetryIF;
     }
 
     public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port dataIn;
-        port telemetryOut;
+        port sensorOut : ControlIF;
+        port dataIn : ConfigIF;
+        port telemetryOut : DiagnosticIF;
     }
 
     public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
+        port dataIn : StatusIF;
     }
 
     public part def MissionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port sensorOut;
-        port pwrIn;
+        port cmdIn : DataIF;
+        port sensorOut : PowerIF;
+        port pwrIn : PowerIF;
     }
 
     // System Definition
@@ -101,6 +113,6 @@ package arch_000037 {
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    public part attitudecontrolsystem : AttitudeControlSystem;
 
 }

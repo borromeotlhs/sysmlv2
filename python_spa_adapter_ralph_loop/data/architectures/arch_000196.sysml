@@ -1,5 +1,7 @@
 package arch_000196 {
 
+    import ScalarValues::*;
+
     // Attitude Control Reference Architecture 196
     // Domain: attitude control
 
@@ -20,19 +22,25 @@ package arch_000196 {
         doc "The attitude control system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
+        port dataOut : DiagnosticIF;
     }
 
     public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port dataOut;
-        port dataIn;
+        port telemetryOut : PowerIF;
+        port dataOut : DataIF;
+        port dataIn : StatusIF;
     }
 
     // System Definition
@@ -54,6 +62,6 @@ package arch_000196 {
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    public part attitudecontrolsystem : AttitudeControlSystem;
 
 }

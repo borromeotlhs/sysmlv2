@@ -1,5 +1,7 @@
 package arch_000139 {
 
+    import ScalarValues::*;
+
     // Life Support Reference Architecture 139
     // Domain: life support
 
@@ -16,55 +18,63 @@ package arch_000139 {
         doc "The life support system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ThermalActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port dataIn;
-        port cmdIn;
+        port cmdIn : SignalIF;
+        port dataIn : DiagnosticIF;
+        port cmdIn : PowerIF;
     }
 
     public part def NavActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port pwrOut;
+        port ctrlIn : PowerIF;
+        port pwrOut : PowerIF;
     }
 
     public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrIn;
+        port pwrIn : ControlIF;
     }
 
     public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port cmdIn;
+        port telemetryOut : ControlIF;
+        port cmdIn : SignalIF;
     }
 
     public part def NavBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port sensorOut;
+        port sensorOut : DataIF;
+        port sensorOut : ThermalIF;
     }
 
     public part def FlightAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port configIn;
-        port sensorOut;
+        port dataIn : DataIF;
+        port configIn : PowerIF;
+        port sensorOut : ControlIF;
     }
 
     public part def SensorBus {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port pwrIn;
+        port telemetryOut : SignalIF;
+        port pwrIn : ControlIF;
     }
 
     // System Definition
@@ -94,6 +104,6 @@ package arch_000139 {
     }
 
     // System Instance
-    part lifesupportsystem : LifeSupportSystem;
+    public part lifesupportsystem : LifeSupportSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000081 {
 
+    import ScalarValues::*;
+
     // Avionics Bay Reference Architecture 81
     // Domain: avionics bay
 
@@ -20,28 +22,37 @@ package arch_000081 {
         doc "The avionics bay system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port dataIn;
+        port cmdOut : DataIF;
+        port cmdIn : CommandIF;
+        port dataIn : PowerIF;
     }
 
     public part def ThermalInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port configIn;
+        port pwrOut : TelemetryIF;
+        port configIn : SignalIF;
     }
 
     public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port pwrOut;
-        port cmdOut;
+        port cmdOut : ControlIF;
+        port pwrOut : PowerIF;
+        port cmdOut : StatusIF;
     }
 
     // System Definition
@@ -67,6 +78,6 @@ package arch_000081 {
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    public part avionicsbaysystem : AvionicsBaySystem;
 
 }

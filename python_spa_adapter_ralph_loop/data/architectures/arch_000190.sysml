@@ -1,5 +1,7 @@
 package arch_000190 {
 
+    import ScalarValues::*;
+
     // Propulsion Module Reference Architecture 190
     // Domain: propulsion module
 
@@ -16,20 +18,26 @@ package arch_000190 {
         doc "The propulsion module system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+
     // Component Definitions
     public part def SensorUnit {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
-        port ctrlIn;
+        port dataIn : DiagnosticIF;
+        port ctrlIn : ControlIF;
     }
 
     public part def MonitorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port sensorOut;
-        port dataOut;
+        port pwrOut : DiagnosticIF;
+        port sensorOut : ConfigIF;
+        port dataOut : DataIF;
     }
 
     // System Definition
@@ -49,6 +57,6 @@ package arch_000190 {
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    public part propulsionmodulesystem : PropulsionModuleSystem;
 
 }

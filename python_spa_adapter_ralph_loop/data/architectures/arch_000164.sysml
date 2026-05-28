@@ -1,5 +1,7 @@
 package arch_000164 {
 
+    import ScalarValues::*;
+
     // Avionics Bay Reference Architecture 164
     // Domain: avionics bay
 
@@ -20,20 +22,26 @@ package arch_000164 {
         doc "The avionics bay system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def MissionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port sensorOut;
-        port statusOut;
+        port dataOut : TelemetryIF;
+        port sensorOut : ConfigIF;
+        port statusOut : DataIF;
     }
 
     public part def DataActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port ctrlIn;
+        port cmdIn : ControlIF;
+        port ctrlIn : ConfigIF;
     }
 
     // System Definition
@@ -58,6 +66,6 @@ package arch_000164 {
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    public part avionicsbaysystem : AvionicsBaySystem;
 
 }

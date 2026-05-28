@@ -1,5 +1,7 @@
 package arch_000115 {
 
+    import ScalarValues::*;
+
     // Docking Mechanism Reference Architecture 115
     // Domain: docking mechanism
 
@@ -20,51 +22,60 @@ package arch_000115 {
         doc "The docking mechanism system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def NavPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
+        port cmdIn : PowerIF;
     }
 
     public part def CommPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
+        port cmdIn : ControlIF;
     }
 
     public part def FlightActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port dataIn : CommandIF;
     }
 
     public part def ControlComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port pwrIn;
-        port cmdOut;
+        port configIn : DiagnosticIF;
+        port pwrIn : ControlIF;
+        port cmdOut : CommandIF;
     }
 
     public part def DataSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
+        port statusOut : PowerIF;
     }
 
     public part def PowerActuator {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port telemetryOut;
+        port telemetryOut : SignalIF;
     }
 
     public part def MonitorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port configIn;
-        port dataIn;
+        port telemetryOut : DiagnosticIF;
+        port configIn : ConfigIF;
+        port dataIn : TelemetryIF;
     }
 
     // System Definition
@@ -98,6 +109,6 @@ package arch_000115 {
     }
 
     // System Instance
-    part dockingmechanismsystem : DockingMechanismSystem;
+    public part dockingmechanismsystem : DockingMechanismSystem;
 
 }

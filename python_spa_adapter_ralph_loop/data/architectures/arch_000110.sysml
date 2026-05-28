@@ -1,5 +1,7 @@
 package arch_000110 {
 
+    import ScalarValues::*;
+
     // Antenna Subsystem Reference Architecture 110
     // Domain: antenna subsystem
 
@@ -20,45 +22,54 @@ package arch_000110 {
         doc "The antenna subsystem system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ProcessingComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port pwrOut;
+        port telemetryOut : ControlIF;
+        port pwrOut : SignalIF;
     }
 
     public part def MissionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
+        port sensorOut : SignalIF;
     }
 
     public part def SensorUnit {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
+        port telemetryOut : SignalIF;
     }
 
     public part def ThermalPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
-        port pwrIn;
+        port cmdIn : ConfigIF;
+        port pwrIn : ThermalIF;
     }
 
     public part def CommBus {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrOut;
+        port pwrOut : StatusIF;
     }
 
     public part def CommandComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port statusOut;
-        port telemetryOut;
+        port dataIn : DataIF;
+        port statusOut : ConfigIF;
+        port telemetryOut : DiagnosticIF;
     }
 
     // System Definition
@@ -88,6 +99,6 @@ package arch_000110 {
     }
 
     // System Instance
-    part antennasubsystemsystem : AntennaSubsystemSystem;
+    public part antennasubsystemsystem : AntennaSubsystemSystem;
 
 }

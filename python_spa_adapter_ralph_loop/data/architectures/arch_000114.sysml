@@ -1,5 +1,7 @@
 package arch_000114 {
 
+    import ScalarValues::*;
+
     // Lunar Habitat Reference Architecture 114
     // Domain: lunar habitat
 
@@ -16,34 +18,41 @@ package arch_000114 {
         doc "The lunar habitat system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def ThermalBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : DataIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port cmdOut;
-        port statusOut;
+        port ctrlIn : ControlIF;
+        port cmdOut : ConfigIF;
+        port statusOut : ConfigIF;
     }
 
     public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port sensorOut;
-        port cmdIn;
+        port dataIn : StatusIF;
+        port sensorOut : StatusIF;
+        port cmdIn : PowerIF;
     }
 
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port dataIn;
+        port configIn : PowerIF;
+        port dataIn : PowerIF;
     }
 
     // System Definition
@@ -68,6 +77,6 @@ package arch_000114 {
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    public part lunarhabitatsystem : LunarHabitatSystem;
 
 }

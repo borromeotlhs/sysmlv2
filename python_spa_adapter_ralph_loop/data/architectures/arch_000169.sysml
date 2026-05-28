@@ -1,5 +1,7 @@
 package arch_000169 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 169
     // Domain: ground station
 
@@ -12,34 +14,43 @@ package arch_000169 {
         doc "The ground station system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port ctrlIn;
-        port configIn;
+        port dataIn : PowerIF;
+        port ctrlIn : SignalIF;
+        port configIn : ControlIF;
     }
 
     public part def SensorInterface {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port sensorOut;
+        port pwrOut : CommandIF;
+        port sensorOut : DiagnosticIF;
     }
 
     public part def DistributionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port cmdIn;
-        port sensorOut;
+        port telemetryOut : PowerIF;
+        port cmdIn : ThermalIF;
+        port sensorOut : ConfigIF;
     }
 
     public part def PowerActuator {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port statusOut;
+        port statusOut : ControlIF;
     }
 
     // System Definition
@@ -62,6 +73,6 @@ package arch_000169 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

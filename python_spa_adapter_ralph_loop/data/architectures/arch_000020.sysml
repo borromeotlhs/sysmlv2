@@ -1,5 +1,7 @@
 package arch_000020 {
 
+    import ScalarValues::*;
+
     // Thermal Control Reference Architecture 20
     // Domain: thermal control
 
@@ -16,47 +18,56 @@ package arch_000020 {
         doc "The thermal control system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def CommandUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port sensorOut;
-        port sensorOut;
+        port sensorOut : CommandIF;
+        port sensorOut : StatusIF;
     }
 
     public part def NavBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
+        port dataOut : DataIF;
     }
 
     public part def NavController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port ctrlIn;
+        port cmdOut : PowerIF;
+        port ctrlIn : SignalIF;
     }
 
     public part def MissionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port ctrlIn;
-        port dataOut;
+        port pwrIn : StatusIF;
+        port ctrlIn : TelemetryIF;
+        port dataOut : TelemetryIF;
     }
 
     public part def ControlModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port dataOut;
-        port sensorOut;
+        port dataIn : StatusIF;
+        port dataOut : DiagnosticIF;
+        port sensorOut : PowerIF;
     }
 
     public part def ProcessingProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port pwrIn : StatusIF;
     }
 
     // System Definition
@@ -87,6 +98,6 @@ package arch_000020 {
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    public part thermalcontrolsystem : ThermalControlSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000073 {
 
+    import ScalarValues::*;
+
     // Antenna Subsystem Reference Architecture 73
     // Domain: antenna subsystem
 
@@ -16,17 +18,21 @@ package arch_000073 {
         doc "The antenna subsystem system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def DataIF;
+    public port def DiagnosticIF;
+
     // Component Definitions
     public part def PowerPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
+        port pwrIn : DiagnosticIF;
     }
 
     public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port dataIn : DataIF;
     }
 
     // System Definition
@@ -44,6 +50,6 @@ package arch_000073 {
     }
 
     // System Instance
-    part antennasubsystemsystem : AntennaSubsystemSystem;
+    public part antennasubsystemsystem : AntennaSubsystemSystem;
 
 }

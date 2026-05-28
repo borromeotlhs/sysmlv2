@@ -1,5 +1,7 @@
 package arch_000093 {
 
+    import ScalarValues::*;
+
     // Radar System Reference Architecture 93
     // Domain: radar system
 
@@ -20,58 +22,70 @@ package arch_000093 {
         doc "The radar system system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommandActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataOut;
-        port statusOut;
+        port dataOut : TelemetryIF;
+        port statusOut : ControlIF;
     }
 
     public part def SensorComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port statusOut;
-        port pwrIn;
+        port configIn : DataIF;
+        port statusOut : PowerIF;
+        port pwrIn : TelemetryIF;
     }
 
     public part def DistributionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : SignalIF;
     }
 
     public part def MonitorSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port pwrIn;
-        port cmdIn;
+        port sensorOut : StatusIF;
+        port pwrIn : ThermalIF;
+        port cmdIn : CommandIF;
     }
 
     public part def SensorSubsystem {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port sensorOut;
-        port statusOut;
+        port sensorOut : DataIF;
+        port sensorOut : CommandIF;
+        port statusOut : ThermalIF;
     }
 
     public part def ThermalComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port pwrOut;
-        port dataIn;
+        port pwrOut : StatusIF;
+        port pwrOut : DataIF;
+        port dataIn : StatusIF;
     }
 
     public part def ProcessingSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port pwrIn;
-        port statusOut;
+        port configIn : SignalIF;
+        port pwrIn : ConfigIF;
+        port statusOut : DiagnosticIF;
     }
 
     // System Definition
@@ -105,6 +119,6 @@ package arch_000093 {
     }
 
     // System Instance
-    part radarsystemsystem : RadarSystemSystem;
+    public part radarsystemsystem : RadarSystemSystem;
 
 }

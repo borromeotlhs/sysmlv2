@@ -1,5 +1,7 @@
 package arch_000033 {
 
+    import ScalarValues::*;
+
     // Antenna Subsystem Reference Architecture 33
     // Domain: antenna subsystem
 
@@ -20,40 +22,49 @@ package arch_000033 {
         doc "The antenna subsystem system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : CommandIF;
     }
 
     public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port sensorOut;
-        port sensorOut;
+        port ctrlIn : ControlIF;
+        port sensorOut : DataIF;
+        port sensorOut : DataIF;
     }
 
     public part def SensorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port pwrIn;
+        port cmdOut : PowerIF;
+        port pwrIn : TelemetryIF;
     }
 
     public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port cmdOut;
-        port ctrlIn;
+        port dataIn : StatusIF;
+        port cmdOut : ThermalIF;
+        port ctrlIn : ControlIF;
     }
 
     public part def DataActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : CommandIF;
     }
 
     // System Definition
@@ -85,6 +96,6 @@ package arch_000033 {
     }
 
     // System Instance
-    part antennasubsystemsystem : AntennaSubsystemSystem;
+    public part antennasubsystemsystem : AntennaSubsystemSystem;
 
 }

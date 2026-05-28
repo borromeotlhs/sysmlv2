@@ -1,5 +1,7 @@
 package arch_000179 {
 
+    import ScalarValues::*;
+
     // Satellite Bus Reference Architecture 179
     // Domain: satellite bus
 
@@ -20,54 +22,65 @@ package arch_000179 {
         doc "The satellite bus system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
+        port telemetryOut : ControlIF;
     }
 
     public part def CommandUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port ctrlIn;
-        port pwrOut;
-        port configIn;
+        port ctrlIn : DataIF;
+        port pwrOut : CommandIF;
+        port configIn : DiagnosticIF;
     }
 
     public part def FlightActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port telemetryOut;
+        port statusOut : ConfigIF;
+        port telemetryOut : ThermalIF;
     }
 
     public part def ThermalInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port dataOut;
-        port configIn;
+        port configIn : CommandIF;
+        port dataOut : CommandIF;
+        port configIn : DataIF;
     }
 
     public part def ProcessingSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port dataOut;
+        port dataOut : StatusIF;
+        port dataOut : DiagnosticIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
+        port cmdIn : PowerIF;
     }
 
     public part def CommandAssembly {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port ctrlIn;
-        port dataOut;
+        port ctrlIn : SignalIF;
+        port dataOut : PowerIF;
     }
 
     // System Definition
@@ -102,6 +115,6 @@ package arch_000179 {
     }
 
     // System Instance
-    part satellitebussystem : SatelliteBusSystem;
+    public part satellitebussystem : SatelliteBusSystem;
 
 }

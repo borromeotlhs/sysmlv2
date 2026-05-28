@@ -1,5 +1,7 @@
 package arch_000088 {
 
+    import ScalarValues::*;
+
     // Reaction Wheel Reference Architecture 88
     // Domain: reaction wheel
 
@@ -12,36 +14,43 @@ package arch_000088 {
         doc "The reaction wheel system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
+        port sensorOut : ConfigIF;
     }
 
     public part def PowerInterface {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port cmdOut;
+        port cmdOut : CommandIF;
     }
 
     public part def CommandUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port configIn;
+        port configIn : DiagnosticIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port cmdOut;
+        port sensorOut : ConfigIF;
+        port cmdOut : SignalIF;
     }
 
     public part def MonitorAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
+        port pwrOut : ThermalIF;
     }
 
     // System Definition
@@ -70,6 +79,6 @@ package arch_000088 {
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    public part reactionwheelsystem : ReactionWheelSystem;
 
 }

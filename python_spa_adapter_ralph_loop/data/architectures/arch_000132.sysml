@@ -1,5 +1,7 @@
 package arch_000132 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 132
     // Domain: ground station
 
@@ -12,20 +14,26 @@ package arch_000132 {
         doc "The ground station system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+
     // Component Definitions
     public part def NavPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
-        port configIn;
+        port dataOut : SignalIF;
+        port configIn : PowerIF;
     }
 
     public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port configIn;
-        port dataOut;
+        port configIn : PowerIF;
+        port configIn : ConfigIF;
+        port dataOut : DataIF;
     }
 
     // System Definition
@@ -45,6 +53,6 @@ package arch_000132 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

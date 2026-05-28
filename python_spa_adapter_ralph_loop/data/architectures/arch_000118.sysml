@@ -1,5 +1,7 @@
 package arch_000118 {
 
+    import ScalarValues::*;
+
     // Lunar Habitat Reference Architecture 118
     // Domain: lunar habitat
 
@@ -12,38 +14,46 @@ package arch_000118 {
         doc "The lunar habitat system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def SensorComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port dataIn;
-        port sensorOut;
+        port pwrIn : ControlIF;
+        port dataIn : DataIF;
+        port sensorOut : PowerIF;
     }
 
     public part def DistributionPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
+        port cmdIn : TelemetryIF;
     }
 
     public part def SensorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port cmdIn;
+        port sensorOut : DataIF;
+        port cmdIn : SignalIF;
     }
 
     public part def DataAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port telemetryOut : DiagnosticIF;
     }
 
     public part def NavBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
+        port pwrOut : TelemetryIF;
     }
 
     // System Definition
@@ -68,6 +78,6 @@ package arch_000118 {
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    public part lunarhabitatsystem : LunarHabitatSystem;
 
 }

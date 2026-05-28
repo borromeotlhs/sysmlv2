@@ -1,5 +1,7 @@
 package arch_000092 {
 
+    import ScalarValues::*;
+
     // Docking Mechanism Reference Architecture 92
     // Domain: docking mechanism
 
@@ -20,50 +22,61 @@ package arch_000092 {
         doc "The docking mechanism system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommandProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port telemetryOut;
+        port configIn : DiagnosticIF;
+        port telemetryOut : CommandIF;
     }
 
     public part def MonitorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port cmdOut;
-        port ctrlIn;
+        port telemetryOut : SignalIF;
+        port cmdOut : ThermalIF;
+        port ctrlIn : DiagnosticIF;
     }
 
     public part def MissionActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port dataOut;
+        port ctrlIn : PowerIF;
+        port dataOut : StatusIF;
     }
 
     public part def CommandComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port dataIn;
-        port telemetryOut;
+        port dataIn : DiagnosticIF;
+        port dataIn : DiagnosticIF;
+        port telemetryOut : ConfigIF;
     }
 
     public part def CommandUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataIn;
-        port ctrlIn;
+        port dataIn : ControlIF;
+        port ctrlIn : DiagnosticIF;
     }
 
     public part def CommandSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port statusOut;
-        port dataIn;
+        port cmdOut : ThermalIF;
+        port statusOut : StatusIF;
+        port dataIn : DataIF;
     }
 
     // System Definition
@@ -92,6 +105,6 @@ package arch_000092 {
     }
 
     // System Instance
-    part dockingmechanismsystem : DockingMechanismSystem;
+    public part dockingmechanismsystem : DockingMechanismSystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000013 {
 
+    import ScalarValues::*;
+
     // Command Data Handling Reference Architecture 13
     // Domain: command data handling
 
@@ -16,31 +18,37 @@ package arch_000013 {
         doc "The command data handling system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port statusOut;
-        port configIn;
+        port sensorOut : CommandIF;
+        port statusOut : DiagnosticIF;
+        port configIn : CommandIF;
     }
 
     public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port telemetryOut : StatusIF;
     }
 
     public part def ProcessingProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port ctrlIn;
+        port ctrlIn : PowerIF;
     }
 
     public part def NavProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port pwrIn : StatusIF;
     }
 
     // System Definition
@@ -65,6 +73,6 @@ package arch_000013 {
     }
 
     // System Instance
-    part commanddatahandlingsystem : CommandDataHandlingSystem;
+    public part commanddatahandlingsystem : CommandDataHandlingSystem;
 
 }

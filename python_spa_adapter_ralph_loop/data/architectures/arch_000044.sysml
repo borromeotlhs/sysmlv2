@@ -1,5 +1,7 @@
 package arch_000044 {
 
+    import ScalarValues::*;
+
     // Instrument Platform Reference Architecture 44
     // Domain: instrument platform
 
@@ -20,55 +22,66 @@ package arch_000044 {
         doc "The instrument platform system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommSubsystem {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port statusOut;
-        port ctrlIn;
+        port statusOut : ThermalIF;
+        port ctrlIn : SignalIF;
     }
 
     public part def SensorAssembly {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port configIn;
+        port pwrIn : DiagnosticIF;
+        port configIn : CommandIF;
     }
 
     public part def FlightSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port dataOut;
+        port telemetryOut : ControlIF;
+        port dataOut : CommandIF;
     }
 
     public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port pwrIn;
-        port statusOut;
+        port cmdOut : TelemetryIF;
+        port pwrIn : PowerIF;
+        port statusOut : ConfigIF;
     }
 
     public part def CommandProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port telemetryOut;
-        port pwrOut;
+        port pwrIn : DataIF;
+        port telemetryOut : SignalIF;
+        port pwrOut : DiagnosticIF;
     }
 
     public part def NavAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
+        port dataOut : PowerIF;
     }
 
     public part def DataComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port configIn;
+        port dataIn : TelemetryIF;
+        port configIn : ControlIF;
     }
 
     // System Definition
@@ -103,6 +116,6 @@ package arch_000044 {
     }
 
     // System Instance
-    part instrumentplatformsystem : InstrumentPlatformSystem;
+    public part instrumentplatformsystem : InstrumentPlatformSystem;
 
 }

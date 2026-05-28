@@ -1,5 +1,7 @@
 package arch_000007 {
 
+    import ScalarValues::*;
+
     // Lunar Habitat Reference Architecture 7
     // Domain: lunar habitat
 
@@ -12,39 +14,48 @@ package arch_000007 {
         doc "The lunar habitat system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : StatusIF;
     }
 
     public part def ControlSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
+        port telemetryOut : SignalIF;
     }
 
     public part def ThermalUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port cmdIn;
+        port pwrOut : DataIF;
+        port cmdIn : TelemetryIF;
     }
 
     public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port cmdOut;
-        port dataOut;
+        port configIn : DataIF;
+        port cmdOut : ConfigIF;
+        port dataOut : ConfigIF;
     }
 
     public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port cmdOut;
+        port dataIn : ControlIF;
+        port cmdOut : ThermalIF;
     }
 
     // System Definition
@@ -70,6 +81,6 @@ package arch_000007 {
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    public part lunarhabitatsystem : LunarHabitatSystem;
 
 }

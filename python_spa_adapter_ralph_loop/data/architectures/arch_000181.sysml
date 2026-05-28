@@ -1,5 +1,7 @@
 package arch_000181 {
 
+    import ScalarValues::*;
+
     // Telemetry System Reference Architecture 181
     // Domain: telemetry system
 
@@ -16,18 +18,22 @@ package arch_000181 {
         doc "The telemetry system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def PowerIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
+        port sensorOut : PowerIF;
     }
 
     public part def ControlSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
-        port pwrIn;
+        port statusOut : TelemetryIF;
+        port pwrIn : TelemetryIF;
     }
 
     // System Definition
@@ -49,6 +55,6 @@ package arch_000181 {
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    public part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

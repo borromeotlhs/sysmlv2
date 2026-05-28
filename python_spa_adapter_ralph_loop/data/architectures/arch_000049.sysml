@@ -1,5 +1,7 @@
 package arch_000049 {
 
+    import ScalarValues::*;
+
     // Propulsion Module Reference Architecture 49
     // Domain: propulsion module
 
@@ -12,21 +14,27 @@ package arch_000049 {
         doc "The propulsion module system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DataModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port configIn;
-        port statusOut;
+        port ctrlIn : ThermalIF;
+        port configIn : ThermalIF;
+        port statusOut : ThermalIF;
     }
 
     public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port statusOut;
-        port sensorOut;
+        port pwrOut : SignalIF;
+        port statusOut : TelemetryIF;
+        port sensorOut : ControlIF;
     }
 
     // System Definition
@@ -48,6 +56,6 @@ package arch_000049 {
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    public part propulsionmodulesystem : PropulsionModuleSystem;
 
 }

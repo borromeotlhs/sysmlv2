@@ -1,5 +1,7 @@
 package arch_000071 {
 
+    import ScalarValues::*;
+
     // Antenna Subsystem Reference Architecture 71
     // Domain: antenna subsystem
 
@@ -16,18 +18,23 @@ package arch_000071 {
         doc "The antenna subsystem system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+
     // Component Definitions
     public part def DistributionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port cmdOut;
+        port pwrIn : DataIF;
+        port cmdOut : ControlIF;
     }
 
     public part def PowerComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
+        port statusOut : PowerIF;
     }
 
     // System Definition
@@ -46,6 +53,6 @@ package arch_000071 {
     }
 
     // System Instance
-    part antennasubsystemsystem : AntennaSubsystemSystem;
+    public part antennasubsystemsystem : AntennaSubsystemSystem;
 
 }

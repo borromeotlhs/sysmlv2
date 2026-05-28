@@ -1,5 +1,7 @@
 package arch_000149 {
 
+    import ScalarValues::*;
+
     // Fuel Cell Reference Architecture 149
     // Domain: fuel cell
 
@@ -12,57 +14,67 @@ package arch_000149 {
         doc "The fuel cell system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def FlightSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
+        port ctrlIn : ControlIF;
     }
 
     public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
-        port pwrIn;
-        port ctrlIn;
+        port statusOut : CommandIF;
+        port pwrIn : DataIF;
+        port ctrlIn : TelemetryIF;
     }
 
     public part def CommComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port statusOut;
-        port dataIn;
+        port statusOut : ControlIF;
+        port statusOut : DataIF;
+        port dataIn : SignalIF;
     }
 
     public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
-        port statusOut;
-        port sensorOut;
+        port cmdOut : ControlIF;
+        port statusOut : DiagnosticIF;
+        port sensorOut : ControlIF;
     }
 
     public part def PowerController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port telemetryOut;
+        port cmdIn : CommandIF;
+        port telemetryOut : PowerIF;
     }
 
     public part def DistributionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port cmdIn;
-        port dataOut;
+        port ctrlIn : PowerIF;
+        port cmdIn : StatusIF;
+        port dataOut : SignalIF;
     }
 
     public part def PowerModule {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port configIn;
-        port cmdOut;
+        port configIn : DataIF;
+        port cmdOut : PowerIF;
     }
 
     // System Definition
@@ -92,6 +104,6 @@ package arch_000149 {
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    public part fuelcellsystem : FuelCellSystem;
 
 }

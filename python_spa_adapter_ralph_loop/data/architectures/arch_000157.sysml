@@ -1,5 +1,7 @@
 package arch_000157 {
 
+    import ScalarValues::*;
+
     // Reaction Wheel Reference Architecture 157
     // Domain: reaction wheel
 
@@ -20,49 +22,58 @@ package arch_000157 {
         doc "The reaction wheel system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def ControlBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port cmdIn;
-        port cmdIn;
+        port ctrlIn : ThermalIF;
+        port cmdIn : ConfigIF;
+        port cmdIn : StatusIF;
     }
 
     public part def SensorUnit {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port cmdOut;
-        port telemetryOut;
+        port pwrOut : ConfigIF;
+        port cmdOut : SignalIF;
+        port telemetryOut : StatusIF;
     }
 
     public part def MissionPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port configIn;
+        port cmdOut : TelemetryIF;
+        port configIn : ControlIF;
     }
 
     public part def CommPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
-        port dataIn;
+        port statusOut : CommandIF;
+        port dataIn : SignalIF;
     }
 
     public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
-        port pwrOut;
-        port dataOut;
+        port dataOut : TelemetryIF;
+        port pwrOut : TelemetryIF;
+        port dataOut : ConfigIF;
     }
 
     public part def ProcessingActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port configIn : ControlIF;
     }
 
     // System Definition
@@ -95,6 +106,6 @@ package arch_000157 {
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    public part reactionwheelsystem : ReactionWheelSystem;
 
 }

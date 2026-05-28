@@ -1,5 +1,7 @@
 package arch_000162 {
 
+    import ScalarValues::*;
+
     // Instrument Platform Reference Architecture 162
     // Domain: instrument platform
 
@@ -20,40 +22,48 @@ package arch_000162 {
         doc "The instrument platform system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def FlightController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port pwrIn;
+        port pwrOut : SignalIF;
+        port pwrIn : TelemetryIF;
     }
 
     public part def ThermalActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port dataIn : PowerIF;
     }
 
     public part def PowerComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port pwrIn;
-        port dataOut;
+        port statusOut : CommandIF;
+        port pwrIn : SignalIF;
+        port dataOut : PowerIF;
     }
 
     public part def SensorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port ctrlIn;
-        port cmdOut;
-        port pwrOut;
+        port ctrlIn : CommandIF;
+        port cmdOut : ConfigIF;
+        port pwrOut : DataIF;
     }
 
     public part def FlightAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : TelemetryIF;
     }
 
     // System Definition
@@ -83,6 +93,6 @@ package arch_000162 {
     }
 
     // System Instance
-    part instrumentplatformsystem : InstrumentPlatformSystem;
+    public part instrumentplatformsystem : InstrumentPlatformSystem;
 
 }

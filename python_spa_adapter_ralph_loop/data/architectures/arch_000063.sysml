@@ -1,5 +1,7 @@
 package arch_000063 {
 
+    import ScalarValues::*;
+
     // Attitude Control Reference Architecture 63
     // Domain: attitude control
 
@@ -12,39 +14,46 @@ package arch_000063 {
         doc "The attitude control system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def ProcessingModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : PowerIF;
     }
 
     public part def MissionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
+        port cmdIn : PowerIF;
     }
 
     public part def FlightSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port ctrlIn;
-        port sensorOut;
+        port cmdIn : PowerIF;
+        port ctrlIn : ControlIF;
+        port sensorOut : ConfigIF;
     }
 
     public part def FlightPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port pwrOut;
-        port pwrIn;
+        port pwrIn : PowerIF;
+        port pwrOut : PowerIF;
+        port pwrIn : DataIF;
     }
 
     public part def ControlActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
+        port pwrOut : StatusIF;
     }
 
     // System Definition
@@ -71,6 +80,6 @@ package arch_000063 {
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    public part attitudecontrolsystem : AttitudeControlSystem;
 
 }

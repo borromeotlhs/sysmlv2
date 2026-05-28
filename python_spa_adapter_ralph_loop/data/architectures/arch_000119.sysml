@@ -1,5 +1,7 @@
 package arch_000119 {
 
+    import ScalarValues::*;
+
     // Thruster Assembly Reference Architecture 119
     // Domain: thruster assembly
 
@@ -20,41 +22,49 @@ package arch_000119 {
         doc "The thruster assembly system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port sensorOut;
-        port sensorOut;
+        port cmdOut : ThermalIF;
+        port sensorOut : ControlIF;
+        port sensorOut : ControlIF;
     }
 
     public part def PowerProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
-        port configIn;
+        port dataIn : SignalIF;
+        port configIn : ThermalIF;
     }
 
     public part def CommandUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
+        port cmdOut : SignalIF;
     }
 
     public part def FlightComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port ctrlIn;
-        port dataIn;
+        port pwrOut : ConfigIF;
+        port ctrlIn : CommandIF;
+        port dataIn : CommandIF;
     }
 
     public part def ControlSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port cmdOut;
+        port telemetryOut : CommandIF;
+        port cmdOut : StatusIF;
     }
 
     // System Definition
@@ -82,6 +92,6 @@ package arch_000119 {
     }
 
     // System Instance
-    part thrusterassemblysystem : ThrusterAssemblySystem;
+    public part thrusterassemblysystem : ThrusterAssemblySystem;
 
 }

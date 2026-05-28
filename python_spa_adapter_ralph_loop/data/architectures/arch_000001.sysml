@@ -1,53 +1,60 @@
 package arch_000001 {
 
-    // Uav Payload Reference Architecture 1
-    // Domain: uav payload
+    import ScalarValues::*;
+
+    // Solar Array Reference Architecture 1
+    // Domain: solar array
 
     // Requirements
     public requirement REQ_001 {
-        doc "The uav payload system shall exchange command and data through typed interfaces."
+        doc "The solar array system shall exchange data through typed interfaces."
     }
 
     public requirement REQ_002 {
-        doc "The uav payload system shall trace subsystem design to requirements."
+        doc "The solar array system shall trace subsystem design to requirements."
     }
+
+    public requirement REQ_003 {
+        doc "The solar array system shall provide fault detection and recovery."
+    }
+
+    // Port Definitions
+    public port def CommandIF;
+    public port def DataIF;
+    public port def StatusIF;
 
     // Component Definitions
-    public part def MissionComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port cmdOut;
+    public part def MissionBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn : DataIF;
     }
 
-    public part def SensorPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port dataOut;
-    }
-
-    public part def PowerUnit {
+    public part def PowerModule {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port pwrOut;
+        port sensorOut : DataIF;
+        port configIn : StatusIF;
+        port cmdIn : CommandIF;
     }
 
     // System Definition
-    public part def UavPayloadSystem {
-        part missioncomputer : MissionComputer {
+    public part def SolarArraySystem {
+        part missionbus : MissionBus {
             satisfy REQ_001;
         }
-        part sensorpayload : SensorPayload {
+        part powermodule : PowerModule {
+            satisfy REQ_001;
             satisfy REQ_002;
-        }
-        part powerunit : PowerUnit {
+            satisfy REQ_003;
         }
 
         // Connections
-        connect missioncomputer.cmdOut to sensorpayload.dataOut;
-        connect powerunit.pwrOut to sensorpayload.dataOut;
+        connect missionbus.dataIn to powermodule.sensorOut;
+        connect powermodule.cmdIn to missionbus.dataIn;
     }
 
     // System Instance
-    part uavpayloadsystem : UavPayloadSystem;
+    public part solararraysystem : SolarArraySystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000023 {
 
+    import ScalarValues::*;
+
     // Avionics Bay Reference Architecture 23
     // Domain: avionics bay
 
@@ -20,54 +22,62 @@ package arch_000023 {
         doc "The avionics bay system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+
     // Component Definitions
     public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port configIn;
+        port configIn : SignalIF;
     }
 
     public part def MissionActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port telemetryOut;
-        port telemetryOut;
+        port telemetryOut : PowerIF;
+        port telemetryOut : DataIF;
+        port telemetryOut : CommandIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port configIn;
+        port ctrlIn : CommandIF;
+        port configIn : ControlIF;
     }
 
     public part def ProcessingPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
-        port pwrIn;
-        port statusOut;
+        port dataIn : DataIF;
+        port pwrIn : ControlIF;
+        port statusOut : PowerIF;
     }
 
     public part def PowerModule {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port dataIn;
+        port dataIn : ConfigIF;
     }
 
     public part def ControlAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port pwrIn;
+        port sensorOut : ConfigIF;
+        port pwrIn : PowerIF;
     }
 
     public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port pwrOut;
+        port ctrlIn : SignalIF;
+        port pwrOut : DataIF;
     }
 
     // System Definition
@@ -102,6 +112,6 @@ package arch_000023 {
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    public part avionicsbaysystem : AvionicsBaySystem;
 
 }

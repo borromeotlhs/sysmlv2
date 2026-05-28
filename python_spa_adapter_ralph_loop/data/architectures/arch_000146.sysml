@@ -1,5 +1,7 @@
 package arch_000146 {
 
+    import ScalarValues::*;
+
     // Data Processing Unit Reference Architecture 146
     // Domain: data processing unit
 
@@ -12,42 +14,52 @@ package arch_000146 {
         doc "The data processing unit system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port sensorOut;
-        port configIn;
-        port dataOut;
+        port sensorOut : PowerIF;
+        port configIn : TelemetryIF;
+        port dataOut : TelemetryIF;
     }
 
     public part def ControlSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port configIn;
+        port telemetryOut : ConfigIF;
+        port configIn : StatusIF;
     }
 
     public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port sensorOut;
-        port pwrOut;
+        port telemetryOut : CommandIF;
+        port sensorOut : ThermalIF;
+        port pwrOut : TelemetryIF;
     }
 
     public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
+        port dataOut : PowerIF;
     }
 
     public part def CommandComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port statusOut;
-        port pwrOut;
+        port telemetryOut : SignalIF;
+        port statusOut : StatusIF;
+        port pwrOut : DataIF;
     }
 
     // System Definition
@@ -72,6 +84,6 @@ package arch_000146 {
     }
 
     // System Instance
-    part dataprocessingunitsystem : DataProcessingUnitSystem;
+    public part dataprocessingunitsystem : DataProcessingUnitSystem;
 
 }

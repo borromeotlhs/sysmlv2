@@ -1,5 +1,7 @@
 package arch_000103 {
 
+    import ScalarValues::*;
+
     // Telemetry System Reference Architecture 103
     // Domain: telemetry system
 
@@ -12,33 +14,40 @@ package arch_000103 {
         doc "The telemetry system system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MissionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
+        port cmdIn : DiagnosticIF;
     }
 
     public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port dataIn;
-        port cmdOut;
+        port ctrlIn : DiagnosticIF;
+        port dataIn : ControlIF;
+        port cmdOut : ThermalIF;
     }
 
     public part def ControlController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port ctrlIn;
+        port ctrlIn : DataIF;
     }
 
     public part def CommModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port configIn;
-        port telemetryOut;
-        port cmdIn;
+        port configIn : ControlIF;
+        port telemetryOut : CommandIF;
+        port cmdIn : ControlIF;
     }
 
     // System Definition
@@ -63,6 +72,6 @@ package arch_000103 {
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    public part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

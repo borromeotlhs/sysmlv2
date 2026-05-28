@@ -1,5 +1,7 @@
 package arch_000040 {
 
+    import ScalarValues::*;
+
     // Robotic Arm Reference Architecture 40
     // Domain: robotic arm
 
@@ -20,34 +22,42 @@ package arch_000040 {
         doc "The robotic arm system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def FlightSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port dataIn;
-        port statusOut;
+        port configIn : DataIF;
+        port dataIn : DataIF;
+        port statusOut : ControlIF;
     }
 
     public part def SensorPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port dataIn;
+        port sensorOut : ControlIF;
+        port dataIn : ThermalIF;
     }
 
     public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port sensorOut;
-        port cmdIn;
+        port sensorOut : StatusIF;
+        port sensorOut : CommandIF;
+        port cmdIn : CommandIF;
     }
 
     public part def PowerActuator {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port pwrOut;
+        port pwrOut : TelemetryIF;
     }
 
     // System Definition
@@ -76,6 +86,6 @@ package arch_000040 {
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    public part roboticarmsystem : RoboticArmSystem;
 
 }

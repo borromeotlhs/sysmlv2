@@ -1,5 +1,7 @@
 package arch_000182 {
 
+    import ScalarValues::*;
+
     // Autonomous Rover Reference Architecture 182
     // Domain: autonomous rover
 
@@ -20,20 +22,27 @@ package arch_000182 {
         doc "The autonomous rover system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrIn;
-        port sensorOut;
+        port pwrIn : ControlIF;
+        port sensorOut : TelemetryIF;
     }
 
     public part def CommandModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrOut;
-        port telemetryOut;
-        port statusOut;
+        port pwrOut : CommandIF;
+        port telemetryOut : StatusIF;
+        port statusOut : ThermalIF;
     }
 
     // System Definition
@@ -55,6 +64,6 @@ package arch_000182 {
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    public part autonomousroversystem : AutonomousRoverSystem;
 
 }

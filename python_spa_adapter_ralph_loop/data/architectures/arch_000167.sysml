@@ -1,5 +1,7 @@
 package arch_000167 {
 
+    import ScalarValues::*;
+
     // Solar Array Reference Architecture 167
     // Domain: solar array
 
@@ -20,53 +22,62 @@ package arch_000167 {
         doc "The solar array system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port pwrIn;
-        port sensorOut;
+        port dataOut : CommandIF;
+        port pwrIn : StatusIF;
+        port sensorOut : TelemetryIF;
     }
 
     public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port dataOut;
+        port cmdIn : StatusIF;
+        port dataOut : ControlIF;
     }
 
     public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port configIn;
+        port configIn : CommandIF;
     }
 
     public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port cmdOut;
-        port dataOut;
+        port dataOut : StatusIF;
+        port cmdOut : ThermalIF;
+        port dataOut : PowerIF;
     }
 
     public part def SensorPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port telemetryOut;
+        port pwrIn : DataIF;
+        port telemetryOut : DataIF;
     }
 
     public part def NavAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port ctrlIn : StatusIF;
     }
 
     public part def SensorComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
+        port configIn : ControlIF;
     }
 
     // System Definition
@@ -100,6 +111,6 @@ package arch_000167 {
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    public part solararraysystem : SolarArraySystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000191 {
 
+    import ScalarValues::*;
+
     // Command Data Handling Reference Architecture 191
     // Domain: command data handling
 
@@ -20,41 +22,49 @@ package arch_000191 {
         doc "The command data handling system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def FlightUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port pwrOut;
-        port telemetryOut;
+        port pwrIn : ThermalIF;
+        port pwrOut : DiagnosticIF;
+        port telemetryOut : ConfigIF;
     }
 
     public part def MonitorSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port dataIn;
-        port statusOut;
+        port dataIn : StatusIF;
+        port dataIn : ControlIF;
+        port statusOut : StatusIF;
     }
 
     public part def ProcessingProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
+        port configIn : ThermalIF;
     }
 
     public part def SensorModule {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
+        port pwrIn : DataIF;
     }
 
     public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port statusOut;
-        port pwrOut;
+        port cmdOut : ConfigIF;
+        port statusOut : DataIF;
+        port pwrOut : DataIF;
     }
 
     // System Definition
@@ -85,6 +95,6 @@ package arch_000191 {
     }
 
     // System Instance
-    part commanddatahandlingsystem : CommandDataHandlingSystem;
+    public part commanddatahandlingsystem : CommandDataHandlingSystem;
 
 }

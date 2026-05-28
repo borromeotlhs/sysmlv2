@@ -1,5 +1,7 @@
 package arch_000070 {
 
+    import ScalarValues::*;
+
     // Attitude Control Reference Architecture 70
     // Domain: attitude control
 
@@ -16,44 +18,52 @@ package arch_000070 {
         doc "The attitude control system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
+        port cmdIn : DiagnosticIF;
     }
 
     public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port dataIn;
+        port configIn : CommandIF;
+        port dataIn : DiagnosticIF;
     }
 
     public part def ControlProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port telemetryOut;
+        port configIn : ThermalIF;
+        port telemetryOut : DiagnosticIF;
     }
 
     public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port ctrlIn;
+        port ctrlIn : PowerIF;
     }
 
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port pwrOut;
+        port cmdOut : ThermalIF;
+        port pwrOut : ControlIF;
     }
 
     public part def PowerProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
+        port telemetryOut : DataIF;
     }
 
     // System Definition
@@ -84,6 +94,6 @@ package arch_000070 {
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    public part attitudecontrolsystem : AttitudeControlSystem;
 
 }

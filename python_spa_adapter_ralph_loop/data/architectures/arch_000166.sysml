@@ -1,5 +1,7 @@
 package arch_000166 {
 
+    import ScalarValues::*;
+
     // Fuel Cell Reference Architecture 166
     // Domain: fuel cell
 
@@ -20,54 +22,63 @@ package arch_000166 {
         doc "The fuel cell system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
+        port cmdOut : TelemetryIF;
     }
 
     public part def SensorComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port cmdIn;
+        port dataOut : TelemetryIF;
+        port cmdIn : ThermalIF;
     }
 
     public part def MonitorPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
-        port telemetryOut;
-        port dataOut;
+        port cmdIn : SignalIF;
+        port telemetryOut : ControlIF;
+        port dataOut : DataIF;
     }
 
     public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port dataOut;
-        port ctrlIn;
+        port telemetryOut : SignalIF;
+        port dataOut : ThermalIF;
+        port ctrlIn : ControlIF;
     }
 
     public part def ControlAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : TelemetryIF;
     }
 
     public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
-        port cmdIn;
-        port telemetryOut;
+        port configIn : ThermalIF;
+        port cmdIn : ThermalIF;
+        port telemetryOut : StatusIF;
     }
 
     public part def DistributionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port pwrIn : DiagnosticIF;
     }
 
     // System Definition
@@ -103,6 +114,6 @@ package arch_000166 {
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    public part fuelcellsystem : FuelCellSystem;
 
 }

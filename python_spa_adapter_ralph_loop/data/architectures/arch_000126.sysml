@@ -1,5 +1,7 @@
 package arch_000126 {
 
+    import ScalarValues::*;
+
     // Data Processing Unit Reference Architecture 126
     // Domain: data processing unit
 
@@ -12,44 +14,53 @@ package arch_000126 {
         doc "The data processing unit system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port cmdIn;
+        port pwrIn : DataIF;
+        port cmdIn : DataIF;
     }
 
     public part def MonitorPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
+        port configIn : SignalIF;
     }
 
     public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port dataIn;
+        port cmdIn : TelemetryIF;
+        port dataIn : CommandIF;
     }
 
     public part def SensorSubsystem {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
+        port telemetryOut : StatusIF;
     }
 
     public part def DataActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port statusOut;
+        port dataIn : ControlIF;
+        port statusOut : DiagnosticIF;
     }
 
     public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
+        port sensorOut : TelemetryIF;
     }
 
     // System Definition
@@ -78,6 +89,6 @@ package arch_000126 {
     }
 
     // System Instance
-    part dataprocessingunitsystem : DataProcessingUnitSystem;
+    public part dataprocessingunitsystem : DataProcessingUnitSystem;
 
 }

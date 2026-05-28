@@ -1,5 +1,7 @@
 package arch_000107 {
 
+    import ScalarValues::*;
+
     // Ground Station Reference Architecture 107
     // Domain: ground station
 
@@ -20,34 +22,44 @@ package arch_000107 {
         doc "The ground station system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port sensorOut;
+        port sensorOut : ConfigIF;
+        port sensorOut : DiagnosticIF;
     }
 
     public part def DataModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port cmdIn;
-        port pwrOut;
+        port dataIn : DataIF;
+        port cmdIn : TelemetryIF;
+        port pwrOut : PowerIF;
     }
 
     public part def ThermalComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port pwrIn : ControlIF;
     }
 
     public part def DistributionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port pwrIn;
-        port cmdOut;
+        port dataOut : ThermalIF;
+        port pwrIn : SignalIF;
+        port cmdOut : DiagnosticIF;
     }
 
     // System Definition
@@ -75,6 +87,6 @@ package arch_000107 {
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    public part groundstationsystem : GroundStationSystem;
 
 }

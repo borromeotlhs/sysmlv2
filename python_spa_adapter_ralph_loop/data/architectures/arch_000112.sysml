@@ -1,5 +1,7 @@
 package arch_000112 {
 
+    import ScalarValues::*;
+
     // Power Distribution System Reference Architecture 112
     // Domain: power distribution system
 
@@ -16,17 +18,21 @@ package arch_000112 {
         doc "The power distribution system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def PowerIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
+        port telemetryOut : ThermalIF;
     }
 
     public part def PowerSubsystem {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port cmdOut;
+        port cmdOut : PowerIF;
     }
 
     // System Definition
@@ -45,6 +51,6 @@ package arch_000112 {
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    public part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

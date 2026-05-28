@@ -1,5 +1,7 @@
 package arch_000127 {
 
+    import ScalarValues::*;
+
     // Battery Management Reference Architecture 127
     // Domain: battery management
 
@@ -16,26 +18,34 @@ package arch_000127 {
         doc "The battery management system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port ctrlIn;
-        port telemetryOut;
+        port ctrlIn : DataIF;
+        port telemetryOut : TelemetryIF;
     }
 
     public part def CommController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port cmdIn;
-        port cmdIn;
+        port dataOut : PowerIF;
+        port cmdIn : ThermalIF;
+        port cmdIn : DiagnosticIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port ctrlIn : StatusIF;
     }
 
     // System Definition
@@ -56,6 +66,6 @@ package arch_000127 {
     }
 
     // System Instance
-    part batterymanagementsystem : BatteryManagementSystem;
+    public part batterymanagementsystem : BatteryManagementSystem;
 
 }

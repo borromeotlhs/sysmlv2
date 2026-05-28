@@ -1,5 +1,7 @@
 package arch_000062 {
 
+    import ScalarValues::*;
+
     // Docking Mechanism Reference Architecture 62
     // Domain: docking mechanism
 
@@ -16,18 +18,22 @@ package arch_000062 {
         doc "The docking mechanism system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : ConfigIF;
     }
 
     public part def DataComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port statusOut;
+        port telemetryOut : ConfigIF;
+        port statusOut : StatusIF;
     }
 
     // System Definition
@@ -47,6 +53,6 @@ package arch_000062 {
     }
 
     // System Instance
-    part dockingmechanismsystem : DockingMechanismSystem;
+    public part dockingmechanismsystem : DockingMechanismSystem;
 
 }

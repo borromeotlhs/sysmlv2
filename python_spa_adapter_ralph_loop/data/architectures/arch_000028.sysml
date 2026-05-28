@@ -1,5 +1,7 @@
 package arch_000028 {
 
+    import ScalarValues::*;
+
     // Thermal Control Reference Architecture 28
     // Domain: thermal control
 
@@ -16,53 +18,62 @@ package arch_000028 {
         doc "The thermal control system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+
     // Component Definitions
     public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
+        port cmdOut : ConfigIF;
     }
 
     public part def ThermalAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port statusOut : StatusIF;
     }
 
     public part def MissionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port pwrOut;
+        port pwrOut : PowerIF;
+        port pwrOut : SignalIF;
     }
 
     public part def CommandActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrOut;
-        port configIn;
-        port cmdIn;
+        port pwrOut : DiagnosticIF;
+        port configIn : DataIF;
+        port cmdIn : PowerIF;
     }
 
     public part def MonitorSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port configIn : CommandIF;
     }
 
     public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port ctrlIn;
-        port ctrlIn;
+        port cmdOut : SignalIF;
+        port ctrlIn : StatusIF;
+        port ctrlIn : DiagnosticIF;
     }
 
     public part def ProcessingInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port dataOut;
+        port statusOut : SignalIF;
+        port dataOut : ConfigIF;
     }
 
     // System Definition
@@ -92,6 +103,6 @@ package arch_000028 {
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    public part thermalcontrolsystem : ThermalControlSystem;
 
 }

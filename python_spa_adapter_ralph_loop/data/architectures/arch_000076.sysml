@@ -1,5 +1,7 @@
 package arch_000076 {
 
+    import ScalarValues::*;
+
     // Avionics Bay Reference Architecture 76
     // Domain: avionics bay
 
@@ -20,20 +22,27 @@ package arch_000076 {
         doc "The avionics bay system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def DataComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port pwrOut;
+        port dataOut : SignalIF;
+        port pwrOut : TelemetryIF;
     }
 
     public part def NavComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port telemetryOut;
-        port dataOut;
+        port statusOut : DataIF;
+        port telemetryOut : CommandIF;
+        port dataOut : ControlIF;
     }
 
     // System Definition
@@ -56,6 +65,6 @@ package arch_000076 {
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    public part avionicsbaysystem : AvionicsBaySystem;
 
 }

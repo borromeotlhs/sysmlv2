@@ -1,5 +1,7 @@
 package arch_000012 {
 
+    import ScalarValues::*;
+
     // Solar Array Reference Architecture 12
     // Domain: solar array
 
@@ -16,25 +18,31 @@ package arch_000012 {
         doc "The solar array system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def PowerPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port sensorOut;
+        port pwrOut : ControlIF;
+        port sensorOut : DataIF;
     }
 
     public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port dataIn : ThermalIF;
     }
 
     public part def PowerModule {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port dataIn;
-        port cmdOut;
+        port dataIn : ThermalIF;
+        port cmdOut : StatusIF;
     }
 
     // System Definition
@@ -60,6 +68,6 @@ package arch_000012 {
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    public part solararraysystem : SolarArraySystem;
 
 }

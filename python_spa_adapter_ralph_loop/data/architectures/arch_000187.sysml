@@ -1,5 +1,7 @@
 package arch_000187 {
 
+    import ScalarValues::*;
+
     // Avionics Bay Reference Architecture 187
     // Domain: avionics bay
 
@@ -16,26 +18,33 @@ package arch_000187 {
         doc "The avionics bay system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port telemetryOut : CommandIF;
     }
 
     public part def NavProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port sensorOut;
-        port pwrIn;
+        port pwrOut : SignalIF;
+        port sensorOut : DataIF;
+        port pwrIn : DiagnosticIF;
     }
 
     public part def ControlUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port ctrlIn;
+        port telemetryOut : ThermalIF;
+        port ctrlIn : SignalIF;
     }
 
     // System Definition
@@ -61,6 +70,6 @@ package arch_000187 {
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    public part avionicsbaysystem : AvionicsBaySystem;
 
 }

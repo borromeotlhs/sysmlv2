@@ -1,5 +1,7 @@
 package arch_000082 {
 
+    import ScalarValues::*;
+
     // Solar Array Reference Architecture 82
     // Domain: solar array
 
@@ -20,26 +22,34 @@ package arch_000082 {
         doc "The solar array system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def SensorPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataOut;
-        port pwrIn;
+        port dataOut : ControlIF;
+        port pwrIn : CommandIF;
     }
 
     public part def NavProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port telemetryOut;
-        port statusOut;
+        port dataOut : ConfigIF;
+        port telemetryOut : StatusIF;
+        port statusOut : ThermalIF;
     }
 
     public part def FlightPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
+        port ctrlIn : TelemetryIF;
     }
 
     // System Definition
@@ -67,6 +77,6 @@ package arch_000082 {
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    public part solararraysystem : SolarArraySystem;
 
 }

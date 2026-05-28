@@ -1,53 +1,62 @@
 package arch_000003 {
 
-    // Lunar Habitat Reference Architecture 3
-    // Domain: lunar habitat
+    import ScalarValues::*;
+
+    // Instrument Platform Reference Architecture 3
+    // Domain: instrument platform
 
     // Requirements
     public requirement REQ_001 {
-        doc "The lunar habitat system shall exchange command and data through typed interfaces."
+        doc "The instrument platform system shall exchange data through typed interfaces."
     }
 
     public requirement REQ_002 {
-        doc "The lunar habitat system shall trace subsystem design to requirements."
+        doc "The instrument platform system shall trace subsystem design to requirements."
     }
+
+    public requirement REQ_003 {
+        doc "The instrument platform system shall provide fault detection and recovery."
+    }
+
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def StatusIF;
 
     // Component Definitions
-    public part def MissionComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port cmdOut;
+    public part def CommandInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port statusOut : StatusIF;
     }
 
-    public part def SensorPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port dataOut;
-    }
-
-    public part def PowerUnit {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port pwrOut;
+    public part def CommActuator {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port ctrlIn : ConfigIF;
+        port pwrIn : ConfigIF;
+        port cmdIn : DataIF;
     }
 
     // System Definition
-    public part def LunarHabitatSystem {
-        part missioncomputer : MissionComputer {
+    public part def InstrumentPlatformSystem {
+        part commandinterface : CommandInterface {
             satisfy REQ_001;
-        }
-        part sensorpayload : SensorPayload {
             satisfy REQ_002;
+            satisfy REQ_003;
         }
-        part powerunit : PowerUnit {
+        part commactuator : CommActuator {
+            satisfy REQ_002;
+            satisfy REQ_003;
         }
 
         // Connections
-        connect missioncomputer.cmdOut to sensorpayload.dataOut;
-        connect powerunit.pwrOut to sensorpayload.dataOut;
+        connect commactuator.pwrIn to commandinterface.statusOut;
+        connect commactuator.cmdIn to commandinterface.statusOut;
+        connect commactuator.ctrlIn to commandinterface.statusOut;
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    public part instrumentplatformsystem : InstrumentPlatformSystem;
 
 }

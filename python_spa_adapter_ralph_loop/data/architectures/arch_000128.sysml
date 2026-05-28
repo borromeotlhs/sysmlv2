@@ -1,5 +1,7 @@
 package arch_000128 {
 
+    import ScalarValues::*;
+
     // Fuel Cell Reference Architecture 128
     // Domain: fuel cell
 
@@ -20,55 +22,66 @@ package arch_000128 {
         doc "The fuel cell system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
-        port configIn;
-        port dataOut;
+        port cmdIn : TelemetryIF;
+        port configIn : CommandIF;
+        port dataOut : PowerIF;
     }
 
     public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port dataIn : CommandIF;
     }
 
     public part def SensorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port configIn;
+        port cmdOut : TelemetryIF;
+        port configIn : PowerIF;
     }
 
     public part def ProcessingActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port cmdOut;
-        port configIn;
+        port cmdOut : DataIF;
+        port cmdOut : TelemetryIF;
+        port configIn : DiagnosticIF;
     }
 
     public part def DataController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
+        port cmdOut : ThermalIF;
     }
 
     public part def MissionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port pwrOut;
+        port pwrOut : StatusIF;
+        port pwrOut : DataIF;
     }
 
     public part def CommandPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port dataIn;
-        port dataOut;
+        port configIn : ConfigIF;
+        port dataIn : ControlIF;
+        port dataOut : CommandIF;
     }
 
     // System Definition
@@ -99,6 +112,6 @@ package arch_000128 {
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    public part fuelcellsystem : FuelCellSystem;
 
 }

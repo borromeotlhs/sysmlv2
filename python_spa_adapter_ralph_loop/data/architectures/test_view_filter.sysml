@@ -1,5 +1,7 @@
 package test_view_filter {
 
+    import ScalarValues::*;
+
     // Test architecture for view filtering
     // Domain: test
 
@@ -8,28 +10,34 @@ package test_view_filter {
         doc "The system shall provide filtered views."
     }
 
+    // Port Definitions
+    public port def CommandPort;
+    public port def DataPort;
+    public port def ProcessPort;
+    public port def PowerPort;
+
     // Public components (visible in filtered views)
     public part def ControlUnit {
         attribute processingPower : Real [1];
-        port cmdIn;
-        port cmdOut;
+        port cmdIn : CommandPort;
+        port cmdOut : CommandPort;
     }
 
     public part def SensorModule {
         attribute resolution : Real [1];
-        port dataOut;
+        port dataOut : DataPort;
     }
 
     // Private/internal component (hidden in filtered views)
     public part def InternalProcessor {
         attribute cores : Real [1];
-        port procIn;
-        port procOut;
+        port procIn : ProcessPort;
+        port procOut : ProcessPort;
     }
 
     public part def PowerSupply {
         attribute voltage : Real [1];
-        port pwrOut;
+        port pwrOut : PowerPort;
     }
 
     // System Definition
@@ -48,5 +56,5 @@ package test_view_filter {
     }
 
     // System Instance
-    part testSystem : TestSystem;
+    public part testSystem : TestSystem;
 }

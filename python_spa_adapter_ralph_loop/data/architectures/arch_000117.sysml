@@ -1,5 +1,7 @@
 package arch_000117 {
 
+    import ScalarValues::*;
+
     // Reaction Wheel Reference Architecture 117
     // Domain: reaction wheel
 
@@ -16,21 +18,28 @@ package arch_000117 {
         doc "The reaction wheel system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+
     // Component Definitions
     public part def SensorUnit {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port sensorOut;
-        port dataOut;
+        port pwrOut : ConfigIF;
+        port sensorOut : CommandIF;
+        port dataOut : DiagnosticIF;
     }
 
     public part def ControlBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port cmdOut;
-        port pwrIn;
+        port pwrOut : ControlIF;
+        port cmdOut : PowerIF;
+        port pwrIn : CommandIF;
     }
 
     // System Definition
@@ -53,6 +62,6 @@ package arch_000117 {
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    public part reactionwheelsystem : ReactionWheelSystem;
 
 }

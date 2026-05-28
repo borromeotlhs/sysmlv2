@@ -1,5 +1,7 @@
 package arch_000050 {
 
+    import ScalarValues::*;
+
     // Communication Relay Reference Architecture 50
     // Domain: communication relay
 
@@ -16,55 +18,65 @@ package arch_000050 {
         doc "The communication relay system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port statusOut;
-        port telemetryOut;
+        port cmdIn : CommandIF;
+        port statusOut : PowerIF;
+        port telemetryOut : ThermalIF;
     }
 
     public part def CommandProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataIn;
+        port dataIn : CommandIF;
     }
 
     public part def ProcessingSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
+        port sensorOut : TelemetryIF;
     }
 
     public part def NavProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port telemetryOut;
+        port cmdIn : DiagnosticIF;
+        port telemetryOut : DiagnosticIF;
     }
 
     public part def SensorInterface {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port telemetryOut;
-        port cmdIn;
+        port telemetryOut : TelemetryIF;
+        port cmdIn : CommandIF;
     }
 
     public part def MissionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port cmdIn;
-        port sensorOut;
+        port sensorOut : StatusIF;
+        port cmdIn : CommandIF;
+        port sensorOut : SignalIF;
     }
 
     public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port sensorOut;
-        port dataIn;
+        port pwrIn : CommandIF;
+        port sensorOut : StatusIF;
+        port dataIn : DataIF;
     }
 
     // System Definition
@@ -95,6 +107,6 @@ package arch_000050 {
     }
 
     // System Instance
-    part communicationrelaysystem : CommunicationRelaySystem;
+    public part communicationrelaysystem : CommunicationRelaySystem;
 
 }

@@ -1,5 +1,7 @@
 package arch_000090 {
 
+    import ScalarValues::*;
+
     // Robotic Arm Reference Architecture 90
     // Domain: robotic arm
 
@@ -16,33 +18,40 @@ package arch_000090 {
         doc "The robotic arm system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def SensorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
+        port configIn : SignalIF;
     }
 
     public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port ctrlIn : ConfigIF;
     }
 
     public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port pwrOut;
-        port cmdIn;
+        port cmdOut : StatusIF;
+        port pwrOut : ConfigIF;
+        port cmdIn : ThermalIF;
     }
 
     public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port sensorOut;
-        port ctrlIn;
+        port telemetryOut : PowerIF;
+        port sensorOut : PowerIF;
+        port ctrlIn : PowerIF;
     }
 
     // System Definition
@@ -67,6 +76,6 @@ package arch_000090 {
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    public part roboticarmsystem : RoboticArmSystem;
 
 }

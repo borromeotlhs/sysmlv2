@@ -1,5 +1,7 @@
 package arch_000193 {
 
+    import ScalarValues::*;
+
     // Uav Payload Reference Architecture 193
     // Domain: uav payload
 
@@ -16,50 +18,60 @@ package arch_000193 {
         doc "The uav payload system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DataBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port cmdIn;
-        port ctrlIn;
+        port telemetryOut : DiagnosticIF;
+        port cmdIn : DiagnosticIF;
+        port ctrlIn : PowerIF;
     }
 
     public part def MissionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port dataIn;
-        port pwrOut;
+        port sensorOut : ThermalIF;
+        port dataIn : DataIF;
+        port pwrOut : PowerIF;
     }
 
     public part def CommBus {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrOut;
-        port statusOut;
-        port statusOut;
+        port pwrOut : CommandIF;
+        port statusOut : TelemetryIF;
+        port statusOut : PowerIF;
     }
 
     public part def SensorBus {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
-        port telemetryOut;
+        port cmdOut : ControlIF;
+        port telemetryOut : ThermalIF;
     }
 
     public part def ThermalModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port pwrIn;
-        port pwrIn;
+        port cmdOut : SignalIF;
+        port pwrIn : TelemetryIF;
+        port pwrIn : SignalIF;
     }
 
     public part def ProcessingInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
+        port cmdIn : DiagnosticIF;
     }
 
     // System Definition
@@ -91,6 +103,6 @@ package arch_000193 {
     }
 
     // System Instance
-    part uavpayloadsystem : UavPayloadSystem;
+    public part uavpayloadsystem : UavPayloadSystem;
 
 }

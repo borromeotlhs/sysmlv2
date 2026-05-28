@@ -1,5 +1,7 @@
 package arch_000108 {
 
+    import ScalarValues::*;
+
     // Telemetry System Reference Architecture 108
     // Domain: telemetry system
 
@@ -16,36 +18,46 @@ package arch_000108 {
         doc "The telemetry system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port statusOut;
-        port cmdOut;
+        port cmdIn : ConfigIF;
+        port statusOut : SignalIF;
+        port cmdOut : StatusIF;
     }
 
     public part def CommandProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port dataIn;
-        port sensorOut;
+        port statusOut : PowerIF;
+        port dataIn : TelemetryIF;
+        port sensorOut : ThermalIF;
     }
 
     public part def ThermalController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port dataOut;
+        port statusOut : DiagnosticIF;
+        port dataOut : ConfigIF;
     }
 
     public part def NavActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port dataOut;
-        port pwrIn;
+        port sensorOut : ThermalIF;
+        port dataOut : DataIF;
+        port pwrIn : StatusIF;
     }
 
     // System Definition
@@ -70,6 +82,6 @@ package arch_000108 {
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    public part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

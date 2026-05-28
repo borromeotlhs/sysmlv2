@@ -1,5 +1,7 @@
 package arch_000006 {
 
+    import ScalarValues::*;
+
     // Thermal Control Reference Architecture 6
     // Domain: thermal control
 
@@ -12,37 +14,44 @@ package arch_000006 {
         doc "The thermal control system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def PowerSubsystem {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port pwrIn;
+        port pwrIn : ThermalIF;
     }
 
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port configIn : ConfigIF;
     }
 
     public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
+        port pwrOut : CommandIF;
     }
 
     public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port configIn : TelemetryIF;
     }
 
     public part def NavProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port cmdIn;
-        port cmdOut;
+        port sensorOut : PowerIF;
+        port cmdIn : ConfigIF;
+        port cmdOut : PowerIF;
     }
 
     // System Definition
@@ -66,6 +75,6 @@ package arch_000006 {
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    public part thermalcontrolsystem : ThermalControlSystem;
 
 }

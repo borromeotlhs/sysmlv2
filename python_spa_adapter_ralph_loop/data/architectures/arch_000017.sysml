@@ -1,5 +1,7 @@
 package arch_000017 {
 
+    import ScalarValues::*;
+
     // Robotic Arm Reference Architecture 17
     // Domain: robotic arm
 
@@ -16,24 +18,29 @@ package arch_000017 {
         doc "The robotic arm system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DiagnosticIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def PowerComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
+        port telemetryOut : TelemetryIF;
     }
 
     public part def MissionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdIn;
+        port cmdIn : DiagnosticIF;
     }
 
     public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port ctrlIn;
-        port ctrlIn;
+        port ctrlIn : TelemetryIF;
+        port ctrlIn : ControlIF;
     }
 
     // System Definition
@@ -57,6 +64,6 @@ package arch_000017 {
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    public part roboticarmsystem : RoboticArmSystem;
 
 }

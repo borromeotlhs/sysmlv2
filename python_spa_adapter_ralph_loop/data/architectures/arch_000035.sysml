@@ -1,5 +1,7 @@
 package arch_000035 {
 
+    import ScalarValues::*;
+
     // Power Distribution System Reference Architecture 35
     // Domain: power distribution system
 
@@ -20,56 +22,67 @@ package arch_000035 {
         doc "The power distribution system system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port dataIn;
+        port ctrlIn : PowerIF;
+        port dataIn : DataIF;
     }
 
     public part def FlightActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port pwrIn;
-        port cmdIn;
+        port ctrlIn : CommandIF;
+        port pwrIn : ThermalIF;
+        port cmdIn : ThermalIF;
     }
 
     public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
+        port pwrOut : SignalIF;
     }
 
     public part def CommandComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port ctrlIn;
-        port cmdIn;
+        port statusOut : ConfigIF;
+        port ctrlIn : SignalIF;
+        port cmdIn : ThermalIF;
     }
 
     public part def ThermalSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port telemetryOut;
+        port pwrOut : CommandIF;
+        port telemetryOut : ControlIF;
     }
 
     public part def ThermalInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port statusOut;
+        port cmdOut : ControlIF;
+        port statusOut : StatusIF;
     }
 
     public part def CommandInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port ctrlIn;
-        port pwrOut;
-        port ctrlIn;
+        port ctrlIn : StatusIF;
+        port pwrOut : PowerIF;
+        port ctrlIn : TelemetryIF;
     }
 
     // System Definition
@@ -104,6 +117,6 @@ package arch_000035 {
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    public part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

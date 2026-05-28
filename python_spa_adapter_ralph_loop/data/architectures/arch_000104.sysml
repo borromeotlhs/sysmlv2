@@ -1,5 +1,7 @@
 package arch_000104 {
 
+    import ScalarValues::*;
+
     // Docking Mechanism Reference Architecture 104
     // Domain: docking mechanism
 
@@ -12,26 +14,31 @@ package arch_000104 {
         doc "The docking mechanism system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def ConfigIF;
+    public port def PowerIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def SensorAssembly {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port cmdOut;
-        port dataIn;
+        port sensorOut : PowerIF;
+        port cmdOut : ConfigIF;
+        port dataIn : TelemetryIF;
     }
 
     public part def ThermalBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port pwrOut;
+        port pwrIn : ConfigIF;
+        port pwrOut : TelemetryIF;
     }
 
     public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port telemetryOut : ConfigIF;
     }
 
     // System Definition
@@ -54,6 +61,6 @@ package arch_000104 {
     }
 
     // System Instance
-    part dockingmechanismsystem : DockingMechanismSystem;
+    public part dockingmechanismsystem : DockingMechanismSystem;
 
 }

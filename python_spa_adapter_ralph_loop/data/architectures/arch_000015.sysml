@@ -1,5 +1,7 @@
 package arch_000015 {
 
+    import ScalarValues::*;
+
     // Sensor Suite Reference Architecture 15
     // Domain: sensor suite
 
@@ -12,47 +14,56 @@ package arch_000015 {
         doc "The sensor suite system shall trace subsystem design to requirements."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port telemetryOut;
-        port dataIn;
+        port telemetryOut : TelemetryIF;
+        port dataIn : StatusIF;
     }
 
     public part def ThermalController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
+        port sensorOut : SignalIF;
     }
 
     public part def SensorInterface {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port ctrlIn;
-        port configIn;
+        port sensorOut : TelemetryIF;
+        port ctrlIn : StatusIF;
+        port configIn : SignalIF;
     }
 
     public part def ThermalComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
-        port pwrIn;
+        port dataOut : DataIF;
+        port pwrIn : TelemetryIF;
     }
 
     public part def CommPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
+        port ctrlIn : DiagnosticIF;
     }
 
     public part def FlightSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port pwrOut;
-        port ctrlIn;
+        port telemetryOut : StatusIF;
+        port pwrOut : CommandIF;
+        port ctrlIn : ControlIF;
     }
 
     // System Definition
@@ -80,6 +91,6 @@ package arch_000015 {
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    public part sensorsuitesystem : SensorSuiteSystem;
 
 }

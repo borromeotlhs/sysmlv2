@@ -1,5 +1,7 @@
 package arch_000066 {
 
+    import ScalarValues::*;
+
     // Telemetry System Reference Architecture 66
     // Domain: telemetry system
 
@@ -16,51 +18,60 @@ package arch_000066 {
         doc "The telemetry system system shall provide fault detection and recovery."
     }
 
+    // Port Definitions
+    public port def ControlIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def TelemetryIF;
+    public port def ThermalIF;
+
     // Component Definitions
     public part def CommandModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataIn;
+        port dataIn : DiagnosticIF;
     }
 
     public part def PowerUnit {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port dataIn;
+        port dataIn : DataIF;
     }
 
     public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port ctrlIn : TelemetryIF;
     }
 
     public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port sensorOut;
+        port statusOut : DataIF;
+        port sensorOut : ControlIF;
     }
 
     public part def ThermalAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port ctrlIn : SignalIF;
     }
 
     public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-        port cmdOut;
+        port pwrIn : DataIF;
+        port cmdOut : PowerIF;
     }
 
     public part def DataController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port cmdIn;
-        port pwrOut;
+        port pwrIn : DiagnosticIF;
+        port cmdIn : ThermalIF;
+        port pwrOut : PowerIF;
     }
 
     // System Definition
@@ -91,6 +102,6 @@ package arch_000066 {
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    public part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

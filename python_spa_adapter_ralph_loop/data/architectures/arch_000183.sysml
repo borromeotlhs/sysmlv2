@@ -1,5 +1,7 @@
 package arch_000183 {
 
+    import ScalarValues::*;
+
     // Communication Relay Reference Architecture 183
     // Domain: communication relay
 
@@ -20,39 +22,49 @@ package arch_000183 {
         doc "The communication relay system shall maintain operational status monitoring."
     }
 
+    // Port Definitions
+    public port def CommandIF;
+    public port def ConfigIF;
+    public port def DataIF;
+    public port def DiagnosticIF;
+    public port def PowerIF;
+    public port def SignalIF;
+    public port def StatusIF;
+    public port def TelemetryIF;
+
     // Component Definitions
     public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
-        port cmdOut;
+        port cmdOut : DiagnosticIF;
     }
 
     public part def PowerSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
-        port dataOut;
+        port dataIn : SignalIF;
+        port dataOut : StatusIF;
     }
 
     public part def SensorInterface {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrIn;
-        port dataIn;
-        port cmdIn;
+        port pwrIn : CommandIF;
+        port dataIn : TelemetryIF;
+        port cmdIn : DataIF;
     }
 
     public part def CommActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port statusOut;
+        port statusOut : ConfigIF;
     }
 
     public part def CommBus {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port telemetryOut;
-        port statusOut;
+        port telemetryOut : SignalIF;
+        port statusOut : PowerIF;
     }
 
     // System Definition
@@ -80,6 +92,6 @@ package arch_000183 {
     }
 
     // System Instance
-    part communicationrelaysystem : CommunicationRelaySystem;
+    public part communicationrelaysystem : CommunicationRelaySystem;
 
 }

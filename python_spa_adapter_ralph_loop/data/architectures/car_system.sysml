@@ -1,5 +1,7 @@
 package car_system {
 
+    import ScalarValues::*;
+
     // Electric Vehicle System Architecture
     // Domain: automotive
 
@@ -223,6 +225,6 @@ package car_system {
     }
 
     // System Instance
-    part electricvehiclesystem : ElectricVehicleSystem;
+    public part electricvehiclesystem : ElectricVehicleSystem;
 
 }
