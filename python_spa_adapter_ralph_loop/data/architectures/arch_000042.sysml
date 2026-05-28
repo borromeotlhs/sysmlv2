@@ -1,59 +1,101 @@
 package arch_000042 {
-	// Thruster Assembly Reference Architecture 42
-	// Domain: thruster assembly
 
-	import ScalarValues::*;
+    // Avionics Bay Reference Architecture 42
+    // Domain: avionics bay
 
-	// Interface Definitions
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The avionics bay system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def ThrusterAssemblySystem {
-	}
+    requirement REQ_002 {
+        doc "The avionics bay system shall trace subsystem design to requirements."
+    }
 
-	part def PowerComputer {
-		port telemetryOut : SignalIF;
-		port ctrlIn : ThermalIF;
-	}
+    requirement REQ_003 {
+        doc "The avionics bay system shall provide fault detection and recovery."
+    }
 
-	part def PowerBus {
-		port sensorOut : SignalIF;
-	}
+    // Component Definitions
+    part def ControlAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port dataIn;
+    }
 
-	part def FlightAssembly {
-		port pwrIn : PowerIF;
-		port cmdOut : DiagnosticIF;
-		port configIn : ThermalIF;
-	}
+    part def ControlModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port telemetryOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The thruster assembly system shall exchange data through typed interfaces. */
-	}
+    part def ProcessingController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port sensorOut;
+        port dataIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The thruster assembly system shall trace subsystem design to requirements. */
-	}
+    part def MissionInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port dataOut;
+    }
 
-	// System Assembly
-	part thrusterassemblysystem : ThrusterAssemblySystem {
-		part powercomputer : PowerComputer;
-		part powerbus : PowerBus;
-		part flightassembly : FlightAssembly;
+    part def DataUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+    }
 
-		// Connections
-		connection : link1 connect 
-			powercomputer.telemetryOut to flightassembly.configIn;
-		connection : link2 connect 
-			powercomputer.ctrlIn to flightassembly.configIn;
-		connection : link3 connect 
-			flightassembly.pwrIn to powerbus.sensorOut;
+    part def FlightModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+        port cmdOut;
+    }
 
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by powercomputer;
-		satisfy requirement <'REQ-002'> by powerbus;
-	}
+    part def FlightSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port telemetryOut;
+        port statusOut;
+    }
+
+    // System Definition
+    part def AvionicsBaySystem {
+        part controlassembly : ControlAssembly {
+            satisfy REQ_003;
+        }
+        part controlmodule : ControlModule {
+            satisfy REQ_001;
+        }
+        part processingcontroller : ProcessingController {
+            satisfy REQ_001;
+        }
+        part missioninterface : MissionInterface {
+        }
+        part dataunit : DataUnit {
+            satisfy REQ_002;
+        }
+        part flightmodule : FlightModule {
+        }
+        part flightsubsystem : FlightSubsystem {
+            satisfy REQ_003;
+        }
+
+        // Connections
+        connect processingcontroller.telemetryOut to controlmodule.dataOut;
+        connect flightmodule.cmdOut to missioninterface.dataOut;
+        connect processingcontroller.telemetryOut to flightmodule.cmdOut;
+    }
+
+    // System Instance
+    part avionicsbaysystem : AvionicsBaySystem;
+
 }

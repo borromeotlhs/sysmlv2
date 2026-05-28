@@ -1,63 +1,62 @@
 package arch_000017 {
-	// Robotic Arm Reference Architecture 17
-	// Domain: robotic arm
 
-	import ScalarValues::*;
+    // Robotic Arm Reference Architecture 17
+    // Domain: robotic arm
 
-	// Interface Definitions
-	interface def ControlIF;
-	interface def DiagnosticIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The robotic arm system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def RoboticArmSystem {
-	}
+    requirement REQ_002 {
+        doc "The robotic arm system shall trace subsystem design to requirements."
+    }
 
-	part def PowerComputer {
-		port telemetryOut : TelemetryIF;
-	}
+    requirement REQ_003 {
+        doc "The robotic arm system shall provide fault detection and recovery."
+    }
 
-	part def MissionSensor {
-		port cmdIn : DiagnosticIF;
-	}
+    // Component Definitions
+    part def PowerComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+    }
 
-	part def PowerBus {
-		port ctrlIn : TelemetryIF;
-		port ctrlIn : ControlIF;
-	}
+    part def MissionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The robotic arm system shall exchange data through typed interfaces. */
-	}
+    part def PowerBus {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port ctrlIn;
+        port ctrlIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The robotic arm system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def RoboticArmSystem {
+        part powercomputer : PowerComputer {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part missionsensor : MissionSensor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part powerbus : PowerBus {
+            satisfy REQ_001;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The robotic arm system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect powercomputer.telemetryOut to powerbus.ctrlIn;
+        connect missionsensor.cmdIn to powercomputer.telemetryOut;
+        connect powerbus.ctrlIn to missionsensor.cmdIn;
+    }
 
-	// System Assembly
-	part roboticarmsystem : RoboticArmSystem {
-		part powercomputer : PowerComputer;
-		part missionsensor : MissionSensor;
-		part powerbus : PowerBus;
+    // System Instance
+    part roboticarmsystem : RoboticArmSystem;
 
-		// Connections
-		connection : link1 connect 
-			powercomputer.telemetryOut to powerbus.ctrlIn;
-		connection : link2 connect 
-			missionsensor.cmdIn to powercomputer.telemetryOut;
-		connection : link3 connect 
-			powerbus.ctrlIn to missionsensor.cmdIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by missionsensor;
-		satisfy requirement <'REQ-001'> by powerbus;
-		satisfy requirement <'REQ-002'> by missionsensor;
-		satisfy requirement <'REQ-002'> by powercomputer;
-		satisfy requirement <'REQ-003'> by powercomputer;
-	}
 }

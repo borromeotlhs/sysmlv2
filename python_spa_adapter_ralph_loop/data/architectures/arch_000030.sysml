@@ -1,87 +1,95 @@
 package arch_000030 {
-	// Antenna Subsystem Reference Architecture 30
-	// Domain: antenna subsystem
 
-	import ScalarValues::*;
+    // Antenna Subsystem Reference Architecture 30
+    // Domain: antenna subsystem
 
-	// Interface Definitions
-	interface def ControlIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The antenna subsystem system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def AntennaSubsystemSystem {
-	}
+    requirement REQ_002 {
+        doc "The antenna subsystem system shall trace subsystem design to requirements."
+    }
 
-	part def ThermalController {
-		port pwrOut : PowerIF;
-	}
+    // Component Definitions
+    part def ThermalController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+    }
 
-	part def CommController {
-		port sensorOut : DataIF;
-	}
+    part def CommController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+    }
 
-	part def DataSubsystem {
-		port sensorOut : ThermalIF;
-		port pwrOut : ControlIF;
-		port telemetryOut : PowerIF;
-	}
+    part def DataSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+        port pwrOut;
+        port telemetryOut;
+    }
 
-	part def ControlSubsystem {
-		port cmdOut : PowerIF;
-	}
+    part def ControlSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+    }
 
-	part def SensorController {
-		port dataOut : PowerIF;
-		port configIn : PowerIF;
-	}
+    part def SensorController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
+        port configIn;
+    }
 
-	part def CommUnit {
-		port cmdOut : PowerIF;
-		port telemetryOut : TelemetryIF;
-		port ctrlIn : DiagnosticIF;
-	}
+    part def CommUnit {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port cmdOut;
+        port telemetryOut;
+        port ctrlIn;
+    }
 
-	part def ProcessingAssembly {
-		port ctrlIn : DiagnosticIF;
-		port telemetryOut : DiagnosticIF;
-		port pwrOut : ControlIF;
-	}
+    part def ProcessingAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port telemetryOut;
+        port pwrOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The antenna subsystem system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def AntennaSubsystemSystem {
+        part thermalcontroller : ThermalController {
+            satisfy REQ_001;
+        }
+        part commcontroller : CommController {
+        }
+        part datasubsystem : DataSubsystem {
+        }
+        part controlsubsystem : ControlSubsystem {
+            satisfy REQ_002;
+        }
+        part sensorcontroller : SensorController {
+            satisfy REQ_001;
+        }
+        part communit : CommUnit {
+        }
+        part processingassembly : ProcessingAssembly {
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The antenna subsystem system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect sensorcontroller.configIn to commcontroller.sensorOut;
+        connect sensorcontroller.configIn to communit.ctrlIn;
+        connect processingassembly.telemetryOut to datasubsystem.telemetryOut;
+    }
 
-	// System Assembly
-	part antennasubsystemsystem : AntennaSubsystemSystem {
-		part thermalcontroller : ThermalController;
-		part commcontroller : CommController;
-		part datasubsystem : DataSubsystem;
-		part controlsubsystem : ControlSubsystem;
-		part sensorcontroller : SensorController;
-		part communit : CommUnit;
-		part processingassembly : ProcessingAssembly;
+    // System Instance
+    part antennasubsystemsystem : AntennaSubsystemSystem;
 
-		// Connections
-		connection : link1 connect 
-			sensorcontroller.configIn to commcontroller.sensorOut;
-		connection : link2 connect 
-			sensorcontroller.configIn to communit.ctrlIn;
-		connection : link3 connect 
-			processingassembly.telemetryOut to datasubsystem.telemetryOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by sensorcontroller;
-		satisfy requirement <'REQ-001'> by thermalcontroller;
-		satisfy requirement <'REQ-002'> by controlsubsystem;
-		satisfy requirement <'REQ-002'> by processingassembly;
-	}
 }

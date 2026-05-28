@@ -1,82 +1,86 @@
 package arch_000010 {
-	// Fuel Cell Reference Architecture 10
-	// Domain: fuel cell
 
-	import ScalarValues::*;
+    // Fuel Cell Reference Architecture 10
+    // Domain: fuel cell
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The fuel cell system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def FuelCellSystem {
-	}
+    requirement REQ_002 {
+        doc "The fuel cell system shall trace subsystem design to requirements."
+    }
 
-	part def MonitorBus {
-		port telemetryOut : DataIF;
-		port pwrIn : ConfigIF;
-	}
+    // Component Definitions
+    part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port pwrIn;
+    }
 
-	part def ProcessingBus {
-		port telemetryOut : StatusIF;
-		port pwrOut : StatusIF;
-	}
+    part def ProcessingBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port pwrOut;
+    }
 
-	part def MonitorModule {
-		port pwrIn : ConfigIF;
-		port dataIn : ThermalIF;
-		port statusOut : StatusIF;
-	}
+    part def MonitorModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port dataIn;
+        port statusOut;
+    }
 
-	part def ThermalSubsystem {
-		port dataIn : DiagnosticIF;
-		port configIn : SignalIF;
-		port statusOut : ConfigIF;
-	}
+    part def ThermalSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port configIn;
+        port statusOut;
+    }
 
-	part def FlightInterface {
-		port pwrIn : SignalIF;
-	}
+    part def FlightInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+    }
 
-	part def ThermalActuator {
-		port statusOut : DiagnosticIF;
-	}
+    part def ThermalActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The fuel cell system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def FuelCellSystem {
+        part monitorbus : MonitorBus {
+            satisfy REQ_002;
+        }
+        part processingbus : ProcessingBus {
+            satisfy REQ_001;
+        }
+        part monitormodule : MonitorModule {
+        }
+        part thermalsubsystem : ThermalSubsystem {
+        }
+        part flightinterface : FlightInterface {
+        }
+        part thermalactuator : ThermalActuator {
+            satisfy REQ_001;
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The fuel cell system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect thermalsubsystem.dataIn to flightinterface.pwrIn;
+        connect thermalactuator.statusOut to processingbus.telemetryOut;
+        connect monitorbus.pwrIn to monitormodule.pwrIn;
+        connect thermalsubsystem.statusOut to monitormodule.dataIn;
+    }
 
-	// System Assembly
-	part fuelcellsystem : FuelCellSystem {
-		part monitorbus : MonitorBus;
-		part processingbus : ProcessingBus;
-		part monitormodule : MonitorModule;
-		part thermalsubsystem : ThermalSubsystem;
-		part flightinterface : FlightInterface;
-		part thermalactuator : ThermalActuator;
+    // System Instance
+    part fuelcellsystem : FuelCellSystem;
 
-		// Connections
-		connection : link1 connect 
-			thermalsubsystem.dataIn to flightinterface.pwrIn;
-		connection : link2 connect 
-			thermalactuator.statusOut to processingbus.telemetryOut;
-		connection : link3 connect 
-			monitorbus.pwrIn to monitormodule.pwrIn;
-		connection : link4 connect 
-			thermalsubsystem.statusOut to monitormodule.dataIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by processingbus;
-		satisfy requirement <'REQ-001'> by thermalactuator;
-		satisfy requirement <'REQ-002'> by monitorbus;
-	}
 }

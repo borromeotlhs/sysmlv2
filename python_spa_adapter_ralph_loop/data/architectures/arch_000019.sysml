@@ -1,80 +1,77 @@
 package arch_000019 {
-	// Life Support Reference Architecture 19
-	// Domain: life support
 
-	import ScalarValues::*;
+    // Life Support Reference Architecture 19
+    // Domain: life support
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def PowerIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The life support system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def LifeSupportSystem {
-	}
+    requirement REQ_002 {
+        doc "The life support system shall trace subsystem design to requirements."
+    }
 
-	part def MissionController {
-		port configIn : CommandIF;
-		port dataIn : TelemetryIF;
-	}
+    requirement REQ_003 {
+        doc "The life support system shall provide fault detection and recovery."
+    }
 
-	part def DataInterface {
-		port telemetryOut : TelemetryIF;
-		port pwrIn : PowerIF;
-		port configIn : StatusIF;
-	}
+    // Component Definitions
+    part def MissionController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port configIn;
+        port dataIn;
+    }
 
-	part def ControlActuator {
-		port ctrlIn : DataIF;
-		port ctrlIn : ControlIF;
-		port statusOut : ControlIF;
-	}
+    part def DataInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port pwrIn;
+        port configIn;
+    }
 
-	part def MissionInterface {
-		port telemetryOut : DataIF;
-		port dataIn : ControlIF;
-	}
+    part def ControlActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port ctrlIn;
+        port statusOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The life support system shall exchange data through typed interfaces. */
-	}
+    part def MissionInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port dataIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The life support system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def LifeSupportSystem {
+        part missioncontroller : MissionController {
+            satisfy REQ_003;
+        }
+        part datainterface : DataInterface {
+            satisfy REQ_001;
+        }
+        part controlactuator : ControlActuator {
+            satisfy REQ_002;
+        }
+        part missioninterface : MissionInterface {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The life support system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect controlactuator.statusOut to datainterface.configIn;
+        connect controlactuator.ctrlIn to missioninterface.telemetryOut;
+        connect controlactuator.statusOut to missioncontroller.dataIn;
+        connect datainterface.configIn to controlactuator.ctrlIn;
+        connect missioncontroller.configIn to missioninterface.telemetryOut;
+    }
 
-	// System Assembly
-	part lifesupportsystem : LifeSupportSystem {
-		part missioncontroller : MissionController;
-		part datainterface : DataInterface;
-		part controlactuator : ControlActuator;
-		part missioninterface : MissionInterface;
+    // System Instance
+    part lifesupportsystem : LifeSupportSystem;
 
-		// Connections
-		connection : link1 connect 
-			controlactuator.statusOut to datainterface.configIn;
-		connection : link2 connect 
-			controlactuator.ctrlIn to missioninterface.telemetryOut;
-		connection : link3 connect 
-			controlactuator.statusOut to missioncontroller.dataIn;
-		connection : link4 connect 
-			datainterface.configIn to controlactuator.ctrlIn;
-		connection : link5 connect 
-			missioncontroller.configIn to missioninterface.telemetryOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by datainterface;
-		satisfy requirement <'REQ-002'> by missioninterface;
-		satisfy requirement <'REQ-002'> by controlactuator;
-		satisfy requirement <'REQ-003'> by missioncontroller;
-		satisfy requirement <'REQ-003'> by missioninterface;
-	}
 }

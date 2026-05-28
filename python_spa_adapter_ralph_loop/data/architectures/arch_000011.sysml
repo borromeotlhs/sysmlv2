@@ -1,71 +1,70 @@
 package arch_000011 {
-	// Autonomous Rover Reference Architecture 11
-	// Domain: autonomous rover
 
-	import ScalarValues::*;
+    // Autonomous Rover Reference Architecture 11
+    // Domain: autonomous rover
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The autonomous rover system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def AutonomousRoverSystem {
-	}
+    requirement REQ_002 {
+        doc "The autonomous rover system shall trace subsystem design to requirements."
+    }
 
-	part def NavActuator {
-		port configIn : ThermalIF;
-		port statusOut : TelemetryIF;
-		port statusOut : ThermalIF;
-	}
+    requirement REQ_003 {
+        doc "The autonomous rover system shall provide fault detection and recovery."
+    }
 
-	part def DistributionController {
-		port telemetryOut : CommandIF;
-	}
+    requirement REQ_004 {
+        doc "The autonomous rover system shall maintain operational status monitoring."
+    }
 
-	part def NavSubsystem {
-		port statusOut : ThermalIF;
-	}
+    // Component Definitions
+    part def NavActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port statusOut;
+        port statusOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The autonomous rover system shall exchange data through typed interfaces. */
-	}
+    part def DistributionController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The autonomous rover system shall trace subsystem design to requirements. */
-	}
+    part def NavSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The autonomous rover system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def AutonomousRoverSystem {
+        part navactuator : NavActuator {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part distributioncontroller : DistributionController {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+            satisfy REQ_004;
+        }
+        part navsubsystem : NavSubsystem {
+            satisfy REQ_001;
+            satisfy REQ_004;
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The autonomous rover system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect navsubsystem.statusOut to distributioncontroller.telemetryOut;
+        connect navsubsystem.statusOut to navactuator.statusOut;
+        connect distributioncontroller.telemetryOut to navactuator.statusOut;
+    }
 
-	// System Assembly
-	part autonomousroversystem : AutonomousRoverSystem {
-		part navactuator : NavActuator;
-		part distributioncontroller : DistributionController;
-		part navsubsystem : NavSubsystem;
+    // System Instance
+    part autonomousroversystem : AutonomousRoverSystem;
 
-		// Connections
-		connection : link1 connect 
-			navsubsystem.statusOut to distributioncontroller.telemetryOut;
-		connection : link2 connect 
-			navsubsystem.statusOut to navactuator.statusOut;
-		connection : link3 connect 
-			distributioncontroller.telemetryOut to navactuator.statusOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by distributioncontroller;
-		satisfy requirement <'REQ-001'> by navsubsystem;
-		satisfy requirement <'REQ-002'> by navactuator;
-		satisfy requirement <'REQ-002'> by distributioncontroller;
-		satisfy requirement <'REQ-003'> by distributioncontroller;
-		satisfy requirement <'REQ-003'> by navactuator;
-		satisfy requirement <'REQ-004'> by navsubsystem;
-		satisfy requirement <'REQ-004'> by distributioncontroller;
-	}
 }

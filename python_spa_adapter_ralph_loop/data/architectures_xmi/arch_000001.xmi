@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sysml:Package xmlns:xmi="http://www.omg.org/XMI" xmlns:sysml="https://www.omg.org/spec/SysML/20230201" xmi:version="2.0" xmi:id="_package_d8dec2b9" name="arch_000001">
+  <!-- Solar Array Reference Architecture 1 -->
+  <!-- Domain: solar array -->
+  <ownedElement xmi:type="sysml:PortDefinition" xmi:id="_portdef_b7773cc9" name="DataIF"/>
+  <ownedElement xmi:type="sysml:PortDefinition" xmi:id="_portdef_00cd6db0" name="StatusIF"/>
+  <ownedElement xmi:type="sysml:PortDefinition" xmi:id="_portdef_cb06c002" name="CommandIF"/>
+  <!-- Part Definitions -->
+  <ownedElement xmi:type="sysml:PartDefinition" xmi:id="_partdef_2baed7dc" name="SolarArraySystem"/>
+  <ownedElement xmi:type="sysml:PartDefinition" xmi:id="_partdef_79b1ca33" name="MissionBus">
+    <ownedPort xmi:type="sysml:PortUsage" xmi:id="_port_427e936d" name="dataIn">
+      <portDefinition xmi:idref="_portdef_b7773cc9"/>
+    </ownedPort>
+  </ownedElement>
+  <ownedElement xmi:type="sysml:PartDefinition" xmi:id="_partdef_ced96097" name="PowerModule">
+    <ownedPort xmi:type="sysml:PortUsage" xmi:id="_port_78550015" name="sensorOut">
+      <portDefinition xmi:idref="_portdef_b7773cc9"/>
+    </ownedPort>
+    <ownedPort xmi:type="sysml:PortUsage" xmi:id="_port_fc579984" name="configIn">
+      <portDefinition xmi:idref="_portdef_00cd6db0"/>
+    </ownedPort>
+    <ownedPort xmi:type="sysml:PortUsage" xmi:id="_port_64f2ef21" name="cmdIn">
+      <portDefinition xmi:idref="_portdef_cb06c002"/>
+    </ownedPort>
+  </ownedElement>
+  <!-- Requirements -->
+  <ownedElement xmi:type="sysml:RequirementDefinition" xmi:id="_requirementdef_8a6ec45d" name="REQ_001">
+    <reqId>REQ-001</reqId>
+    <text>The solar array system shall exchange data through typed interfaces.</text>
+  </ownedElement>
+  <ownedElement xmi:type="sysml:RequirementDefinition" xmi:id="_requirementdef_497e4442" name="REQ_002">
+    <reqId>REQ-002</reqId>
+    <text>The solar array system shall trace subsystem design to requirements.</text>
+  </ownedElement>
+  <ownedElement xmi:type="sysml:RequirementDefinition" xmi:id="_requirementdef_64389538" name="REQ_003">
+    <reqId>REQ-003</reqId>
+    <text>The solar array system shall provide fault detection and recovery.</text>
+  </ownedElement>
+  <!-- System Definition -->
+  <ownedElement xmi:type="sysml:PartDefinition" xmi:id="_partdef_ae22af06" name="SolarArraySystem">
+    <ownedPart xmi:type="sysml:PartUsage" xmi:id="_part_7ce03676" name="missionbus">
+      <partDefinition xmi:idref="_partdef_79b1ca33"/>
+      <satisfiedRequirement xmi:idref="_requirementdef_8a6ec45d"/>
+    </ownedPart>
+    <ownedPart xmi:type="sysml:PartUsage" xmi:id="_part_f0cc0deb" name="powermodule">
+      <partDefinition xmi:idref="_partdef_ced96097"/>
+      <satisfiedRequirement xmi:idref="_requirementdef_8a6ec45d"/>
+      <satisfiedRequirement xmi:idref="_requirementdef_497e4442"/>
+      <satisfiedRequirement xmi:idref="_requirementdef_64389538"/>
+    </ownedPart>
+    <ownedConnection xmi:type="sysml:ConnectionUsage" xmi:id="_connection_8be69e85" name="link1">
+      <end xmi:idref="_port_427e936d"/>
+      <end xmi:idref="_port_78550015"/>
+      <itemFlow xmi:type="sysml:ItemFlow">
+        <itemType>Alert</itemType>
+      </itemFlow>
+    </ownedConnection>
+    <ownedConnection xmi:type="sysml:ConnectionUsage" xmi:id="_connection_5a1e9e35" name="link2">
+      <end xmi:idref="_port_64f2ef21"/>
+      <end xmi:idref="_port_427e936d"/>
+      <itemFlow xmi:type="sysml:ItemFlow">
+        <itemType>Signal</itemType>
+      </itemFlow>
+    </ownedConnection>
+  </ownedElement>
+</sysml:Package>

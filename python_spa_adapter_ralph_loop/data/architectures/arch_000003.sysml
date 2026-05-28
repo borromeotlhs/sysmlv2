@@ -1,59 +1,55 @@
 package arch_000003 {
-	// Instrument Platform Reference Architecture 3
-	// Domain: instrument platform
 
-	import ScalarValues::*;
+    // Instrument Platform Reference Architecture 3
+    // Domain: instrument platform
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def DataIF;
-	interface def StatusIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The instrument platform system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def InstrumentPlatformSystem {
-	}
+    requirement REQ_002 {
+        doc "The instrument platform system shall trace subsystem design to requirements."
+    }
 
-	part def CommandInterface {
-		port statusOut : StatusIF;
-	}
+    requirement REQ_003 {
+        doc "The instrument platform system shall provide fault detection and recovery."
+    }
 
-	part def CommActuator {
-		port ctrlIn : ConfigIF;
-		port pwrIn : ConfigIF;
-		port cmdIn : DataIF;
-	}
+    // Component Definitions
+    part def CommandInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port statusOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The instrument platform system shall exchange data through typed interfaces. */
-	}
+    part def CommActuator {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port ctrlIn;
+        port pwrIn;
+        port cmdIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The instrument platform system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def InstrumentPlatformSystem {
+        part commandinterface : CommandInterface {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part commactuator : CommActuator {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The instrument platform system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect commactuator.pwrIn to commandinterface.statusOut;
+        connect commactuator.cmdIn to commandinterface.statusOut;
+        connect commactuator.ctrlIn to commandinterface.statusOut;
+    }
 
-	// System Assembly
-	part instrumentplatformsystem : InstrumentPlatformSystem {
-		part commandinterface : CommandInterface;
-		part commactuator : CommActuator;
+    // System Instance
+    part instrumentplatformsystem : InstrumentPlatformSystem;
 
-		// Connections
-		connection : link1 connect 
-			commactuator.pwrIn to commandinterface.statusOut;
-		connection : link2 connect 
-			commactuator.cmdIn to commandinterface.statusOut;
-		connection : link3 connect 
-			commactuator.ctrlIn to commandinterface.statusOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by commandinterface;
-		satisfy requirement <'REQ-002'> by commandinterface;
-		satisfy requirement <'REQ-002'> by commactuator;
-		satisfy requirement <'REQ-003'> by commactuator;
-		satisfy requirement <'REQ-003'> by commandinterface;
-	}
 }

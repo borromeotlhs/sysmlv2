@@ -1,0 +1,1238 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xmi:XMI xmlns:uml='http://www.omg.org/spec/UML/20131001' xmlns:xmi='http://www.omg.org/spec/XMI/20131001' xmlns:MD_Customization_for_Requirements__additional_stereotypes='http://www.magicdraw.com/spec/Customization/180/Requirements' xmlns:DSL_Customization='http://www.magicdraw.com/schemas/DSL_Customization.xmi' xmlns:MD_Customization_for_SysML__additional_stereotypes='http://www.magicdraw.com/spec/Customization/180/SysML' xmlns:sysml='http://www.omg.org/spec/SysML/20181001/SysML' xmlns:MagicDraw_Profile='http://www.omg.org/spec/UML/20131001/MagicDrawProfile' xmlns:StandardProfile='http://www.omg.org/spec/UML/20131001/StandardProfile' xmlns:Validation_Profile='http://www.magicdraw.com/schemas/Validation_Profile.xmi'>
+	<xmi:Documentation>
+		<xmi:exporter>MagicDraw UML</xmi:exporter>
+		<xmi:exporterVersion>2022x v7</xmi:exporterVersion>
+	</xmi:Documentation>
+	<xmi:Extension extender='MagicDraw UML 2022x'>
+		<plugin pluginName='SysML' pluginVersion='2022x'/>
+		<plugin pluginName='Cameo Requirements Modeler' pluginVersion='2022x'/>
+		<req_resource resourceID='1440' resourceName='SysML' resourceValueName='SysML Internal Block Diagram'/>
+		<req_resource resourceID='1440' resourceName='SysML' resourceValueName='SysML Block Definition Diagram'/>
+		<req_resource resourceID='1480' resourceName='Cameo Requirements Modeler' resourceValueName='Cameo Requirements Modeler'/>
+		<req_resource resourceID='1440' resourceName='SysML' resourceValueName='SysML'/>
+	</xmi:Extension>
+	<uml:Model xmi:type='uml:Model' xmi:id='eee_1045467100313_135436_1' name='Model'>
+		<ownedComment xmi:type='uml:Comment' xmi:id='_2022x_2_8eb0292_1779926037879_162364_3110' body='Author:borrth.&#10;Created:10/1/12 3:10 PM.&#10;Title:.&#10;Comment:.&#10;'>
+			<annotatedElement xmi:idref='eee_1045467100313_135436_1'/>
+		</ownedComment>
+		<packagedElement xmi:type='uml:Package' xmi:id='_2022x_2_8eb0292_1779926058510_723105_3310' name='Architecture'>
+			<packagedElement xmi:type='uml:Package' xmi:id='_2022x_2_8eb0292_1779926077849_729848_3311' name='Structure'>
+				<packagedElement xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926103169_688892_3312' name='Automotive Domain'>
+					<xmi:Extension extender='MagicDraw UML 2022x'>
+						<modelExtension>
+							<ownedDiagram xmi:type='uml:Diagram' xmi:id='_2022x_2_8eb0292_1779926115037_15347_3313' name='Automotive Domain BDD' visibility='public' ownerOfDiagram='_2022x_2_8eb0292_1779926103169_688892_3312'>
+								<xmi:Extension extender='MagicDraw UML 2022x'>
+									<diagramRepresentation>
+										<diagram:DiagramRepresentationObject ID='_2022x_2_8eb0292_1779926115093_807193_3329' initialFrameSizeSet='true' requiredFeature='com.nomagic.magicdraw.plugins.impl.sysml#SysML;UML_Standard_Profile.mdzip;MD_customization_for_SysML.mdzip' type='SysML Block Definition Diagram' umlType='Class Diagram' xmi:id='_gavLYFonEfGG9PXMVBYP5w' xmi:version='2.0' xmlns:binary='http://www.nomagic.com/ns/cameo/client/binary/1.0' xmlns:diagram='http://www.nomagic.com/ns/magicdraw/core/diagram/1.0' xmlns:xmi='http://www.omg.org/XMI' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+											<diagramContents contentHash='9979610213c177439fcec7164f0aea6e8a6d2e30' exporterName='MagicDraw UML' exporterVersion='2022x v7' xmi:id='_gavLYVonEfGG9PXMVBYP5w'>
+												<binaryObject streamContentID='BINARY-98939bd1-de6f-4952-817e-167aab553736' xmi:id='_gavLYlonEfGG9PXMVBYP5w' xsi:type='binary:StreamIdentityBinaryObject'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926266250_40948_3549'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926326685_683765_3815'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926289616_442840_3684'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926280962_424348_3640'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926351653_673436_3931'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926372380_673044_4006'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926311528_596105_3772'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926259445_207798_3508'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926289599_622567_3681'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926369420_240299_3992'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926338086_775911_3857'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927513055_693458_5162'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926273381_992910_3594'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926280962_656464_3638'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926251507_122088_3462'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926351653_398018_3932'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926326685_558548_3814'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926348363_448731_3918'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926362467_322048_3948'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926259429_350603_3505'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926280942_77739_3637'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926303593_5117_3728'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926129991_912275_3373'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926273381_418406_3595'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927513055_113946_5161'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926266268_693154_3551'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926345109_478967_3903'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927414398_644036_5119'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926338111_828113_3860'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927807079_550567_5222'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926303593_104543_3727'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926326658_461995_3813'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926237974_868640_3420'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926345109_397265_3902'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926369419_819988_3991'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926280962_898387_3639'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926289616_340283_3683'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927414398_731162_5120'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926348362_862090_3916'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926375732_629202_4020'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927807049_132965_5220'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926130038_410121_3375'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926303593_568063_3726'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926348362_930425_3917'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926266268_257267_3550'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926351654_470055_3933'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926362445_36324_3946'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926237951_599715_3417'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926311527_198444_3770'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927513056_33311_5163'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926338111_456032_3858'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926273360_695087_3593'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927654472_994988_5176'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926266268_482152_3552'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926362468_496018_3949'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926372380_351475_4007'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926375732_829817_4022'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926338111_760557_3859'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926130038_123387_3376'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927654504_245860_5178'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926273381_269962_3596'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926289616_433445_3682'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926130038_444736_3374'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926251487_374940_3461'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926303576_993598_3725'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926259445_140020_3507'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927654504_159171_5177'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927807079_115612_5221'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926311527_648248_3771'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926375732_209235_4021'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926251507_699782_3463'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927414398_770224_5118'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926251507_25467_3464'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926369419_774252_3990'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926103169_688892_3312'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927807079_422351_5223'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926237974_395511_3419'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926372380_625315_4005'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926362467_139553_3947'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927414382_194451_5117'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926237974_16525_3418'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926311507_294336_3769'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779927654504_990762_5179'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926326685_889818_3816'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926259445_563059_3506'/>
+												<usedObjects href='#_2022x_2_8eb0292_1779926345108_894528_3901'/>
+												<usedElements>_2022x_2_8eb0292_1779926237951_599715_3417</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926338111_828113_3860</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926372380_673044_4006</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926375732_829817_4022</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926289599_622567_3681</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926237974_16525_3418</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926351654_470055_3933</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927807079_422351_5223</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926348362_930425_3917</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927513055_693458_5162</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926369419_819988_3991</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926129991_912275_3373</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926351653_398018_3932</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926338086_775911_3857</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926289616_340283_3683</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926273360_695087_3593</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926280942_77739_3637</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926338111_760557_3859</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926251507_122088_3462</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927513056_33311_5163</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926348363_448731_3918</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926273381_992910_3594</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926303593_568063_3726</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927414382_194451_5117</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927414398_644036_5119</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926375732_209235_4021</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926259445_563059_3506</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926280962_424348_3640</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926326685_683765_3815</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926251487_374940_3461</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926266268_257267_3550</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927414398_770224_5118</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926273381_418406_3595</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926351653_673436_3931</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926375732_629202_4020</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926369420_240299_3992</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926273381_269962_3596</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926345108_894528_3901</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926237974_868640_3420</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926311507_294336_3769</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926348362_862090_3916</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926326685_889818_3816</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926345109_397265_3902</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927414398_731162_5120</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926362467_139553_3947</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926345109_478967_3903</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926303576_993598_3725</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926303593_104543_3727</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926130038_410121_3375</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926259445_140020_3507</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927654472_994988_5176</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927654504_990762_5179</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927807079_550567_5222</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926372380_351475_4007</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926326658_461995_3813</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926251507_25467_3464</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926280962_898387_3639</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926280962_656464_3638</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926259429_350603_3505</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926338111_456032_3858</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926266268_482152_3552</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926130038_123387_3376</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926259445_207798_3508</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926251507_699782_3463</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926103169_688892_3312</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926362468_496018_3949</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926303593_5117_3728</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927654504_159171_5177</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926311527_198444_3770</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926362445_36324_3946</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926311528_596105_3772</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926372380_625315_4005</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926369419_774252_3990</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926130038_444736_3374</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927654504_245860_5178</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926266268_693154_3551</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926266250_40948_3549</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926237974_395511_3419</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926311527_648248_3771</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926289616_442840_3684</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926362467_322048_3948</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927807049_132965_5220</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927807079_115612_5221</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926326685_558548_3814</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779927513055_113946_5161</usedElements>
+												<usedElements>_2022x_2_8eb0292_1779926289616_433445_3682</usedElements>
+											</diagramContents>
+										</diagram:DiagramRepresentationObject>
+									</diagramRepresentation>
+								</xmi:Extension>
+							</ownedDiagram>
+						</modelExtension>
+					</xmi:Extension>
+					<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926130038_410121_3375' name='electricVehicleSystem' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926130038_444736_3374'/>
+					<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926129991_912275_3373' name='ElectricVehicleSystem'>
+						<xmi:Extension extender='MagicDraw UML 2022x'>
+							<modelExtension>
+								<ownedDiagram xmi:type='uml:Diagram' xmi:id='_2022x_2_8eb0292_1779926792031_703584_4121' name='ElectricVehicleSystem' visibility='public' context='_2022x_2_8eb0292_1779926129991_912275_3373' ownerOfDiagram='_2022x_2_8eb0292_1779926129991_912275_3373'>
+									<xmi:Extension extender='MagicDraw UML 2022x'>
+										<diagramRepresentation>
+											<diagram:DiagramRepresentationObject ID='_2022x_2_8eb0292_1779926792038_510369_4136' initialFrameSizeSet='true' requiredFeature='com.nomagic.magicdraw.plugins.impl.sysml#SysML;MD_customization_for_SysML.mdzip;UML_Standard_Profile.mdzip' type='SysML Internal Block Diagram' umlType='Composite Structure Diagram' xmi:id='_FSmOgFopEfGG9PXMVBYP5w' xmi:version='2.0' xmlns:binary='http://www.nomagic.com/ns/cameo/client/binary/1.0' xmlns:diagram='http://www.nomagic.com/ns/magicdraw/core/diagram/1.0' xmlns:xmi='http://www.omg.org/XMI' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+												<diagramContents contentHash='4c4a1c46d2fe4512abf2d95f8f82c7b836c0feea' exporterName='MagicDraw UML' exporterVersion='2022x v7' xmi:id='_FSmOgVopEfGG9PXMVBYP5w'>
+													<binaryObject streamContentID='BINARY-f19f8912-c753-4481-9bd9-cf6a077a2904' xmi:id='_FSmOglopEfGG9PXMVBYP5w' xsi:type='binary:StreamIdentityBinaryObject'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926326685_683765_3815'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926372380_673044_4006'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928727983_505337_6886'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928278699_153654_6128'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928310457_98780_6193'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928310457_577218_6191'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926351653_398018_3932'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926362467_322048_3948'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928278701_896620_6131'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928240946_318696_6113'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928031475_851415_5806'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928047748_463126_5844'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927807079_550567_5222'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928112959_567759_5903'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928905216_143652_7160'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926369419_819988_3991'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926345109_397265_3902'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928899626_103748_7113'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928047748_2669_5845'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928899626_640422_7112'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928195282_80646_6048'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928349500_442026_6250'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928047748_950851_5846'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928278699_462940_6130'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928790893_932558_7023'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928240946_218232_6112'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928310457_616904_6190'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928790893_55136_7024'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926348362_930425_3917'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928732619_241930_6938'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928905216_478382_7161'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928195282_140630_6047'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928790893_134609_7022'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926338111_760557_3859'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927654504_245860_5178'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928195282_794272_6049'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926927158_72889_4643'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928154389_680244_5963'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926888509_275260_4602'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928216683_691826_6073'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928112959_739060_5902'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928899626_173505_7111'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928278699_791762_6129'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928804343_883258_7072'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928349500_875250_6248'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928804343_614332_7070'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928905216_348221_7159'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928349500_222649_6249'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926375732_209235_4021'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928240946_328894_6111'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928804343_898354_7071'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928899627_545458_7114'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928104144_291894_5864'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928143193_920872_5922'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928790894_949046_7025'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927045228_586789_4766'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928349501_73939_6251'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928310457_928235_6192'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928112960_351463_5904'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926962555_421974_4669'/>
+													<usedElements>_2022x_2_8eb0292_1779928790893_932558_7023</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928278701_896620_6131</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926372380_673044_4006</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928104144_291894_5864</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926348362_930425_3917</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928349500_442026_6250</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926369419_819988_3991</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926351653_398018_3932</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928804343_898354_7071</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928899626_173505_7111</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928349500_222649_6249</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928143193_920872_5922</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928899626_640422_7112</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928240946_218232_6112</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926338111_760557_3859</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928112960_351463_5904</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928804343_883258_7072</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926375732_209235_4021</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926326685_683765_3815</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926962555_421974_4669</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928310457_616904_6190</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928240946_328894_6111</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928804343_614332_7070</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928047748_463126_5844</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926345109_397265_3902</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928899627_545458_7114</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928905216_143652_7160</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928195282_794272_6049</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927045228_586789_4766</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928732619_241930_6938</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928278699_791762_6129</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927807079_550567_5222</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928899626_103748_7113</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928790893_134609_7022</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926888509_275260_4602</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928216683_691826_6073</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928195282_80646_6048</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928047748_950851_5846</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928310457_928235_6192</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928278699_462940_6130</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928278699_153654_6128</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928349500_875250_6248</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928905216_478382_7161</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928310457_98780_6193</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928195282_140630_6047</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928349501_73939_6251</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926927158_72889_4643</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928047748_2669_5845</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928790893_55136_7024</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927654504_245860_5178</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928112959_567759_5903</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928790894_949046_7025</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926362467_322048_3948</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928727983_505337_6886</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928154389_680244_5963</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928112959_739060_5902</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928905216_348221_7159</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928310457_577218_6191</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928031475_851415_5806</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928240946_318696_6113</usedElements>
+												</diagramContents>
+											</diagram:DiagramRepresentationObject>
+										</diagramRepresentation>
+									</xmi:Extension>
+								</ownedDiagram>
+							</modelExtension>
+						</xmi:Extension>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926362467_322048_3948' name='suspensionFL' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926362445_36324_3946' association='_2022x_2_8eb0292_1779926362467_139553_3947'>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_2022x_2_8eb0292_1779926475377_183853_4034' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_2022x_2_8eb0292_1779926475377_245956_4035' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+						</ownedAttribute>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926369419_819988_3991' name='suspensionFR' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926362445_36324_3946' association='_2022x_2_8eb0292_1779926369419_774252_3990'>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_2022x_2_8eb0292_1779926496157_458409_4047' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_2022x_2_8eb0292_1779926496158_541365_4048' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+						</ownedAttribute>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926372380_673044_4006' name='suspensionRL' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926362445_36324_3946' association='_2022x_2_8eb0292_1779926372380_625315_4005'>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_2022x_2_8eb0292_1779926505360_132085_4060' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_2022x_2_8eb0292_1779926505360_391569_4061' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+						</ownedAttribute>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926375732_209235_4021' name='suspensionRR' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926362445_36324_3946' association='_2022x_2_8eb0292_1779926375732_629202_4020'>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_2022x_2_8eb0292_1779926518140_19245_4073' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_2022x_2_8eb0292_1779926518140_952464_4074' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+						</ownedAttribute>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926338111_760557_3859' name='wheelFL' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926338086_775911_3857' association='_2022x_2_8eb0292_1779926338111_456032_3858'>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_2022x_2_8eb0292_1779926541109_548258_4084' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_2022x_2_8eb0292_1779926541109_19589_4085' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+						</ownedAttribute>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926345109_397265_3902' name='wheelFR' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926338086_775911_3857' association='_2022x_2_8eb0292_1779926345108_894528_3901'>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_2022x_2_8eb0292_1779926549727_33363_4094' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_2022x_2_8eb0292_1779926549727_778037_4095' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+						</ownedAttribute>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926348362_930425_3917' name='wheelRL' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926338086_775911_3857' association='_2022x_2_8eb0292_1779926348362_862090_3916'>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_2022x_2_8eb0292_1779926568450_630874_4104' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_2022x_2_8eb0292_1779926568451_953416_4105' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+						</ownedAttribute>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926351653_398018_3932' name='wheelRR' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926338086_775911_3857' association='_2022x_2_8eb0292_1779926351653_673436_3931'>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_2022x_2_8eb0292_1779926574616_211623_4112' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+							<xmi:Extension extender='MagicDraw UML 2022x'>
+								<modelExtension>
+									<upperValue xmi:type='uml:LiteralUnlimitedNatural' xmi:id='_2022x_2_8eb0292_1779926574617_614611_4113' value='1'/>
+								</modelExtension>
+							</xmi:Extension>
+						</ownedAttribute>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779927654504_245860_5178' name='drivetrain System' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779927654472_994988_5176' association='_2022x_2_8eb0292_1779927654504_159171_5177'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926326685_683765_3815' name='vehicleControlUnit' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926326658_461995_3813' association='_2022x_2_8eb0292_1779926326685_558548_3814'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779927807079_550567_5222' name='electricalPowerSubsystem' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779927807049_132965_5220' association='_2022x_2_8eb0292_1779927807079_115612_5221'/>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779927054950_766312_4783' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927054951_613346_4784' partWithPort='_2022x_2_8eb0292_1779926326685_683765_3815' role='_2022x_2_8eb0292_1779927045228_586789_4766'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927054951_920312_4785' partWithPort='_2022x_2_8eb0292_1779926280962_898387_3639' role='_2022x_2_8eb0292_1779927032915_90747_4751'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928047748_463126_5844' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928047748_2669_5845' partWithPort='_2022x_2_8eb0292_1779927807079_550567_5222' role='_2022x_2_8eb0292_1779928031475_851415_5806'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928047748_950851_5846' partWithPort='_2022x_2_8eb0292_1779926326685_683765_3815' role='_2022x_2_8eb0292_1779926962555_421974_4669'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928112959_739060_5902' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928112959_567759_5903' partWithPort='_2022x_2_8eb0292_1779927654504_245860_5178' role='_2022x_2_8eb0292_1779928104144_291894_5864'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928112960_351463_5904' partWithPort='_2022x_2_8eb0292_1779926326685_683765_3815' role='_2022x_2_8eb0292_1779926927158_72889_4643'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928195282_140630_6047' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928195282_80646_6048' partWithPort='_2022x_2_8eb0292_1779927807079_550567_5222' role='_2022x_2_8eb0292_1779928143193_920872_5922'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928195282_794272_6049' partWithPort='_2022x_2_8eb0292_1779927654504_245860_5178' role='_2022x_2_8eb0292_1779928154389_680244_5963'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928240946_328894_6111' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928240946_218232_6112' partWithPort='_2022x_2_8eb0292_1779927807079_550567_5222' role='_2022x_2_8eb0292_1779928216683_691826_6073'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928240946_318696_6113' partWithPort='_2022x_2_8eb0292_1779926326685_683765_3815' role='_2022x_2_8eb0292_1779926888509_275260_4602'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928278699_153654_6128' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928278699_791762_6129' partWithPort='_2022x_2_8eb0292_1779926326685_683765_3815' role='_2022x_2_8eb0292_1779927045228_586789_4766'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928278699_462940_6130' partWithPort='_2022x_2_8eb0292_1779927807079_550567_5222' role='_2022x_2_8eb0292_1779928278701_896620_6131'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928310457_616904_6190' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928310457_577218_6191' partWithPort='_2022x_2_8eb0292_1779926326685_683765_3815' role='_2022x_2_8eb0292_1779927045228_586789_4766'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928310457_928235_6192' partWithPort='_2022x_2_8eb0292_1779927654504_245860_5178' role='_2022x_2_8eb0292_1779928310457_98780_6193'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928349500_875250_6248' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928349500_222649_6249' partWithPort='_2022x_2_8eb0292_1779926326685_683765_3815' role='_2022x_2_8eb0292_1779927045228_586789_4766'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928349500_442026_6250' partWithPort='_2022x_2_8eb0292_1779927807079_550567_5222' role='_2022x_2_8eb0292_1779928349501_73939_6251'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928790893_134609_7022' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928790893_932558_7023' partWithPort='_2022x_2_8eb0292_1779927654504_245860_5178' role='_2022x_2_8eb0292_1779928732619_241930_6938'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928790893_55136_7024' partWithPort='_2022x_2_8eb0292_1779926348362_930425_3917' role='_2022x_2_8eb0292_1779928790894_949046_7025'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928804343_614332_7070' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928804343_898354_7071' partWithPort='_2022x_2_8eb0292_1779927654504_245860_5178' role='_2022x_2_8eb0292_1779928727983_505337_6886'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928804343_883258_7072' partWithPort='_2022x_2_8eb0292_1779926351653_398018_3932' role='_2022x_2_8eb0292_1779928790894_949046_7025'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928899626_173505_7111' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928899626_640422_7112' partWithPort='_2022x_2_8eb0292_1779926351653_398018_3932' role='_2022x_2_8eb0292_1779928790894_949046_7025'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928899626_103748_7113' partWithPort='_2022x_2_8eb0292_1779926375732_209235_4021' role='_2022x_2_8eb0292_1779928899627_545458_7114'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928905216_348221_7159' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928905216_143652_7160' partWithPort='_2022x_2_8eb0292_1779926348362_930425_3917' role='_2022x_2_8eb0292_1779928790894_949046_7025'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928905216_478382_7161' partWithPort='_2022x_2_8eb0292_1779926372380_673044_4006' role='_2022x_2_8eb0292_1779928899627_545458_7114'/>
+						</ownedConnector>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926289599_622567_3681' name='ChargingSystem'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927092260_547923_4807' name='acIn' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927103759_446746_4822' name='controlIn' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927120544_443607_4848' name='dcOut' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779929075418_635805_7649' name='sense' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926273360_695087_3593' name='DriveShaft'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927233667_250912_5024' name='driveIn' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928521795_387467_6644' name='driveOut' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926251487_374940_3461' name='ElectricMotor'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927149901_954420_4889' name='powerIn' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927164607_733758_4915' name='controlIn' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927188364_329036_4941' name='driveOut' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926303576_993598_3725' name='BatteryPack'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779926850466_576200_4561' name='thermal in' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779926971108_930109_4684' name='dataOut' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927000140_815544_4710' name='powerOut' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779929060858_448579_7565' name='sense' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926237951_599715_3417' name='BrakeController'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779926911362_231241_4628' name='canOut' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926266250_40948_3549' name='Differential'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928531812_306414_6664' name='driveIn' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928541199_343047_6707' name='leftDriveOut' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928561300_853054_6770' name='rightDriveOut' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926362445_36324_3946' name='Suspension'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928899627_545458_7114' name='wheelHub' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926338086_775911_3857' name='Wheel'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928790894_949046_7025' name='wheelHub' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926259429_350603_3505' name='Transmission'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927198852_7563_4961' name='inputShaft' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927221036_437848_5004' name='torqueOut' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926326658_461995_3813' name='VehicleControlUnit'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779926888509_275260_4602' name='canBusA' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779926927158_72889_4643' name='canBusB' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779926962555_421974_4669' name='sensorIn' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927045228_586789_4766' name='commandOut' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926311507_294336_3769' name='ThermalManagementSystem'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779926831302_695236_4546' name='coolant out' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779926869957_88260_4587' name='data out' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779929053940_166747_7545' name='sense' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+						<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779926280942_77739_3637' name='Inverter'>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927016089_835599_4725' name='dcIn' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927032915_90747_4751' name='controlIn' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779927136459_443732_4874' name='acOut' visibility='public' aggregation='composite'/>
+							<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779929067130_980380_7607' name='sense' visibility='public' aggregation='composite'/>
+						</nestedClassifier>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926237974_16525_3418'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926237974_395511_3419'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926237974_868640_3420'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926237974_868640_3420' visibility='public' type='_2022x_2_8eb0292_1779927654472_994988_5176' association='_2022x_2_8eb0292_1779926237974_16525_3418'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926251507_122088_3462'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926251507_699782_3463'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926251507_25467_3464'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926251507_25467_3464' visibility='public' type='_2022x_2_8eb0292_1779927654472_994988_5176' association='_2022x_2_8eb0292_1779926251507_122088_3462'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926259445_563059_3506'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926259445_140020_3507'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926259445_207798_3508'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926259445_207798_3508' visibility='public' type='_2022x_2_8eb0292_1779927654472_994988_5176' association='_2022x_2_8eb0292_1779926259445_563059_3506'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926266268_257267_3550'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926266268_693154_3551'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926266268_482152_3552'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926266268_482152_3552' visibility='public' type='_2022x_2_8eb0292_1779927654472_994988_5176' association='_2022x_2_8eb0292_1779926266268_257267_3550'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926273381_992910_3594'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926273381_418406_3595'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926273381_269962_3596'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926273381_269962_3596' visibility='public' type='_2022x_2_8eb0292_1779927654472_994988_5176' association='_2022x_2_8eb0292_1779926273381_992910_3594'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926280962_656464_3638'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926280962_898387_3639'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779926280962_424348_3640'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926280962_424348_3640' visibility='public' type='_2022x_2_8eb0292_1779927807049_132965_5220' association='_2022x_2_8eb0292_1779926280962_656464_3638'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779927414382_194451_5117' name='Rear Half Shaft'>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928553232_842102_6727' name='innerCVJoint' visibility='public' aggregation='composite'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928681330_618789_6853' name='outerCVJoint' visibility='public' aggregation='composite'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779927414398_770224_5118'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779927414398_644036_5119'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779927414398_731162_5120'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779927414398_731162_5120' visibility='public' type='_2022x_2_8eb0292_1779927654472_994988_5176' association='_2022x_2_8eb0292_1779927414398_770224_5118'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779927513055_113946_5161'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779927513055_693458_5162'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779927513056_33311_5163'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779927513056_33311_5163' visibility='public' type='_2022x_2_8eb0292_1779927654472_994988_5176' association='_2022x_2_8eb0292_1779927513055_113946_5161'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779927654472_994988_5176' name='Drivetrain System'>
+						<xmi:Extension extender='MagicDraw UML 2022x'>
+							<modelExtension>
+								<ownedDiagram xmi:type='uml:Diagram' xmi:id='_2022x_2_8eb0292_1779928435102_523966_6304' name='Drivetrain System' visibility='public' context='_2022x_2_8eb0292_1779927654472_994988_5176' ownerOfDiagram='_2022x_2_8eb0292_1779927654472_994988_5176'>
+									<xmi:Extension extender='MagicDraw UML 2022x'>
+										<diagramRepresentation>
+											<diagram:DiagramRepresentationObject ID='_2022x_2_8eb0292_1779928435107_690401_6319' initialFrameSizeSet='true' requiredFeature='com.nomagic.magicdraw.plugins.impl.sysml#SysML;MD_customization_for_SysML.mdzip;UML_Standard_Profile.mdzip' type='SysML Internal Block Diagram' umlType='Composite Structure Diagram' xmi:id='_6IGvMFosEfGG9PXMVBYP5w' xmi:version='2.0' xmlns:binary='http://www.nomagic.com/ns/cameo/client/binary/1.0' xmlns:diagram='http://www.nomagic.com/ns/magicdraw/core/diagram/1.0' xmlns:xmi='http://www.omg.org/XMI' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+												<diagramContents contentHash='80f0508e7f5b774a955b19dd732d1fae204b4af2' exporterName='MagicDraw UML' exporterVersion='2022x v7' xmi:id='_6IGvMVosEfGG9PXMVBYP5w'>
+													<binaryObject streamContentID='BINARY-c535123d-8e96-4e31-af5c-95bdef69be4e' xmi:id='_6IGvMlosEfGG9PXMVBYP5w' xsi:type='binary:StreamIdentityBinaryObject'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927221036_437848_5004'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928541199_343047_6707'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928154388_208861_5962'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928104144_489660_5863'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928727983_505337_6886'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928561300_853054_6770'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927513055_693458_5162'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927198851_365134_4958'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928310457_98780_6193'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927198852_7563_4961'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928553232_842102_6727'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928572012_52095_6789'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926273381_418406_3595'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928732617_730862_6936'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926266268_693154_3551'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927414398_644036_5119'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927233667_250912_5024'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927198852_10148_4960'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928727983_633425_6884'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928553231_750379_6724'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928732619_241930_6938'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928732617_293835_6937'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927233665_118695_5021'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927164607_733758_4915'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927188364_329036_4941'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926911362_231241_4628'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928553232_384031_6725'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928727983_29224_6883'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927233665_704705_5023'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928154389_680244_5963'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928553232_610035_6726'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927233665_132855_5022'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928572012_96659_6788'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928727983_256123_6885'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926259445_140020_3507'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928732617_465477_6935'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928314400_703790_6233'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926251507_699782_3463'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928314400_230871_6234'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928531812_306414_6664'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928154388_39642_5960'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928104143_533411_5862'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928104144_291894_5864'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927149901_954420_4889'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928314400_743199_6232'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926237974_395511_3419'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928681330_618789_6853'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928572012_903822_6787'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928531812_889114_6661'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928154388_871947_5961'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928104143_929193_5861'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928521795_387467_6644'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927198851_900779_4959'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928531812_850909_6663'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928531812_418691_6662'/>
+													<usedElements>_2022x_2_8eb0292_1779928541199_343047_6707</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928104144_291894_5864</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927513055_693458_5162</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928732617_465477_6935</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928732617_293835_6937</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928553231_750379_6724</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928681330_618789_6853</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927233667_250912_5024</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928104143_533411_5862</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928314400_230871_6234</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928732617_730862_6936</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928727983_633425_6884</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927414398_644036_5119</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928104144_489660_5863</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928154388_208861_5962</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926273381_418406_3595</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927233665_132855_5022</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928531812_889114_6661</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928727983_29224_6883</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928553232_842102_6727</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927198851_365134_4958</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928531812_306414_6664</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928732619_241930_6938</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927188364_329036_4941</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928727983_256123_6885</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926259445_140020_3507</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927233665_118695_5021</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927164607_733758_4915</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928104143_929193_5861</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928314400_703790_6233</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928531812_418691_6662</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926911362_231241_4628</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927198851_900779_4959</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927149901_954420_4889</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928553232_610035_6726</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927198852_7563_4961</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926251507_699782_3463</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928154388_871947_5961</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928154388_39642_5960</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928531812_850909_6663</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927221036_437848_5004</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928572012_96659_6788</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928561300_853054_6770</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927198852_10148_4960</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928553232_384031_6725</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928310457_98780_6193</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926266268_693154_3551</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926237974_395511_3419</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928521795_387467_6644</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928572012_903822_6787</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928727983_505337_6886</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928572012_52095_6789</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928154389_680244_5963</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928314400_743199_6232</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927233665_704705_5023</usedElements>
+												</diagramContents>
+											</diagram:DiagramRepresentationObject>
+										</diagramRepresentation>
+									</xmi:Extension>
+								</ownedDiagram>
+							</modelExtension>
+						</xmi:Extension>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779927414398_644036_5119' name='left' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779927414382_194451_5117' association='_2022x_2_8eb0292_1779927414398_770224_5118'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779927513055_693458_5162' name='right' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779927414382_194451_5117' association='_2022x_2_8eb0292_1779927513055_113946_5161'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926273381_418406_3595' name='driveShaft' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926273360_695087_3593' association='_2022x_2_8eb0292_1779926273381_992910_3594'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926266268_693154_3551' name='differential' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926266250_40948_3549' association='_2022x_2_8eb0292_1779926266268_257267_3550'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926259445_140020_3507' name='transmission' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926259429_350603_3505' association='_2022x_2_8eb0292_1779926259445_563059_3506'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926251507_699782_3463' name='electricMotor' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926251487_374940_3461' association='_2022x_2_8eb0292_1779926251507_122088_3462'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926237974_395511_3419' name='brakeController' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926237951_599715_3417' association='_2022x_2_8eb0292_1779926237974_16525_3418'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928104144_291894_5864' name='canOut' visibility='public' aggregation='composite'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928154389_680244_5963' name='powerIn' visibility='public' aggregation='composite'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928310457_98780_6193' name='commandOut' visibility='public' aggregation='composite'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928727983_505337_6886' name='rightOuterCVJoint' visibility='public' aggregation='composite'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928732619_241930_6938' name='leftOuterCVJoint' visibility='public' aggregation='composite'/>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779927198851_365134_4958' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927198851_900779_4959' partWithPort='_2022x_2_8eb0292_1779926251507_699782_3463' role='_2022x_2_8eb0292_1779927188364_329036_4941'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927198852_10148_4960' partWithPort='_2022x_2_8eb0292_1779926259445_140020_3507' role='_2022x_2_8eb0292_1779927198852_7563_4961'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779927233665_118695_5021' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927233665_132855_5022' partWithPort='_2022x_2_8eb0292_1779926259445_140020_3507' role='_2022x_2_8eb0292_1779927221036_437848_5004'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927233665_704705_5023' partWithPort='_2022x_2_8eb0292_1779926273381_418406_3595' role='_2022x_2_8eb0292_1779927233667_250912_5024'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928104143_929193_5861' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928104143_533411_5862' partWithPort='_2022x_2_8eb0292_1779926237974_395511_3419' role='_2022x_2_8eb0292_1779926911362_231241_4628'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928104144_489660_5863' role='_2022x_2_8eb0292_1779928104144_291894_5864'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928154388_39642_5960' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928154388_871947_5961' partWithPort='_2022x_2_8eb0292_1779926251507_699782_3463' role='_2022x_2_8eb0292_1779927149901_954420_4889'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928154388_208861_5962' role='_2022x_2_8eb0292_1779928154389_680244_5963'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928314400_743199_6232' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928314400_703790_6233' role='_2022x_2_8eb0292_1779928310457_98780_6193'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928314400_230871_6234' partWithPort='_2022x_2_8eb0292_1779926251507_699782_3463' role='_2022x_2_8eb0292_1779927164607_733758_4915'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928531812_889114_6661' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928531812_418691_6662' partWithPort='_2022x_2_8eb0292_1779926273381_418406_3595' role='_2022x_2_8eb0292_1779928521795_387467_6644'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928531812_850909_6663' partWithPort='_2022x_2_8eb0292_1779926266268_693154_3551' role='_2022x_2_8eb0292_1779928531812_306414_6664'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928553231_750379_6724' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928553232_384031_6725' partWithPort='_2022x_2_8eb0292_1779926266268_693154_3551' role='_2022x_2_8eb0292_1779928541199_343047_6707'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928553232_610035_6726' partWithPort='_2022x_2_8eb0292_1779927414398_644036_5119' role='_2022x_2_8eb0292_1779928553232_842102_6727'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928572012_903822_6787' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928572012_96659_6788' partWithPort='_2022x_2_8eb0292_1779926266268_693154_3551' role='_2022x_2_8eb0292_1779928561300_853054_6770'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928572012_52095_6789' partWithPort='_2022x_2_8eb0292_1779927513055_693458_5162' role='_2022x_2_8eb0292_1779928553232_842102_6727'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928727983_29224_6883' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928727983_633425_6884' partWithPort='_2022x_2_8eb0292_1779927513055_693458_5162' role='_2022x_2_8eb0292_1779928681330_618789_6853'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928727983_256123_6885' role='_2022x_2_8eb0292_1779928727983_505337_6886'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928732617_465477_6935' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928732617_730862_6936' partWithPort='_2022x_2_8eb0292_1779927414398_644036_5119' role='_2022x_2_8eb0292_1779928681330_618789_6853'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928732617_293835_6937' role='_2022x_2_8eb0292_1779928732619_241930_6938'/>
+						</ownedConnector>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779927654504_159171_5177'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779927654504_245860_5178'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779927654504_990762_5179'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779927654504_990762_5179' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779927654504_159171_5177'/>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Class' xmi:id='_2022x_2_8eb0292_1779927807049_132965_5220' name='ElectricalPowerSubsystem'>
+						<xmi:Extension extender='MagicDraw UML 2022x'>
+							<modelExtension>
+								<ownedDiagram xmi:type='uml:Diagram' xmi:id='_2022x_2_8eb0292_1779928978582_821647_7205' name='ElectricalPowerSubsystem' visibility='public' context='_2022x_2_8eb0292_1779927807049_132965_5220' ownerOfDiagram='_2022x_2_8eb0292_1779927807049_132965_5220'>
+									<xmi:Extension extender='MagicDraw UML 2022x'>
+										<diagramRepresentation>
+											<diagram:DiagramRepresentationObject ID='_2022x_2_8eb0292_1779928978588_793016_7220' initialFrameSizeSet='true' requiredFeature='com.nomagic.magicdraw.plugins.impl.sysml#SysML;MD_customization_for_SysML.mdzip;UML_Standard_Profile.mdzip' type='SysML Internal Block Diagram' umlType='Composite Structure Diagram' xmi:id='_LHJ00FouEfGG9PXMVBYP5w' xmi:version='2.0' xmlns:binary='http://www.nomagic.com/ns/cameo/client/binary/1.0' xmlns:diagram='http://www.nomagic.com/ns/magicdraw/core/diagram/1.0' xmlns:xmi='http://www.omg.org/XMI' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+												<diagramContents contentHash='84dca7398b60aac536805763ea03e46c61936c28' exporterName='MagicDraw UML' exporterVersion='2022x v7' xmi:id='_LHJ00VouEfGG9PXMVBYP5w'>
+													<binaryObject streamContentID='BINARY-4e8d207d-6776-4cd7-bfa9-89f6f8947334' xmi:id='_LHJ00louEfGG9PXMVBYP5w' xsi:type='binary:StreamIdentityBinaryObject'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928031474_631163_5805'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927120544_443607_4848'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929067130_437740_7606'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928143193_73563_5921'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926869957_88260_4587'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927016089_835599_4725'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928290256_127502_6175'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927000140_815544_4710'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928278701_896620_6131'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929067130_980380_7607'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928031475_851415_5806'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929067130_766329_7605'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926303593_104543_3727'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929053940_166747_7545'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926280962_898387_3639'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926289616_340283_3683'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929036120_75071_7539'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928216682_220021_6072'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929075417_287507_7647'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929075417_961114_7646'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926850466_576200_4561'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927130267_211423_4866'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929036120_60109_7537'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928290256_51134_6176'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927103759_446746_4822'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929067130_130406_7604'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927130267_152710_4865'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926858678_628638_4579'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926858678_101299_4578'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928143193_736996_5920'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929075417_729205_7648'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929075418_635805_7649'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929060857_575662_7562'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928216682_595809_6070'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928216683_691826_6073'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929036120_519830_7538'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926858678_151026_4580'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928216682_645263_6071'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926311527_648248_3771'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929060858_448579_7565'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928031474_290190_5803'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927032915_90747_4751'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929060857_173159_7564'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928143193_920872_5922'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927028545_289533_4742'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927130267_9302_4867'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928031474_792848_5804'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928349501_73939_6251'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928143193_132684_5919'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779928290256_287460_6174'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927028546_655985_4743'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779929060857_52590_7563'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926971108_930109_4684'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927092260_547923_4807'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927028546_6695_4744'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779927136459_443732_4874'/>
+													<usedObjects href='#_2022x_2_8eb0292_1779926831302_695236_4546'/>
+													<usedElements>_2022x_2_8eb0292_1779927120544_443607_4848</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928031474_290190_5803</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927032915_90747_4751</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927130267_9302_4867</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928278701_896620_6131</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929067130_437740_7606</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927016089_835599_4725</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928290256_127502_6175</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929060858_448579_7565</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928290256_51134_6176</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926850466_576200_4561</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929060857_173159_7564</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926289616_340283_3683</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928143193_920872_5922</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927028545_289533_4742</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929075417_961114_7646</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928143193_132684_5919</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927028546_655985_4743</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928031474_631163_5805</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927103759_446746_4822</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929067130_980380_7607</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929036120_75071_7539</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928290256_287460_6174</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926869957_88260_4587</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926858678_628638_4579</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929060857_52590_7563</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929067130_766329_7605</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929036120_60109_7537</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927130267_211423_4866</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926303593_104543_3727</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928031474_792848_5804</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928216682_220021_6072</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929053940_166747_7545</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927028546_6695_4744</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928143193_73563_5921</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929075417_729205_7648</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926280962_898387_3639</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928216682_645263_6071</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927136459_443732_4874</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929075417_287507_7647</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927130267_152710_4865</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928216683_691826_6073</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926858678_151026_4580</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929036120_519830_7538</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927092260_547923_4807</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926971108_930109_4684</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929060857_575662_7562</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929067130_130406_7604</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928349501_73939_6251</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926858678_101299_4578</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779927000140_815544_4710</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928143193_736996_5920</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926311527_648248_3771</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928216682_595809_6070</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779926831302_695236_4546</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779928031475_851415_5806</usedElements>
+													<usedElements>_2022x_2_8eb0292_1779929075418_635805_7649</usedElements>
+												</diagramContents>
+											</diagram:DiagramRepresentationObject>
+										</diagramRepresentation>
+									</xmi:Extension>
+								</ownedDiagram>
+							</modelExtension>
+						</xmi:Extension>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926311527_648248_3771' name='thermalManagementSystem' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926311507_294336_3769' association='_2022x_2_8eb0292_1779926311527_198444_3770'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926303593_104543_3727' name='batteryPack' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926303576_993598_3725' association='_2022x_2_8eb0292_1779926303593_568063_3726'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926289616_340283_3683' name='chargingSystem' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926289599_622567_3681' association='_2022x_2_8eb0292_1779926289616_433445_3682'/>
+						<ownedAttribute xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926280962_898387_3639' name='inverter' visibility='public' aggregation='composite' type='_2022x_2_8eb0292_1779926280942_77739_3637' association='_2022x_2_8eb0292_1779926280962_656464_3638'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928031475_851415_5806' name='dataOut' visibility='public' aggregation='composite'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928143193_920872_5922' name='acOut' visibility='public' aggregation='composite'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928216683_691826_6073' name='data out' visibility='public' aggregation='composite'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928278701_896620_6131' name='chrgsys cmdOut' visibility='public' aggregation='composite'/>
+						<ownedAttribute xmi:type='uml:Port' xmi:id='_2022x_2_8eb0292_1779928349501_73939_6251' name='inverter commandOut' visibility='public' aggregation='composite'/>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779926858678_101299_4578' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779926858678_628638_4579' partWithPort='_2022x_2_8eb0292_1779926311527_648248_3771' role='_2022x_2_8eb0292_1779926831302_695236_4546'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779926858678_151026_4580' partWithPort='_2022x_2_8eb0292_1779926303593_104543_3727' role='_2022x_2_8eb0292_1779926850466_576200_4561'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779927028545_289533_4742' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927028546_655985_4743' partWithPort='_2022x_2_8eb0292_1779926303593_104543_3727' role='_2022x_2_8eb0292_1779927000140_815544_4710'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927028546_6695_4744' partWithPort='_2022x_2_8eb0292_1779926280962_898387_3639' role='_2022x_2_8eb0292_1779927016089_835599_4725'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779927130267_152710_4865' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927130267_211423_4866' partWithPort='_2022x_2_8eb0292_1779926289616_340283_3683' role='_2022x_2_8eb0292_1779927120544_443607_4848'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779927130267_9302_4867' partWithPort='_2022x_2_8eb0292_1779926303593_104543_3727' role='_2022x_2_8eb0292_1779927000140_815544_4710'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928031474_290190_5803' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928031474_792848_5804' partWithPort='_2022x_2_8eb0292_1779926303593_104543_3727' role='_2022x_2_8eb0292_1779926971108_930109_4684'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928031474_631163_5805' role='_2022x_2_8eb0292_1779928031475_851415_5806'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928143193_132684_5919' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928143193_736996_5920' partWithPort='_2022x_2_8eb0292_1779926280962_898387_3639' role='_2022x_2_8eb0292_1779927136459_443732_4874'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928143193_73563_5921' role='_2022x_2_8eb0292_1779928143193_920872_5922'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928216682_595809_6070' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928216682_645263_6071' partWithPort='_2022x_2_8eb0292_1779926311527_648248_3771' role='_2022x_2_8eb0292_1779926869957_88260_4587'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928216682_220021_6072' role='_2022x_2_8eb0292_1779928216683_691826_6073'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779928290256_287460_6174' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928290256_127502_6175' role='_2022x_2_8eb0292_1779928278701_896620_6131'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779928290256_51134_6176' partWithPort='_2022x_2_8eb0292_1779926289616_340283_3683' role='_2022x_2_8eb0292_1779927103759_446746_4822'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779929036120_60109_7537' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779929036120_519830_7538' role='_2022x_2_8eb0292_1779928349501_73939_6251'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779929036120_75071_7539' partWithPort='_2022x_2_8eb0292_1779926280962_898387_3639' role='_2022x_2_8eb0292_1779927032915_90747_4751'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779929060857_575662_7562' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779929060857_52590_7563' partWithPort='_2022x_2_8eb0292_1779926311527_648248_3771' role='_2022x_2_8eb0292_1779929053940_166747_7545'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779929060857_173159_7564' partWithPort='_2022x_2_8eb0292_1779926303593_104543_3727' role='_2022x_2_8eb0292_1779929060858_448579_7565'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779929067130_130406_7604' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779929067130_766329_7605' partWithPort='_2022x_2_8eb0292_1779926311527_648248_3771' role='_2022x_2_8eb0292_1779929053940_166747_7545'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779929067130_437740_7606' partWithPort='_2022x_2_8eb0292_1779926280962_898387_3639' role='_2022x_2_8eb0292_1779929067130_980380_7607'/>
+						</ownedConnector>
+						<ownedConnector xmi:type='uml:Connector' xmi:id='_2022x_2_8eb0292_1779929075417_961114_7646' visibility='public'>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779929075417_287507_7647' partWithPort='_2022x_2_8eb0292_1779926311527_648248_3771' role='_2022x_2_8eb0292_1779929053940_166747_7545'/>
+							<end xmi:type='uml:ConnectorEnd' xmi:id='_2022x_2_8eb0292_1779929075417_729205_7648' partWithPort='_2022x_2_8eb0292_1779926289616_340283_3683' role='_2022x_2_8eb0292_1779929075418_635805_7649'/>
+						</ownedConnector>
+					</nestedClassifier>
+					<nestedClassifier xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779927807079_115612_5221'>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779927807079_550567_5222'/>
+						<memberEnd xmi:idref='_2022x_2_8eb0292_1779927807079_422351_5223'/>
+						<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779927807079_422351_5223' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779927807079_115612_5221'/>
+					</nestedClassifier>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926130038_444736_3374'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926130038_410121_3375'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926130038_123387_3376'/>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926130038_123387_3376' visibility='public' type='_2022x_2_8eb0292_1779926103169_688892_3312' association='_2022x_2_8eb0292_1779926130038_444736_3374'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926289616_433445_3682'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926289616_340283_3683'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926289616_442840_3684'/>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926289616_442840_3684' visibility='public' type='_2022x_2_8eb0292_1779927807049_132965_5220' association='_2022x_2_8eb0292_1779926289616_433445_3682'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926303593_568063_3726'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926303593_104543_3727'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926303593_5117_3728'/>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926303593_5117_3728' visibility='public' type='_2022x_2_8eb0292_1779927807049_132965_5220' association='_2022x_2_8eb0292_1779926303593_568063_3726'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926311527_198444_3770'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926311527_648248_3771'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926311528_596105_3772'/>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926311528_596105_3772' visibility='public' type='_2022x_2_8eb0292_1779927807049_132965_5220' association='_2022x_2_8eb0292_1779926311527_198444_3770'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926326685_558548_3814'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926326685_683765_3815'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926326685_889818_3816'/>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926326685_889818_3816' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926326685_558548_3814'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926338111_456032_3858'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926338111_760557_3859'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926338111_828113_3860'/>
+					<ownedComment xmi:type='uml:Comment' xmi:id='_2022x_2_8eb0292_1779926538160_106977_4081' body='front left wheel'>
+						<annotatedElement xmi:idref='_2022x_2_8eb0292_1779926338111_456032_3858'/>
+					</ownedComment>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926338111_828113_3860' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926338111_456032_3858'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926345108_894528_3901'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926345109_397265_3902'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926345109_478967_3903'/>
+					<ownedComment xmi:type='uml:Comment' xmi:id='_2022x_2_8eb0292_1779926558156_231876_4100' body='front right wheel'>
+						<annotatedElement xmi:idref='_2022x_2_8eb0292_1779926345108_894528_3901'/>
+					</ownedComment>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926345109_478967_3903' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926345108_894528_3901'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926348362_862090_3916'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926348362_930425_3917'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926348363_448731_3918'/>
+					<ownedComment xmi:type='uml:Comment' xmi:id='_2022x_2_8eb0292_1779926565613_952648_4101' body='rear left wheel'>
+						<annotatedElement xmi:idref='_2022x_2_8eb0292_1779926348362_862090_3916'/>
+					</ownedComment>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926348363_448731_3918' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926348362_862090_3916'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926351653_673436_3931'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926351653_398018_3932'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926351654_470055_3933'/>
+					<ownedComment xmi:type='uml:Comment' xmi:id='_2022x_2_8eb0292_1779926582791_431835_4118' body='rear right wheel'>
+						<annotatedElement xmi:idref='_2022x_2_8eb0292_1779926351653_673436_3931'/>
+					</ownedComment>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926351654_470055_3933' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926351653_673436_3931'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926362467_139553_3947'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926362467_322048_3948'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926362468_496018_3949'/>
+					<ownedComment xmi:type='uml:Comment' xmi:id='_2022x_2_8eb0292_1779926468296_259546_4031' body='suspension for wheelFL'>
+						<annotatedElement xmi:idref='_2022x_2_8eb0292_1779926362467_139553_3947'/>
+					</ownedComment>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926362468_496018_3949' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926362467_139553_3947'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926369419_774252_3990'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926369419_819988_3991'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926369420_240299_3992'/>
+					<ownedComment xmi:type='uml:Comment' xmi:id='_2022x_2_8eb0292_1779926492702_329276_4042' body='suspension for wheelFR'>
+						<annotatedElement xmi:idref='_2022x_2_8eb0292_1779926369419_774252_3990'/>
+					</ownedComment>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926369420_240299_3992' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926369419_774252_3990'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926372380_625315_4005'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926372380_673044_4006'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926372380_351475_4007'/>
+					<ownedComment xmi:type='uml:Comment' xmi:id='_2022x_2_8eb0292_1779926502756_18536_4055' body='suspension for wheelRL'>
+						<annotatedElement xmi:idref='_2022x_2_8eb0292_1779926372380_625315_4005'/>
+					</ownedComment>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926372380_351475_4007' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926372380_625315_4005'/>
+				</packagedElement>
+				<packagedElement xmi:type='uml:Association' xmi:id='_2022x_2_8eb0292_1779926375732_629202_4020'>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926375732_209235_4021'/>
+					<memberEnd xmi:idref='_2022x_2_8eb0292_1779926375732_829817_4022'/>
+					<ownedComment xmi:type='uml:Comment' xmi:id='_2022x_2_8eb0292_1779926515588_245370_4068' body='suspension for wheelRR'>
+						<annotatedElement xmi:idref='_2022x_2_8eb0292_1779926375732_629202_4020'/>
+					</ownedComment>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_2022x_2_8eb0292_1779926375732_829817_4022' visibility='public' type='_2022x_2_8eb0292_1779926129991_912275_3373' association='_2022x_2_8eb0292_1779926375732_629202_4020'/>
+				</packagedElement>
+			</packagedElement>
+		</packagedElement>
+		<profileApplication xmi:type='uml:ProfileApplication' xmi:id='_2022x_2_8eb0292_1779926037875_282410_3057'>
+			<appliedProfile href='http://www.omg.org/spec/SysML/20181001/SysML.xmi#SysML'>
+				<xmi:Extension extender='MagicDraw UML 2022x'>
+					<referenceExtension referentPath='SysML' referentType='Profile' originalID='_11_5EAPbeta_be00301_1147434586638_637562_1900'/>
+				</xmi:Extension>
+			</appliedProfile>
+		</profileApplication>
+	</uml:Model>
+	<xmi:Extension extender='MagicDraw UML 2022x'>
+		<stereotypesHREFS>
+			<stereotype name='sysml:Domain' stereotypeHREF='local:/PROJECT-44892a3bf693c0a47eb2f3bf10930f?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_12_1_8740266_1172578094265_388539_1575'/>
+			<tag name='sysml:Domain:base_Class' tagID='_11_5EAPbeta_be00301_1147424181797_326831_961' tagURI='local:/PROJECT-44892a3bf693c0a47eb2f3bf10930f?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_11_5EAPbeta_be00301_1147424181797_326831_961'/>
+			<tag name='sysml:Domain:isEncapsulated' tagID='_11_5EAPbeta_be00301_1147424201876_860708_1049' tagURI='local:/PROJECT-44892a3bf693c0a47eb2f3bf10930f?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_11_5EAPbeta_be00301_1147424201876_860708_1049'/>
+			<stereotype name='MagicDraw_Profile:DiagramInfo' stereotypeHREF='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_9_0_be00301_1108044380615_150487_0'/>
+			<tag name='MagicDraw_Profile:DiagramInfo:base_Element' tagID='_10_0EAPbeta_be00301_1123081772098_411862_275' tagURI='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_10_0EAPbeta_be00301_1123081772098_411862_275'/>
+			<tag name='MagicDraw_Profile:DiagramInfo:Creation_date' tagID='_be00301_1073306188629_537791_2' tagURI='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_be00301_1073306188629_537791_2'/>
+			<tag name='MagicDraw_Profile:DiagramInfo:Author' tagID='_be00301_1077726770128_871366_1' tagURI='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_be00301_1077726770128_871366_1'/>
+			<tag name='MagicDraw_Profile:DiagramInfo:Modification_date' tagID='_be00301_1073394345322_922552_1' tagURI='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_be00301_1073394345322_922552_1'/>
+			<tag name='MagicDraw_Profile:DiagramInfo:Last_modified_by' tagID='_16_8beta_8ca0285_1257244649124_794756_344' tagURI='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_16_8beta_8ca0285_1257244649124_794756_344'/>
+			<stereotype name='MD_Customization_for_SysML__additional_stereotypes:PartProperty' stereotypeHREF='local:/PROJECT-9b4d2b1641e6203934d95e7bde5fe08?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_15_0_be00301_1199377756297_348405_2678'/>
+			<tag name='MD_Customization_for_SysML__additional_stereotypes:PartProperty:base_Element' tagID='_10_0EAPbeta_be00301_1123081772098_411862_275' tagURI='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_10_0EAPbeta_be00301_1123081772098_411862_275'/>
+			<tag name='MD_Customization_for_SysML__additional_stereotypes:PartProperty:base_Property' tagID='_11_5EAPbeta_be00301_1147424449672_715796_1055' tagURI='local:/PROJECT-9b4d2b1641e6203934d95e7bde5fe08?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_11_5EAPbeta_be00301_1147424449672_715796_1055'/>
+			<stereotype name='sysml:Block' stereotypeHREF='local:/PROJECT-44892a3bf693c0a47eb2f3bf10930f?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_11_5EAPbeta_be00301_1147424179914_458922_958'/>
+			<tag name='sysml:Block:isEncapsulated' tagID='_11_5EAPbeta_be00301_1147424201876_860708_1049' tagURI='local:/PROJECT-44892a3bf693c0a47eb2f3bf10930f?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_11_5EAPbeta_be00301_1147424201876_860708_1049'/>
+			<stereotype name='sysml:NestedConnectorEnd' stereotypeHREF='local:/PROJECT-44892a3bf693c0a47eb2f3bf10930f?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_11_5EAPbeta_be00301_1147431307463_773225_1455'/>
+			<tag name='sysml:NestedConnectorEnd:base_Element' tagID='_10_0EAPbeta_be00301_1123081772098_411862_275' tagURI='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_10_0EAPbeta_be00301_1123081772098_411862_275'/>
+			<tag name='sysml:NestedConnectorEnd:base_Element' tagID='_17_0_5beta_17530432_1382583873425_737094_11432' tagURI='local:/PROJECT-44892a3bf693c0a47eb2f3bf10930f?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_17_0_5beta_17530432_1382583873425_737094_11432'/>
+			<tag name='sysml:NestedConnectorEnd:propertyPath' tagID='_11_5EAPbeta_be00301_1147431377925_245593_1615' tagURI='local:/PROJECT-44892a3bf693c0a47eb2f3bf10930f?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_11_5EAPbeta_be00301_1147431377925_245593_1615'/>
+			<stereotype name='sysml:ProxyPort' stereotypeHREF='local:/PROJECT-44892a3bf693c0a47eb2f3bf10930f?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_17_0_3_17530432_1320213131032_5397_2410'/>
+			<stereotype name='MagicDraw_Profile:auxiliaryResource' stereotypeHREF='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_12_1_8f90291_1173963323875_662612_98'/>
+			<tag name='MagicDraw_Profile:auxiliaryResource:base_Element' tagID='_10_0EAPbeta_be00301_1123081772098_411862_275' tagURI='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_10_0EAPbeta_be00301_1123081772098_411862_275'/>
+			<tag name='MagicDraw_Profile:auxiliaryResource:treatAsAuxiliaryInOwningProject' tagID='_19_0_8760276_1515156810551_352594_4505' tagURI='local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#_19_0_8760276_1515156810551_352594_4505'/>
+		</stereotypesHREFS>
+	</xmi:Extension>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926362467_322048_3948_application' base_Property='_2022x_2_8eb0292_1779926362467_322048_3948'/>
+	<sysml:Domain xmi:id='_2022x_2_8eb0292_1779926103169_688892_3312_application' base_Class='_2022x_2_8eb0292_1779926103169_688892_3312'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926129991_912275_3373_application' base_Class='_2022x_2_8eb0292_1779926129991_912275_3373'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926348362_930425_3917_application' base_Property='_2022x_2_8eb0292_1779926348362_930425_3917'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926372380_673044_4006_application' base_Property='_2022x_2_8eb0292_1779926372380_673044_4006'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926369419_819988_3991_application' base_Property='_2022x_2_8eb0292_1779926369419_819988_3991'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926130038_410121_3375_application' base_Property='_2022x_2_8eb0292_1779926130038_410121_3375'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926338111_760557_3859_application' base_Property='_2022x_2_8eb0292_1779926338111_760557_3859'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926375732_209235_4021_application' base_Property='_2022x_2_8eb0292_1779926375732_209235_4021'/>
+	<MagicDraw_Profile:DiagramInfo xmi:id='_2022x_2_8eb0292_1779926792031_703584_4121_application' base_Diagram='_2022x_2_8eb0292_1779926792031_703584_4121' Creation_date='5/27/26, 5:06 PM' Modification_date='5/27/26, 5:41 PM' Author='borrth' Last_modified_by='borrth'/>
+	<MagicDraw_Profile:DiagramInfo xmi:id='_2022x_2_8eb0292_1779926115037_15347_3313_application' base_Diagram='_2022x_2_8eb0292_1779926115037_15347_3313' Creation_date='5/27/26, 4:55 PM' Modification_date='5/27/26, 5:34 PM' Author='borrth' Last_modified_by='borrth'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926345109_397265_3902_application' base_Property='_2022x_2_8eb0292_1779926345109_397265_3902'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926351653_398018_3932_application' base_Property='_2022x_2_8eb0292_1779926351653_398018_3932'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779927654504_245860_5178_application' base_Property='_2022x_2_8eb0292_1779927654504_245860_5178'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926326685_683765_3815_application' base_Property='_2022x_2_8eb0292_1779926326685_683765_3815'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779927807079_550567_5222_application' base_Property='_2022x_2_8eb0292_1779927807079_550567_5222'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927054951_613346_4784_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927054951_613346_4784' propertyPath='_2022x_2_8eb0292_1779926326685_683765_3815'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927054951_920312_4785_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927054951_920312_4785' propertyPath='_2022x_2_8eb0292_1779926280962_898387_3639'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928047748_2669_5845_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928047748_2669_5845' propertyPath='_2022x_2_8eb0292_1779927807079_550567_5222'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928195282_80646_6048_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928195282_80646_6048' propertyPath='_2022x_2_8eb0292_1779927807079_550567_5222'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928112960_351463_5904_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928112960_351463_5904' propertyPath='_2022x_2_8eb0292_1779926326685_683765_3815'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928112959_567759_5903_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928112959_567759_5903' propertyPath='_2022x_2_8eb0292_1779927654504_245860_5178'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928240946_318696_6113_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928240946_318696_6113' propertyPath='_2022x_2_8eb0292_1779926326685_683765_3815'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928278699_462940_6130_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928278699_462940_6130' propertyPath='_2022x_2_8eb0292_1779927807079_550567_5222'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928349500_442026_6250_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928349500_442026_6250' propertyPath='_2022x_2_8eb0292_1779927807079_550567_5222'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928195282_794272_6049_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928195282_794272_6049' propertyPath='_2022x_2_8eb0292_1779927654504_245860_5178'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928310457_928235_6192_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928310457_928235_6192' propertyPath='_2022x_2_8eb0292_1779927654504_245860_5178'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928905216_478382_7161_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928905216_478382_7161' propertyPath='_2022x_2_8eb0292_1779926372380_673044_4006'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928790893_932558_7023_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928790893_932558_7023' propertyPath='_2022x_2_8eb0292_1779927654504_245860_5178'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927092260_547923_4807_application' base_Port='_2022x_2_8eb0292_1779927092260_547923_4807'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927103759_446746_4822_application' base_Port='_2022x_2_8eb0292_1779927103759_446746_4822'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928521795_387467_6644_application' base_Port='_2022x_2_8eb0292_1779928521795_387467_6644'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926251487_374940_3461_application' base_Class='_2022x_2_8eb0292_1779926251487_374940_3461'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928310457_577218_6191_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928310457_577218_6191' propertyPath='_2022x_2_8eb0292_1779926326685_683765_3815'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928804343_883258_7072_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928804343_883258_7072' propertyPath='_2022x_2_8eb0292_1779926351653_398018_3932'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927149901_954420_4889_application' base_Port='_2022x_2_8eb0292_1779927149901_954420_4889'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926303576_993598_3725_application' base_Class='_2022x_2_8eb0292_1779926303576_993598_3725'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927233667_250912_5024_application' base_Port='_2022x_2_8eb0292_1779927233667_250912_5024'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928278699_791762_6129_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928278699_791762_6129' propertyPath='_2022x_2_8eb0292_1779926326685_683765_3815'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926237951_599715_3417_application' base_Class='_2022x_2_8eb0292_1779926237951_599715_3417'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928899626_640422_7112_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928899626_640422_7112' propertyPath='_2022x_2_8eb0292_1779926351653_398018_3932'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926266250_40948_3549_application' base_Class='_2022x_2_8eb0292_1779926266250_40948_3549'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928531812_306414_6664_application' base_Port='_2022x_2_8eb0292_1779928531812_306414_6664'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928541199_343047_6707_application' base_Port='_2022x_2_8eb0292_1779928541199_343047_6707'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928905216_143652_7160_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928905216_143652_7160' propertyPath='_2022x_2_8eb0292_1779926348362_930425_3917'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928561300_853054_6770_application' base_Port='_2022x_2_8eb0292_1779928561300_853054_6770'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926362445_36324_3946_application' base_Class='_2022x_2_8eb0292_1779926362445_36324_3946'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927000140_815544_4710_application' base_Port='_2022x_2_8eb0292_1779927000140_815544_4710'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928790894_949046_7025_application' base_Port='_2022x_2_8eb0292_1779928790894_949046_7025'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928047748_950851_5846_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928047748_950851_5846' propertyPath='_2022x_2_8eb0292_1779926326685_683765_3815'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928899627_545458_7114_application' base_Port='_2022x_2_8eb0292_1779928899627_545458_7114'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779926971108_930109_4684_application' base_Port='_2022x_2_8eb0292_1779926971108_930109_4684'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926326658_461995_3813_application' base_Class='_2022x_2_8eb0292_1779926326658_461995_3813'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928899626_103748_7113_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928899626_103748_7113' propertyPath='_2022x_2_8eb0292_1779926375732_209235_4021'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779929060858_448579_7565_application' base_Port='_2022x_2_8eb0292_1779929060858_448579_7565'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927120544_443607_4848_application' base_Port='_2022x_2_8eb0292_1779927120544_443607_4848'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927164607_733758_4915_application' base_Port='_2022x_2_8eb0292_1779927164607_733758_4915'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927188364_329036_4941_application' base_Port='_2022x_2_8eb0292_1779927188364_329036_4941'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927045228_586789_4766_application' base_Port='_2022x_2_8eb0292_1779927045228_586789_4766'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779926962555_421974_4669_application' base_Port='_2022x_2_8eb0292_1779926962555_421974_4669'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926311507_294336_3769_application' base_Class='_2022x_2_8eb0292_1779926311507_294336_3769'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926259429_350603_3505_application' base_Class='_2022x_2_8eb0292_1779926259429_350603_3505'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779926869957_88260_4587_application' base_Port='_2022x_2_8eb0292_1779926869957_88260_4587'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928240946_218232_6112_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928240946_218232_6112' propertyPath='_2022x_2_8eb0292_1779927807079_550567_5222'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927016089_835599_4725_application' base_Port='_2022x_2_8eb0292_1779927016089_835599_4725'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927032915_90747_4751_application' base_Port='_2022x_2_8eb0292_1779927032915_90747_4751'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926289599_622567_3681_application' base_Class='_2022x_2_8eb0292_1779926289599_622567_3681'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926273360_695087_3593_application' base_Class='_2022x_2_8eb0292_1779926273360_695087_3593'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779927414382_194451_5117_application' base_Class='_2022x_2_8eb0292_1779927414382_194451_5117'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928553232_842102_6727_application' base_Port='_2022x_2_8eb0292_1779928553232_842102_6727'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779927654472_994988_5176_application' base_Class='_2022x_2_8eb0292_1779927654472_994988_5176'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928349500_222649_6249_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928349500_222649_6249' propertyPath='_2022x_2_8eb0292_1779926326685_683765_3815'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927136459_443732_4874_application' base_Port='_2022x_2_8eb0292_1779927136459_443732_4874'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779929075418_635805_7649_application' base_Port='_2022x_2_8eb0292_1779929075418_635805_7649'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926273381_418406_3595_application' base_Property='_2022x_2_8eb0292_1779926273381_418406_3595'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926266268_693154_3551_application' base_Property='_2022x_2_8eb0292_1779926266268_693154_3551'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926251507_699782_3463_application' base_Property='_2022x_2_8eb0292_1779926251507_699782_3463'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926259445_140020_3507_application' base_Property='_2022x_2_8eb0292_1779926259445_140020_3507'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779927513055_693458_5162_application' base_Property='_2022x_2_8eb0292_1779927513055_693458_5162'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779927414398_644036_5119_application' base_Property='_2022x_2_8eb0292_1779927414398_644036_5119'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928310457_98780_6193_application' base_Port='_2022x_2_8eb0292_1779928310457_98780_6193'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928681330_618789_6853_application' base_Port='_2022x_2_8eb0292_1779928681330_618789_6853'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928727983_505337_6886_application' base_Port='_2022x_2_8eb0292_1779928727983_505337_6886'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928732619_241930_6938_application' base_Port='_2022x_2_8eb0292_1779928732619_241930_6938'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928804343_898354_7071_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928804343_898354_7071' propertyPath='_2022x_2_8eb0292_1779927654504_245860_5178'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779929067130_980380_7607_application' base_Port='_2022x_2_8eb0292_1779929067130_980380_7607'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927198851_900779_4959_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927198851_900779_4959' propertyPath='_2022x_2_8eb0292_1779926251507_699782_3463'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928790893_55136_7024_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928790893_55136_7024' propertyPath='_2022x_2_8eb0292_1779926348362_930425_3917'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927233665_132855_5022_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927233665_132855_5022' propertyPath='_2022x_2_8eb0292_1779926259445_140020_3507'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779929053940_166747_7545_application' base_Port='_2022x_2_8eb0292_1779929053940_166747_7545'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927233665_704705_5023_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927233665_704705_5023' propertyPath='_2022x_2_8eb0292_1779926273381_418406_3595'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928154388_871947_5961_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928154388_871947_5961' propertyPath='_2022x_2_8eb0292_1779926251507_699782_3463'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927198852_10148_4960_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927198852_10148_4960' propertyPath='_2022x_2_8eb0292_1779926259445_140020_3507'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926280942_77739_3637_application' base_Class='_2022x_2_8eb0292_1779926280942_77739_3637'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779926850466_576200_4561_application' base_Port='_2022x_2_8eb0292_1779926850466_576200_4561'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928104143_533411_5862_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928104143_533411_5862' propertyPath='_2022x_2_8eb0292_1779926237974_395511_3419'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779926927158_72889_4643_application' base_Port='_2022x_2_8eb0292_1779926927158_72889_4643'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779926831302_695236_4546_application' base_Port='_2022x_2_8eb0292_1779926831302_695236_4546'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928727983_633425_6884_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928727983_633425_6884' propertyPath='_2022x_2_8eb0292_1779927513055_693458_5162'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928314400_230871_6234_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928314400_230871_6234' propertyPath='_2022x_2_8eb0292_1779926251507_699782_3463'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927221036_437848_5004_application' base_Port='_2022x_2_8eb0292_1779927221036_437848_5004'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779927198852_7563_4961_application' base_Port='_2022x_2_8eb0292_1779927198852_7563_4961'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926289616_340283_3683_application' base_Property='_2022x_2_8eb0292_1779926289616_340283_3683'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926303593_104543_3727_application' base_Property='_2022x_2_8eb0292_1779926303593_104543_3727'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779926338086_775911_3857_application' base_Class='_2022x_2_8eb0292_1779926338086_775911_3857'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779926911362_231241_4628_application' base_Port='_2022x_2_8eb0292_1779926911362_231241_4628'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928031475_851415_5806_application' base_Port='_2022x_2_8eb0292_1779928031475_851415_5806'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779926888509_275260_4602_application' base_Port='_2022x_2_8eb0292_1779926888509_275260_4602'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928216683_691826_6073_application' base_Port='_2022x_2_8eb0292_1779928216683_691826_6073'/>
+	<MagicDraw_Profile:DiagramInfo xmi:id='_2022x_2_8eb0292_1779928978582_821647_7205_application' base_Diagram='_2022x_2_8eb0292_1779928978582_821647_7205' Creation_date='5/27/26, 5:42 PM' Modification_date='5/27/26, 5:43 PM' Author='borrth' Last_modified_by='borrth'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928143193_920872_5922_application' base_Port='_2022x_2_8eb0292_1779928143193_920872_5922'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926311527_648248_3771_application' base_Property='_2022x_2_8eb0292_1779926311527_648248_3771'/>
+	<sysml:Block xmi:id='_2022x_2_8eb0292_1779927807049_132965_5220_application' base_Class='_2022x_2_8eb0292_1779927807049_132965_5220'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779926858678_151026_4580_application' base_ConnectorEnd='_2022x_2_8eb0292_1779926858678_151026_4580' propertyPath='_2022x_2_8eb0292_1779926303593_104543_3727'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928732617_730862_6936_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928732617_730862_6936' propertyPath='_2022x_2_8eb0292_1779927414398_644036_5119'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927130267_9302_4867_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927130267_9302_4867' propertyPath='_2022x_2_8eb0292_1779926303593_104543_3727'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928572012_96659_6788_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928572012_96659_6788' propertyPath='_2022x_2_8eb0292_1779926266268_693154_3551'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928031474_792848_5804_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928031474_792848_5804' propertyPath='_2022x_2_8eb0292_1779926303593_104543_3727'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928216682_645263_6071_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928216682_645263_6071' propertyPath='_2022x_2_8eb0292_1779926311527_648248_3771'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928553232_384031_6725_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928553232_384031_6725' propertyPath='_2022x_2_8eb0292_1779926266268_693154_3551'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779929036120_75071_7539_application' base_ConnectorEnd='_2022x_2_8eb0292_1779929036120_75071_7539' propertyPath='_2022x_2_8eb0292_1779926280962_898387_3639'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927028546_6695_4744_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927028546_6695_4744' propertyPath='_2022x_2_8eb0292_1779926280962_898387_3639'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928290256_51134_6176_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928290256_51134_6176' propertyPath='_2022x_2_8eb0292_1779926289616_340283_3683'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927130267_211423_4866_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927130267_211423_4866' propertyPath='_2022x_2_8eb0292_1779926289616_340283_3683'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928531812_418691_6662_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928531812_418691_6662' propertyPath='_2022x_2_8eb0292_1779926273381_418406_3595'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928104144_291894_5864_application' base_Port='_2022x_2_8eb0292_1779928104144_291894_5864'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779929067130_437740_7606_application' base_ConnectorEnd='_2022x_2_8eb0292_1779929067130_437740_7606' propertyPath='_2022x_2_8eb0292_1779926280962_898387_3639'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926237974_395511_3419_application' base_Property='_2022x_2_8eb0292_1779926237974_395511_3419'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779929075417_287507_7647_application' base_ConnectorEnd='_2022x_2_8eb0292_1779929075417_287507_7647' propertyPath='_2022x_2_8eb0292_1779926311527_648248_3771'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928154389_680244_5963_application' base_Port='_2022x_2_8eb0292_1779928154389_680244_5963'/>
+	<MagicDraw_Profile:DiagramInfo xmi:id='_2022x_2_8eb0292_1779928435102_523966_6304_application' base_Diagram='_2022x_2_8eb0292_1779928435102_523966_6304' Creation_date='5/27/26, 5:33 PM' Modification_date='5/27/26, 5:39 PM' Author='borrth' Last_modified_by='borrth'/>
+	<MD_Customization_for_SysML__additional_stereotypes:PartProperty xmi:id='_2022x_2_8eb0292_1779926280962_898387_3639_application' base_Property='_2022x_2_8eb0292_1779926280962_898387_3639'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928278701_896620_6131_application' base_Port='_2022x_2_8eb0292_1779928278701_896620_6131'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928572012_52095_6789_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928572012_52095_6789' propertyPath='_2022x_2_8eb0292_1779927513055_693458_5162'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779929075417_729205_7648_application' base_ConnectorEnd='_2022x_2_8eb0292_1779929075417_729205_7648' propertyPath='_2022x_2_8eb0292_1779926289616_340283_3683'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928143193_736996_5920_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928143193_736996_5920' propertyPath='_2022x_2_8eb0292_1779926280962_898387_3639'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779927028546_655985_4743_application' base_ConnectorEnd='_2022x_2_8eb0292_1779927028546_655985_4743' propertyPath='_2022x_2_8eb0292_1779926303593_104543_3727'/>
+	<MagicDraw_Profile:auxiliaryResource xmi:id='_2022x_2_8eb0292_1779926037875_282410_3057_application' base_Element='_2022x_2_8eb0292_1779926037875_282410_3057' treatAsAuxiliaryInOwningProject='true'/>
+	<sysml:ProxyPort xmi:id='_2022x_2_8eb0292_1779928349501_73939_6251_application' base_Port='_2022x_2_8eb0292_1779928349501_73939_6251'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779929060857_173159_7564_application' base_ConnectorEnd='_2022x_2_8eb0292_1779929060857_173159_7564' propertyPath='_2022x_2_8eb0292_1779926303593_104543_3727'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928553232_610035_6726_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928553232_610035_6726' propertyPath='_2022x_2_8eb0292_1779927414398_644036_5119'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779929067130_766329_7605_application' base_ConnectorEnd='_2022x_2_8eb0292_1779929067130_766329_7605' propertyPath='_2022x_2_8eb0292_1779926311527_648248_3771'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779929060857_52590_7563_application' base_ConnectorEnd='_2022x_2_8eb0292_1779929060857_52590_7563' propertyPath='_2022x_2_8eb0292_1779926311527_648248_3771'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779928531812_850909_6663_application' base_ConnectorEnd='_2022x_2_8eb0292_1779928531812_850909_6663' propertyPath='_2022x_2_8eb0292_1779926266268_693154_3551'/>
+	<sysml:NestedConnectorEnd xmi:id='_2022x_2_8eb0292_1779926858678_628638_4579_application' base_ConnectorEnd='_2022x_2_8eb0292_1779926858678_628638_4579' propertyPath='_2022x_2_8eb0292_1779926311527_648248_3771'/>
+</xmi:XMI>

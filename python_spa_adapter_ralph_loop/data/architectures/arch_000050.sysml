@@ -1,93 +1,86 @@
 package arch_000050 {
-	// Communication Relay Reference Architecture 50
-	// Domain: communication relay
 
-	import ScalarValues::*;
+    // Fuel Cell Reference Architecture 50
+    // Domain: fuel cell
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The fuel cell system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def CommunicationRelaySystem {
-	}
+    requirement REQ_002 {
+        doc "The fuel cell system shall trace subsystem design to requirements."
+    }
 
-	part def DistributionAssembly {
-		port cmdIn : CommandIF;
-		port statusOut : PowerIF;
-		port telemetryOut : ThermalIF;
-	}
+    // Component Definitions
+    part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port pwrIn;
+    }
 
-	part def CommandProcessor {
-		port dataIn : CommandIF;
-	}
+    part def ProcessingBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port pwrOut;
+    }
 
-	part def ProcessingSensor {
-		port sensorOut : TelemetryIF;
-	}
+    part def MonitorModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port dataIn;
+        port statusOut;
+    }
 
-	part def NavProcessor {
-		port cmdIn : DiagnosticIF;
-		port telemetryOut : DiagnosticIF;
-	}
+    part def ThermalSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port configIn;
+        port statusOut;
+    }
 
-	part def SensorInterface {
-		port telemetryOut : TelemetryIF;
-		port cmdIn : CommandIF;
-	}
+    part def FlightInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+    }
 
-	part def MissionSensor {
-		port sensorOut : StatusIF;
-		port cmdIn : CommandIF;
-		port sensorOut : SignalIF;
-	}
+    part def ThermalActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
 
-	part def MissionController {
-		port pwrIn : CommandIF;
-		port sensorOut : StatusIF;
-		port dataIn : DataIF;
-	}
+    // System Definition
+    part def FuelCellSystem {
+        part monitorbus : MonitorBus {
+            satisfy REQ_002;
+        }
+        part processingbus : ProcessingBus {
+            satisfy REQ_001;
+        }
+        part monitormodule : MonitorModule {
+        }
+        part thermalsubsystem : ThermalSubsystem {
+        }
+        part flightinterface : FlightInterface {
+        }
+        part thermalactuator : ThermalActuator {
+            satisfy REQ_001;
+        }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The communication relay system shall exchange data through typed interfaces. */
-	}
+        // Connections
+        connect thermalsubsystem.dataIn to flightinterface.pwrIn;
+        connect thermalactuator.statusOut to processingbus.telemetryOut;
+        connect monitorbus.pwrIn to monitormodule.pwrIn;
+        connect thermalsubsystem.statusOut to monitormodule.dataIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The communication relay system shall trace subsystem design to requirements. */
-	}
+    // System Instance
+    part fuelcellsystem : FuelCellSystem;
 
-	requirement <'REQ-003'> {
-		doc /* The communication relay system shall provide fault detection and recovery. */
-	}
-
-	// System Assembly
-	part communicationrelaysystem : CommunicationRelaySystem {
-		part distributionassembly : DistributionAssembly;
-		part commandprocessor : CommandProcessor;
-		part processingsensor : ProcessingSensor;
-		part navprocessor : NavProcessor;
-		part sensorinterface : SensorInterface;
-		part missionsensor : MissionSensor;
-		part missioncontroller : MissionController;
-
-		// Connections
-		connection : link1 connect 
-			sensorinterface.cmdIn to distributionassembly.telemetryOut;
-		connection : link2 connect 
-			commandprocessor.dataIn to missionsensor.sensorOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by processingsensor;
-		satisfy requirement <'REQ-001'> by navprocessor;
-		satisfy requirement <'REQ-002'> by processingsensor;
-		satisfy requirement <'REQ-003'> by navprocessor;
-		satisfy requirement <'REQ-003'> by sensorinterface;
-	}
 }

@@ -1,62 +1,58 @@
 package arch_000014 {
-	// Avionics Bay Reference Architecture 14
-	// Domain: avionics bay
 
-	import ScalarValues::*;
+    // Avionics Bay Reference Architecture 14
+    // Domain: avionics bay
 
-	// Interface Definitions
-	interface def ControlIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The avionics bay system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def AvionicsBaySystem {
-	}
+    requirement REQ_002 {
+        doc "The avionics bay system shall trace subsystem design to requirements."
+    }
 
-	part def ControlProcessor {
-		port telemetryOut : DataIF;
-		port configIn : ThermalIF;
-	}
+    requirement REQ_003 {
+        doc "The avionics bay system shall provide fault detection and recovery."
+    }
 
-	part def DataProcessor {
-		port pwrIn : ControlIF;
-		port dataIn : DiagnosticIF;
-	}
+    requirement REQ_004 {
+        doc "The avionics bay system shall maintain operational status monitoring."
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The avionics bay system shall exchange data through typed interfaces. */
-	}
+    // Component Definitions
+    part def ControlProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port configIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The avionics bay system shall trace subsystem design to requirements. */
-	}
+    part def DataProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+        port dataIn;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The avionics bay system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def AvionicsBaySystem {
+        part controlprocessor : ControlProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part dataprocessor : DataProcessor {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The avionics bay system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect controlprocessor.configIn to dataprocessor.pwrIn;
+        connect controlprocessor.telemetryOut to dataprocessor.pwrIn;
+    }
 
-	// System Assembly
-	part avionicsbaysystem : AvionicsBaySystem {
-		part controlprocessor : ControlProcessor;
-		part dataprocessor : DataProcessor;
+    // System Instance
+    part avionicsbaysystem : AvionicsBaySystem;
 
-		// Connections
-		connection : link1 connect 
-			controlprocessor.configIn to dataprocessor.pwrIn;
-		connection : link2 connect 
-			controlprocessor.telemetryOut to dataprocessor.pwrIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by dataprocessor;
-		satisfy requirement <'REQ-001'> by controlprocessor;
-		satisfy requirement <'REQ-002'> by controlprocessor;
-		satisfy requirement <'REQ-003'> by dataprocessor;
-		satisfy requirement <'REQ-004'> by controlprocessor;
-	}
 }

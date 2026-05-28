@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MDFoundation="http://www.nomagic.com/magicdraw/foundation" xmlns:md.ce.ddl.rt.options="http://www.nomagic.com/magicdraw/ce/ddl/rt/options/1" xmlns:md.ce.xmlschema.rt.options="http://www.nomagic.com/magicdraw/ce/xmlschema/rt/options/1">
+  <MDFoundation:MDExtension xmi:id="_yLTr8Dm0Ee2Zcqo1yqANIg">
+    <contents xsi:type="md.ce.ddl.rt.options:DDLLanguageOptions" xmi:id="_yLTr8Tm0Ee2Zcqo1yqANIg" commentStyle="0" header="@(#) $FILE_NAME" documentationProcessorID="STANDARD_PROCESSOR">
+      <userDefinedAttributeCreationRule xmi:id="_yLTr8jm0Ee2Zcqo1yqANIg" default="ASSOCIATION">
+        <rules xmi:id="_yLTr8zm0Ee2Zcqo1yqANIg" creationType="ATTRIBUTE" pattern="*" classType="DataType"/>
+      </userDefinedAttributeCreationRule>
+    </contents>
+  </MDFoundation:MDExtension>
+  <MDFoundation:MDExtension xmi:id="_yLTr9Dm0Ee2Zcqo1yqANIg">
+    <contents xsi:type="md.ce.xmlschema.rt.options:XMLSchemaLanguageOptions" xmi:id="_yLTr9Tm0Ee2Zcqo1yqANIg" commentStyle="0" header="@(#) $FILE_NAME" documentationProcessorID="STANDARD_PROCESSOR">
+      <userDefinedAttributeCreationRule xmi:id="_yLTr9jm0Ee2Zcqo1yqANIg" default="ASSOCIATION"/>
+    </contents>
+  </MDFoundation:MDExtension>
+</xmi:XMI>

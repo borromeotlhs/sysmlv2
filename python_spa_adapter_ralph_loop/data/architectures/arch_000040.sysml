@@ -1,84 +1,81 @@
 package arch_000040 {
-	// Robotic Arm Reference Architecture 40
-	// Domain: robotic arm
 
-	import ScalarValues::*;
+    // Robotic Arm Reference Architecture 40
+    // Domain: robotic arm
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The robotic arm system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def RoboticArmSystem {
-	}
+    requirement REQ_002 {
+        doc "The robotic arm system shall trace subsystem design to requirements."
+    }
 
-	part def FlightSubsystem {
-		port configIn : DataIF;
-		port dataIn : DataIF;
-		port statusOut : ControlIF;
-	}
+    requirement REQ_003 {
+        doc "The robotic arm system shall provide fault detection and recovery."
+    }
 
-	part def SensorPayload {
-		port sensorOut : ControlIF;
-		port dataIn : ThermalIF;
-	}
+    requirement REQ_004 {
+        doc "The robotic arm system shall maintain operational status monitoring."
+    }
 
-	part def DistributionSensor {
-		port sensorOut : StatusIF;
-		port sensorOut : CommandIF;
-		port cmdIn : CommandIF;
-	}
+    // Component Definitions
+    part def FlightSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port dataIn;
+        port statusOut;
+    }
 
-	part def PowerActuator {
-		port pwrOut : TelemetryIF;
-	}
+    part def SensorPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port sensorOut;
+        port dataIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The robotic arm system shall exchange data through typed interfaces. */
-	}
+    part def DistributionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port sensorOut;
+        port sensorOut;
+        port cmdIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The robotic arm system shall trace subsystem design to requirements. */
-	}
+    part def PowerActuator {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port pwrOut;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The robotic arm system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def RoboticArmSystem {
+        part flightsubsystem : FlightSubsystem {
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part sensorpayload : SensorPayload {
+        }
+        part distributionsensor : DistributionSensor {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part poweractuator : PowerActuator {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The robotic arm system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect flightsubsystem.statusOut to poweractuator.pwrOut;
+        connect flightsubsystem.statusOut to distributionsensor.sensorOut;
+        connect sensorpayload.dataIn to distributionsensor.sensorOut;
+        connect distributionsensor.cmdIn to sensorpayload.dataIn;
+        connect flightsubsystem.configIn to distributionsensor.sensorOut;
+    }
 
-	// System Assembly
-	part roboticarmsystem : RoboticArmSystem {
-		part flightsubsystem : FlightSubsystem;
-		part sensorpayload : SensorPayload;
-		part distributionsensor : DistributionSensor;
-		part poweractuator : PowerActuator;
+    // System Instance
+    part roboticarmsystem : RoboticArmSystem;
 
-		// Connections
-		connection : link1 connect 
-			flightsubsystem.statusOut to poweractuator.pwrOut;
-		connection : link2 connect 
-			flightsubsystem.statusOut to distributionsensor.sensorOut;
-		connection : link3 connect 
-			sensorpayload.dataIn to distributionsensor.sensorOut;
-		connection : link4 connect 
-			distributionsensor.cmdIn to sensorpayload.dataIn;
-		connection : link5 connect 
-			flightsubsystem.configIn to distributionsensor.sensorOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by poweractuator;
-		satisfy requirement <'REQ-002'> by flightsubsystem;
-		satisfy requirement <'REQ-002'> by distributionsensor;
-		satisfy requirement <'REQ-003'> by distributionsensor;
-		satisfy requirement <'REQ-003'> by poweractuator;
-		satisfy requirement <'REQ-004'> by flightsubsystem;
-	}
 }

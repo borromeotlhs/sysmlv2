@@ -1,75 +1,71 @@
 package arch_000004 {
-	// Satellite Bus Reference Architecture 4
-	// Domain: satellite bus
 
-	import ScalarValues::*;
+    // Satellite Bus Reference Architecture 4
+    // Domain: satellite bus
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The satellite bus system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def SatelliteBusSystem {
-	}
+    requirement REQ_002 {
+        doc "The satellite bus system shall trace subsystem design to requirements."
+    }
 
-	part def DistributionUnit {
-		port ctrlIn : DataIF;
-		port sensorOut : PowerIF;
-		port dataIn : TelemetryIF;
-	}
+    // Component Definitions
+    part def DistributionUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port sensorOut;
+        port dataIn;
+    }
 
-	part def DataComputer {
-		port dataIn : SignalIF;
-		port sensorOut : DiagnosticIF;
-		port statusOut : ThermalIF;
-	}
+    part def DataComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
+        port sensorOut;
+        port statusOut;
+    }
 
-	part def DataActuator {
-		port dataOut : SignalIF;
-		port statusOut : ControlIF;
-		port ctrlIn : ConfigIF;
-	}
+    part def DataActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port statusOut;
+        port ctrlIn;
+    }
 
-	part def FlightController {
-		port cmdOut : ThermalIF;
-		port dataOut : DataIF;
-	}
+    part def FlightController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port dataOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The satellite bus system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def SatelliteBusSystem {
+        part distributionunit : DistributionUnit {
+            satisfy REQ_001;
+        }
+        part datacomputer : DataComputer {
+        }
+        part dataactuator : DataActuator {
+        }
+        part flightcontroller : FlightController {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The satellite bus system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect distributionunit.ctrlIn to flightcontroller.cmdOut;
+        connect datacomputer.dataIn to flightcontroller.cmdOut;
+        connect flightcontroller.dataOut to distributionunit.ctrlIn;
+        connect datacomputer.statusOut to distributionunit.sensorOut;
+    }
 
-	// System Assembly
-	part satellitebussystem : SatelliteBusSystem {
-		part distributionunit : DistributionUnit;
-		part datacomputer : DataComputer;
-		part dataactuator : DataActuator;
-		part flightcontroller : FlightController;
+    // System Instance
+    part satellitebussystem : SatelliteBusSystem;
 
-		// Connections
-		connection : link1 connect 
-			distributionunit.ctrlIn to flightcontroller.cmdOut;
-		connection : link2 connect 
-			datacomputer.dataIn to flightcontroller.cmdOut;
-		connection : link3 connect 
-			flightcontroller.dataOut to distributionunit.ctrlIn;
-		connection : link4 connect 
-			datacomputer.statusOut to distributionunit.sensorOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by flightcontroller;
-		satisfy requirement <'REQ-001'> by distributionunit;
-		satisfy requirement <'REQ-002'> by flightcontroller;
-	}
 }

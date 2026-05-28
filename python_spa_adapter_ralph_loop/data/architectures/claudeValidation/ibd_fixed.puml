@@ -1,0 +1,193 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam roundcorner 12
+
+'=================================================='
+' SYSTEM STRUCTURE
+'=================================================='
+
+component "«part» electricvehiclesystem:ElectricVehicleSystem" as SYS {
+
+  component "«part» suspension:Suspension" as SUSPENSI {
+
+    port "wheelHub" as SUSPENSI_WHEELHUB
+  }
+
+  component "«part» suspension:Suspension" as SUSPEN1 {
+
+    port "wheelHub" as SUSPEN1_WHEELHUB
+  }
+
+  component "«part» suspension:Suspension" as SUSPEN2 {
+
+    port "wheelHub" as SUSPEN2_WHEELHUB
+  }
+
+  component "«part» suspension:Suspension" as SUSPEN3 {
+
+    port "wheelHub" as SUSPEN3_WHEELHUB
+  }
+
+  component "«part» wheel:Wheel" as WHEEL {
+
+    port "wheelHub" as WHEEL_WHEELHUB
+  }
+
+  component "«part» wheel:Wheel" as WHEEL1 {
+
+    port "wheelHub" as WHEEL1_WHEELHUB
+  }
+
+  component "«part» wheel:Wheel" as WHEEL2 {
+
+    port "wheelHub" as WHEEL2_WHEELHUB
+  }
+
+  component "«part» wheel:Wheel" as WHEEL3 {
+
+    port "wheelHub" as WHEEL3_WHEELHUB
+  }
+
+  component "«part» drivetrainsystem:DrivetrainSystem" as DRIVETRA {
+
+    portout "canOut" as DRIVETRA_CANOUT
+    portin "powerIn" as DRIVETRA_POWERIN
+    portout "commandOut" as DRIVETRA_COMMANDOUT
+    portin "leftOuterCVJoint" as DRIVETRA_LEFTOUTERCVJOINT
+    portin "rightOuterCVJoint" as DRIVETRA_RIGHTOUTERCVJOINT
+
+    component "«part» brakecontroller:BrakeController" as BRAKECON {
+
+      portout "canOut" as BRAKECON_CANOUT
+    }
+
+    component "«part» electricmotor:ElectricMotor" as ELECTRIC {
+
+      portin "powerIn" as ELECTRIC_POWERIN
+      portin "controlIn" as ELECTRIC_CONTROLIN
+      portout "driveOut" as ELECTRIC_DRIVEOUT
+    }
+
+    component "«part» transmission:Transmission" as TRANSMIS {
+
+      portin "inputShaft" as TRANSMIS_INPUTSHAFT
+      portout "torqueOut" as TRANSMIS_TORQUEOUT
+    }
+
+    component "«part» differential:Differential" as DIFFEREN {
+
+      portin "driveIn" as DIFFEREN_DRIVEIN
+      portout "leftDriveOut" as DIFFEREN_LEFTDRIVEOUT
+      portout "rightDriveOut" as DIFFEREN_RIGHTDRIVEOUT
+    }
+
+    component "«part» driveshaft:DriveShaft" as DRIVESHA {
+
+      portin "driveIn" as DRIVESHA_DRIVEIN
+      portout "driveOut" as DRIVESHA_DRIVEOUT
+    }
+
+    component "«part» rearhalfshaft:RearHalfShaft" as REARHALF {
+
+      portin "innerCVJoint" as REARHALF_INNERCVJOINT
+      portin "outerCVJoint" as REARHALF_OUTERCVJOINT
+    }
+
+    component "«part» rearhalfshaft:RearHalfShaft" as REARHA1 {
+
+      portin "innerCVJoint" as REARHA1_INNERCVJOINT
+      portin "outerCVJoint" as REARHA1_OUTERCVJOINT
+    }
+
+  }
+
+  component "«part» electricalpowersubsystem:ElectricalPowerSubsystem" as ELECTR1 {
+
+    portout "dataOut" as ELECTR1_DATAOUT
+    portout "acOut" as ELECTR1_ACOUT
+    portout "dataOut2" as ELECTR1_DATAOUT2
+    portin "chargingSysCmdOut" as ELECTR1_CHARGINGSYSCMDOUT
+    portin "inverterCommandOut" as ELECTR1_INVERTERCOMMANDOUT
+
+    component "«part» chargingsystem:ChargingSystem" as CHARGING {
+
+      portin "acIn" as CHARGING_ACIN
+      portin "controlIn" as CHARGING_CONTROLIN
+      portout "dcOut" as CHARGING_DCOUT
+      port "sense" as CHARGING_SENSE
+    }
+
+    component "«part» batterypack:BatteryPack" as BATTERYP {
+
+      portin "thermalIn" as BATTERYP_THERMALIN
+      portout "dataOut" as BATTERYP_DATAOUT
+      portout "powerOut" as BATTERYP_POWEROUT
+      port "sense" as BATTERYP_SENSE
+    }
+
+    component "«part» inverter:Inverter" as INVERTER {
+
+      portin "dcIn" as INVERTER_DCIN
+      portin "controlIn" as INVERTER_CONTROLIN
+      portout "acOut" as INVERTER_ACOUT
+      port "sense" as INVERTER_SENSE
+    }
+
+    component "«part» thermalmanagementsystem:ThermalManagementSystem" as THERMALM {
+
+      portout "coolantOut" as THERMALM_COOLANTOUT
+      portout "dataOut" as THERMALM_DATAOUT
+      port "sense" as THERMALM_SENSE
+    }
+
+  }
+
+  component "«part» vehiclecontrolunit:VehicleControlUnit" as VEHICLEC {
+
+    port "canBusA" as VEHICLEC_CANBUSA
+    port "canBusB" as VEHICLEC_CANBUSB
+    portin "sensorIn" as VEHICLEC_SENSORIN
+    portout "commandOut" as VEHICLEC_COMMANDOUT
+  }
+
+}
+
+'=================================================='
+' CONNECTORS
+'=================================================='
+
+ELECTRIC_DRIVEOUT --> TRANSMIS_INPUTSHAFT : driveOut→inputShaft
+TRANSMIS_TORQUEOUT --> DRIVESHA_DRIVEIN : torqueOut→driveIn
+DRIVESHA_DRIVEOUT --> DIFFEREN_DRIVEIN : driveOut→driveIn
+DIFFEREN_LEFTDRIVEOUT --> REARHA1_INNERCVJOINT : leftDriveOut→innerCVJoint
+DIFFEREN_RIGHTDRIVEOUT --> REARHA1_INNERCVJOINT : rightDriveOut→innerCVJoint
+REARHA1_OUTERCVJOINT --> DRIVETRA_LEFTOUTERCVJOINT : outerCVJoint→leftOuterCVJoint
+REARHA1_OUTERCVJOINT --> DRIVETRA_RIGHTOUTERCVJOINT : outerCVJoint→rightOuterCVJoint
+BRAKECON_CANOUT --> DRIVETRA_CANOUT : canOut→canOut
+ELECTRIC_POWERIN --> DRIVETRA_POWERIN : powerIn→powerIn
+ELECTRIC_CONTROLIN --> DRIVETRA_COMMANDOUT : controlIn→commandOut
+THERMALM_COOLANTOUT --> BATTERYP_THERMALIN : coolantOut→thermalIn
+BATTERYP_POWEROUT --> INVERTER_DCIN : powerOut→dcIn
+CHARGING_DCOUT --> BATTERYP_POWEROUT : dcOut→powerOut
+BATTERYP_DATAOUT --> ELECTR1_DATAOUT : dataOut→dataOut
+INVERTER_ACOUT --> ELECTR1_ACOUT : acOut→acOut
+THERMALM_DATAOUT --> ELECTR1_DATAOUT2 : dataOut→dataOut2
+ELECTR1_CHARGINGSYSCMDOUT --> CHARGING_CONTROLIN : chargingSysCmdOut→controlIn
+ELECTR1_INVERTERCOMMANDOUT --> INVERTER_CONTROLIN : inverterCommandOut→controlIn
+THERMALM_SENSE --> BATTERYP_SENSE : sense→sense
+THERMALM_SENSE --> INVERTER_SENSE : sense→sense
+THERMALM_SENSE --> CHARGING_SENSE : sense→sense
+VEHICLEC_COMMANDOUT --> ELECTR1_INVERTERCOMMANDOUT : commandOut→inverterCommandOut
+ELECTR1_DATAOUT --> VEHICLEC_SENSORIN : dataOut→sensorIn
+DRIVETRA_CANOUT --> VEHICLEC_CANBUSB : canOut→canBusB
+ELECTR1_ACOUT --> DRIVETRA_POWERIN : acOut→powerIn
+ELECTR1_DATAOUT2 --> VEHICLEC_CANBUSA : dataOut2→canBusA
+VEHICLEC_COMMANDOUT --> ELECTR1_CHARGINGSYSCMDOUT : commandOut→chargingSysCmdOut
+VEHICLEC_COMMANDOUT --> DRIVETRA_COMMANDOUT : commandOut→commandOut
+DRIVETRA_LEFTOUTERCVJOINT --> WHEEL3_WHEELHUB : leftOuterCVJoint→wheelHub
+DRIVETRA_RIGHTOUTERCVJOINT --> WHEEL3_WHEELHUB : rightOuterCVJoint→wheelHub
+WHEEL3_WHEELHUB --> SUSPEN3_WHEELHUB : wheelHub→wheelHub
+WHEEL3_WHEELHUB --> SUSPEN3_WHEELHUB : wheelHub→wheelHub
+
+@enduml

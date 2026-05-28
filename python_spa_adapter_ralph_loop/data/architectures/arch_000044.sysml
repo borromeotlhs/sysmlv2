@@ -1,105 +1,71 @@
 package arch_000044 {
-	// Instrument Platform Reference Architecture 44
-	// Domain: instrument platform
 
-	import ScalarValues::*;
+    // Satellite Bus Reference Architecture 44
+    // Domain: satellite bus
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The satellite bus system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def InstrumentPlatformSystem {
-	}
+    requirement REQ_002 {
+        doc "The satellite bus system shall trace subsystem design to requirements."
+    }
 
-	part def CommSubsystem {
-		port statusOut : ThermalIF;
-		port ctrlIn : SignalIF;
-	}
+    // Component Definitions
+    part def DistributionUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port sensorOut;
+        port dataIn;
+    }
 
-	part def SensorAssembly {
-		port pwrIn : DiagnosticIF;
-		port configIn : CommandIF;
-	}
+    part def DataComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
+        port sensorOut;
+        port statusOut;
+    }
 
-	part def FlightSubsystem {
-		port telemetryOut : ControlIF;
-		port dataOut : CommandIF;
-	}
+    part def DataActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port statusOut;
+        port ctrlIn;
+    }
 
-	part def MonitorController {
-		port cmdOut : TelemetryIF;
-		port pwrIn : PowerIF;
-		port statusOut : ConfigIF;
-	}
+    part def FlightController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port dataOut;
+    }
 
-	part def CommandProcessor {
-		port pwrIn : DataIF;
-		port telemetryOut : SignalIF;
-		port pwrOut : DiagnosticIF;
-	}
+    // System Definition
+    part def SatelliteBusSystem {
+        part distributionunit : DistributionUnit {
+            satisfy REQ_001;
+        }
+        part datacomputer : DataComputer {
+        }
+        part dataactuator : DataActuator {
+        }
+        part flightcontroller : FlightController {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
 
-	part def NavAssembly {
-		port dataOut : PowerIF;
-	}
+        // Connections
+        connect distributionunit.ctrlIn to flightcontroller.cmdOut;
+        connect datacomputer.dataIn to flightcontroller.cmdOut;
+        connect flightcontroller.dataOut to distributionunit.ctrlIn;
+        connect datacomputer.statusOut to distributionunit.sensorOut;
+    }
 
-	part def DataComputer {
-		port dataIn : TelemetryIF;
-		port configIn : ControlIF;
-	}
+    // System Instance
+    part satellitebussystem : SatelliteBusSystem;
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The instrument platform system shall exchange data through typed interfaces. */
-	}
-
-	requirement <'REQ-002'> {
-		doc /* The instrument platform system shall trace subsystem design to requirements. */
-	}
-
-	requirement <'REQ-003'> {
-		doc /* The instrument platform system shall provide fault detection and recovery. */
-	}
-
-	requirement <'REQ-004'> {
-		doc /* The instrument platform system shall maintain operational status monitoring. */
-	}
-
-	// System Assembly
-	part instrumentplatformsystem : InstrumentPlatformSystem {
-		part commsubsystem : CommSubsystem;
-		part sensorassembly : SensorAssembly;
-		part flightsubsystem : FlightSubsystem;
-		part monitorcontroller : MonitorController;
-		part commandprocessor : CommandProcessor;
-		part navassembly : NavAssembly;
-		part datacomputer : DataComputer;
-
-		// Connections
-		connection : link1 connect 
-			commandprocessor.pwrOut to monitorcontroller.statusOut;
-		connection : link2 connect 
-			navassembly.dataOut to monitorcontroller.statusOut;
-		connection : link3 connect 
-			datacomputer.dataIn to sensorassembly.configIn;
-		connection : link4 connect 
-			commandprocessor.telemetryOut to navassembly.dataOut;
-		connection : link5 connect 
-			datacomputer.dataIn to navassembly.dataOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by commandprocessor;
-		satisfy requirement <'REQ-001'> by navassembly;
-		satisfy requirement <'REQ-002'> by commsubsystem;
-		satisfy requirement <'REQ-002'> by commandprocessor;
-		satisfy requirement <'REQ-003'> by commsubsystem;
-		satisfy requirement <'REQ-004'> by commandprocessor;
-	}
 }

@@ -1,59 +1,69 @@
 package arch_000049 {
-	// Propulsion Module Reference Architecture 49
-	// Domain: propulsion module
 
-	import ScalarValues::*;
+    // Reaction Wheel Reference Architecture 49
+    // Domain: reaction wheel
 
-	// Interface Definitions
-	interface def ControlIF;
-	interface def SignalIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The reaction wheel system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def PropulsionModuleSystem {
-	}
+    requirement REQ_002 {
+        doc "The reaction wheel system shall trace subsystem design to requirements."
+    }
 
-	part def DataModule {
-		port ctrlIn : ThermalIF;
-		port configIn : ThermalIF;
-		port statusOut : ThermalIF;
-	}
+    // Component Definitions
+    part def DistributionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port cmdIn;
+        port dataOut;
+    }
 
-	part def ProcessingController {
-		port pwrOut : SignalIF;
-		port statusOut : TelemetryIF;
-		port sensorOut : ControlIF;
-	}
+    part def DistributionInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port dataOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The propulsion module system shall exchange data through typed interfaces. */
-	}
+    part def ProcessingModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The propulsion module system shall trace subsystem design to requirements. */
-	}
+    part def PowerProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+        port cmdOut;
+    }
 
-	// System Assembly
-	part propulsionmodulesystem : PropulsionModuleSystem {
-		part datamodule : DataModule;
-		part processingcontroller : ProcessingController;
+    // System Definition
+    part def ReactionWheelSystem {
+        part distributionsubsystem : DistributionSubsystem {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part distributioninterface : DistributionInterface {
+        }
+        part processingmodule : ProcessingModule {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part powerprocessor : PowerProcessor {
+        }
 
-		// Connections
-		connection : link1 connect 
-			processingcontroller.pwrOut to datamodule.ctrlIn;
-		connection : link2 connect 
-			processingcontroller.statusOut to datamodule.configIn;
-		connection : link3 connect 
-			processingcontroller.pwrOut to datamodule.statusOut;
-		connection : link4 connect 
-			datamodule.configIn to processingcontroller.pwrOut;
+        // Connections
+        connect powerprocessor.pwrOut to processingmodule.telemetryOut;
+        connect distributionsubsystem.cmdIn to distributioninterface.dataOut;
+        connect distributioninterface.dataOut to distributionsubsystem.cmdOut;
+        connect distributionsubsystem.cmdIn to powerprocessor.pwrOut;
+    }
 
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by processingcontroller;
-		satisfy requirement <'REQ-001'> by datamodule;
-		satisfy requirement <'REQ-002'> by processingcontroller;
-		satisfy requirement <'REQ-002'> by datamodule;
-	}
+    // System Instance
+    part reactionwheelsystem : ReactionWheelSystem;
+
 }

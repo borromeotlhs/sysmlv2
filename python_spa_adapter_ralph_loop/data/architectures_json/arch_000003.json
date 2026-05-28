@@ -1,0 +1,77 @@
+{
+  "id": "arch_000003",
+  "name": "Lunar Habitat Reference Architecture 3",
+  "domain": "lunar habitat",
+  "format": "sysml_style_json_mvp",
+  "blocks": [
+    {
+      "name": "LunarHabitatSystem",
+      "stereotype": "Block"
+    },
+    {
+      "name": "MissionComputer",
+      "stereotype": "Block"
+    },
+    {
+      "name": "SensorPayload",
+      "stereotype": "Block"
+    },
+    {
+      "name": "PowerUnit",
+      "stereotype": "Block"
+    }
+  ],
+  "proxy_ports": [
+    {
+      "owner": "MissionComputer",
+      "name": "cmdOut",
+      "type": "CommandIF"
+    },
+    {
+      "owner": "SensorPayload",
+      "name": "dataOut",
+      "type": "DataIF"
+    },
+    {
+      "owner": "PowerUnit",
+      "name": "pwrOut",
+      "type": "PowerIF"
+    }
+  ],
+  "connectors": [
+    {
+      "name": "cmdLink",
+      "end_a": "MissionComputer.cmdOut",
+      "end_b": "SensorPayload.dataOut",
+      "item_flow": "Command"
+    },
+    {
+      "name": "powerLink",
+      "end_a": "PowerUnit.pwrOut",
+      "end_b": "SensorPayload.dataOut",
+      "item_flow": "Power"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "The lunar habitat system shall exchange command and data through typed interfaces."
+    },
+    {
+      "id": "REQ-002",
+      "text": "The lunar habitat system shall trace subsystem design to requirements."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "satisfy",
+      "client": "MissionComputer",
+      "supplier": "REQ-001"
+    },
+    {
+      "type": "satisfy",
+      "client": "SensorPayload",
+      "supplier": "REQ-002"
+    }
+  ]
+}

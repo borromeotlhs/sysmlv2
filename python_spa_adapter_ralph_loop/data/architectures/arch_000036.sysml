@@ -1,102 +1,107 @@
 package arch_000036 {
-	// Thermal Control Reference Architecture 36
-	// Domain: thermal control
 
-	import ScalarValues::*;
+    // Thermal Control Reference Architecture 36
+    // Domain: thermal control
 
-	// Interface Definitions
-	interface def ControlIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The thermal control system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def ThermalControlSystem {
-	}
+    requirement REQ_002 {
+        doc "The thermal control system shall trace subsystem design to requirements."
+    }
 
-	part def DistributionComputer {
-		port telemetryOut : TelemetryIF;
-		port cmdIn : PowerIF;
-		port cmdOut : ThermalIF;
-	}
+    requirement REQ_003 {
+        doc "The thermal control system shall provide fault detection and recovery."
+    }
 
-	part def FlightInterface {
-		port pwrOut : ControlIF;
-		port statusOut : DiagnosticIF;
-		port cmdIn : DiagnosticIF;
-	}
+    requirement REQ_004 {
+        doc "The thermal control system shall maintain operational status monitoring."
+    }
 
-	part def MonitorSubsystem {
-		port telemetryOut : TelemetryIF;
-	}
+    // Component Definitions
+    part def DistributionComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port cmdIn;
+        port cmdOut;
+    }
 
-	part def ThermalSensor {
-		port pwrOut : TelemetryIF;
-		port cmdOut : DiagnosticIF;
-	}
+    part def FlightInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port statusOut;
+        port cmdIn;
+    }
 
-	part def DistributionBus {
-		port sensorOut : ControlIF;
-	}
+    part def MonitorSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+    }
 
-	part def MonitorProcessor {
-		port pwrOut : SignalIF;
-		port dataOut : DataIF;
-	}
+    part def ThermalSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+        port cmdOut;
+    }
 
-	part def MissionProcessor {
-		port dataIn : TelemetryIF;
-	}
+    part def DistributionBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The thermal control system shall exchange data through typed interfaces. */
-	}
+    part def MonitorProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+        port dataOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The thermal control system shall trace subsystem design to requirements. */
-	}
+    part def MissionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The thermal control system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def ThermalControlSystem {
+        part distributioncomputer : DistributionComputer {
+            satisfy REQ_001;
+        }
+        part flightinterface : FlightInterface {
+            satisfy REQ_004;
+        }
+        part monitorsubsystem : MonitorSubsystem {
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part thermalsensor : ThermalSensor {
+        }
+        part distributionbus : DistributionBus {
+            satisfy REQ_003;
+        }
+        part monitorprocessor : MonitorProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part missionprocessor : MissionProcessor {
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The thermal control system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect thermalsensor.cmdOut to distributioncomputer.cmdIn;
+        connect missionprocessor.dataIn to flightinterface.statusOut;
+        connect flightinterface.pwrOut to distributionbus.sensorOut;
+        connect monitorprocessor.dataOut to thermalsensor.pwrOut;
+        connect distributioncomputer.cmdIn to thermalsensor.pwrOut;
+    }
 
-	// System Assembly
-	part thermalcontrolsystem : ThermalControlSystem {
-		part distributioncomputer : DistributionComputer;
-		part flightinterface : FlightInterface;
-		part monitorsubsystem : MonitorSubsystem;
-		part thermalsensor : ThermalSensor;
-		part distributionbus : DistributionBus;
-		part monitorprocessor : MonitorProcessor;
-		part missionprocessor : MissionProcessor;
+    // System Instance
+    part thermalcontrolsystem : ThermalControlSystem;
 
-		// Connections
-		connection : link1 connect 
-			thermalsensor.cmdOut to distributioncomputer.cmdIn;
-		connection : link2 connect 
-			missionprocessor.dataIn to flightinterface.statusOut;
-		connection : link3 connect 
-			flightinterface.pwrOut to distributionbus.sensorOut;
-		connection : link4 connect 
-			monitorprocessor.dataOut to thermalsensor.pwrOut;
-		connection : link5 connect 
-			distributioncomputer.cmdIn to thermalsensor.pwrOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by distributioncomputer;
-		satisfy requirement <'REQ-001'> by monitorprocessor;
-		satisfy requirement <'REQ-002'> by monitorprocessor;
-		satisfy requirement <'REQ-002'> by monitorsubsystem;
-		satisfy requirement <'REQ-003'> by distributionbus;
-		satisfy requirement <'REQ-004'> by monitorsubsystem;
-		satisfy requirement <'REQ-004'> by flightinterface;
-	}
 }

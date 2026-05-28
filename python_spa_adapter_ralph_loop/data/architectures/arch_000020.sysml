@@ -1,89 +1,92 @@
 package arch_000020 {
-	// Thermal Control Reference Architecture 20
-	// Domain: thermal control
 
-	import ScalarValues::*;
+    // Thermal Control Reference Architecture 20
+    // Domain: thermal control
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The thermal control system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def ThermalControlSystem {
-	}
+    requirement REQ_002 {
+        doc "The thermal control system shall trace subsystem design to requirements."
+    }
 
-	part def CommandUnit {
-		port sensorOut : CommandIF;
-		port sensorOut : StatusIF;
-	}
+    requirement REQ_003 {
+        doc "The thermal control system shall provide fault detection and recovery."
+    }
 
-	part def NavBus {
-		port dataOut : DataIF;
-	}
+    // Component Definitions
+    part def CommandUnit {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port sensorOut;
+        port sensorOut;
+    }
 
-	part def NavController {
-		port cmdOut : PowerIF;
-		port ctrlIn : SignalIF;
-	}
+    part def NavBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+    }
 
-	part def MissionInterface {
-		port pwrIn : StatusIF;
-		port ctrlIn : TelemetryIF;
-		port dataOut : TelemetryIF;
-	}
+    part def NavController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port ctrlIn;
+    }
 
-	part def ControlModule {
-		port dataIn : StatusIF;
-		port dataOut : DiagnosticIF;
-		port sensorOut : PowerIF;
-	}
+    part def MissionInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port ctrlIn;
+        port dataOut;
+    }
 
-	part def ProcessingProcessor {
-		port pwrIn : StatusIF;
-	}
+    part def ControlModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port dataOut;
+        port sensorOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The thermal control system shall exchange data through typed interfaces. */
-	}
+    part def ProcessingProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The thermal control system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def ThermalControlSystem {
+        part commandunit : CommandUnit {
+        }
+        part navbus : NavBus {
+        }
+        part navcontroller : NavController {
+            satisfy REQ_002;
+        }
+        part missioninterface : MissionInterface {
+            satisfy REQ_002;
+        }
+        part controlmodule : ControlModule {
+            satisfy REQ_001;
+        }
+        part processingprocessor : ProcessingProcessor {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The thermal control system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect controlmodule.dataIn to navcontroller.ctrlIn;
+        connect navcontroller.ctrlIn to processingprocessor.pwrIn;
+        connect controlmodule.sensorOut to missioninterface.dataOut;
+        connect missioninterface.dataOut to controlmodule.dataIn;
+    }
 
-	// System Assembly
-	part thermalcontrolsystem : ThermalControlSystem {
-		part commandunit : CommandUnit;
-		part navbus : NavBus;
-		part navcontroller : NavController;
-		part missioninterface : MissionInterface;
-		part controlmodule : ControlModule;
-		part processingprocessor : ProcessingProcessor;
+    // System Instance
+    part thermalcontrolsystem : ThermalControlSystem;
 
-		// Connections
-		connection : link1 connect 
-			controlmodule.dataIn to navcontroller.ctrlIn;
-		connection : link2 connect 
-			navcontroller.ctrlIn to processingprocessor.pwrIn;
-		connection : link3 connect 
-			controlmodule.sensorOut to missioninterface.dataOut;
-		connection : link4 connect 
-			missioninterface.dataOut to controlmodule.dataIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by controlmodule;
-		satisfy requirement <'REQ-001'> by processingprocessor;
-		satisfy requirement <'REQ-002'> by missioninterface;
-		satisfy requirement <'REQ-002'> by navcontroller;
-		satisfy requirement <'REQ-003'> by processingprocessor;
-	}
 }

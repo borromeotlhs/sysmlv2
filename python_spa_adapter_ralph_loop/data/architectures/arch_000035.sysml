@@ -1,105 +1,109 @@
 package arch_000035 {
-	// Power Distribution System Reference Architecture 35
-	// Domain: power distribution system
 
-	import ScalarValues::*;
+    // Power Distribution System Reference Architecture 35
+    // Domain: power distribution system
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The power distribution system system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def PowerDistributionSystemSystem {
-	}
+    requirement REQ_002 {
+        doc "The power distribution system system shall trace subsystem design to requirements."
+    }
 
-	part def MonitorInterface {
-		port ctrlIn : PowerIF;
-		port dataIn : DataIF;
-	}
+    requirement REQ_003 {
+        doc "The power distribution system system shall provide fault detection and recovery."
+    }
 
-	part def FlightActuator {
-		port ctrlIn : CommandIF;
-		port pwrIn : ThermalIF;
-		port cmdIn : ThermalIF;
-	}
+    requirement REQ_004 {
+        doc "The power distribution system system shall maintain operational status monitoring."
+    }
 
-	part def ProcessingAssembly {
-		port pwrOut : SignalIF;
-	}
+    // Component Definitions
+    part def MonitorInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port dataIn;
+    }
 
-	part def CommandComputer {
-		port statusOut : ConfigIF;
-		port ctrlIn : SignalIF;
-		port cmdIn : ThermalIF;
-	}
+    part def FlightActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port pwrIn;
+        port cmdIn;
+    }
 
-	part def ThermalSensor {
-		port pwrOut : CommandIF;
-		port telemetryOut : ControlIF;
-	}
+    part def ProcessingAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+    }
 
-	part def ThermalInterface {
-		port cmdOut : ControlIF;
-		port statusOut : StatusIF;
-	}
+    part def CommandComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+        port ctrlIn;
+        port cmdIn;
+    }
 
-	part def CommandInterface {
-		port ctrlIn : StatusIF;
-		port pwrOut : PowerIF;
-		port ctrlIn : TelemetryIF;
-	}
+    part def ThermalSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+        port telemetryOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The power distribution system system shall exchange data through typed interfaces. */
-	}
+    part def ThermalInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port statusOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The power distribution system system shall trace subsystem design to requirements. */
-	}
+    part def CommandInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port ctrlIn;
+        port pwrOut;
+        port ctrlIn;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The power distribution system system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def PowerDistributionSystemSystem {
+        part monitorinterface : MonitorInterface {
+        }
+        part flightactuator : FlightActuator {
+            satisfy REQ_001;
+        }
+        part processingassembly : ProcessingAssembly {
+            satisfy REQ_002;
+        }
+        part commandcomputer : CommandComputer {
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part thermalsensor : ThermalSensor {
+            satisfy REQ_004;
+        }
+        part thermalinterface : ThermalInterface {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
+        part commandinterface : CommandInterface {
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The power distribution system system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect commandcomputer.cmdIn to flightactuator.ctrlIn;
+        connect flightactuator.ctrlIn to commandinterface.ctrlIn;
+        connect processingassembly.pwrOut to thermalsensor.pwrOut;
+        connect thermalsensor.pwrOut to commandinterface.pwrOut;
+    }
 
-	// System Assembly
-	part powerdistributionsystemsystem : PowerDistributionSystemSystem {
-		part monitorinterface : MonitorInterface;
-		part flightactuator : FlightActuator;
-		part processingassembly : ProcessingAssembly;
-		part commandcomputer : CommandComputer;
-		part thermalsensor : ThermalSensor;
-		part thermalinterface : ThermalInterface;
-		part commandinterface : CommandInterface;
+    // System Instance
+    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
-		// Connections
-		connection : link1 connect 
-			commandcomputer.cmdIn to flightactuator.ctrlIn;
-		connection : link2 connect 
-			flightactuator.ctrlIn to commandinterface.ctrlIn;
-		connection : link3 connect 
-			processingassembly.pwrOut to thermalsensor.pwrOut;
-		connection : link4 connect 
-			thermalsensor.pwrOut to commandinterface.pwrOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by flightactuator;
-		satisfy requirement <'REQ-001'> by thermalinterface;
-		satisfy requirement <'REQ-002'> by processingassembly;
-		satisfy requirement <'REQ-002'> by commandcomputer;
-		satisfy requirement <'REQ-003'> by thermalinterface;
-		satisfy requirement <'REQ-004'> by thermalsensor;
-		satisfy requirement <'REQ-004'> by commandcomputer;
-	}
 }

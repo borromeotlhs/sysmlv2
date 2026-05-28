@@ -15,6 +15,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / 'lib'))
 
 from sysml_generator import generate_sysml_from_dict
+from xmi_generator import generate_xmi_from_dict
 
 OUT_SYSML = Path('data/architectures')
 OUT_JSON = Path('data/architectures_json')  # Optional JSON IR output
@@ -207,6 +208,11 @@ def main():
         default=START_ID,
         help=f'Starting architecture ID (default: {START_ID})'
     )
+    parser.add_argument(
+        '--xmi',
+        action='store_true',
+        help='Also output XMI format for EMF/Eclipse tool interoperability'
+    )
     args = parser.parse_args()
 
     random.seed(42)  # For reproducibility
@@ -226,10 +232,20 @@ def main():
             json_path = OUT_JSON / f'arch_{i:06d}.json'
             json_path.write_text(json.dumps(arch_dict, indent=2), encoding='utf-8')
 
+        # Optional output: XMI for tool interoperability
+        if args.xmi:
+            OUT_XMI = Path('data/architectures_xmi')
+            OUT_XMI.mkdir(parents=True, exist_ok=True)
+            xmi_content = generate_xmi_from_dict(arch_dict)
+            xmi_path = OUT_XMI / f'arch_{i:06d}.xmi'
+            xmi_path.write_text(xmi_content, encoding='utf-8')
+
     print(f'Generated {args.count} varied architectures in {OUT_SYSML}')
     print(f'Architecture IDs: arch_{args.start_id:06d} to arch_{args.start_id + args.count - 1:06d}')
     if args.json:
         print(f'Also generated JSON IR in {OUT_JSON}')
+    if args.xmi:
+        print(f'Also generated XMI format in {OUT_XMI}')
 
 
 if __name__ == '__main__':

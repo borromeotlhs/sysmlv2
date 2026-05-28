@@ -1,75 +1,74 @@
 package arch_000022 {
-	// Sensor Suite Reference Architecture 22
-	// Domain: sensor suite
 
-	import ScalarValues::*;
+    // Sensor Suite Reference Architecture 22
+    // Domain: sensor suite
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def SignalIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The sensor suite system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def SensorSuiteSystem {
-	}
+    requirement REQ_002 {
+        doc "The sensor suite system shall trace subsystem design to requirements."
+    }
 
-	part def CommProcessor {
-		port dataIn : DataIF;
-	}
+    requirement REQ_003 {
+        doc "The sensor suite system shall provide fault detection and recovery."
+    }
 
-	part def DataSensor {
-		port statusOut : DiagnosticIF;
-		port telemetryOut : ThermalIF;
-		port ctrlIn : DiagnosticIF;
-	}
+    // Component Definitions
+    part def CommProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
+    }
 
-	part def CommActuator {
-		port dataOut : TelemetryIF;
-	}
+    part def DataSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port statusOut;
+        port telemetryOut;
+        port ctrlIn;
+    }
 
-	part def MonitorProcessor {
-		port pwrIn : TelemetryIF;
-		port pwrIn : CommandIF;
-		port ctrlIn : SignalIF;
-	}
+    part def CommActuator {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The sensor suite system shall exchange data through typed interfaces. */
-	}
+    part def MonitorProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+        port pwrIn;
+        port ctrlIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The sensor suite system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def SensorSuiteSystem {
+        part commprocessor : CommProcessor {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
+        part datasensor : DataSensor {
+        }
+        part commactuator : CommActuator {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part monitorprocessor : MonitorProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The sensor suite system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect datasensor.statusOut to monitorprocessor.ctrlIn;
+        connect commactuator.dataOut to monitorprocessor.pwrIn;
+        connect monitorprocessor.ctrlIn to commactuator.dataOut;
+    }
 
-	// System Assembly
-	part sensorsuitesystem : SensorSuiteSystem {
-		part commprocessor : CommProcessor;
-		part datasensor : DataSensor;
-		part commactuator : CommActuator;
-		part monitorprocessor : MonitorProcessor;
+    // System Instance
+    part sensorsuitesystem : SensorSuiteSystem;
 
-		// Connections
-		connection : link1 connect 
-			datasensor.statusOut to monitorprocessor.ctrlIn;
-		connection : link2 connect 
-			commactuator.dataOut to monitorprocessor.pwrIn;
-		connection : link3 connect 
-			monitorprocessor.ctrlIn to commactuator.dataOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by commprocessor;
-		satisfy requirement <'REQ-001'> by monitorprocessor;
-		satisfy requirement <'REQ-002'> by commactuator;
-		satisfy requirement <'REQ-002'> by monitorprocessor;
-		satisfy requirement <'REQ-003'> by commactuator;
-		satisfy requirement <'REQ-003'> by commprocessor;
-	}
 }

@@ -1,7 +1,7 @@
 {
   "source_pair_file": "data/pairs/sample_pairs.json",
-  "train_count": 2,
+  "train_count": 199,
   "validation_count": 1,
-  "total_count": 3,
+  "total_count": 200,
   "format": "chat_messages_jsonl"
 }

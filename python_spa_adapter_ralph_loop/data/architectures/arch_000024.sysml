@@ -1,73 +1,72 @@
 package arch_000024 {
-	// Robotic Arm Reference Architecture 24
-	// Domain: robotic arm
 
-	import ScalarValues::*;
+    // Robotic Arm Reference Architecture 24
+    // Domain: robotic arm
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def SignalIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The robotic arm system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def RoboticArmSystem {
-	}
+    requirement REQ_002 {
+        doc "The robotic arm system shall trace subsystem design to requirements."
+    }
 
-	part def ControlModule {
-		port statusOut : DataIF;
-		port dataIn : CommandIF;
-		port cmdIn : SignalIF;
-	}
+    requirement REQ_003 {
+        doc "The robotic arm system shall provide fault detection and recovery."
+    }
 
-	part def MonitorController {
-		port cmdOut : DataIF;
-		port dataOut : ConfigIF;
-	}
+    // Component Definitions
+    part def ControlModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+        port dataIn;
+        port cmdIn;
+    }
 
-	part def MonitorPayload {
-		port statusOut : TelemetryIF;
-	}
+    part def MonitorController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port dataOut;
+    }
 
-	part def ProcessingUnit {
-		port telemetryOut : ConfigIF;
-		port statusOut : DiagnosticIF;
-	}
+    part def MonitorPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port statusOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The robotic arm system shall exchange data through typed interfaces. */
-	}
+    part def ProcessingUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port statusOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The robotic arm system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def RoboticArmSystem {
+        part controlmodule : ControlModule {
+            satisfy REQ_003;
+        }
+        part monitorcontroller : MonitorController {
+            satisfy REQ_003;
+        }
+        part monitorpayload : MonitorPayload {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part processingunit : ProcessingUnit {
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The robotic arm system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect processingunit.telemetryOut to controlmodule.dataIn;
+        connect processingunit.telemetryOut to monitorcontroller.dataOut;
+        connect monitorpayload.statusOut to monitorcontroller.cmdOut;
+    }
 
-	// System Assembly
-	part roboticarmsystem : RoboticArmSystem {
-		part controlmodule : ControlModule;
-		part monitorcontroller : MonitorController;
-		part monitorpayload : MonitorPayload;
-		part processingunit : ProcessingUnit;
+    // System Instance
+    part roboticarmsystem : RoboticArmSystem;
 
-		// Connections
-		connection : link1 connect 
-			processingunit.telemetryOut to controlmodule.dataIn;
-		connection : link2 connect 
-			processingunit.telemetryOut to monitorcontroller.dataOut;
-		connection : link3 connect 
-			monitorpayload.statusOut to monitorcontroller.cmdOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by monitorpayload;
-		satisfy requirement <'REQ-002'> by monitorpayload;
-		satisfy requirement <'REQ-003'> by controlmodule;
-		satisfy requirement <'REQ-003'> by monitorcontroller;
-	}
 }

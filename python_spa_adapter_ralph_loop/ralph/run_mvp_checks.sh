@@ -12,6 +12,22 @@ echo "Running Python-only SPA adapter MVP checks..."
 [ -f scripts/validate_pairs.py ] || { echo "ERROR: missing validate_pairs.py" >&2; exit 1; }
 echo "scaffold checks passed"
 
+# Run test suite
+echo ""
+echo "Running test suite..."
+if command -v pytest &> /dev/null; then
+  # Use pytest if available
+  "$PYTHON_CMD" tests/run_tests.py --suite parser || { echo "ERROR: Parser tests failed" >&2; exit 1; }
+  "$PYTHON_CMD" tests/run_tests.py --suite validation || { echo "ERROR: Validation tests failed" >&2; exit 1; }
+  echo "test suite passed (pytest)"
+elif [ -f tests/run_tests_simple.py ]; then
+  # Fall back to simple runner
+  "$PYTHON_CMD" tests/run_tests_simple.py || { echo "ERROR: Tests failed" >&2; exit 1; }
+  echo "test suite passed (simple runner)"
+else
+  echo "WARNING: test runner not found, skipping tests"
+fi
+
 "$PYTHON_CMD" scripts/generate_sample_architectures.py
 "$PYTHON_CMD" scripts/generate_demo_pairs.py
 "$PYTHON_CMD" scripts/validate_pairs.py "$PAIR_FILE"

@@ -1,0 +1,2905 @@
+{
+  "model_name": "Model",
+  "packages": {
+    "Architecture": {
+      "Structure": {
+        "Automotive_Domain": {
+          "id": "_2022x_2_8eb0292_1779926103169_688892_3312",
+          "name": "Automotive Domain",
+          "type": "uml:Class",
+          "stereotypes": [],
+          "attributes": [
+            {
+              "id": "_2022x_2_8eb0292_1779926130038_410121_3375",
+              "name": "electricVehicleSystem",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "ElectricVehicleSystem"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926362467_322048_3948",
+              "name": "suspensionFL",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Suspension",
+              "multiplicity": "[1..1]"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926369419_819988_3991",
+              "name": "suspensionFR",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Suspension",
+              "multiplicity": "[1..1]"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926372380_673044_4006",
+              "name": "suspensionRL",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Suspension",
+              "multiplicity": "[1..1]"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926375732_209235_4021",
+              "name": "suspensionRR",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Suspension",
+              "multiplicity": "[1..1]"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926338111_760557_3859",
+              "name": "wheelFL",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Wheel",
+              "multiplicity": "[1..1]"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926345109_397265_3902",
+              "name": "wheelFR",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Wheel",
+              "multiplicity": "[1..1]"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926348362_930425_3917",
+              "name": "wheelRL",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Wheel",
+              "multiplicity": "[1..1]"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926351653_398018_3932",
+              "name": "wheelRR",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Wheel",
+              "multiplicity": "[1..1]"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927654504_245860_5178",
+              "name": "drivetrain System",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Drivetrain System"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926326685_683765_3815",
+              "name": "vehicleControlUnit",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "VehicleControlUnit"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927807079_550567_5222",
+              "name": "electricalPowerSubsystem",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "ElectricalPowerSubsystem"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927092260_547923_4807",
+              "name": "acIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927103759_446746_4822",
+              "name": "controlIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927120544_443607_4848",
+              "name": "dcOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779929075418_635805_7649",
+              "name": "sense",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927233667_250912_5024",
+              "name": "driveIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928521795_387467_6644",
+              "name": "driveOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927149901_954420_4889",
+              "name": "powerIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927164607_733758_4915",
+              "name": "controlIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927188364_329036_4941",
+              "name": "driveOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926850466_576200_4561",
+              "name": "thermal in",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926971108_930109_4684",
+              "name": "dataOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927000140_815544_4710",
+              "name": "powerOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779929060858_448579_7565",
+              "name": "sense",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926911362_231241_4628",
+              "name": "canOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928531812_306414_6664",
+              "name": "driveIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928541199_343047_6707",
+              "name": "leftDriveOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928561300_853054_6770",
+              "name": "rightDriveOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928899627_545458_7114",
+              "name": "wheelHub",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928790894_949046_7025",
+              "name": "wheelHub",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927198852_7563_4961",
+              "name": "inputShaft",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927221036_437848_5004",
+              "name": "torqueOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926888509_275260_4602",
+              "name": "canBusA",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926927158_72889_4643",
+              "name": "canBusB",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926962555_421974_4669",
+              "name": "sensorIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927045228_586789_4766",
+              "name": "commandOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926831302_695236_4546",
+              "name": "coolant out",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926869957_88260_4587",
+              "name": "data out",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779929053940_166747_7545",
+              "name": "sense",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927016089_835599_4725",
+              "name": "dcIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927032915_90747_4751",
+              "name": "controlIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927136459_443732_4874",
+              "name": "acOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779929067130_980380_7607",
+              "name": "sense",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928553232_842102_6727",
+              "name": "innerCVJoint",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928681330_618789_6853",
+              "name": "outerCVJoint",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927414398_644036_5119",
+              "name": "left",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Rear Half Shaft"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927513055_693458_5162",
+              "name": "right",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Rear Half Shaft"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926273381_418406_3595",
+              "name": "driveShaft",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "DriveShaft"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926266268_693154_3551",
+              "name": "differential",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Differential"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926259445_140020_3507",
+              "name": "transmission",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Transmission"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926251507_699782_3463",
+              "name": "electricMotor",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "ElectricMotor"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926237974_395511_3419",
+              "name": "brakeController",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "BrakeController"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928104144_291894_5864",
+              "name": "canOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928154389_680244_5963",
+              "name": "powerIn",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928310457_98780_6193",
+              "name": "commandOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928727983_505337_6886",
+              "name": "rightOuterCVJoint",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928732619_241930_6938",
+              "name": "leftOuterCVJoint",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926311527_648248_3771",
+              "name": "thermalManagementSystem",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "ThermalManagementSystem"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926303593_104543_3727",
+              "name": "batteryPack",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "BatteryPack"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926289616_340283_3683",
+              "name": "chargingSystem",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "ChargingSystem"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926280962_898387_3639",
+              "name": "inverter",
+              "type": "uml:Property",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_name": "Inverter"
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928031475_851415_5806",
+              "name": "dataOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928143193_920872_5922",
+              "name": "acOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928216683_691826_6073",
+              "name": "data out",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928278701_896620_6131",
+              "name": "chrgsys cmdOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928349501_73939_6251",
+              "name": "inverter commandOut",
+              "type": "uml:Port",
+              "aggregation": "composite",
+              "visibility": "public",
+              "type_ref": null
+            }
+          ],
+          "ports": [],
+          "connectors": [
+            {
+              "id": "_2022x_2_8eb0292_1779927054950_766312_4783",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                  "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                  "role_name": "commandOut",
+                  "part_name": "vehicleControlUnit"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779927032915_90747_4751",
+                  "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                  "role_name": "controlIn",
+                  "part_name": "inverter"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928047748_463126_5844",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928031475_851415_5806",
+                  "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                  "role_name": "dataOut",
+                  "part_name": "electricalPowerSubsystem"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779926962555_421974_4669",
+                  "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                  "role_name": "sensorIn",
+                  "part_name": "vehicleControlUnit"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928112959_739060_5902",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928104144_291894_5864",
+                  "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                  "role_name": "canOut",
+                  "part_name": "drivetrain System"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779926927158_72889_4643",
+                  "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                  "role_name": "canBusB",
+                  "part_name": "vehicleControlUnit"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928195282_140630_6047",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928143193_920872_5922",
+                  "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                  "role_name": "acOut",
+                  "part_name": "electricalPowerSubsystem"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928154389_680244_5963",
+                  "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                  "role_name": "powerIn",
+                  "part_name": "drivetrain System"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928240946_328894_6111",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928216683_691826_6073",
+                  "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                  "role_name": "data out",
+                  "part_name": "electricalPowerSubsystem"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779926888509_275260_4602",
+                  "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                  "role_name": "canBusA",
+                  "part_name": "vehicleControlUnit"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928278699_153654_6128",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                  "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                  "role_name": "commandOut",
+                  "part_name": "vehicleControlUnit"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928278701_896620_6131",
+                  "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                  "role_name": "chrgsys cmdOut",
+                  "part_name": "electricalPowerSubsystem"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928310457_616904_6190",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                  "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                  "role_name": "commandOut",
+                  "part_name": "vehicleControlUnit"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928310457_98780_6193",
+                  "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                  "role_name": "commandOut",
+                  "part_name": "drivetrain System"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928349500_875250_6248",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                  "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                  "role_name": "commandOut",
+                  "part_name": "vehicleControlUnit"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928349501_73939_6251",
+                  "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                  "role_name": "inverter commandOut",
+                  "part_name": "electricalPowerSubsystem"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928790893_134609_7022",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928732619_241930_6938",
+                  "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                  "role_name": "leftOuterCVJoint",
+                  "part_name": "drivetrain System"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                  "partWithPort": "_2022x_2_8eb0292_1779926348362_930425_3917",
+                  "role_name": "wheelHub",
+                  "part_name": "wheelRL"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928804343_614332_7070",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928727983_505337_6886",
+                  "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                  "role_name": "rightOuterCVJoint",
+                  "part_name": "drivetrain System"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                  "partWithPort": "_2022x_2_8eb0292_1779926351653_398018_3932",
+                  "role_name": "wheelHub",
+                  "part_name": "wheelRR"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928899626_173505_7111",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                  "partWithPort": "_2022x_2_8eb0292_1779926351653_398018_3932",
+                  "role_name": "wheelHub",
+                  "part_name": "wheelRR"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928899627_545458_7114",
+                  "partWithPort": "_2022x_2_8eb0292_1779926375732_209235_4021",
+                  "role_name": "wheelHub",
+                  "part_name": "suspensionRR"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928905216_348221_7159",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                  "partWithPort": "_2022x_2_8eb0292_1779926348362_930425_3917",
+                  "role_name": "wheelHub",
+                  "part_name": "wheelRL"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928899627_545458_7114",
+                  "partWithPort": "_2022x_2_8eb0292_1779926372380_673044_4006",
+                  "role_name": "wheelHub",
+                  "part_name": "suspensionRL"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927198851_365134_4958",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927188364_329036_4941",
+                  "partWithPort": "_2022x_2_8eb0292_1779926251507_699782_3463",
+                  "role_name": "driveOut",
+                  "part_name": "electricMotor"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779927198852_7563_4961",
+                  "partWithPort": "_2022x_2_8eb0292_1779926259445_140020_3507",
+                  "role_name": "inputShaft",
+                  "part_name": "transmission"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927233665_118695_5021",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927221036_437848_5004",
+                  "partWithPort": "_2022x_2_8eb0292_1779926259445_140020_3507",
+                  "role_name": "torqueOut",
+                  "part_name": "transmission"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779927233667_250912_5024",
+                  "partWithPort": "_2022x_2_8eb0292_1779926273381_418406_3595",
+                  "role_name": "driveIn",
+                  "part_name": "driveShaft"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928104143_929193_5861",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779926911362_231241_4628",
+                  "partWithPort": "_2022x_2_8eb0292_1779926237974_395511_3419",
+                  "role_name": "canOut",
+                  "part_name": "brakeController"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928104144_291894_5864",
+                  "partWithPort": "",
+                  "role_name": "canOut"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928154388_39642_5960",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927149901_954420_4889",
+                  "partWithPort": "_2022x_2_8eb0292_1779926251507_699782_3463",
+                  "role_name": "powerIn",
+                  "part_name": "electricMotor"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928154389_680244_5963",
+                  "partWithPort": "",
+                  "role_name": "powerIn"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928314400_743199_6232",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928310457_98780_6193",
+                  "partWithPort": "",
+                  "role_name": "commandOut"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779927164607_733758_4915",
+                  "partWithPort": "_2022x_2_8eb0292_1779926251507_699782_3463",
+                  "role_name": "controlIn",
+                  "part_name": "electricMotor"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928531812_889114_6661",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928521795_387467_6644",
+                  "partWithPort": "_2022x_2_8eb0292_1779926273381_418406_3595",
+                  "role_name": "driveOut",
+                  "part_name": "driveShaft"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928531812_306414_6664",
+                  "partWithPort": "_2022x_2_8eb0292_1779926266268_693154_3551",
+                  "role_name": "driveIn",
+                  "part_name": "differential"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928553231_750379_6724",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928541199_343047_6707",
+                  "partWithPort": "_2022x_2_8eb0292_1779926266268_693154_3551",
+                  "role_name": "leftDriveOut",
+                  "part_name": "differential"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928553232_842102_6727",
+                  "partWithPort": "_2022x_2_8eb0292_1779927414398_644036_5119",
+                  "role_name": "innerCVJoint",
+                  "part_name": "left"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928572012_903822_6787",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928561300_853054_6770",
+                  "partWithPort": "_2022x_2_8eb0292_1779926266268_693154_3551",
+                  "role_name": "rightDriveOut",
+                  "part_name": "differential"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928553232_842102_6727",
+                  "partWithPort": "_2022x_2_8eb0292_1779927513055_693458_5162",
+                  "role_name": "innerCVJoint",
+                  "part_name": "right"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928727983_29224_6883",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928681330_618789_6853",
+                  "partWithPort": "_2022x_2_8eb0292_1779927513055_693458_5162",
+                  "role_name": "outerCVJoint",
+                  "part_name": "right"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928727983_505337_6886",
+                  "partWithPort": "",
+                  "role_name": "rightOuterCVJoint"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928732617_465477_6935",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928681330_618789_6853",
+                  "partWithPort": "_2022x_2_8eb0292_1779927414398_644036_5119",
+                  "role_name": "outerCVJoint",
+                  "part_name": "left"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928732619_241930_6938",
+                  "partWithPort": "",
+                  "role_name": "leftOuterCVJoint"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926858678_101299_4578",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779926831302_695236_4546",
+                  "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                  "role_name": "coolant out",
+                  "part_name": "thermalManagementSystem"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779926850466_576200_4561",
+                  "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                  "role_name": "thermal in",
+                  "part_name": "batteryPack"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927028545_289533_4742",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927000140_815544_4710",
+                  "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                  "role_name": "powerOut",
+                  "part_name": "batteryPack"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779927016089_835599_4725",
+                  "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                  "role_name": "dcIn",
+                  "part_name": "inverter"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927130267_152710_4865",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927120544_443607_4848",
+                  "partWithPort": "_2022x_2_8eb0292_1779926289616_340283_3683",
+                  "role_name": "dcOut",
+                  "part_name": "chargingSystem"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779927000140_815544_4710",
+                  "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                  "role_name": "powerOut",
+                  "part_name": "batteryPack"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928031474_290190_5803",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779926971108_930109_4684",
+                  "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                  "role_name": "dataOut",
+                  "part_name": "batteryPack"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928031475_851415_5806",
+                  "partWithPort": "",
+                  "role_name": "dataOut"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928143193_132684_5919",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779927136459_443732_4874",
+                  "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                  "role_name": "acOut",
+                  "part_name": "inverter"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928143193_920872_5922",
+                  "partWithPort": "",
+                  "role_name": "acOut"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928216682_595809_6070",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779926869957_88260_4587",
+                  "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                  "role_name": "data out",
+                  "part_name": "thermalManagementSystem"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779928216683_691826_6073",
+                  "partWithPort": "",
+                  "role_name": "data out"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779928290256_287460_6174",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928278701_896620_6131",
+                  "partWithPort": "",
+                  "role_name": "chrgsys cmdOut"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779927103759_446746_4822",
+                  "partWithPort": "_2022x_2_8eb0292_1779926289616_340283_3683",
+                  "role_name": "controlIn",
+                  "part_name": "chargingSystem"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779929036120_60109_7537",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779928349501_73939_6251",
+                  "partWithPort": "",
+                  "role_name": "inverter commandOut"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779927032915_90747_4751",
+                  "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                  "role_name": "controlIn",
+                  "part_name": "inverter"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779929060857_575662_7562",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779929053940_166747_7545",
+                  "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                  "role_name": "sense",
+                  "part_name": "thermalManagementSystem"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779929060858_448579_7565",
+                  "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                  "role_name": "sense",
+                  "part_name": "batteryPack"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779929067130_130406_7604",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779929053940_166747_7545",
+                  "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                  "role_name": "sense",
+                  "part_name": "thermalManagementSystem"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779929067130_980380_7607",
+                  "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                  "role_name": "sense",
+                  "part_name": "inverter"
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779929075417_961114_7646",
+              "name": "unnamed",
+              "type": "uml:Connector",
+              "ends": [
+                {
+                  "role": "_2022x_2_8eb0292_1779929053940_166747_7545",
+                  "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                  "role_name": "sense",
+                  "part_name": "thermalManagementSystem"
+                },
+                {
+                  "role": "_2022x_2_8eb0292_1779929075418_635805_7649",
+                  "partWithPort": "_2022x_2_8eb0292_1779926289616_340283_3683",
+                  "role_name": "sense",
+                  "part_name": "chargingSystem"
+                }
+              ]
+            }
+          ],
+          "nested_classifiers": [
+            {
+              "id": "_2022x_2_8eb0292_1779926129991_912275_3373",
+              "name": "ElectricVehicleSystem",
+              "type": "uml:Class",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [
+                {
+                  "id": "_2022x_2_8eb0292_1779926362467_322048_3948",
+                  "name": "suspensionFL",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Suspension",
+                  "multiplicity": "[1..1]"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926369419_819988_3991",
+                  "name": "suspensionFR",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Suspension",
+                  "multiplicity": "[1..1]"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926372380_673044_4006",
+                  "name": "suspensionRL",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Suspension",
+                  "multiplicity": "[1..1]"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926375732_209235_4021",
+                  "name": "suspensionRR",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Suspension",
+                  "multiplicity": "[1..1]"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926338111_760557_3859",
+                  "name": "wheelFL",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Wheel",
+                  "multiplicity": "[1..1]"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926345109_397265_3902",
+                  "name": "wheelFR",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Wheel",
+                  "multiplicity": "[1..1]"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926348362_930425_3917",
+                  "name": "wheelRL",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Wheel",
+                  "multiplicity": "[1..1]"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926351653_398018_3932",
+                  "name": "wheelRR",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Wheel",
+                  "multiplicity": "[1..1]"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                  "name": "drivetrain System",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Drivetrain System"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                  "name": "vehicleControlUnit",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "VehicleControlUnit"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                  "name": "electricalPowerSubsystem",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "ElectricalPowerSubsystem"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927092260_547923_4807",
+                  "name": "acIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927103759_446746_4822",
+                  "name": "controlIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927120544_443607_4848",
+                  "name": "dcOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779929075418_635805_7649",
+                  "name": "sense",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927233667_250912_5024",
+                  "name": "driveIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928521795_387467_6644",
+                  "name": "driveOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927149901_954420_4889",
+                  "name": "powerIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927164607_733758_4915",
+                  "name": "controlIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927188364_329036_4941",
+                  "name": "driveOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926850466_576200_4561",
+                  "name": "thermal in",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926971108_930109_4684",
+                  "name": "dataOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927000140_815544_4710",
+                  "name": "powerOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779929060858_448579_7565",
+                  "name": "sense",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926911362_231241_4628",
+                  "name": "canOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928531812_306414_6664",
+                  "name": "driveIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928541199_343047_6707",
+                  "name": "leftDriveOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928561300_853054_6770",
+                  "name": "rightDriveOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928899627_545458_7114",
+                  "name": "wheelHub",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                  "name": "wheelHub",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927198852_7563_4961",
+                  "name": "inputShaft",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927221036_437848_5004",
+                  "name": "torqueOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926888509_275260_4602",
+                  "name": "canBusA",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926927158_72889_4643",
+                  "name": "canBusB",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926962555_421974_4669",
+                  "name": "sensorIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                  "name": "commandOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926831302_695236_4546",
+                  "name": "coolant out",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926869957_88260_4587",
+                  "name": "data out",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779929053940_166747_7545",
+                  "name": "sense",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927016089_835599_4725",
+                  "name": "dcIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927032915_90747_4751",
+                  "name": "controlIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927136459_443732_4874",
+                  "name": "acOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779929067130_980380_7607",
+                  "name": "sense",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                }
+              ],
+              "ports": [],
+              "connectors": [
+                {
+                  "id": "_2022x_2_8eb0292_1779927054950_766312_4783",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                      "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                      "role_name": "commandOut",
+                      "part_name": "vehicleControlUnit"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779927032915_90747_4751",
+                      "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                      "role_name": "controlIn",
+                      "part_name": "inverter"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928047748_463126_5844",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928031475_851415_5806",
+                      "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                      "role_name": "dataOut",
+                      "part_name": "electricalPowerSubsystem"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779926962555_421974_4669",
+                      "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                      "role_name": "sensorIn",
+                      "part_name": "vehicleControlUnit"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928112959_739060_5902",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928104144_291894_5864",
+                      "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                      "role_name": "canOut",
+                      "part_name": "drivetrain System"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779926927158_72889_4643",
+                      "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                      "role_name": "canBusB",
+                      "part_name": "vehicleControlUnit"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928195282_140630_6047",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928143193_920872_5922",
+                      "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                      "role_name": "acOut",
+                      "part_name": "electricalPowerSubsystem"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928154389_680244_5963",
+                      "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                      "role_name": "powerIn",
+                      "part_name": "drivetrain System"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928240946_328894_6111",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928216683_691826_6073",
+                      "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                      "role_name": "data out",
+                      "part_name": "electricalPowerSubsystem"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779926888509_275260_4602",
+                      "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                      "role_name": "canBusA",
+                      "part_name": "vehicleControlUnit"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928278699_153654_6128",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                      "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                      "role_name": "commandOut",
+                      "part_name": "vehicleControlUnit"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928278701_896620_6131",
+                      "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                      "role_name": "chrgsys cmdOut",
+                      "part_name": "electricalPowerSubsystem"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928310457_616904_6190",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                      "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                      "role_name": "commandOut",
+                      "part_name": "vehicleControlUnit"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928310457_98780_6193",
+                      "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                      "role_name": "commandOut",
+                      "part_name": "drivetrain System"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928349500_875250_6248",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                      "partWithPort": "_2022x_2_8eb0292_1779926326685_683765_3815",
+                      "role_name": "commandOut",
+                      "part_name": "vehicleControlUnit"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928349501_73939_6251",
+                      "partWithPort": "_2022x_2_8eb0292_1779927807079_550567_5222",
+                      "role_name": "inverter commandOut",
+                      "part_name": "electricalPowerSubsystem"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928790893_134609_7022",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928732619_241930_6938",
+                      "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                      "role_name": "leftOuterCVJoint",
+                      "part_name": "drivetrain System"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                      "partWithPort": "_2022x_2_8eb0292_1779926348362_930425_3917",
+                      "role_name": "wheelHub",
+                      "part_name": "wheelRL"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928804343_614332_7070",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928727983_505337_6886",
+                      "partWithPort": "_2022x_2_8eb0292_1779927654504_245860_5178",
+                      "role_name": "rightOuterCVJoint",
+                      "part_name": "drivetrain System"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                      "partWithPort": "_2022x_2_8eb0292_1779926351653_398018_3932",
+                      "role_name": "wheelHub",
+                      "part_name": "wheelRR"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928899626_173505_7111",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                      "partWithPort": "_2022x_2_8eb0292_1779926351653_398018_3932",
+                      "role_name": "wheelHub",
+                      "part_name": "wheelRR"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928899627_545458_7114",
+                      "partWithPort": "_2022x_2_8eb0292_1779926375732_209235_4021",
+                      "role_name": "wheelHub",
+                      "part_name": "suspensionRR"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928905216_348221_7159",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                      "partWithPort": "_2022x_2_8eb0292_1779926348362_930425_3917",
+                      "role_name": "wheelHub",
+                      "part_name": "wheelRL"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928899627_545458_7114",
+                      "partWithPort": "_2022x_2_8eb0292_1779926372380_673044_4006",
+                      "role_name": "wheelHub",
+                      "part_name": "suspensionRL"
+                    }
+                  ]
+                }
+              ],
+              "nested_classifiers": [
+                {
+                  "id": "_2022x_2_8eb0292_1779926289599_622567_3681",
+                  "name": "ChargingSystem",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779927092260_547923_4807",
+                      "name": "acIn",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779927103759_446746_4822",
+                      "name": "controlIn",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779927120544_443607_4848",
+                      "name": "dcOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779929075418_635805_7649",
+                      "name": "sense",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926273360_695087_3593",
+                  "name": "DriveShaft",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779927233667_250912_5024",
+                      "name": "driveIn",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779928521795_387467_6644",
+                      "name": "driveOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926251487_374940_3461",
+                  "name": "ElectricMotor",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779927149901_954420_4889",
+                      "name": "powerIn",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779927164607_733758_4915",
+                      "name": "controlIn",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779927188364_329036_4941",
+                      "name": "driveOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926303576_993598_3725",
+                  "name": "BatteryPack",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779926850466_576200_4561",
+                      "name": "thermal in",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779926971108_930109_4684",
+                      "name": "dataOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779927000140_815544_4710",
+                      "name": "powerOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779929060858_448579_7565",
+                      "name": "sense",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926237951_599715_3417",
+                  "name": "BrakeController",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779926911362_231241_4628",
+                      "name": "canOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926266250_40948_3549",
+                  "name": "Differential",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779928531812_306414_6664",
+                      "name": "driveIn",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779928541199_343047_6707",
+                      "name": "leftDriveOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779928561300_853054_6770",
+                      "name": "rightDriveOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926362445_36324_3946",
+                  "name": "Suspension",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779928899627_545458_7114",
+                      "name": "wheelHub",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926338086_775911_3857",
+                  "name": "Wheel",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779928790894_949046_7025",
+                      "name": "wheelHub",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926259429_350603_3505",
+                  "name": "Transmission",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779927198852_7563_4961",
+                      "name": "inputShaft",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779927221036_437848_5004",
+                      "name": "torqueOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926326658_461995_3813",
+                  "name": "VehicleControlUnit",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779926888509_275260_4602",
+                      "name": "canBusA",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779926927158_72889_4643",
+                      "name": "canBusB",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779926962555_421974_4669",
+                      "name": "sensorIn",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779927045228_586789_4766",
+                      "name": "commandOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926311507_294336_3769",
+                  "name": "ThermalManagementSystem",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779926831302_695236_4546",
+                      "name": "coolant out",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779926869957_88260_4587",
+                      "name": "data out",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779929053940_166747_7545",
+                      "name": "sense",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926280942_77739_3637",
+                  "name": "Inverter",
+                  "type": "uml:Class",
+                  "depth": 2,
+                  "stereotypes": [],
+                  "attributes": [
+                    {
+                      "id": "_2022x_2_8eb0292_1779927016089_835599_4725",
+                      "name": "dcIn",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779927032915_90747_4751",
+                      "name": "controlIn",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779927136459_443732_4874",
+                      "name": "acOut",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    },
+                    {
+                      "id": "_2022x_2_8eb0292_1779929067130_980380_7607",
+                      "name": "sense",
+                      "type": "uml:Port",
+                      "aggregation": "composite",
+                      "visibility": "public",
+                      "type_ref": null
+                    }
+                  ],
+                  "ports": [],
+                  "connectors": [],
+                  "nested_classifiers": []
+                }
+              ]
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926237974_16525_3418",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926251507_122088_3462",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926259445_563059_3506",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926266268_257267_3550",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926273381_992910_3594",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779926280962_656464_3638",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927414382_194451_5117",
+              "name": "Rear Half Shaft",
+              "type": "uml:Class",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [
+                {
+                  "id": "_2022x_2_8eb0292_1779928553232_842102_6727",
+                  "name": "innerCVJoint",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928681330_618789_6853",
+                  "name": "outerCVJoint",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                }
+              ],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927414398_770224_5118",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927513055_113946_5161",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927654472_994988_5176",
+              "name": "Drivetrain System",
+              "type": "uml:Class",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [
+                {
+                  "id": "_2022x_2_8eb0292_1779927414398_644036_5119",
+                  "name": "left",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Rear Half Shaft"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927513055_693458_5162",
+                  "name": "right",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Rear Half Shaft"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926273381_418406_3595",
+                  "name": "driveShaft",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "DriveShaft"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926266268_693154_3551",
+                  "name": "differential",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Differential"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926259445_140020_3507",
+                  "name": "transmission",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Transmission"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926251507_699782_3463",
+                  "name": "electricMotor",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "ElectricMotor"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926237974_395511_3419",
+                  "name": "brakeController",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "BrakeController"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928104144_291894_5864",
+                  "name": "canOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928154389_680244_5963",
+                  "name": "powerIn",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928310457_98780_6193",
+                  "name": "commandOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928727983_505337_6886",
+                  "name": "rightOuterCVJoint",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928732619_241930_6938",
+                  "name": "leftOuterCVJoint",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                }
+              ],
+              "ports": [],
+              "connectors": [
+                {
+                  "id": "_2022x_2_8eb0292_1779927198851_365134_4958",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927188364_329036_4941",
+                      "partWithPort": "_2022x_2_8eb0292_1779926251507_699782_3463",
+                      "role_name": "driveOut",
+                      "part_name": "electricMotor"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779927198852_7563_4961",
+                      "partWithPort": "_2022x_2_8eb0292_1779926259445_140020_3507",
+                      "role_name": "inputShaft",
+                      "part_name": "transmission"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927233665_118695_5021",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927221036_437848_5004",
+                      "partWithPort": "_2022x_2_8eb0292_1779926259445_140020_3507",
+                      "role_name": "torqueOut",
+                      "part_name": "transmission"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779927233667_250912_5024",
+                      "partWithPort": "_2022x_2_8eb0292_1779926273381_418406_3595",
+                      "role_name": "driveIn",
+                      "part_name": "driveShaft"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928104143_929193_5861",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779926911362_231241_4628",
+                      "partWithPort": "_2022x_2_8eb0292_1779926237974_395511_3419",
+                      "role_name": "canOut",
+                      "part_name": "brakeController"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928104144_291894_5864",
+                      "partWithPort": "",
+                      "role_name": "canOut"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928154388_39642_5960",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927149901_954420_4889",
+                      "partWithPort": "_2022x_2_8eb0292_1779926251507_699782_3463",
+                      "role_name": "powerIn",
+                      "part_name": "electricMotor"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928154389_680244_5963",
+                      "partWithPort": "",
+                      "role_name": "powerIn"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928314400_743199_6232",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928310457_98780_6193",
+                      "partWithPort": "",
+                      "role_name": "commandOut"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779927164607_733758_4915",
+                      "partWithPort": "_2022x_2_8eb0292_1779926251507_699782_3463",
+                      "role_name": "controlIn",
+                      "part_name": "electricMotor"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928531812_889114_6661",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928521795_387467_6644",
+                      "partWithPort": "_2022x_2_8eb0292_1779926273381_418406_3595",
+                      "role_name": "driveOut",
+                      "part_name": "driveShaft"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928531812_306414_6664",
+                      "partWithPort": "_2022x_2_8eb0292_1779926266268_693154_3551",
+                      "role_name": "driveIn",
+                      "part_name": "differential"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928553231_750379_6724",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928541199_343047_6707",
+                      "partWithPort": "_2022x_2_8eb0292_1779926266268_693154_3551",
+                      "role_name": "leftDriveOut",
+                      "part_name": "differential"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928553232_842102_6727",
+                      "partWithPort": "_2022x_2_8eb0292_1779927414398_644036_5119",
+                      "role_name": "innerCVJoint",
+                      "part_name": "left"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928572012_903822_6787",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928561300_853054_6770",
+                      "partWithPort": "_2022x_2_8eb0292_1779926266268_693154_3551",
+                      "role_name": "rightDriveOut",
+                      "part_name": "differential"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928553232_842102_6727",
+                      "partWithPort": "_2022x_2_8eb0292_1779927513055_693458_5162",
+                      "role_name": "innerCVJoint",
+                      "part_name": "right"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928727983_29224_6883",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928681330_618789_6853",
+                      "partWithPort": "_2022x_2_8eb0292_1779927513055_693458_5162",
+                      "role_name": "outerCVJoint",
+                      "part_name": "right"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928727983_505337_6886",
+                      "partWithPort": "",
+                      "role_name": "rightOuterCVJoint"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928732617_465477_6935",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928681330_618789_6853",
+                      "partWithPort": "_2022x_2_8eb0292_1779927414398_644036_5119",
+                      "role_name": "outerCVJoint",
+                      "part_name": "left"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928732619_241930_6938",
+                      "partWithPort": "",
+                      "role_name": "leftOuterCVJoint"
+                    }
+                  ]
+                }
+              ],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927654504_159171_5177",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927807049_132965_5220",
+              "name": "ElectricalPowerSubsystem",
+              "type": "uml:Class",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [
+                {
+                  "id": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                  "name": "thermalManagementSystem",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "ThermalManagementSystem"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                  "name": "batteryPack",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "BatteryPack"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926289616_340283_3683",
+                  "name": "chargingSystem",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "ChargingSystem"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                  "name": "inverter",
+                  "type": "uml:Property",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_name": "Inverter"
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928031475_851415_5806",
+                  "name": "dataOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928143193_920872_5922",
+                  "name": "acOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928216683_691826_6073",
+                  "name": "data out",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928278701_896620_6131",
+                  "name": "chrgsys cmdOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928349501_73939_6251",
+                  "name": "inverter commandOut",
+                  "type": "uml:Port",
+                  "aggregation": "composite",
+                  "visibility": "public",
+                  "type_ref": null
+                }
+              ],
+              "ports": [],
+              "connectors": [
+                {
+                  "id": "_2022x_2_8eb0292_1779926858678_101299_4578",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779926831302_695236_4546",
+                      "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                      "role_name": "coolant out",
+                      "part_name": "thermalManagementSystem"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779926850466_576200_4561",
+                      "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                      "role_name": "thermal in",
+                      "part_name": "batteryPack"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927028545_289533_4742",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927000140_815544_4710",
+                      "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                      "role_name": "powerOut",
+                      "part_name": "batteryPack"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779927016089_835599_4725",
+                      "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                      "role_name": "dcIn",
+                      "part_name": "inverter"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779927130267_152710_4865",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927120544_443607_4848",
+                      "partWithPort": "_2022x_2_8eb0292_1779926289616_340283_3683",
+                      "role_name": "dcOut",
+                      "part_name": "chargingSystem"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779927000140_815544_4710",
+                      "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                      "role_name": "powerOut",
+                      "part_name": "batteryPack"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928031474_290190_5803",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779926971108_930109_4684",
+                      "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                      "role_name": "dataOut",
+                      "part_name": "batteryPack"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928031475_851415_5806",
+                      "partWithPort": "",
+                      "role_name": "dataOut"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928143193_132684_5919",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779927136459_443732_4874",
+                      "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                      "role_name": "acOut",
+                      "part_name": "inverter"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928143193_920872_5922",
+                      "partWithPort": "",
+                      "role_name": "acOut"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928216682_595809_6070",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779926869957_88260_4587",
+                      "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                      "role_name": "data out",
+                      "part_name": "thermalManagementSystem"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779928216683_691826_6073",
+                      "partWithPort": "",
+                      "role_name": "data out"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779928290256_287460_6174",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928278701_896620_6131",
+                      "partWithPort": "",
+                      "role_name": "chrgsys cmdOut"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779927103759_446746_4822",
+                      "partWithPort": "_2022x_2_8eb0292_1779926289616_340283_3683",
+                      "role_name": "controlIn",
+                      "part_name": "chargingSystem"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779929036120_60109_7537",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779928349501_73939_6251",
+                      "partWithPort": "",
+                      "role_name": "inverter commandOut"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779927032915_90747_4751",
+                      "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                      "role_name": "controlIn",
+                      "part_name": "inverter"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779929060857_575662_7562",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779929053940_166747_7545",
+                      "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                      "role_name": "sense",
+                      "part_name": "thermalManagementSystem"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779929060858_448579_7565",
+                      "partWithPort": "_2022x_2_8eb0292_1779926303593_104543_3727",
+                      "role_name": "sense",
+                      "part_name": "batteryPack"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779929067130_130406_7604",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779929053940_166747_7545",
+                      "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                      "role_name": "sense",
+                      "part_name": "thermalManagementSystem"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779929067130_980380_7607",
+                      "partWithPort": "_2022x_2_8eb0292_1779926280962_898387_3639",
+                      "role_name": "sense",
+                      "part_name": "inverter"
+                    }
+                  ]
+                },
+                {
+                  "id": "_2022x_2_8eb0292_1779929075417_961114_7646",
+                  "name": "unnamed",
+                  "type": "uml:Connector",
+                  "ends": [
+                    {
+                      "role": "_2022x_2_8eb0292_1779929053940_166747_7545",
+                      "partWithPort": "_2022x_2_8eb0292_1779926311527_648248_3771",
+                      "role_name": "sense",
+                      "part_name": "thermalManagementSystem"
+                    },
+                    {
+                      "role": "_2022x_2_8eb0292_1779929075418_635805_7649",
+                      "partWithPort": "_2022x_2_8eb0292_1779926289616_340283_3683",
+                      "role_name": "sense",
+                      "part_name": "chargingSystem"
+                    }
+                  ]
+                }
+              ],
+              "nested_classifiers": []
+            },
+            {
+              "id": "_2022x_2_8eb0292_1779927807079_115612_5221",
+              "name": "unnamed",
+              "type": "uml:Association",
+              "depth": 1,
+              "stereotypes": [],
+              "attributes": [],
+              "ports": [],
+              "connectors": [],
+              "nested_classifiers": []
+            }
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [],
+  "statistics": {
+    "total_elements": 91,
+    "total_attributes": 67,
+    "total_connectors": 33,
+    "total_requirements": 0
+  }
+}

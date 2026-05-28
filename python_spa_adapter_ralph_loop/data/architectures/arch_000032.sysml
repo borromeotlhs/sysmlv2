@@ -1,85 +1,87 @@
 package arch_000032 {
-	// Ground Station Reference Architecture 32
-	// Domain: ground station
 
-	import ScalarValues::*;
+    // Ground Station Reference Architecture 32
+    // Domain: ground station
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The ground station system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def GroundStationSystem {
-	}
+    requirement REQ_002 {
+        doc "The ground station system shall trace subsystem design to requirements."
+    }
 
-	part def ProcessingController {
-		port sensorOut : DataIF;
-		port telemetryOut : StatusIF;
-		port sensorOut : ControlIF;
-	}
+    // Component Definitions
+    part def ProcessingController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+        port telemetryOut;
+        port sensorOut;
+    }
 
-	part def PowerSensor {
-		port pwrOut : SignalIF;
-	}
+    part def PowerSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+    }
 
-	part def CommInterface {
-		port dataOut : ControlIF;
-	}
+    part def CommInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataOut;
+    }
 
-	part def DistributionAssembly {
-		port dataOut : ThermalIF;
-		port dataIn : PowerIF;
-	}
+    part def DistributionAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port dataIn;
+    }
 
-	part def CommandInterface {
-		port pwrIn : DataIF;
-	}
+    part def CommandInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port pwrIn;
+    }
 
-	part def ProcessingBus {
-		port sensorOut : ConfigIF;
-		port cmdIn : ControlIF;
-		port configIn : PowerIF;
-	}
+    part def ProcessingBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+        port cmdIn;
+        port configIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The ground station system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def GroundStationSystem {
+        part processingcontroller : ProcessingController {
+        }
+        part powersensor : PowerSensor {
+            satisfy REQ_001;
+        }
+        part comminterface : CommInterface {
+        }
+        part distributionassembly : DistributionAssembly {
+            satisfy REQ_001;
+        }
+        part commandinterface : CommandInterface {
+            satisfy REQ_002;
+        }
+        part processingbus : ProcessingBus {
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The ground station system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect processingcontroller.sensorOut to processingbus.cmdIn;
+        connect commandinterface.pwrIn to processingcontroller.sensorOut;
+        connect distributionassembly.dataOut to processingbus.configIn;
+        connect commandinterface.pwrIn to processingbus.cmdIn;
+        connect commandinterface.pwrIn to powersensor.pwrOut;
+    }
 
-	// System Assembly
-	part groundstationsystem : GroundStationSystem {
-		part processingcontroller : ProcessingController;
-		part powersensor : PowerSensor;
-		part comminterface : CommInterface;
-		part distributionassembly : DistributionAssembly;
-		part commandinterface : CommandInterface;
-		part processingbus : ProcessingBus;
+    // System Instance
+    part groundstationsystem : GroundStationSystem;
 
-		// Connections
-		connection : link1 connect 
-			processingcontroller.sensorOut to processingbus.cmdIn;
-		connection : link2 connect 
-			commandinterface.pwrIn to processingcontroller.sensorOut;
-		connection : link3 connect 
-			distributionassembly.dataOut to processingbus.configIn;
-		connection : link4 connect 
-			commandinterface.pwrIn to processingbus.cmdIn;
-		connection : link5 connect 
-			commandinterface.pwrIn to powersensor.pwrOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by distributionassembly;
-		satisfy requirement <'REQ-001'> by powersensor;
-		satisfy requirement <'REQ-002'> by processingbus;
-		satisfy requirement <'REQ-002'> by commandinterface;
-	}
 }

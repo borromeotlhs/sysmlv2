@@ -1,73 +1,72 @@
 package arch_000034 {
-	// Power Distribution System Reference Architecture 34
-	// Domain: power distribution system
 
-	import ScalarValues::*;
+    // Power Distribution System Reference Architecture 34
+    // Domain: power distribution system
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The power distribution system system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def PowerDistributionSystemSystem {
-	}
+    requirement REQ_002 {
+        doc "The power distribution system system shall trace subsystem design to requirements."
+    }
 
-	part def FlightComputer {
-		port ctrlIn : DiagnosticIF;
-	}
+    requirement REQ_003 {
+        doc "The power distribution system system shall provide fault detection and recovery."
+    }
 
-	part def DataSubsystem {
-		port cmdIn : ConfigIF;
-		port configIn : ThermalIF;
-		port dataIn : SignalIF;
-	}
+    // Component Definitions
+    part def FlightComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port ctrlIn;
+    }
 
-	part def MonitorActuator {
-		port cmdIn : DiagnosticIF;
-		port pwrOut : ThermalIF;
-	}
+    part def DataSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+        port configIn;
+        port dataIn;
+    }
 
-	part def NavController {
-		port statusOut : PowerIF;
-		port telemetryOut : DataIF;
-		port sensorOut : ControlIF;
-	}
+    part def MonitorActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+        port pwrOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The power distribution system system shall exchange data through typed interfaces. */
-	}
+    part def NavController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+        port telemetryOut;
+        port sensorOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The power distribution system system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def PowerDistributionSystemSystem {
+        part flightcomputer : FlightComputer {
+        }
+        part datasubsystem : DataSubsystem {
+        }
+        part monitoractuator : MonitorActuator {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part navcontroller : NavController {
+            satisfy REQ_001;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The power distribution system system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect navcontroller.sensorOut to flightcomputer.ctrlIn;
+        connect navcontroller.telemetryOut to flightcomputer.ctrlIn;
+    }
 
-	// System Assembly
-	part powerdistributionsystemsystem : PowerDistributionSystemSystem {
-		part flightcomputer : FlightComputer;
-		part datasubsystem : DataSubsystem;
-		part monitoractuator : MonitorActuator;
-		part navcontroller : NavController;
+    // System Instance
+    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
-		// Connections
-		connection : link1 connect 
-			navcontroller.sensorOut to flightcomputer.ctrlIn;
-		connection : link2 connect 
-			navcontroller.telemetryOut to flightcomputer.ctrlIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by monitoractuator;
-		satisfy requirement <'REQ-001'> by navcontroller;
-		satisfy requirement <'REQ-002'> by monitoractuator;
-		satisfy requirement <'REQ-003'> by monitoractuator;
-	}
 }

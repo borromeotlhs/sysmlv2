@@ -1,69 +1,67 @@
 package arch_000016 {
-	// Thruster Assembly Reference Architecture 16
-	// Domain: thruster assembly
 
-	import ScalarValues::*;
+    // Thruster Assembly Reference Architecture 16
+    // Domain: thruster assembly
 
-	// Interface Definitions
-	interface def DiagnosticIF;
-	interface def SignalIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The thruster assembly system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def ThrusterAssemblySystem {
-	}
+    requirement REQ_002 {
+        doc "The thruster assembly system shall trace subsystem design to requirements."
+    }
 
-	part def ProcessingPayload {
-		port cmdOut : SignalIF;
-	}
+    requirement REQ_003 {
+        doc "The thruster assembly system shall provide fault detection and recovery."
+    }
 
-	part def MonitorBus {
-		port statusOut : ThermalIF;
-	}
+    requirement REQ_004 {
+        doc "The thruster assembly system shall maintain operational status monitoring."
+    }
 
-	part def NavPayload {
-		port telemetryOut : DiagnosticIF;
-		port pwrOut : TelemetryIF;
-	}
+    // Component Definitions
+    part def ProcessingPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The thruster assembly system shall exchange data through typed interfaces. */
-	}
+    part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The thruster assembly system shall trace subsystem design to requirements. */
-	}
+    part def NavPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+        port pwrOut;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The thruster assembly system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def ThrusterAssemblySystem {
+        part processingpayload : ProcessingPayload {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part monitorbus : MonitorBus {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part navpayload : NavPayload {
+            satisfy REQ_001;
+            satisfy REQ_004;
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The thruster assembly system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect navpayload.telemetryOut to monitorbus.statusOut;
+        connect processingpayload.cmdOut to monitorbus.statusOut;
+        connect monitorbus.statusOut to navpayload.pwrOut;
+    }
 
-	// System Assembly
-	part thrusterassemblysystem : ThrusterAssemblySystem {
-		part processingpayload : ProcessingPayload;
-		part monitorbus : MonitorBus;
-		part navpayload : NavPayload;
+    // System Instance
+    part thrusterassemblysystem : ThrusterAssemblySystem;
 
-		// Connections
-		connection : link1 connect 
-			navpayload.telemetryOut to monitorbus.statusOut;
-		connection : link2 connect 
-			processingpayload.cmdOut to monitorbus.statusOut;
-		connection : link3 connect 
-			monitorbus.statusOut to navpayload.pwrOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by processingpayload;
-		satisfy requirement <'REQ-001'> by navpayload;
-		satisfy requirement <'REQ-002'> by processingpayload;
-		satisfy requirement <'REQ-002'> by monitorbus;
-		satisfy requirement <'REQ-003'> by monitorbus;
-		satisfy requirement <'REQ-004'> by navpayload;
-	}
 }

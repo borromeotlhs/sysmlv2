@@ -1,0 +1,10 @@
+[
+  {
+    "description": "Test 1",
+    "sysml": "package test1 { part def A; }"
+  },
+  {
+    "description": "Test 2",
+    "sysml": "package test2 { part def B; }"
+  }
+]

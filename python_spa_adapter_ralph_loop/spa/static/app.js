@@ -134,6 +134,212 @@ function copyIbdSource() {
   }
 }
 
+function popoutBdd() {
+  if (diagramCache.bdd) {
+    const win = window.open('', 'BDD_Diagram', 'width=1200,height=900,menubar=no,toolbar=no,location=no,status=no');
+    if (win) {
+      const title = currentArchitecture?.name || 'Architecture';
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>BDD - ${escapeHtml(title)}</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: sans-serif; background: #f5f5f5; overflow: hidden; }
+            .header { background: #fff; border-bottom: 1px solid #ddd; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+            h1 { font-size: 18px; color: #333; }
+            .controls { display: flex; gap: 10px; align-items: center; }
+            button { padding: 6px 12px; border: 1px solid #ccc; background: white; cursor: pointer; font-size: 14px; border-radius: 3px; }
+            button:hover { background: #f0f0f0; }
+            .zoom-level { font-size: 14px; color: #666; min-width: 60px; text-align: center; }
+            .diagram-container { height: calc(100vh - 60px); overflow: auto; padding: 20px; }
+            .diagram-wrapper { display: inline-block; transition: transform 0.1s ease; transform-origin: top left; }
+            img { display: block; border: 1px solid #ddd; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Block Definition Diagram - ${escapeHtml(title)}</h1>
+            <div class="controls">
+              <button onclick="zoomOut()">−</button>
+              <span class="zoom-level" id="zoomLevel">100%</span>
+              <button onclick="zoomIn()">+</button>
+              <button onclick="resetZoom()">Reset</button>
+            </div>
+          </div>
+          <div class="diagram-container" id="container">
+            <div class="diagram-wrapper" id="wrapper">
+              <img src="${escapeHtml(diagramCache.bdd.url)}" alt="Block Definition Diagram" id="diagram" />
+            </div>
+          </div>
+          <script>
+            let zoom = 1.0;
+            const wrapper = document.getElementById('wrapper');
+            const container = document.getElementById('container');
+            const zoomLevel = document.getElementById('zoomLevel');
+
+            function updateZoom() {
+              wrapper.style.transform = 'scale(' + zoom + ')';
+              zoomLevel.textContent = Math.round(zoom * 100) + '%';
+            }
+
+            function zoomIn() {
+              zoom = Math.min(zoom + 0.25, 5.0);
+              updateZoom();
+            }
+
+            function zoomOut() {
+              zoom = Math.max(zoom - 0.25, 0.25);
+              updateZoom();
+            }
+
+            function resetZoom() {
+              zoom = 1.0;
+              updateZoom();
+              container.scrollTop = 0;
+              container.scrollLeft = 0;
+            }
+
+            // Mouse wheel zoom
+            container.addEventListener('wheel', (e) => {
+              if (e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                  zoomIn();
+                } else {
+                  zoomOut();
+                }
+              }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+              if (e.key === '+' || e.key === '=') {
+                e.preventDefault();
+                zoomIn();
+              } else if (e.key === '-' || e.key === '_') {
+                e.preventDefault();
+                zoomOut();
+              } else if (e.key === '0' || e.key === 'r') {
+                e.preventDefault();
+                resetZoom();
+              }
+            });
+          </script>
+        </body>
+        </html>
+      `);
+      win.document.close();
+    }
+  } else {
+    alert('Load the BDD first by clicking the BDD tab');
+  }
+}
+
+function popoutIbd() {
+  if (diagramCache.ibd) {
+    const win = window.open('', 'IBD_Diagram', 'width=1200,height=900,menubar=no,toolbar=no,location=no,status=no');
+    if (win) {
+      const title = currentArchitecture?.name || 'Architecture';
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>IBD - ${escapeHtml(title)}</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: sans-serif; background: #f5f5f5; overflow: hidden; }
+            .header { background: #fff; border-bottom: 1px solid #ddd; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+            h1 { font-size: 18px; color: #333; }
+            .controls { display: flex; gap: 10px; align-items: center; }
+            button { padding: 6px 12px; border: 1px solid #ccc; background: white; cursor: pointer; font-size: 14px; border-radius: 3px; }
+            button:hover { background: #f0f0f0; }
+            .zoom-level { font-size: 14px; color: #666; min-width: 60px; text-align: center; }
+            .diagram-container { height: calc(100vh - 60px); overflow: auto; padding: 20px; }
+            .diagram-wrapper { display: inline-block; transition: transform 0.1s ease; transform-origin: top left; }
+            img { display: block; border: 1px solid #ddd; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Internal Block Diagram - ${escapeHtml(title)}</h1>
+            <div class="controls">
+              <button onclick="zoomOut()">−</button>
+              <span class="zoom-level" id="zoomLevel">100%</span>
+              <button onclick="zoomIn()">+</button>
+              <button onclick="resetZoom()">Reset</button>
+            </div>
+          </div>
+          <div class="diagram-container" id="container">
+            <div class="diagram-wrapper" id="wrapper">
+              <img src="${escapeHtml(diagramCache.ibd.url)}" alt="Internal Block Diagram" id="diagram" />
+            </div>
+          </div>
+          <script>
+            let zoom = 1.0;
+            const wrapper = document.getElementById('wrapper');
+            const container = document.getElementById('container');
+            const zoomLevel = document.getElementById('zoomLevel');
+
+            function updateZoom() {
+              wrapper.style.transform = 'scale(' + zoom + ')';
+              zoomLevel.textContent = Math.round(zoom * 100) + '%';
+            }
+
+            function zoomIn() {
+              zoom = Math.min(zoom + 0.25, 5.0);
+              updateZoom();
+            }
+
+            function zoomOut() {
+              zoom = Math.max(zoom - 0.25, 0.25);
+              updateZoom();
+            }
+
+            function resetZoom() {
+              zoom = 1.0;
+              updateZoom();
+              container.scrollTop = 0;
+              container.scrollLeft = 0;
+            }
+
+            // Mouse wheel zoom
+            container.addEventListener('wheel', (e) => {
+              if (e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                  zoomIn();
+                } else {
+                  zoomOut();
+                }
+              }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+              if (e.key === '+' || e.key === '=') {
+                e.preventDefault();
+                zoomIn();
+              } else if (e.key === '-' || e.key === '_') {
+                e.preventDefault();
+                zoomOut();
+              } else if (e.key === '0' || e.key === 'r') {
+                e.preventDefault();
+                resetZoom();
+              }
+            });
+          </script>
+        </body>
+        </html>
+      `);
+      win.document.close();
+    }
+  } else {
+    alert('Load the IBD first by clicking the IBD tab');
+  }
+}
+
 async function refreshPairFiles() {
   const data = await getJson('/api/pair-files');
   $('pairFileSelect').innerHTML = (data.pair_files || []).map(f => `<option value="${f.path}">${f.path}</option>`).join('');
@@ -328,6 +534,8 @@ $('goUp').onclick = goUpDirectory;
 $('resetRoot').onclick = resetTreeRoot;
 $('copyBddSource').onclick = copyBddSource;
 $('copyIbdSource').onclick = copyIbdSource;
+$('popoutBdd').onclick = popoutBdd;
+$('popoutIbd').onclick = popoutIbd;
 
 // Allow Enter key in root path input
 $('rootPath').onkeypress = (e) => {

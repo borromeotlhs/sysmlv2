@@ -1,68 +1,65 @@
 package arch_000012 {
-	// Solar Array Reference Architecture 12
-	// Domain: solar array
 
-	import ScalarValues::*;
+    // Solar Array Reference Architecture 12
+    // Domain: solar array
 
-	// Interface Definitions
-	interface def ControlIF;
-	interface def DataIF;
-	interface def StatusIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The solar array system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def SolarArraySystem {
-	}
+    requirement REQ_002 {
+        doc "The solar array system shall trace subsystem design to requirements."
+    }
 
-	part def PowerPayload {
-		port pwrOut : ControlIF;
-		port sensorOut : DataIF;
-	}
+    requirement REQ_003 {
+        doc "The solar array system shall provide fault detection and recovery."
+    }
 
-	part def FlightBus {
-		port dataIn : ThermalIF;
-	}
+    // Component Definitions
+    part def PowerPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+        port sensorOut;
+    }
 
-	part def PowerModule {
-		port dataIn : ThermalIF;
-		port cmdOut : StatusIF;
-	}
+    part def FlightBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The solar array system shall exchange data through typed interfaces. */
-	}
+    part def PowerModule {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port dataIn;
+        port cmdOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The solar array system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def SolarArraySystem {
+        part powerpayload : PowerPayload {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part flightbus : FlightBus {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part powermodule : PowerModule {
+            satisfy REQ_001;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The solar array system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect flightbus.dataIn to powermodule.cmdOut;
+        connect powermodule.dataIn to powerpayload.pwrOut;
+        connect powermodule.cmdOut to powerpayload.pwrOut;
+        connect powerpayload.pwrOut to flightbus.dataIn;
+    }
 
-	// System Assembly
-	part solararraysystem : SolarArraySystem {
-		part powerpayload : PowerPayload;
-		part flightbus : FlightBus;
-		part powermodule : PowerModule;
+    // System Instance
+    part solararraysystem : SolarArraySystem;
 
-		// Connections
-		connection : link1 connect 
-			flightbus.dataIn to powermodule.cmdOut;
-		connection : link2 connect 
-			powermodule.dataIn to powerpayload.pwrOut;
-		connection : link3 connect 
-			powermodule.cmdOut to powerpayload.pwrOut;
-		connection : link4 connect 
-			powerpayload.pwrOut to flightbus.dataIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by powermodule;
-		satisfy requirement <'REQ-001'> by powerpayload;
-		satisfy requirement <'REQ-002'> by powerpayload;
-		satisfy requirement <'REQ-002'> by flightbus;
-		satisfy requirement <'REQ-003'> by flightbus;
-		satisfy requirement <'REQ-003'> by powerpayload;
-	}
 }

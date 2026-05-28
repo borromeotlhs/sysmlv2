@@ -1,5 +1,8 @@
 # Python SPA Adapter Ralph Loop
 
+![Tests](https://github.com/YOUR_USERNAME/YOUR_REPO/workflows/Test%20Suite/badge.svg)
+![Coverage](https://img.shields.io/badge/coverage-check%20report-blue)
+
 This is the corrected deployable for authoring adapter-training pairs by hand in a local SPA.
 
 It does not require npm.
@@ -7,6 +10,31 @@ It does not require npm.
 ## Architecture Format
 
 This project generates SysML v2 (.sysml) files as the primary output format. JSON IR is available as an optional secondary format for academic/training purposes.
+
+## Testing
+
+Run the complete test suite:
+
+```bash
+# Install test dependencies
+pip install -r requirements-test.txt
+
+# Run all tests
+python tests/run_tests.py
+
+# Run specific suite
+python tests/run_tests.py --suite parser
+python tests/run_tests.py --suite validation
+python tests/run_tests.py --suite integration
+
+# Run with coverage
+python tests/run_tests.py --coverage --html
+
+# Run in parallel
+python tests/run_tests.py --parallel
+```
+
+See [tests/README.md](tests/README.md) for detailed documentation.
 
 ## Run checks
 
@@ -18,14 +46,41 @@ bash ralph/mega_ralph.sh
 
 ## Run the SPA
 
+### Start the server:
+```bash
+python3 spa/server.py
+```
+
+Default address: http://127.0.0.1:5000
+
+Or specify host/port:
 ```bash
 python3 spa/server.py --host 127.0.0.1 --port 8765
 ```
 
-Open:
+Run in background:
+```bash
+python3 spa/server.py > logs/server.log 2>&1 &
+```
 
-```text
-http://127.0.0.1:8765
+### Check if server is running:
+```bash
+ps aux | grep "python.*server.py" | grep -v grep
+```
+
+Or check the port:
+```bash
+lsof -i :5000
+```
+
+### Stop the server:
+```bash
+pkill -f "python.*server.py"
+```
+
+Or kill specific PID:
+```bash
+kill <PID>
 ```
 
 ## Generate Architectures

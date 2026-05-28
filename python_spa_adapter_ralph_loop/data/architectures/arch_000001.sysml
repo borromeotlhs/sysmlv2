@@ -1,56 +1,53 @@
 package arch_000001 {
-	// Solar Array Reference Architecture 1
-	// Domain: solar array
 
-	import ScalarValues::*;
+    // Solar Array Reference Architecture 1
+    // Domain: solar array
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def DataIF;
-	interface def StatusIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The solar array system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def SolarArraySystem {
-	}
+    requirement REQ_002 {
+        doc "The solar array system shall trace subsystem design to requirements."
+    }
 
-	part def MissionBus {
-		port dataIn : DataIF;
-	}
+    requirement REQ_003 {
+        doc "The solar array system shall provide fault detection and recovery."
+    }
 
-	part def PowerModule {
-		port sensorOut : DataIF;
-		port configIn : StatusIF;
-		port cmdIn : CommandIF;
-	}
+    // Component Definitions
+    part def MissionBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The solar array system shall exchange data through typed interfaces. */
-	}
+    part def PowerModule {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port sensorOut;
+        port configIn;
+        port cmdIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The solar array system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def SolarArraySystem {
+        part missionbus : MissionBus {
+            satisfy REQ_001;
+        }
+        part powermodule : PowerModule {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The solar array system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect missionbus.dataIn to powermodule.sensorOut;
+        connect powermodule.cmdIn to missionbus.dataIn;
+    }
 
-	// System Assembly
-	part solararraysystem : SolarArraySystem {
-		part missionbus : MissionBus;
-		part powermodule : PowerModule;
+    // System Instance
+    part solararraysystem : SolarArraySystem;
 
-		// Connections
-		connection : link1 connect 
-			missionbus.dataIn to powermodule.sensorOut;
-		connection : link2 connect 
-			powermodule.cmdIn to missionbus.dataIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by missionbus;
-		satisfy requirement <'REQ-001'> by powermodule;
-		satisfy requirement <'REQ-002'> by powermodule;
-		satisfy requirement <'REQ-003'> by powermodule;
-	}
 }

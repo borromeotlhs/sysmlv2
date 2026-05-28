@@ -1,79 +1,78 @@
 package arch_000026 {
-	// Uav Payload Reference Architecture 26
-	// Domain: uav payload
 
-	import ScalarValues::*;
+    // Uav Payload Reference Architecture 26
+    // Domain: uav payload
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def DataIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The uav payload system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def UavPayloadSystem {
-	}
+    requirement REQ_002 {
+        doc "The uav payload system shall trace subsystem design to requirements."
+    }
 
-	part def DistributionModule {
-		port statusOut : ConfigIF;
-	}
+    requirement REQ_003 {
+        doc "The uav payload system shall provide fault detection and recovery."
+    }
 
-	part def ControlAssembly {
-		port cmdOut : TelemetryIF;
-	}
+    requirement REQ_004 {
+        doc "The uav payload system shall maintain operational status monitoring."
+    }
 
-	part def MissionProcessor {
-		port pwrOut : ConfigIF;
-		port configIn : DataIF;
-	}
+    // Component Definitions
+    part def DistributionModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
 
-	part def PowerComputer {
-		port sensorOut : ThermalIF;
-		port configIn : CommandIF;
-	}
+    part def ControlAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The uav payload system shall exchange data through typed interfaces. */
-	}
+    part def MissionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+        port configIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The uav payload system shall trace subsystem design to requirements. */
-	}
+    part def PowerComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+        port configIn;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The uav payload system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def UavPayloadSystem {
+        part distributionmodule : DistributionModule {
+            satisfy REQ_003;
+        }
+        part controlassembly : ControlAssembly {
+            satisfy REQ_004;
+        }
+        part missionprocessor : MissionProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part powercomputer : PowerComputer {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The uav payload system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect missionprocessor.configIn to powercomputer.configIn;
+        connect distributionmodule.statusOut to missionprocessor.configIn;
+        connect missionprocessor.pwrOut to powercomputer.sensorOut;
+        connect distributionmodule.statusOut to controlassembly.cmdOut;
+    }
 
-	// System Assembly
-	part uavpayloadsystem : UavPayloadSystem {
-		part distributionmodule : DistributionModule;
-		part controlassembly : ControlAssembly;
-		part missionprocessor : MissionProcessor;
-		part powercomputer : PowerComputer;
+    // System Instance
+    part uavpayloadsystem : UavPayloadSystem;
 
-		// Connections
-		connection : link1 connect 
-			missionprocessor.configIn to powercomputer.configIn;
-		connection : link2 connect 
-			distributionmodule.statusOut to missionprocessor.configIn;
-		connection : link3 connect 
-			missionprocessor.pwrOut to powercomputer.sensorOut;
-		connection : link4 connect 
-			distributionmodule.statusOut to controlassembly.cmdOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by powercomputer;
-		satisfy requirement <'REQ-001'> by missionprocessor;
-		satisfy requirement <'REQ-002'> by powercomputer;
-		satisfy requirement <'REQ-002'> by missionprocessor;
-		satisfy requirement <'REQ-003'> by distributionmodule;
-		satisfy requirement <'REQ-003'> by missionprocessor;
-		satisfy requirement <'REQ-004'> by controlassembly;
-	}
 }

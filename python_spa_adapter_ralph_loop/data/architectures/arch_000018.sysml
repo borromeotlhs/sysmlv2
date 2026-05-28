@@ -1,78 +1,73 @@
 package arch_000018 {
-	// Solar Array Reference Architecture 18
-	// Domain: solar array
 
-	import ScalarValues::*;
+    // Solar Array Reference Architecture 18
+    // Domain: solar array
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The solar array system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def SolarArraySystem {
-	}
+    requirement REQ_002 {
+        doc "The solar array system shall trace subsystem design to requirements."
+    }
 
-	part def PowerInterface {
-		port cmdOut : PowerIF;
-		port cmdIn : StatusIF;
-		port ctrlIn : DiagnosticIF;
-	}
+    requirement REQ_003 {
+        doc "The solar array system shall provide fault detection and recovery."
+    }
 
-	part def FlightProcessor {
-		port pwrIn : CommandIF;
-		port dataOut : SignalIF;
-	}
+    requirement REQ_004 {
+        doc "The solar array system shall maintain operational status monitoring."
+    }
 
-	part def DataProcessor {
-		port pwrIn : TelemetryIF;
-		port cmdOut : ThermalIF;
-		port pwrIn : DiagnosticIF;
-	}
+    // Component Definitions
+    part def PowerInterface {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port cmdOut;
+        port cmdIn;
+        port ctrlIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The solar array system shall exchange data through typed interfaces. */
-	}
+    part def FlightProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+        port dataOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The solar array system shall trace subsystem design to requirements. */
-	}
+    part def DataProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+        port cmdOut;
+        port pwrIn;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The solar array system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def SolarArraySystem {
+        part powerinterface : PowerInterface {
+            satisfy REQ_003;
+        }
+        part flightprocessor : FlightProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part dataprocessor : DataProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+            satisfy REQ_004;
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The solar array system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect dataprocessor.cmdOut to powerinterface.cmdIn;
+        connect flightprocessor.pwrIn to powerinterface.ctrlIn;
+        connect dataprocessor.pwrIn to powerinterface.cmdIn;
+    }
 
-	// System Assembly
-	part solararraysystem : SolarArraySystem {
-		part powerinterface : PowerInterface;
-		part flightprocessor : FlightProcessor;
-		part dataprocessor : DataProcessor;
+    // System Instance
+    part solararraysystem : SolarArraySystem;
 
-		// Connections
-		connection : link1 connect 
-			dataprocessor.cmdOut to powerinterface.cmdIn;
-		connection : link2 connect 
-			flightprocessor.pwrIn to powerinterface.ctrlIn;
-		connection : link3 connect 
-			dataprocessor.pwrIn to powerinterface.cmdIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by dataprocessor;
-		satisfy requirement <'REQ-001'> by flightprocessor;
-		satisfy requirement <'REQ-002'> by dataprocessor;
-		satisfy requirement <'REQ-002'> by flightprocessor;
-		satisfy requirement <'REQ-003'> by powerinterface;
-		satisfy requirement <'REQ-003'> by dataprocessor;
-		satisfy requirement <'REQ-004'> by dataprocessor;
-		satisfy requirement <'REQ-004'> by flightprocessor;
-	}
 }

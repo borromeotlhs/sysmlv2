@@ -1,64 +1,71 @@
 package arch_000046 {
-	// Telemetry System Reference Architecture 46
-	// Domain: telemetry system
 
-	import ScalarValues::*;
+    // Thermal Control Reference Architecture 46
+    // Domain: thermal control
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def PowerIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The thermal control system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def TelemetrySystemSystem {
-	}
+    requirement REQ_002 {
+        doc "The thermal control system shall trace subsystem design to requirements."
+    }
 
-	part def ProcessingController {
-		port dataIn : PowerIF;
-		port telemetryOut : StatusIF;
-	}
+    // Component Definitions
+    part def PowerSubsystem {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port pwrIn;
+    }
 
-	part def SensorComputer {
-		port statusOut : TelemetryIF;
-		port statusOut : StatusIF;
-	}
+    part def ProcessingBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
 
-	part def FlightPayload {
-		port telemetryOut : ConfigIF;
-	}
+    part def DistributionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+    }
 
-	part def MissionUnit {
-		port telemetryOut : ControlIF;
-	}
+    part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The telemetry system system shall exchange data through typed interfaces. */
-	}
+    part def NavProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+        port cmdIn;
+        port cmdOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The telemetry system system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def ThermalControlSystem {
+        part powersubsystem : PowerSubsystem {
+        }
+        part processingbus : ProcessingBus {
+        }
+        part distributionsensor : DistributionSensor {
+        }
+        part monitorbus : MonitorBus {
+        }
+        part navprocessor : NavProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
 
-	// System Assembly
-	part telemetrysystemsystem : TelemetrySystemSystem {
-		part processingcontroller : ProcessingController;
-		part sensorcomputer : SensorComputer;
-		part flightpayload : FlightPayload;
-		part missionunit : MissionUnit;
+        // Connections
+        connect navprocessor.sensorOut to powersubsystem.pwrIn;
+        connect navprocessor.cmdOut to processingbus.configIn;
+    }
 
-		// Connections
-		connection : link1 connect 
-			processingcontroller.telemetryOut to flightpayload.telemetryOut;
-		connection : link2 connect 
-			missionunit.telemetryOut to processingcontroller.telemetryOut;
+    // System Instance
+    part thermalcontrolsystem : ThermalControlSystem;
 
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by missionunit;
-		satisfy requirement <'REQ-001'> by flightpayload;
-		satisfy requirement <'REQ-002'> by missionunit;
-		satisfy requirement <'REQ-002'> by processingcontroller;
-	}
 }

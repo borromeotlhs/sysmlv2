@@ -1,81 +1,85 @@
 package arch_000015 {
-	// Sensor Suite Reference Architecture 15
-	// Domain: sensor suite
 
-	import ScalarValues::*;
+    // Sensor Suite Reference Architecture 15
+    // Domain: sensor suite
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The sensor suite system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def SensorSuiteSystem {
-	}
+    requirement REQ_002 {
+        doc "The sensor suite system shall trace subsystem design to requirements."
+    }
 
-	part def CommInterface {
-		port telemetryOut : TelemetryIF;
-		port dataIn : StatusIF;
-	}
+    // Component Definitions
+    part def CommInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port telemetryOut;
+        port dataIn;
+    }
 
-	part def ThermalController {
-		port sensorOut : SignalIF;
-	}
+    part def ThermalController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+    }
 
-	part def SensorInterface {
-		port sensorOut : TelemetryIF;
-		port ctrlIn : StatusIF;
-		port configIn : SignalIF;
-	}
+    part def SensorInterface {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port sensorOut;
+        port ctrlIn;
+        port configIn;
+    }
 
-	part def ThermalComputer {
-		port dataOut : DataIF;
-		port pwrIn : TelemetryIF;
-	}
+    part def ThermalComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
+        port pwrIn;
+    }
 
-	part def CommPayload {
-		port ctrlIn : DiagnosticIF;
-	}
+    part def CommPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port ctrlIn;
+    }
 
-	part def FlightSubsystem {
-		port telemetryOut : StatusIF;
-		port pwrOut : CommandIF;
-		port ctrlIn : ControlIF;
-	}
+    part def FlightSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port pwrOut;
+        port ctrlIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The sensor suite system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def SensorSuiteSystem {
+        part comminterface : CommInterface {
+        }
+        part thermalcontroller : ThermalController {
+            satisfy REQ_001;
+        }
+        part sensorinterface : SensorInterface {
+        }
+        part thermalcomputer : ThermalComputer {
+            satisfy REQ_002;
+        }
+        part commpayload : CommPayload {
+            satisfy REQ_002;
+        }
+        part flightsubsystem : FlightSubsystem {
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The sensor suite system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect thermalcomputer.pwrIn to sensorinterface.sensorOut;
+        connect sensorinterface.ctrlIn to flightsubsystem.telemetryOut;
+        connect commpayload.ctrlIn to comminterface.telemetryOut;
+    }
 
-	// System Assembly
-	part sensorsuitesystem : SensorSuiteSystem {
-		part comminterface : CommInterface;
-		part thermalcontroller : ThermalController;
-		part sensorinterface : SensorInterface;
-		part thermalcomputer : ThermalComputer;
-		part commpayload : CommPayload;
-		part flightsubsystem : FlightSubsystem;
+    // System Instance
+    part sensorsuitesystem : SensorSuiteSystem;
 
-		// Connections
-		connection : link1 connect 
-			thermalcomputer.pwrIn to sensorinterface.sensorOut;
-		connection : link2 connect 
-			sensorinterface.ctrlIn to flightsubsystem.telemetryOut;
-		connection : link3 connect 
-			commpayload.ctrlIn to comminterface.telemetryOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by thermalcontroller;
-		satisfy requirement <'REQ-002'> by thermalcomputer;
-		satisfy requirement <'REQ-002'> by commpayload;
-	}
 }

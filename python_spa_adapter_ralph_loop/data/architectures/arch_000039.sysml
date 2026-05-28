@@ -1,74 +1,77 @@
 package arch_000039 {
-	// Propulsion Module Reference Architecture 39
-	// Domain: propulsion module
 
-	import ScalarValues::*;
+    // Propulsion Module Reference Architecture 39
+    // Domain: propulsion module
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def SignalIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The propulsion module system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def PropulsionModuleSystem {
-	}
+    requirement REQ_002 {
+        doc "The propulsion module system shall trace subsystem design to requirements."
+    }
 
-	part def ControlSubsystem {
-		port ctrlIn : SignalIF;
-		port ctrlIn : CommandIF;
-	}
+    requirement REQ_003 {
+        doc "The propulsion module system shall provide fault detection and recovery."
+    }
 
-	part def DataProcessor {
-		port statusOut : ConfigIF;
-	}
+    // Component Definitions
+    part def ControlSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port ctrlIn;
+    }
 
-	part def ThermalActuator {
-		port dataOut : ThermalIF;
-		port configIn : ControlIF;
-	}
+    part def DataProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+    }
 
-	part def ProcessingAssembly {
-		port cmdIn : SignalIF;
-	}
+    part def ThermalActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port configIn;
+    }
 
-	part def NavSensor {
-		port configIn : TelemetryIF;
-		port pwrIn : ConfigIF;
-	}
+    part def ProcessingAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The propulsion module system shall exchange data through typed interfaces. */
-	}
+    part def NavSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port configIn;
+        port pwrIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The propulsion module system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def PropulsionModuleSystem {
+        part controlsubsystem : ControlSubsystem {
+        }
+        part dataprocessor : DataProcessor {
+        }
+        part thermalactuator : ThermalActuator {
+            satisfy REQ_003;
+        }
+        part processingassembly : ProcessingAssembly {
+            satisfy REQ_001;
+        }
+        part navsensor : NavSensor {
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The propulsion module system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect controlsubsystem.ctrlIn to navsensor.configIn;
+        connect thermalactuator.configIn to processingassembly.cmdIn;
+    }
 
-	// System Assembly
-	part propulsionmodulesystem : PropulsionModuleSystem {
-		part controlsubsystem : ControlSubsystem;
-		part dataprocessor : DataProcessor;
-		part thermalactuator : ThermalActuator;
-		part processingassembly : ProcessingAssembly;
-		part navsensor : NavSensor;
+    // System Instance
+    part propulsionmodulesystem : PropulsionModuleSystem;
 
-		// Connections
-		connection : link1 connect 
-			controlsubsystem.ctrlIn to navsensor.configIn;
-		connection : link2 connect 
-			thermalactuator.configIn to processingassembly.cmdIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by processingassembly;
-		satisfy requirement <'REQ-002'> by navsensor;
-		satisfy requirement <'REQ-003'> by thermalactuator;
-	}
 }

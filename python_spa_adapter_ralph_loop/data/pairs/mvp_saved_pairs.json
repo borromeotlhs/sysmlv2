@@ -5,7 +5,7 @@
     "prompt_id": "prompt_000001_human_editable_demo",
     "prompt": "DEMO ONLY: write your real human-authored prompt for Uav Payload Reference Architecture 1.",
     "target_path": "data/architectures/arch_000001.sysml",
-    "target_format": "sysml",
+    "target_format": "sysml_v2_textual",
     "metadata": {
       "split": "validation",
       "authoring_mode": "demo_editable"
@@ -17,7 +17,7 @@
     "prompt_id": "prompt_000002_human_editable_demo",
     "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 2.",
     "target_path": "data/architectures/arch_000002.sysml",
-    "target_format": "sysml",
+    "target_format": "sysml_v2_textual",
     "metadata": {
       "split": "train",
       "authoring_mode": "demo_editable"
@@ -29,7 +29,2371 @@
     "prompt_id": "prompt_000003_human_editable_demo",
     "prompt": "DEMO ONLY: write your real human-authored prompt for Lunar Habitat Reference Architecture 3.",
     "target_path": "data/architectures/arch_000003.sysml",
-    "target_format": "sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000004_human_editable_demo",
+    "architecture_id": "arch_000004",
+    "prompt_id": "prompt_000004_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Satellite Bus Reference Architecture 4.",
+    "target_path": "data/architectures/arch_000004.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000005_human_editable_demo",
+    "architecture_id": "arch_000005",
+    "prompt_id": "prompt_000005_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Power Distribution System Reference Architecture 5.",
+    "target_path": "data/architectures/arch_000005.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000006_human_editable_demo",
+    "architecture_id": "arch_000006",
+    "prompt_id": "prompt_000006_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thermal Control Reference Architecture 6.",
+    "target_path": "data/architectures/arch_000006.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000007_human_editable_demo",
+    "architecture_id": "arch_000007",
+    "prompt_id": "prompt_000007_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Lunar Habitat Reference Architecture 7.",
+    "target_path": "data/architectures/arch_000007.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000008_human_editable_demo",
+    "architecture_id": "arch_000008",
+    "prompt_id": "prompt_000008_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Propulsion Module Reference Architecture 8.",
+    "target_path": "data/architectures/arch_000008.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000009_human_editable_demo",
+    "architecture_id": "arch_000009",
+    "prompt_id": "prompt_000009_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Reaction Wheel Reference Architecture 9.",
+    "target_path": "data/architectures/arch_000009.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000010_human_editable_demo",
+    "architecture_id": "arch_000010",
+    "prompt_id": "prompt_000010_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Fuel Cell Reference Architecture 10.",
+    "target_path": "data/architectures/arch_000010.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000011_human_editable_demo",
+    "architecture_id": "arch_000011",
+    "prompt_id": "prompt_000011_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 11.",
+    "target_path": "data/architectures/arch_000011.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000012_human_editable_demo",
+    "architecture_id": "arch_000012",
+    "prompt_id": "prompt_000012_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 12.",
+    "target_path": "data/architectures/arch_000012.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000013_human_editable_demo",
+    "architecture_id": "arch_000013",
+    "prompt_id": "prompt_000013_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Command Data Handling Reference Architecture 13.",
+    "target_path": "data/architectures/arch_000013.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000014_human_editable_demo",
+    "architecture_id": "arch_000014",
+    "prompt_id": "prompt_000014_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 14.",
+    "target_path": "data/architectures/arch_000014.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000015_human_editable_demo",
+    "architecture_id": "arch_000015",
+    "prompt_id": "prompt_000015_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Sensor Suite Reference Architecture 15.",
+    "target_path": "data/architectures/arch_000015.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000016_human_editable_demo",
+    "architecture_id": "arch_000016",
+    "prompt_id": "prompt_000016_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thruster Assembly Reference Architecture 16.",
+    "target_path": "data/architectures/arch_000016.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000017_human_editable_demo",
+    "architecture_id": "arch_000017",
+    "prompt_id": "prompt_000017_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Robotic Arm Reference Architecture 17.",
+    "target_path": "data/architectures/arch_000017.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000018_human_editable_demo",
+    "architecture_id": "arch_000018",
+    "prompt_id": "prompt_000018_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 18.",
+    "target_path": "data/architectures/arch_000018.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000019_human_editable_demo",
+    "architecture_id": "arch_000019",
+    "prompt_id": "prompt_000019_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Life Support Reference Architecture 19.",
+    "target_path": "data/architectures/arch_000019.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000020_human_editable_demo",
+    "architecture_id": "arch_000020",
+    "prompt_id": "prompt_000020_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thermal Control Reference Architecture 20.",
+    "target_path": "data/architectures/arch_000020.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000021_human_editable_demo",
+    "architecture_id": "arch_000021",
+    "prompt_id": "prompt_000021_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Power Distribution System Reference Architecture 21.",
+    "target_path": "data/architectures/arch_000021.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000022_human_editable_demo",
+    "architecture_id": "arch_000022",
+    "prompt_id": "prompt_000022_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Sensor Suite Reference Architecture 22.",
+    "target_path": "data/architectures/arch_000022.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000023_human_editable_demo",
+    "architecture_id": "arch_000023",
+    "prompt_id": "prompt_000023_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 23.",
+    "target_path": "data/architectures/arch_000023.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000024_human_editable_demo",
+    "architecture_id": "arch_000024",
+    "prompt_id": "prompt_000024_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Robotic Arm Reference Architecture 24.",
+    "target_path": "data/architectures/arch_000024.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000025_human_editable_demo",
+    "architecture_id": "arch_000025",
+    "prompt_id": "prompt_000025_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thermal Control Reference Architecture 25.",
+    "target_path": "data/architectures/arch_000025.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000026_human_editable_demo",
+    "architecture_id": "arch_000026",
+    "prompt_id": "prompt_000026_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Uav Payload Reference Architecture 26.",
+    "target_path": "data/architectures/arch_000026.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000027_human_editable_demo",
+    "architecture_id": "arch_000027",
+    "prompt_id": "prompt_000027_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Telemetry System Reference Architecture 27.",
+    "target_path": "data/architectures/arch_000027.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000028_human_editable_demo",
+    "architecture_id": "arch_000028",
+    "prompt_id": "prompt_000028_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thermal Control Reference Architecture 28.",
+    "target_path": "data/architectures/arch_000028.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000029_human_editable_demo",
+    "architecture_id": "arch_000029",
+    "prompt_id": "prompt_000029_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Propulsion Module Reference Architecture 29.",
+    "target_path": "data/architectures/arch_000029.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000030_human_editable_demo",
+    "architecture_id": "arch_000030",
+    "prompt_id": "prompt_000030_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Antenna Subsystem Reference Architecture 30.",
+    "target_path": "data/architectures/arch_000030.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000031_human_editable_demo",
+    "architecture_id": "arch_000031",
+    "prompt_id": "prompt_000031_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 31.",
+    "target_path": "data/architectures/arch_000031.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000032_human_editable_demo",
+    "architecture_id": "arch_000032",
+    "prompt_id": "prompt_000032_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 32.",
+    "target_path": "data/architectures/arch_000032.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000033_human_editable_demo",
+    "architecture_id": "arch_000033",
+    "prompt_id": "prompt_000033_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Antenna Subsystem Reference Architecture 33.",
+    "target_path": "data/architectures/arch_000033.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000034_human_editable_demo",
+    "architecture_id": "arch_000034",
+    "prompt_id": "prompt_000034_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Power Distribution System Reference Architecture 34.",
+    "target_path": "data/architectures/arch_000034.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000035_human_editable_demo",
+    "architecture_id": "arch_000035",
+    "prompt_id": "prompt_000035_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Power Distribution System Reference Architecture 35.",
+    "target_path": "data/architectures/arch_000035.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000036_human_editable_demo",
+    "architecture_id": "arch_000036",
+    "prompt_id": "prompt_000036_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thermal Control Reference Architecture 36.",
+    "target_path": "data/architectures/arch_000036.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000037_human_editable_demo",
+    "architecture_id": "arch_000037",
+    "prompt_id": "prompt_000037_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Attitude Control Reference Architecture 37.",
+    "target_path": "data/architectures/arch_000037.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000038_human_editable_demo",
+    "architecture_id": "arch_000038",
+    "prompt_id": "prompt_000038_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 38.",
+    "target_path": "data/architectures/arch_000038.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000039_human_editable_demo",
+    "architecture_id": "arch_000039",
+    "prompt_id": "prompt_000039_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Propulsion Module Reference Architecture 39.",
+    "target_path": "data/architectures/arch_000039.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000040_human_editable_demo",
+    "architecture_id": "arch_000040",
+    "prompt_id": "prompt_000040_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Robotic Arm Reference Architecture 40.",
+    "target_path": "data/architectures/arch_000040.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000041_human_editable_demo",
+    "architecture_id": "arch_000041",
+    "prompt_id": "prompt_000041_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Docking Mechanism Reference Architecture 41.",
+    "target_path": "data/architectures/arch_000041.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000042_human_editable_demo",
+    "architecture_id": "arch_000042",
+    "prompt_id": "prompt_000042_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thruster Assembly Reference Architecture 42.",
+    "target_path": "data/architectures/arch_000042.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000043_human_editable_demo",
+    "architecture_id": "arch_000043",
+    "prompt_id": "prompt_000043_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 43.",
+    "target_path": "data/architectures/arch_000043.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000044_human_editable_demo",
+    "architecture_id": "arch_000044",
+    "prompt_id": "prompt_000044_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Instrument Platform Reference Architecture 44.",
+    "target_path": "data/architectures/arch_000044.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000045_human_editable_demo",
+    "architecture_id": "arch_000045",
+    "prompt_id": "prompt_000045_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Robotic Arm Reference Architecture 45.",
+    "target_path": "data/architectures/arch_000045.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000046_human_editable_demo",
+    "architecture_id": "arch_000046",
+    "prompt_id": "prompt_000046_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Telemetry System Reference Architecture 46.",
+    "target_path": "data/architectures/arch_000046.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000047_human_editable_demo",
+    "architecture_id": "arch_000047",
+    "prompt_id": "prompt_000047_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Power Distribution System Reference Architecture 47.",
+    "target_path": "data/architectures/arch_000047.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000048_human_editable_demo",
+    "architecture_id": "arch_000048",
+    "prompt_id": "prompt_000048_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Propulsion Module Reference Architecture 48.",
+    "target_path": "data/architectures/arch_000048.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000049_human_editable_demo",
+    "architecture_id": "arch_000049",
+    "prompt_id": "prompt_000049_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Propulsion Module Reference Architecture 49.",
+    "target_path": "data/architectures/arch_000049.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000050_human_editable_demo",
+    "architecture_id": "arch_000050",
+    "prompt_id": "prompt_000050_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Communication Relay Reference Architecture 50.",
+    "target_path": "data/architectures/arch_000050.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000051_human_editable_demo",
+    "architecture_id": "arch_000051",
+    "prompt_id": "prompt_000051_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Power Distribution System Reference Architecture 51.",
+    "target_path": "data/architectures/arch_000051.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000052_human_editable_demo",
+    "architecture_id": "arch_000052",
+    "prompt_id": "prompt_000052_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Robotic Arm Reference Architecture 52.",
+    "target_path": "data/architectures/arch_000052.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000053_human_editable_demo",
+    "architecture_id": "arch_000053",
+    "prompt_id": "prompt_000053_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Communication Relay Reference Architecture 53.",
+    "target_path": "data/architectures/arch_000053.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000054_human_editable_demo",
+    "architecture_id": "arch_000054",
+    "prompt_id": "prompt_000054_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Robotic Arm Reference Architecture 54.",
+    "target_path": "data/architectures/arch_000054.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000055_human_editable_demo",
+    "architecture_id": "arch_000055",
+    "prompt_id": "prompt_000055_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Reaction Wheel Reference Architecture 55.",
+    "target_path": "data/architectures/arch_000055.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000056_human_editable_demo",
+    "architecture_id": "arch_000056",
+    "prompt_id": "prompt_000056_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Reaction Wheel Reference Architecture 56.",
+    "target_path": "data/architectures/arch_000056.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000057_human_editable_demo",
+    "architecture_id": "arch_000057",
+    "prompt_id": "prompt_000057_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Propulsion Module Reference Architecture 57.",
+    "target_path": "data/architectures/arch_000057.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000058_human_editable_demo",
+    "architecture_id": "arch_000058",
+    "prompt_id": "prompt_000058_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Propulsion Module Reference Architecture 58.",
+    "target_path": "data/architectures/arch_000058.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000059_human_editable_demo",
+    "architecture_id": "arch_000059",
+    "prompt_id": "prompt_000059_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 59.",
+    "target_path": "data/architectures/arch_000059.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000060_human_editable_demo",
+    "architecture_id": "arch_000060",
+    "prompt_id": "prompt_000060_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Lunar Habitat Reference Architecture 60.",
+    "target_path": "data/architectures/arch_000060.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000061_human_editable_demo",
+    "architecture_id": "arch_000061",
+    "prompt_id": "prompt_000061_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 61.",
+    "target_path": "data/architectures/arch_000061.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000062_human_editable_demo",
+    "architecture_id": "arch_000062",
+    "prompt_id": "prompt_000062_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Docking Mechanism Reference Architecture 62.",
+    "target_path": "data/architectures/arch_000062.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000063_human_editable_demo",
+    "architecture_id": "arch_000063",
+    "prompt_id": "prompt_000063_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Attitude Control Reference Architecture 63.",
+    "target_path": "data/architectures/arch_000063.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000064_human_editable_demo",
+    "architecture_id": "arch_000064",
+    "prompt_id": "prompt_000064_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Uav Payload Reference Architecture 64.",
+    "target_path": "data/architectures/arch_000064.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000065_human_editable_demo",
+    "architecture_id": "arch_000065",
+    "prompt_id": "prompt_000065_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Uav Payload Reference Architecture 65.",
+    "target_path": "data/architectures/arch_000065.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000066_human_editable_demo",
+    "architecture_id": "arch_000066",
+    "prompt_id": "prompt_000066_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Telemetry System Reference Architecture 66.",
+    "target_path": "data/architectures/arch_000066.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000067_human_editable_demo",
+    "architecture_id": "arch_000067",
+    "prompt_id": "prompt_000067_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Robotic Arm Reference Architecture 67.",
+    "target_path": "data/architectures/arch_000067.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000068_human_editable_demo",
+    "architecture_id": "arch_000068",
+    "prompt_id": "prompt_000068_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Radar System Reference Architecture 68.",
+    "target_path": "data/architectures/arch_000068.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000069_human_editable_demo",
+    "architecture_id": "arch_000069",
+    "prompt_id": "prompt_000069_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Docking Mechanism Reference Architecture 69.",
+    "target_path": "data/architectures/arch_000069.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000070_human_editable_demo",
+    "architecture_id": "arch_000070",
+    "prompt_id": "prompt_000070_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Attitude Control Reference Architecture 70.",
+    "target_path": "data/architectures/arch_000070.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000071_human_editable_demo",
+    "architecture_id": "arch_000071",
+    "prompt_id": "prompt_000071_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Antenna Subsystem Reference Architecture 71.",
+    "target_path": "data/architectures/arch_000071.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000072_human_editable_demo",
+    "architecture_id": "arch_000072",
+    "prompt_id": "prompt_000072_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Data Processing Unit Reference Architecture 72.",
+    "target_path": "data/architectures/arch_000072.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000073_human_editable_demo",
+    "architecture_id": "arch_000073",
+    "prompt_id": "prompt_000073_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Antenna Subsystem Reference Architecture 73.",
+    "target_path": "data/architectures/arch_000073.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000074_human_editable_demo",
+    "architecture_id": "arch_000074",
+    "prompt_id": "prompt_000074_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Communication Relay Reference Architecture 74.",
+    "target_path": "data/architectures/arch_000074.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000075_human_editable_demo",
+    "architecture_id": "arch_000075",
+    "prompt_id": "prompt_000075_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thermal Control Reference Architecture 75.",
+    "target_path": "data/architectures/arch_000075.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000076_human_editable_demo",
+    "architecture_id": "arch_000076",
+    "prompt_id": "prompt_000076_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 76.",
+    "target_path": "data/architectures/arch_000076.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000077_human_editable_demo",
+    "architecture_id": "arch_000077",
+    "prompt_id": "prompt_000077_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 77.",
+    "target_path": "data/architectures/arch_000077.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000078_human_editable_demo",
+    "architecture_id": "arch_000078",
+    "prompt_id": "prompt_000078_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 78.",
+    "target_path": "data/architectures/arch_000078.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000079_human_editable_demo",
+    "architecture_id": "arch_000079",
+    "prompt_id": "prompt_000079_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Battery Management Reference Architecture 79.",
+    "target_path": "data/architectures/arch_000079.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000080_human_editable_demo",
+    "architecture_id": "arch_000080",
+    "prompt_id": "prompt_000080_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Attitude Control Reference Architecture 80.",
+    "target_path": "data/architectures/arch_000080.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000081_human_editable_demo",
+    "architecture_id": "arch_000081",
+    "prompt_id": "prompt_000081_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 81.",
+    "target_path": "data/architectures/arch_000081.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000082_human_editable_demo",
+    "architecture_id": "arch_000082",
+    "prompt_id": "prompt_000082_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 82.",
+    "target_path": "data/architectures/arch_000082.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000083_human_editable_demo",
+    "architecture_id": "arch_000083",
+    "prompt_id": "prompt_000083_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Satellite Bus Reference Architecture 83.",
+    "target_path": "data/architectures/arch_000083.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000084_human_editable_demo",
+    "architecture_id": "arch_000084",
+    "prompt_id": "prompt_000084_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Uav Payload Reference Architecture 84.",
+    "target_path": "data/architectures/arch_000084.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000085_human_editable_demo",
+    "architecture_id": "arch_000085",
+    "prompt_id": "prompt_000085_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Imaging Payload Reference Architecture 85.",
+    "target_path": "data/architectures/arch_000085.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000086_human_editable_demo",
+    "architecture_id": "arch_000086",
+    "prompt_id": "prompt_000086_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Sensor Suite Reference Architecture 86.",
+    "target_path": "data/architectures/arch_000086.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000087_human_editable_demo",
+    "architecture_id": "arch_000087",
+    "prompt_id": "prompt_000087_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Communication Relay Reference Architecture 87.",
+    "target_path": "data/architectures/arch_000087.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000088_human_editable_demo",
+    "architecture_id": "arch_000088",
+    "prompt_id": "prompt_000088_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Reaction Wheel Reference Architecture 88.",
+    "target_path": "data/architectures/arch_000088.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000089_human_editable_demo",
+    "architecture_id": "arch_000089",
+    "prompt_id": "prompt_000089_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 89.",
+    "target_path": "data/architectures/arch_000089.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000090_human_editable_demo",
+    "architecture_id": "arch_000090",
+    "prompt_id": "prompt_000090_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Robotic Arm Reference Architecture 90.",
+    "target_path": "data/architectures/arch_000090.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000091_human_editable_demo",
+    "architecture_id": "arch_000091",
+    "prompt_id": "prompt_000091_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 91.",
+    "target_path": "data/architectures/arch_000091.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000092_human_editable_demo",
+    "architecture_id": "arch_000092",
+    "prompt_id": "prompt_000092_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Docking Mechanism Reference Architecture 92.",
+    "target_path": "data/architectures/arch_000092.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000093_human_editable_demo",
+    "architecture_id": "arch_000093",
+    "prompt_id": "prompt_000093_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Radar System Reference Architecture 93.",
+    "target_path": "data/architectures/arch_000093.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000094_human_editable_demo",
+    "architecture_id": "arch_000094",
+    "prompt_id": "prompt_000094_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Fuel Cell Reference Architecture 94.",
+    "target_path": "data/architectures/arch_000094.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000095_human_editable_demo",
+    "architecture_id": "arch_000095",
+    "prompt_id": "prompt_000095_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Command Data Handling Reference Architecture 95.",
+    "target_path": "data/architectures/arch_000095.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000096_human_editable_demo",
+    "architecture_id": "arch_000096",
+    "prompt_id": "prompt_000096_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Lunar Habitat Reference Architecture 96.",
+    "target_path": "data/architectures/arch_000096.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000097_human_editable_demo",
+    "architecture_id": "arch_000097",
+    "prompt_id": "prompt_000097_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 97.",
+    "target_path": "data/architectures/arch_000097.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000098_human_editable_demo",
+    "architecture_id": "arch_000098",
+    "prompt_id": "prompt_000098_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Telemetry System Reference Architecture 98.",
+    "target_path": "data/architectures/arch_000098.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000099_human_editable_demo",
+    "architecture_id": "arch_000099",
+    "prompt_id": "prompt_000099_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Communication Relay Reference Architecture 99.",
+    "target_path": "data/architectures/arch_000099.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000100_human_editable_demo",
+    "architecture_id": "arch_000100",
+    "prompt_id": "prompt_000100_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Imaging Payload Reference Architecture 100.",
+    "target_path": "data/architectures/arch_000100.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000101_human_editable_demo",
+    "architecture_id": "arch_000101",
+    "prompt_id": "prompt_000101_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Reaction Wheel Reference Architecture 101.",
+    "target_path": "data/architectures/arch_000101.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000102_human_editable_demo",
+    "architecture_id": "arch_000102",
+    "prompt_id": "prompt_000102_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thruster Assembly Reference Architecture 102.",
+    "target_path": "data/architectures/arch_000102.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000103_human_editable_demo",
+    "architecture_id": "arch_000103",
+    "prompt_id": "prompt_000103_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Telemetry System Reference Architecture 103.",
+    "target_path": "data/architectures/arch_000103.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000104_human_editable_demo",
+    "architecture_id": "arch_000104",
+    "prompt_id": "prompt_000104_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Docking Mechanism Reference Architecture 104.",
+    "target_path": "data/architectures/arch_000104.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000105_human_editable_demo",
+    "architecture_id": "arch_000105",
+    "prompt_id": "prompt_000105_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 105.",
+    "target_path": "data/architectures/arch_000105.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000106_human_editable_demo",
+    "architecture_id": "arch_000106",
+    "prompt_id": "prompt_000106_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Lunar Habitat Reference Architecture 106.",
+    "target_path": "data/architectures/arch_000106.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000107_human_editable_demo",
+    "architecture_id": "arch_000107",
+    "prompt_id": "prompt_000107_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 107.",
+    "target_path": "data/architectures/arch_000107.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000108_human_editable_demo",
+    "architecture_id": "arch_000108",
+    "prompt_id": "prompt_000108_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Telemetry System Reference Architecture 108.",
+    "target_path": "data/architectures/arch_000108.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000109_human_editable_demo",
+    "architecture_id": "arch_000109",
+    "prompt_id": "prompt_000109_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Satellite Bus Reference Architecture 109.",
+    "target_path": "data/architectures/arch_000109.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000110_human_editable_demo",
+    "architecture_id": "arch_000110",
+    "prompt_id": "prompt_000110_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Antenna Subsystem Reference Architecture 110.",
+    "target_path": "data/architectures/arch_000110.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000111_human_editable_demo",
+    "architecture_id": "arch_000111",
+    "prompt_id": "prompt_000111_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 111.",
+    "target_path": "data/architectures/arch_000111.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000112_human_editable_demo",
+    "architecture_id": "arch_000112",
+    "prompt_id": "prompt_000112_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Power Distribution System Reference Architecture 112.",
+    "target_path": "data/architectures/arch_000112.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000113_human_editable_demo",
+    "architecture_id": "arch_000113",
+    "prompt_id": "prompt_000113_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Antenna Subsystem Reference Architecture 113.",
+    "target_path": "data/architectures/arch_000113.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000114_human_editable_demo",
+    "architecture_id": "arch_000114",
+    "prompt_id": "prompt_000114_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Lunar Habitat Reference Architecture 114.",
+    "target_path": "data/architectures/arch_000114.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000115_human_editable_demo",
+    "architecture_id": "arch_000115",
+    "prompt_id": "prompt_000115_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Docking Mechanism Reference Architecture 115.",
+    "target_path": "data/architectures/arch_000115.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000116_human_editable_demo",
+    "architecture_id": "arch_000116",
+    "prompt_id": "prompt_000116_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Docking Mechanism Reference Architecture 116.",
+    "target_path": "data/architectures/arch_000116.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000117_human_editable_demo",
+    "architecture_id": "arch_000117",
+    "prompt_id": "prompt_000117_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Reaction Wheel Reference Architecture 117.",
+    "target_path": "data/architectures/arch_000117.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000118_human_editable_demo",
+    "architecture_id": "arch_000118",
+    "prompt_id": "prompt_000118_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Lunar Habitat Reference Architecture 118.",
+    "target_path": "data/architectures/arch_000118.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000119_human_editable_demo",
+    "architecture_id": "arch_000119",
+    "prompt_id": "prompt_000119_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thruster Assembly Reference Architecture 119.",
+    "target_path": "data/architectures/arch_000119.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000120_human_editable_demo",
+    "architecture_id": "arch_000120",
+    "prompt_id": "prompt_000120_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 120.",
+    "target_path": "data/architectures/arch_000120.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000121_human_editable_demo",
+    "architecture_id": "arch_000121",
+    "prompt_id": "prompt_000121_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Attitude Control Reference Architecture 121.",
+    "target_path": "data/architectures/arch_000121.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000122_human_editable_demo",
+    "architecture_id": "arch_000122",
+    "prompt_id": "prompt_000122_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Instrument Platform Reference Architecture 122.",
+    "target_path": "data/architectures/arch_000122.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000123_human_editable_demo",
+    "architecture_id": "arch_000123",
+    "prompt_id": "prompt_000123_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Radar System Reference Architecture 123.",
+    "target_path": "data/architectures/arch_000123.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000124_human_editable_demo",
+    "architecture_id": "arch_000124",
+    "prompt_id": "prompt_000124_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thermal Control Reference Architecture 124.",
+    "target_path": "data/architectures/arch_000124.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000125_human_editable_demo",
+    "architecture_id": "arch_000125",
+    "prompt_id": "prompt_000125_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Communication Relay Reference Architecture 125.",
+    "target_path": "data/architectures/arch_000125.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000126_human_editable_demo",
+    "architecture_id": "arch_000126",
+    "prompt_id": "prompt_000126_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Data Processing Unit Reference Architecture 126.",
+    "target_path": "data/architectures/arch_000126.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000127_human_editable_demo",
+    "architecture_id": "arch_000127",
+    "prompt_id": "prompt_000127_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Battery Management Reference Architecture 127.",
+    "target_path": "data/architectures/arch_000127.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000128_human_editable_demo",
+    "architecture_id": "arch_000128",
+    "prompt_id": "prompt_000128_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Fuel Cell Reference Architecture 128.",
+    "target_path": "data/architectures/arch_000128.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000129_human_editable_demo",
+    "architecture_id": "arch_000129",
+    "prompt_id": "prompt_000129_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Instrument Platform Reference Architecture 129.",
+    "target_path": "data/architectures/arch_000129.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000130_human_editable_demo",
+    "architecture_id": "arch_000130",
+    "prompt_id": "prompt_000130_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 130.",
+    "target_path": "data/architectures/arch_000130.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000131_human_editable_demo",
+    "architecture_id": "arch_000131",
+    "prompt_id": "prompt_000131_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Instrument Platform Reference Architecture 131.",
+    "target_path": "data/architectures/arch_000131.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000132_human_editable_demo",
+    "architecture_id": "arch_000132",
+    "prompt_id": "prompt_000132_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 132.",
+    "target_path": "data/architectures/arch_000132.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000133_human_editable_demo",
+    "architecture_id": "arch_000133",
+    "prompt_id": "prompt_000133_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Imaging Payload Reference Architecture 133.",
+    "target_path": "data/architectures/arch_000133.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000134_human_editable_demo",
+    "architecture_id": "arch_000134",
+    "prompt_id": "prompt_000134_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Life Support Reference Architecture 134.",
+    "target_path": "data/architectures/arch_000134.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000135_human_editable_demo",
+    "architecture_id": "arch_000135",
+    "prompt_id": "prompt_000135_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Satellite Bus Reference Architecture 135.",
+    "target_path": "data/architectures/arch_000135.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000136_human_editable_demo",
+    "architecture_id": "arch_000136",
+    "prompt_id": "prompt_000136_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Docking Mechanism Reference Architecture 136.",
+    "target_path": "data/architectures/arch_000136.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000137_human_editable_demo",
+    "architecture_id": "arch_000137",
+    "prompt_id": "prompt_000137_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Life Support Reference Architecture 137.",
+    "target_path": "data/architectures/arch_000137.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000138_human_editable_demo",
+    "architecture_id": "arch_000138",
+    "prompt_id": "prompt_000138_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Data Processing Unit Reference Architecture 138.",
+    "target_path": "data/architectures/arch_000138.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000139_human_editable_demo",
+    "architecture_id": "arch_000139",
+    "prompt_id": "prompt_000139_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Life Support Reference Architecture 139.",
+    "target_path": "data/architectures/arch_000139.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000140_human_editable_demo",
+    "architecture_id": "arch_000140",
+    "prompt_id": "prompt_000140_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Power Distribution System Reference Architecture 140.",
+    "target_path": "data/architectures/arch_000140.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000141_human_editable_demo",
+    "architecture_id": "arch_000141",
+    "prompt_id": "prompt_000141_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Thruster Assembly Reference Architecture 141.",
+    "target_path": "data/architectures/arch_000141.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000142_human_editable_demo",
+    "architecture_id": "arch_000142",
+    "prompt_id": "prompt_000142_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Robotic Arm Reference Architecture 142.",
+    "target_path": "data/architectures/arch_000142.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000143_human_editable_demo",
+    "architecture_id": "arch_000143",
+    "prompt_id": "prompt_000143_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 143.",
+    "target_path": "data/architectures/arch_000143.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000144_human_editable_demo",
+    "architecture_id": "arch_000144",
+    "prompt_id": "prompt_000144_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Antenna Subsystem Reference Architecture 144.",
+    "target_path": "data/architectures/arch_000144.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000145_human_editable_demo",
+    "architecture_id": "arch_000145",
+    "prompt_id": "prompt_000145_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Battery Management Reference Architecture 145.",
+    "target_path": "data/architectures/arch_000145.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000146_human_editable_demo",
+    "architecture_id": "arch_000146",
+    "prompt_id": "prompt_000146_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Data Processing Unit Reference Architecture 146.",
+    "target_path": "data/architectures/arch_000146.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000147_human_editable_demo",
+    "architecture_id": "arch_000147",
+    "prompt_id": "prompt_000147_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Fuel Cell Reference Architecture 147.",
+    "target_path": "data/architectures/arch_000147.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000148_human_editable_demo",
+    "architecture_id": "arch_000148",
+    "prompt_id": "prompt_000148_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Reaction Wheel Reference Architecture 148.",
+    "target_path": "data/architectures/arch_000148.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000149_human_editable_demo",
+    "architecture_id": "arch_000149",
+    "prompt_id": "prompt_000149_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Fuel Cell Reference Architecture 149.",
+    "target_path": "data/architectures/arch_000149.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000150_human_editable_demo",
+    "architecture_id": "arch_000150",
+    "prompt_id": "prompt_000150_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Telemetry System Reference Architecture 150.",
+    "target_path": "data/architectures/arch_000150.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000151_human_editable_demo",
+    "architecture_id": "arch_000151",
+    "prompt_id": "prompt_000151_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Propulsion Module Reference Architecture 151.",
+    "target_path": "data/architectures/arch_000151.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000152_human_editable_demo",
+    "architecture_id": "arch_000152",
+    "prompt_id": "prompt_000152_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Radar System Reference Architecture 152.",
+    "target_path": "data/architectures/arch_000152.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000153_human_editable_demo",
+    "architecture_id": "arch_000153",
+    "prompt_id": "prompt_000153_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Instrument Platform Reference Architecture 153.",
+    "target_path": "data/architectures/arch_000153.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000154_human_editable_demo",
+    "architecture_id": "arch_000154",
+    "prompt_id": "prompt_000154_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Lunar Habitat Reference Architecture 154.",
+    "target_path": "data/architectures/arch_000154.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000155_human_editable_demo",
+    "architecture_id": "arch_000155",
+    "prompt_id": "prompt_000155_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 155.",
+    "target_path": "data/architectures/arch_000155.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000156_human_editable_demo",
+    "architecture_id": "arch_000156",
+    "prompt_id": "prompt_000156_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Communication Relay Reference Architecture 156.",
+    "target_path": "data/architectures/arch_000156.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000157_human_editable_demo",
+    "architecture_id": "arch_000157",
+    "prompt_id": "prompt_000157_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Reaction Wheel Reference Architecture 157.",
+    "target_path": "data/architectures/arch_000157.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000158_human_editable_demo",
+    "architecture_id": "arch_000158",
+    "prompt_id": "prompt_000158_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Radar System Reference Architecture 158.",
+    "target_path": "data/architectures/arch_000158.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000159_human_editable_demo",
+    "architecture_id": "arch_000159",
+    "prompt_id": "prompt_000159_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Radar System Reference Architecture 159.",
+    "target_path": "data/architectures/arch_000159.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000160_human_editable_demo",
+    "architecture_id": "arch_000160",
+    "prompt_id": "prompt_000160_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Guidance Navigation Reference Architecture 160.",
+    "target_path": "data/architectures/arch_000160.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000161_human_editable_demo",
+    "architecture_id": "arch_000161",
+    "prompt_id": "prompt_000161_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Fuel Cell Reference Architecture 161.",
+    "target_path": "data/architectures/arch_000161.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000162_human_editable_demo",
+    "architecture_id": "arch_000162",
+    "prompt_id": "prompt_000162_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Instrument Platform Reference Architecture 162.",
+    "target_path": "data/architectures/arch_000162.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000163_human_editable_demo",
+    "architecture_id": "arch_000163",
+    "prompt_id": "prompt_000163_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 163.",
+    "target_path": "data/architectures/arch_000163.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000164_human_editable_demo",
+    "architecture_id": "arch_000164",
+    "prompt_id": "prompt_000164_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 164.",
+    "target_path": "data/architectures/arch_000164.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000165_human_editable_demo",
+    "architecture_id": "arch_000165",
+    "prompt_id": "prompt_000165_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Uav Payload Reference Architecture 165.",
+    "target_path": "data/architectures/arch_000165.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000166_human_editable_demo",
+    "architecture_id": "arch_000166",
+    "prompt_id": "prompt_000166_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Fuel Cell Reference Architecture 166.",
+    "target_path": "data/architectures/arch_000166.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000167_human_editable_demo",
+    "architecture_id": "arch_000167",
+    "prompt_id": "prompt_000167_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 167.",
+    "target_path": "data/architectures/arch_000167.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000168_human_editable_demo",
+    "architecture_id": "arch_000168",
+    "prompt_id": "prompt_000168_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Guidance Navigation Reference Architecture 168.",
+    "target_path": "data/architectures/arch_000168.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000169_human_editable_demo",
+    "architecture_id": "arch_000169",
+    "prompt_id": "prompt_000169_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 169.",
+    "target_path": "data/architectures/arch_000169.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000170_human_editable_demo",
+    "architecture_id": "arch_000170",
+    "prompt_id": "prompt_000170_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Life Support Reference Architecture 170.",
+    "target_path": "data/architectures/arch_000170.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000171_human_editable_demo",
+    "architecture_id": "arch_000171",
+    "prompt_id": "prompt_000171_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 171.",
+    "target_path": "data/architectures/arch_000171.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000172_human_editable_demo",
+    "architecture_id": "arch_000172",
+    "prompt_id": "prompt_000172_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Radar System Reference Architecture 172.",
+    "target_path": "data/architectures/arch_000172.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000173_human_editable_demo",
+    "architecture_id": "arch_000173",
+    "prompt_id": "prompt_000173_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 173.",
+    "target_path": "data/architectures/arch_000173.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000174_human_editable_demo",
+    "architecture_id": "arch_000174",
+    "prompt_id": "prompt_000174_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Ground Station Reference Architecture 174.",
+    "target_path": "data/architectures/arch_000174.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000175_human_editable_demo",
+    "architecture_id": "arch_000175",
+    "prompt_id": "prompt_000175_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 175.",
+    "target_path": "data/architectures/arch_000175.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000176_human_editable_demo",
+    "architecture_id": "arch_000176",
+    "prompt_id": "prompt_000176_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Attitude Control Reference Architecture 176.",
+    "target_path": "data/architectures/arch_000176.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000177_human_editable_demo",
+    "architecture_id": "arch_000177",
+    "prompt_id": "prompt_000177_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Satellite Bus Reference Architecture 177.",
+    "target_path": "data/architectures/arch_000177.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000178_human_editable_demo",
+    "architecture_id": "arch_000178",
+    "prompt_id": "prompt_000178_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Sensor Suite Reference Architecture 178.",
+    "target_path": "data/architectures/arch_000178.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000179_human_editable_demo",
+    "architecture_id": "arch_000179",
+    "prompt_id": "prompt_000179_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Satellite Bus Reference Architecture 179.",
+    "target_path": "data/architectures/arch_000179.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000180_human_editable_demo",
+    "architecture_id": "arch_000180",
+    "prompt_id": "prompt_000180_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 180.",
+    "target_path": "data/architectures/arch_000180.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000181_human_editable_demo",
+    "architecture_id": "arch_000181",
+    "prompt_id": "prompt_000181_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Telemetry System Reference Architecture 181.",
+    "target_path": "data/architectures/arch_000181.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000182_human_editable_demo",
+    "architecture_id": "arch_000182",
+    "prompt_id": "prompt_000182_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 182.",
+    "target_path": "data/architectures/arch_000182.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000183_human_editable_demo",
+    "architecture_id": "arch_000183",
+    "prompt_id": "prompt_000183_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Communication Relay Reference Architecture 183.",
+    "target_path": "data/architectures/arch_000183.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000184_human_editable_demo",
+    "architecture_id": "arch_000184",
+    "prompt_id": "prompt_000184_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 184.",
+    "target_path": "data/architectures/arch_000184.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000185_human_editable_demo",
+    "architecture_id": "arch_000185",
+    "prompt_id": "prompt_000185_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Sensor Suite Reference Architecture 185.",
+    "target_path": "data/architectures/arch_000185.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000186_human_editable_demo",
+    "architecture_id": "arch_000186",
+    "prompt_id": "prompt_000186_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Battery Management Reference Architecture 186.",
+    "target_path": "data/architectures/arch_000186.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000187_human_editable_demo",
+    "architecture_id": "arch_000187",
+    "prompt_id": "prompt_000187_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Avionics Bay Reference Architecture 187.",
+    "target_path": "data/architectures/arch_000187.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000188_human_editable_demo",
+    "architecture_id": "arch_000188",
+    "prompt_id": "prompt_000188_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Reaction Wheel Reference Architecture 188.",
+    "target_path": "data/architectures/arch_000188.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000189_human_editable_demo",
+    "architecture_id": "arch_000189",
+    "prompt_id": "prompt_000189_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Solar Array Reference Architecture 189.",
+    "target_path": "data/architectures/arch_000189.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000190_human_editable_demo",
+    "architecture_id": "arch_000190",
+    "prompt_id": "prompt_000190_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Propulsion Module Reference Architecture 190.",
+    "target_path": "data/architectures/arch_000190.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000191_human_editable_demo",
+    "architecture_id": "arch_000191",
+    "prompt_id": "prompt_000191_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Command Data Handling Reference Architecture 191.",
+    "target_path": "data/architectures/arch_000191.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000192_human_editable_demo",
+    "architecture_id": "arch_000192",
+    "prompt_id": "prompt_000192_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Sensor Suite Reference Architecture 192.",
+    "target_path": "data/architectures/arch_000192.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000193_human_editable_demo",
+    "architecture_id": "arch_000193",
+    "prompt_id": "prompt_000193_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Uav Payload Reference Architecture 193.",
+    "target_path": "data/architectures/arch_000193.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000194_human_editable_demo",
+    "architecture_id": "arch_000194",
+    "prompt_id": "prompt_000194_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Command Data Handling Reference Architecture 194.",
+    "target_path": "data/architectures/arch_000194.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000195_human_editable_demo",
+    "architecture_id": "arch_000195",
+    "prompt_id": "prompt_000195_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Command Data Handling Reference Architecture 195.",
+    "target_path": "data/architectures/arch_000195.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000196_human_editable_demo",
+    "architecture_id": "arch_000196",
+    "prompt_id": "prompt_000196_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Attitude Control Reference Architecture 196.",
+    "target_path": "data/architectures/arch_000196.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000197_human_editable_demo",
+    "architecture_id": "arch_000197",
+    "prompt_id": "prompt_000197_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Satellite Bus Reference Architecture 197.",
+    "target_path": "data/architectures/arch_000197.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000198_human_editable_demo",
+    "architecture_id": "arch_000198",
+    "prompt_id": "prompt_000198_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Autonomous Rover Reference Architecture 198.",
+    "target_path": "data/architectures/arch_000198.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000199_human_editable_demo",
+    "architecture_id": "arch_000199",
+    "prompt_id": "prompt_000199_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Attitude Control Reference Architecture 199.",
+    "target_path": "data/architectures/arch_000199.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
+  },
+  {
+    "id": "pair_000200_human_editable_demo",
+    "architecture_id": "arch_000200",
+    "prompt_id": "prompt_000200_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for Communication Relay Reference Architecture 200.",
+    "target_path": "data/architectures/arch_000200.sysml",
+    "target_format": "sysml_v2_textual",
     "metadata": {
       "split": "train",
       "authoring_mode": "demo_editable"

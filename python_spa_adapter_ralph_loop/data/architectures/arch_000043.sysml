@@ -1,81 +1,55 @@
 package arch_000043 {
-	// Solar Array Reference Architecture 43
-	// Domain: solar array
 
-	import ScalarValues::*;
+    // Instrument Platform Reference Architecture 43
+    // Domain: instrument platform
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DiagnosticIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The instrument platform system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def SolarArraySystem {
-	}
+    requirement REQ_002 {
+        doc "The instrument platform system shall trace subsystem design to requirements."
+    }
 
-	part def NavInterface {
-		port configIn : ThermalIF;
-		port sensorOut : CommandIF;
-		port dataIn : StatusIF;
-	}
+    requirement REQ_003 {
+        doc "The instrument platform system shall provide fault detection and recovery."
+    }
 
-	part def DataUnit {
-		port cmdIn : StatusIF;
-	}
+    // Component Definitions
+    part def CommandInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port statusOut;
+    }
 
-	part def ThermalUnit {
-		port dataIn : SignalIF;
-		port cmdIn : CommandIF;
-	}
+    part def CommActuator {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port ctrlIn;
+        port pwrIn;
+        port cmdIn;
+    }
 
-	part def MonitorComputer {
-		port configIn : DiagnosticIF;
-		port cmdOut : ControlIF;
-	}
+    // System Definition
+    part def InstrumentPlatformSystem {
+        part commandinterface : CommandInterface {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part commactuator : CommActuator {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
 
-	part def DistributionController {
-		port ctrlIn : ConfigIF;
-		port sensorOut : TelemetryIF;
-	}
+        // Connections
+        connect commactuator.pwrIn to commandinterface.statusOut;
+        connect commactuator.cmdIn to commandinterface.statusOut;
+        connect commactuator.ctrlIn to commandinterface.statusOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The solar array system shall exchange data through typed interfaces. */
-	}
+    // System Instance
+    part instrumentplatformsystem : InstrumentPlatformSystem;
 
-	requirement <'REQ-002'> {
-		doc /* The solar array system shall trace subsystem design to requirements. */
-	}
-
-	requirement <'REQ-003'> {
-		doc /* The solar array system shall provide fault detection and recovery. */
-	}
-
-	// System Assembly
-	part solararraysystem : SolarArraySystem {
-		part navinterface : NavInterface;
-		part dataunit : DataUnit;
-		part thermalunit : ThermalUnit;
-		part monitorcomputer : MonitorComputer;
-		part distributioncontroller : DistributionController;
-
-		// Connections
-		connection : link1 connect 
-			distributioncontroller.ctrlIn to monitorcomputer.cmdOut;
-		connection : link2 connect 
-			dataunit.cmdIn to navinterface.sensorOut;
-		connection : link3 connect 
-			navinterface.dataIn to monitorcomputer.cmdOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by navinterface;
-		satisfy requirement <'REQ-002'> by thermalunit;
-		satisfy requirement <'REQ-002'> by dataunit;
-		satisfy requirement <'REQ-003'> by distributioncontroller;
-	}
 }

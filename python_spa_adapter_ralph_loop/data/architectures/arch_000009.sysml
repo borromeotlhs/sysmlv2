@@ -1,69 +1,69 @@
 package arch_000009 {
-	// Reaction Wheel Reference Architecture 9
-	// Domain: reaction wheel
 
-	import ScalarValues::*;
+    // Reaction Wheel Reference Architecture 9
+    // Domain: reaction wheel
 
-	// Interface Definitions
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The reaction wheel system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def ReactionWheelSystem {
-	}
+    requirement REQ_002 {
+        doc "The reaction wheel system shall trace subsystem design to requirements."
+    }
 
-	part def DistributionSubsystem {
-		port cmdOut : StatusIF;
-		port cmdIn : TelemetryIF;
-		port dataOut : ThermalIF;
-	}
+    // Component Definitions
+    part def DistributionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port cmdIn;
+        port dataOut;
+    }
 
-	part def DistributionInterface {
-		port pwrOut : SignalIF;
-		port dataOut : ThermalIF;
-	}
+    part def DistributionInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port dataOut;
+    }
 
-	part def ProcessingModule {
-		port telemetryOut : ThermalIF;
-	}
+    part def ProcessingModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+    }
 
-	part def PowerProcessor {
-		port pwrOut : SignalIF;
-		port cmdOut : SignalIF;
-	}
+    part def PowerProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+        port cmdOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The reaction wheel system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def ReactionWheelSystem {
+        part distributionsubsystem : DistributionSubsystem {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part distributioninterface : DistributionInterface {
+        }
+        part processingmodule : ProcessingModule {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part powerprocessor : PowerProcessor {
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The reaction wheel system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect powerprocessor.pwrOut to processingmodule.telemetryOut;
+        connect distributionsubsystem.cmdIn to distributioninterface.dataOut;
+        connect distributioninterface.dataOut to distributionsubsystem.cmdOut;
+        connect distributionsubsystem.cmdIn to powerprocessor.pwrOut;
+    }
 
-	// System Assembly
-	part reactionwheelsystem : ReactionWheelSystem {
-		part distributionsubsystem : DistributionSubsystem;
-		part distributioninterface : DistributionInterface;
-		part processingmodule : ProcessingModule;
-		part powerprocessor : PowerProcessor;
+    // System Instance
+    part reactionwheelsystem : ReactionWheelSystem;
 
-		// Connections
-		connection : link1 connect 
-			powerprocessor.pwrOut to processingmodule.telemetryOut;
-		connection : link2 connect 
-			distributionsubsystem.cmdIn to distributioninterface.dataOut;
-		connection : link3 connect 
-			distributioninterface.dataOut to distributionsubsystem.cmdOut;
-		connection : link4 connect 
-			distributionsubsystem.cmdIn to powerprocessor.pwrOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by distributionsubsystem;
-		satisfy requirement <'REQ-001'> by processingmodule;
-		satisfy requirement <'REQ-002'> by distributionsubsystem;
-		satisfy requirement <'REQ-002'> by processingmodule;
-	}
 }

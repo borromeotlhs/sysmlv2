@@ -1,63 +1,56 @@
 package arch_000038 {
-	// Autonomous Rover Reference Architecture 38
-	// Domain: autonomous rover
 
-	import ScalarValues::*;
+    // Autonomous Rover Reference Architecture 38
+    // Domain: autonomous rover
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The autonomous rover system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def AutonomousRoverSystem {
-	}
+    requirement REQ_002 {
+        doc "The autonomous rover system shall trace subsystem design to requirements."
+    }
 
-	part def FlightComputer {
-		port telemetryOut : ThermalIF;
-		port configIn : StatusIF;
-	}
+    requirement REQ_003 {
+        doc "The autonomous rover system shall provide fault detection and recovery."
+    }
 
-	part def MonitorActuator {
-		port telemetryOut : CommandIF;
-		port ctrlIn : ConfigIF;
-		port pwrIn : SignalIF;
-	}
+    // Component Definitions
+    part def FlightComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port configIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The autonomous rover system shall exchange data through typed interfaces. */
-	}
+    part def MonitorActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port ctrlIn;
+        port pwrIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The autonomous rover system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def AutonomousRoverSystem {
+        part flightcomputer : FlightComputer {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part monitoractuator : MonitorActuator {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The autonomous rover system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect flightcomputer.configIn to monitoractuator.ctrlIn;
+        connect monitoractuator.ctrlIn to flightcomputer.telemetryOut;
+        connect flightcomputer.configIn to monitoractuator.telemetryOut;
+        connect flightcomputer.telemetryOut to monitoractuator.telemetryOut;
+    }
 
-	// System Assembly
-	part autonomousroversystem : AutonomousRoverSystem {
-		part flightcomputer : FlightComputer;
-		part monitoractuator : MonitorActuator;
+    // System Instance
+    part autonomousroversystem : AutonomousRoverSystem;
 
-		// Connections
-		connection : link1 connect 
-			flightcomputer.configIn to monitoractuator.ctrlIn;
-		connection : link2 connect 
-			monitoractuator.ctrlIn to flightcomputer.telemetryOut;
-		connection : link3 connect 
-			flightcomputer.configIn to monitoractuator.telemetryOut;
-		connection : link4 connect 
-			flightcomputer.telemetryOut to monitoractuator.telemetryOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by monitoractuator;
-		satisfy requirement <'REQ-002'> by flightcomputer;
-		satisfy requirement <'REQ-002'> by monitoractuator;
-		satisfy requirement <'REQ-003'> by flightcomputer;
-	}
 }

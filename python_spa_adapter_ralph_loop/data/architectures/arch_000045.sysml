@@ -1,57 +1,76 @@
 package arch_000045 {
-	// Robotic Arm Reference Architecture 45
-	// Domain: robotic arm
 
-	import ScalarValues::*;
+    // Power Distribution System Reference Architecture 45
+    // Domain: power distribution system
 
-	// Interface Definitions
-	interface def PowerIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The power distribution system system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def RoboticArmSystem {
-	}
+    requirement REQ_002 {
+        doc "The power distribution system system shall trace subsystem design to requirements."
+    }
 
-	part def CommandAssembly {
-		port configIn : TelemetryIF;
-	}
+    // Component Definitions
+    part def DistributionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+        port cmdIn;
+    }
 
-	part def SensorPayload {
-		port sensorOut : TelemetryIF;
-	}
+    part def DataController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+        port dataOut;
+        port dataOut;
+    }
 
-	part def FlightInterface {
-		port ctrlIn : PowerIF;
-	}
+    part def FlightInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port dataIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The robotic arm system shall exchange data through typed interfaces. */
-	}
+    part def CommAssembly {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataOut;
+        port ctrlIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The robotic arm system shall trace subsystem design to requirements. */
-	}
+    part def CommSubsystem {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port cmdIn;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The robotic arm system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def PowerDistributionSystemSystem {
+        part distributionsubsystem : DistributionSubsystem {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part datacontroller : DataController {
+            satisfy REQ_001;
+        }
+        part flightinterface : FlightInterface {
+        }
+        part commassembly : CommAssembly {
+            satisfy REQ_002;
+        }
+        part commsubsystem : CommSubsystem {
+        }
 
-	// System Assembly
-	part roboticarmsystem : RoboticArmSystem {
-		part commandassembly : CommandAssembly;
-		part sensorpayload : SensorPayload;
-		part flightinterface : FlightInterface;
+        // Connections
+        connect distributionsubsystem.cmdIn to datacontroller.dataOut;
+        connect flightinterface.dataIn to commassembly.dataOut;
+    }
 
-		// Connections
-		connection : link1 connect 
-			sensorpayload.sensorOut to flightinterface.ctrlIn;
-		connection : link2 connect 
-			flightinterface.ctrlIn to commandassembly.configIn;
+    // System Instance
+    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by flightinterface;
-		satisfy requirement <'REQ-002'> by flightinterface;
-		satisfy requirement <'REQ-003'> by commandassembly;
-	}
 }

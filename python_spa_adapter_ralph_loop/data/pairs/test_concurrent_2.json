@@ -1,0 +1,6 @@
+[
+  {
+    "description": "Concurrent test 2",
+    "sysml": "package test2 { part def Test2; }"
+  }
+]

@@ -1,101 +1,107 @@
 package arch_000023 {
-	// Avionics Bay Reference Architecture 23
-	// Domain: avionics bay
 
-	import ScalarValues::*;
+    // Avionics Bay Reference Architecture 23
+    // Domain: avionics bay
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def PowerIF;
-	interface def SignalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The avionics bay system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def AvionicsBaySystem {
-	}
+    requirement REQ_002 {
+        doc "The avionics bay system shall trace subsystem design to requirements."
+    }
 
-	part def CommUnit {
-		port configIn : SignalIF;
-	}
+    requirement REQ_003 {
+        doc "The avionics bay system shall provide fault detection and recovery."
+    }
 
-	part def MissionActuator {
-		port telemetryOut : PowerIF;
-		port telemetryOut : DataIF;
-		port telemetryOut : CommandIF;
-	}
+    requirement REQ_004 {
+        doc "The avionics bay system shall maintain operational status monitoring."
+    }
 
-	part def MonitorBus {
-		port ctrlIn : CommandIF;
-		port configIn : ControlIF;
-	}
+    // Component Definitions
+    part def CommUnit {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port configIn;
+    }
 
-	part def ProcessingPayload {
-		port dataIn : DataIF;
-		port pwrIn : ControlIF;
-		port statusOut : PowerIF;
-	}
+    part def MissionActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port telemetryOut;
+        port telemetryOut;
+    }
 
-	part def PowerModule {
-		port dataIn : ConfigIF;
-	}
+    part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port configIn;
+    }
 
-	part def ControlAssembly {
-		port sensorOut : ConfigIF;
-		port pwrIn : PowerIF;
-	}
+    part def ProcessingPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port dataIn;
+        port pwrIn;
+        port statusOut;
+    }
 
-	part def DataInterface {
-		port ctrlIn : SignalIF;
-		port pwrOut : DataIF;
-	}
+    part def PowerModule {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port dataIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The avionics bay system shall exchange data through typed interfaces. */
-	}
+    part def ControlAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+        port pwrIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The avionics bay system shall trace subsystem design to requirements. */
-	}
+    part def DataInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port pwrOut;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The avionics bay system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def AvionicsBaySystem {
+        part communit : CommUnit {
+            satisfy REQ_002;
+        }
+        part missionactuator : MissionActuator {
+        }
+        part monitorbus : MonitorBus {
+        }
+        part processingpayload : ProcessingPayload {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
+        part powermodule : PowerModule {
+            satisfy REQ_001;
+            satisfy REQ_004;
+        }
+        part controlassembly : ControlAssembly {
+            satisfy REQ_002;
+        }
+        part datainterface : DataInterface {
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The avionics bay system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect datainterface.ctrlIn to missionactuator.telemetryOut;
+        connect processingpayload.dataIn to datainterface.pwrOut;
+        connect monitorbus.configIn to missionactuator.telemetryOut;
+        connect communit.configIn to monitorbus.ctrlIn;
+        connect missionactuator.telemetryOut to processingpayload.pwrIn;
+    }
 
-	// System Assembly
-	part avionicsbaysystem : AvionicsBaySystem {
-		part communit : CommUnit;
-		part missionactuator : MissionActuator;
-		part monitorbus : MonitorBus;
-		part processingpayload : ProcessingPayload;
-		part powermodule : PowerModule;
-		part controlassembly : ControlAssembly;
-		part datainterface : DataInterface;
+    // System Instance
+    part avionicsbaysystem : AvionicsBaySystem;
 
-		// Connections
-		connection : link1 connect 
-			datainterface.ctrlIn to missionactuator.telemetryOut;
-		connection : link2 connect 
-			processingpayload.dataIn to datainterface.pwrOut;
-		connection : link3 connect 
-			monitorbus.configIn to missionactuator.telemetryOut;
-		connection : link4 connect 
-			communit.configIn to monitorbus.ctrlIn;
-		connection : link5 connect 
-			missionactuator.telemetryOut to processingpayload.pwrIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by powermodule;
-		satisfy requirement <'REQ-001'> by processingpayload;
-		satisfy requirement <'REQ-002'> by communit;
-		satisfy requirement <'REQ-002'> by controlassembly;
-		satisfy requirement <'REQ-003'> by processingpayload;
-		satisfy requirement <'REQ-004'> by powermodule;
-	}
 }

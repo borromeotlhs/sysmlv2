@@ -1,92 +1,93 @@
 package arch_000021 {
-	// Power Distribution System Reference Architecture 21
-	// Domain: power distribution system
 
-	import ScalarValues::*;
+    // Power Distribution System Reference Architecture 21
+    // Domain: power distribution system
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The power distribution system system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def PowerDistributionSystemSystem {
-	}
+    requirement REQ_002 {
+        doc "The power distribution system system shall trace subsystem design to requirements."
+    }
 
-	part def CommModule {
-		port dataIn : TelemetryIF;
-		port cmdIn : PowerIF;
-		port sensorOut : DiagnosticIF;
-	}
+    requirement REQ_003 {
+        doc "The power distribution system system shall provide fault detection and recovery."
+    }
 
-	part def DistributionSubsystem {
-		port cmdOut : TelemetryIF;
-		port cmdOut : ConfigIF;
-	}
+    // Component Definitions
+    part def CommModule {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataIn;
+        port cmdIn;
+        port sensorOut;
+    }
 
-	part def MissionAssembly {
-		port cmdIn : PowerIF;
-		port statusOut : PowerIF;
-	}
+    part def DistributionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port cmdOut;
+    }
 
-	part def ProcessingPayload {
-		port ctrlIn : SignalIF;
-	}
+    part def MissionAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+        port statusOut;
+    }
 
-	part def ProcessingSubsystem {
-		port configIn : StatusIF;
-		port telemetryOut : DataIF;
-	}
+    part def ProcessingPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port ctrlIn;
+    }
 
-	part def CommInterface {
-		port telemetryOut : ConfigIF;
-		port statusOut : ControlIF;
-	}
+    part def ProcessingSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port telemetryOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The power distribution system system shall exchange data through typed interfaces. */
-	}
+    part def CommInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port telemetryOut;
+        port statusOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The power distribution system system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def PowerDistributionSystemSystem {
+        part commmodule : CommModule {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part distributionsubsystem : DistributionSubsystem {
+        }
+        part missionassembly : MissionAssembly {
+            satisfy REQ_003;
+        }
+        part processingpayload : ProcessingPayload {
+        }
+        part processingsubsystem : ProcessingSubsystem {
+        }
+        part comminterface : CommInterface {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The power distribution system system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect processingsubsystem.configIn to commmodule.dataIn;
+        connect commmodule.cmdIn to distributionsubsystem.cmdOut;
+        connect comminterface.telemetryOut to distributionsubsystem.cmdOut;
+        connect comminterface.statusOut to commmodule.cmdIn;
+        connect commmodule.cmdIn to comminterface.telemetryOut;
+    }
 
-	// System Assembly
-	part powerdistributionsystemsystem : PowerDistributionSystemSystem {
-		part commmodule : CommModule;
-		part distributionsubsystem : DistributionSubsystem;
-		part missionassembly : MissionAssembly;
-		part processingpayload : ProcessingPayload;
-		part processingsubsystem : ProcessingSubsystem;
-		part comminterface : CommInterface;
+    // System Instance
+    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
-		// Connections
-		connection : link1 connect 
-			processingsubsystem.configIn to commmodule.dataIn;
-		connection : link2 connect 
-			commmodule.cmdIn to distributionsubsystem.cmdOut;
-		connection : link3 connect 
-			comminterface.telemetryOut to distributionsubsystem.cmdOut;
-		connection : link4 connect 
-			comminterface.statusOut to commmodule.cmdIn;
-		connection : link5 connect 
-			commmodule.cmdIn to comminterface.telemetryOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by comminterface;
-		satisfy requirement <'REQ-002'> by commmodule;
-		satisfy requirement <'REQ-002'> by comminterface;
-		satisfy requirement <'REQ-003'> by commmodule;
-		satisfy requirement <'REQ-003'> by missionassembly;
-	}
 }

@@ -1,70 +1,70 @@
 package arch_000013 {
-	// Command Data Handling Reference Architecture 13
-	// Domain: command data handling
 
-	import ScalarValues::*;
+    // Command Data Handling Reference Architecture 13
+    // Domain: command data handling
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def StatusIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The command data handling system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def CommandDataHandlingSystem {
-	}
+    requirement REQ_002 {
+        doc "The command data handling system shall trace subsystem design to requirements."
+    }
 
-	part def MonitorInterface {
-		port sensorOut : CommandIF;
-		port statusOut : DiagnosticIF;
-		port configIn : CommandIF;
-	}
+    requirement REQ_003 {
+        doc "The command data handling system shall provide fault detection and recovery."
+    }
 
-	part def DistributionSubsystem {
-		port telemetryOut : StatusIF;
-	}
+    // Component Definitions
+    part def MonitorInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+        port statusOut;
+        port configIn;
+    }
 
-	part def ProcessingProcessor {
-		port ctrlIn : PowerIF;
-	}
+    part def DistributionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+    }
 
-	part def NavProcessor {
-		port pwrIn : StatusIF;
-	}
+    part def ProcessingProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port ctrlIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The command data handling system shall exchange data through typed interfaces. */
-	}
+    part def NavProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The command data handling system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def CommandDataHandlingSystem {
+        part monitorinterface : MonitorInterface {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part distributionsubsystem : DistributionSubsystem {
+            satisfy REQ_003;
+        }
+        part processingprocessor : ProcessingProcessor {
+        }
+        part navprocessor : NavProcessor {
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The command data handling system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect monitorinterface.statusOut to distributionsubsystem.telemetryOut;
+        connect monitorinterface.configIn to distributionsubsystem.telemetryOut;
+        connect monitorinterface.sensorOut to distributionsubsystem.telemetryOut;
+        connect navprocessor.pwrIn to processingprocessor.ctrlIn;
+    }
 
-	// System Assembly
-	part commanddatahandlingsystem : CommandDataHandlingSystem {
-		part monitorinterface : MonitorInterface;
-		part distributionsubsystem : DistributionSubsystem;
-		part processingprocessor : ProcessingProcessor;
-		part navprocessor : NavProcessor;
+    // System Instance
+    part commanddatahandlingsystem : CommandDataHandlingSystem;
 
-		// Connections
-		connection : link1 connect 
-			monitorinterface.statusOut to distributionsubsystem.telemetryOut;
-		connection : link2 connect 
-			monitorinterface.configIn to distributionsubsystem.telemetryOut;
-		connection : link3 connect 
-			monitorinterface.sensorOut to distributionsubsystem.telemetryOut;
-		connection : link4 connect 
-			navprocessor.pwrIn to processingprocessor.ctrlIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by monitorinterface;
-		satisfy requirement <'REQ-002'> by monitorinterface;
-		satisfy requirement <'REQ-003'> by distributionsubsystem;
-	}
 }

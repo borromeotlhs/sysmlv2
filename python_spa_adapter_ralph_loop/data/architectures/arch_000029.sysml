@@ -1,66 +1,64 @@
 package arch_000029 {
-	// Propulsion Module Reference Architecture 29
-	// Domain: propulsion module
 
-	import ScalarValues::*;
+    // Propulsion Module Reference Architecture 29
+    // Domain: propulsion module
 
-	// Interface Definitions
-	interface def ControlIF;
-	interface def PowerIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The propulsion module system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def PropulsionModuleSystem {
-	}
+    requirement REQ_002 {
+        doc "The propulsion module system shall trace subsystem design to requirements."
+    }
 
-	part def DistributionProcessor {
-		port cmdIn : TelemetryIF;
-	}
+    requirement REQ_003 {
+        doc "The propulsion module system shall provide fault detection and recovery."
+    }
 
-	part def DistributionUnit {
-		port statusOut : PowerIF;
-		port dataIn : StatusIF;
-		port sensorOut : ThermalIF;
-	}
+    // Component Definitions
+    part def DistributionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdIn;
+    }
 
-	part def PowerAssembly {
-		port sensorOut : ControlIF;
-		port cmdOut : StatusIF;
-		port cmdIn : StatusIF;
-	}
+    part def DistributionUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+        port dataIn;
+        port sensorOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The propulsion module system shall exchange data through typed interfaces. */
-	}
+    part def PowerAssembly {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port sensorOut;
+        port cmdOut;
+        port cmdIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The propulsion module system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def PropulsionModuleSystem {
+        part distributionprocessor : DistributionProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part distributionunit : DistributionUnit {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part powerassembly : PowerAssembly {
+            satisfy REQ_003;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The propulsion module system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect distributionunit.sensorOut to distributionprocessor.cmdIn;
+        connect powerassembly.sensorOut to distributionunit.sensorOut;
+    }
 
-	// System Assembly
-	part propulsionmodulesystem : PropulsionModuleSystem {
-		part distributionprocessor : DistributionProcessor;
-		part distributionunit : DistributionUnit;
-		part powerassembly : PowerAssembly;
+    // System Instance
+    part propulsionmodulesystem : PropulsionModuleSystem;
 
-		// Connections
-		connection : link1 connect 
-			distributionunit.sensorOut to distributionprocessor.cmdIn;
-		connection : link2 connect 
-			powerassembly.sensorOut to distributionunit.sensorOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by distributionunit;
-		satisfy requirement <'REQ-001'> by distributionprocessor;
-		satisfy requirement <'REQ-002'> by distributionprocessor;
-		satisfy requirement <'REQ-002'> by distributionunit;
-		satisfy requirement <'REQ-003'> by powerassembly;
-	}
 }

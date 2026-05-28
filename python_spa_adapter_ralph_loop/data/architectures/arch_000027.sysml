@@ -1,82 +1,83 @@
 package arch_000027 {
-	// Telemetry System Reference Architecture 27
-	// Domain: telemetry system
 
-	import ScalarValues::*;
+    // Telemetry System Reference Architecture 27
+    // Domain: telemetry system
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def StatusIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The telemetry system system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def TelemetrySystemSystem {
-	}
+    requirement REQ_002 {
+        doc "The telemetry system system shall trace subsystem design to requirements."
+    }
 
-	part def DataSubsystem {
-		port telemetryOut : SignalIF;
-		port pwrOut : PowerIF;
-	}
+    requirement REQ_003 {
+        doc "The telemetry system system shall provide fault detection and recovery."
+    }
 
-	part def ThermalPayload {
-		port ctrlIn : DataIF;
-		port cmdOut : DataIF;
-		port cmdOut : StatusIF;
-	}
+    // Component Definitions
+    part def DataSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port pwrOut;
+    }
 
-	part def CommSubsystem {
-		port pwrOut : PowerIF;
-	}
+    part def ThermalPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port ctrlIn;
+        port cmdOut;
+        port cmdOut;
+    }
 
-	part def ProcessingController {
-		port cmdIn : DiagnosticIF;
-		port sensorOut : ConfigIF;
-		port pwrOut : DataIF;
-	}
+    part def CommSubsystem {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port pwrOut;
+    }
 
-	part def ThermalSubsystem {
-		port pwrOut : StatusIF;
-		port cmdIn : SignalIF;
-	}
+    part def ProcessingController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdIn;
+        port sensorOut;
+        port pwrOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The telemetry system system shall exchange data through typed interfaces. */
-	}
+    part def ThermalSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port cmdIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The telemetry system system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def TelemetrySystemSystem {
+        part datasubsystem : DataSubsystem {
+            satisfy REQ_003;
+        }
+        part thermalpayload : ThermalPayload {
+            satisfy REQ_003;
+        }
+        part commsubsystem : CommSubsystem {
+        }
+        part processingcontroller : ProcessingController {
+            satisfy REQ_001;
+        }
+        part thermalsubsystem : ThermalSubsystem {
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The telemetry system system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect commsubsystem.pwrOut to datasubsystem.pwrOut;
+        connect processingcontroller.pwrOut to thermalpayload.cmdOut;
+        connect thermalsubsystem.cmdIn to processingcontroller.sensorOut;
+        connect processingcontroller.pwrOut to commsubsystem.pwrOut;
+    }
 
-	// System Assembly
-	part telemetrysystemsystem : TelemetrySystemSystem {
-		part datasubsystem : DataSubsystem;
-		part thermalpayload : ThermalPayload;
-		part commsubsystem : CommSubsystem;
-		part processingcontroller : ProcessingController;
-		part thermalsubsystem : ThermalSubsystem;
+    // System Instance
+    part telemetrysystemsystem : TelemetrySystemSystem;
 
-		// Connections
-		connection : link1 connect 
-			commsubsystem.pwrOut to datasubsystem.pwrOut;
-		connection : link2 connect 
-			processingcontroller.pwrOut to thermalpayload.cmdOut;
-		connection : link3 connect 
-			thermalsubsystem.cmdIn to processingcontroller.sensorOut;
-		connection : link4 connect 
-			processingcontroller.pwrOut to commsubsystem.pwrOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by processingcontroller;
-		satisfy requirement <'REQ-002'> by thermalsubsystem;
-		satisfy requirement <'REQ-003'> by datasubsystem;
-		satisfy requirement <'REQ-003'> by thermalpayload;
-	}
 }

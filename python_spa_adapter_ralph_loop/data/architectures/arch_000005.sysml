@@ -1,72 +1,76 @@
 package arch_000005 {
-	// Power Distribution System Reference Architecture 5
-	// Domain: power distribution system
 
-	import ScalarValues::*;
+    // Power Distribution System Reference Architecture 5
+    // Domain: power distribution system
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def DataIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The power distribution system system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def PowerDistributionSystemSystem {
-	}
+    requirement REQ_002 {
+        doc "The power distribution system system shall trace subsystem design to requirements."
+    }
 
-	part def DistributionSubsystem {
-		port cmdIn : DataIF;
-		port cmdIn : StatusIF;
-	}
+    // Component Definitions
+    part def DistributionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+        port cmdIn;
+    }
 
-	part def DataController {
-		port pwrOut : DataIF;
-		port dataOut : ThermalIF;
-		port dataOut : ConfigIF;
-	}
+    part def DataController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+        port dataOut;
+        port dataOut;
+    }
 
-	part def FlightInterface {
-		port dataIn : StatusIF;
-		port dataIn : SignalIF;
-	}
+    part def FlightInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port dataIn;
+    }
 
-	part def CommAssembly {
-		port dataOut : DataIF;
-		port ctrlIn : ConfigIF;
-	}
+    part def CommAssembly {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataOut;
+        port ctrlIn;
+    }
 
-	part def CommSubsystem {
-		port cmdIn : ConfigIF;
-	}
+    part def CommSubsystem {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port cmdIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The power distribution system system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def PowerDistributionSystemSystem {
+        part distributionsubsystem : DistributionSubsystem {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part datacontroller : DataController {
+            satisfy REQ_001;
+        }
+        part flightinterface : FlightInterface {
+        }
+        part commassembly : CommAssembly {
+            satisfy REQ_002;
+        }
+        part commsubsystem : CommSubsystem {
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The power distribution system system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect distributionsubsystem.cmdIn to datacontroller.dataOut;
+        connect flightinterface.dataIn to commassembly.dataOut;
+    }
 
-	// System Assembly
-	part powerdistributionsystemsystem : PowerDistributionSystemSystem {
-		part distributionsubsystem : DistributionSubsystem;
-		part datacontroller : DataController;
-		part flightinterface : FlightInterface;
-		part commassembly : CommAssembly;
-		part commsubsystem : CommSubsystem;
+    // System Instance
+    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
-		// Connections
-		connection : link1 connect 
-			distributionsubsystem.cmdIn to datacontroller.dataOut;
-		connection : link2 connect 
-			flightinterface.dataIn to commassembly.dataOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by distributionsubsystem;
-		satisfy requirement <'REQ-001'> by datacontroller;
-		satisfy requirement <'REQ-002'> by distributionsubsystem;
-		satisfy requirement <'REQ-002'> by commassembly;
-	}
 }

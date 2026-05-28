@@ -1,67 +1,71 @@
 package arch_000006 {
-	// Thermal Control Reference Architecture 6
-	// Domain: thermal control
 
-	import ScalarValues::*;
+    // Thermal Control Reference Architecture 6
+    // Domain: thermal control
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def PowerIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The thermal control system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def ThermalControlSystem {
-	}
+    requirement REQ_002 {
+        doc "The thermal control system shall trace subsystem design to requirements."
+    }
 
-	part def PowerSubsystem {
-		port pwrIn : ThermalIF;
-	}
+    // Component Definitions
+    part def PowerSubsystem {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port pwrIn;
+    }
 
-	part def ProcessingBus {
-		port configIn : ConfigIF;
-	}
+    part def ProcessingBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
 
-	part def DistributionSensor {
-		port pwrOut : CommandIF;
-	}
+    part def DistributionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+    }
 
-	part def MonitorBus {
-		port configIn : TelemetryIF;
-	}
+    part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
 
-	part def NavProcessor {
-		port sensorOut : PowerIF;
-		port cmdIn : ConfigIF;
-		port cmdOut : PowerIF;
-	}
+    part def NavProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+        port cmdIn;
+        port cmdOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The thermal control system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def ThermalControlSystem {
+        part powersubsystem : PowerSubsystem {
+        }
+        part processingbus : ProcessingBus {
+        }
+        part distributionsensor : DistributionSensor {
+        }
+        part monitorbus : MonitorBus {
+        }
+        part navprocessor : NavProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The thermal control system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect navprocessor.sensorOut to powersubsystem.pwrIn;
+        connect navprocessor.cmdOut to processingbus.configIn;
+    }
 
-	// System Assembly
-	part thermalcontrolsystem : ThermalControlSystem {
-		part powersubsystem : PowerSubsystem;
-		part processingbus : ProcessingBus;
-		part distributionsensor : DistributionSensor;
-		part monitorbus : MonitorBus;
-		part navprocessor : NavProcessor;
+    // System Instance
+    part thermalcontrolsystem : ThermalControlSystem;
 
-		// Connections
-		connection : link1 connect 
-			navprocessor.sensorOut to powersubsystem.pwrIn;
-		connection : link2 connect 
-			navprocessor.cmdOut to processingbus.configIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by navprocessor;
-		satisfy requirement <'REQ-002'> by navprocessor;
-	}
 }

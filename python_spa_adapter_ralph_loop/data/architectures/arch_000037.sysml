@@ -1,100 +1,106 @@
 package arch_000037 {
-	// Attitude Control Reference Architecture 37
-	// Domain: attitude control
 
-	import ScalarValues::*;
+    // Attitude Control Reference Architecture 37
+    // Domain: attitude control
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The attitude control system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def AttitudeControlSystem {
-	}
+    requirement REQ_002 {
+        doc "The attitude control system shall trace subsystem design to requirements."
+    }
 
-	part def ProcessingInterface {
-		port configIn : ControlIF;
-		port ctrlIn : ConfigIF;
-		port dataIn : DiagnosticIF;
-	}
+    requirement REQ_003 {
+        doc "The attitude control system shall provide fault detection and recovery."
+    }
 
-	part def CommandAssembly {
-		port cmdOut : SignalIF;
-	}
+    requirement REQ_004 {
+        doc "The attitude control system shall maintain operational status monitoring."
+    }
 
-	part def SensorModule {
-		port ctrlIn : ConfigIF;
-		port statusOut : StatusIF;
-	}
+    // Component Definitions
+    part def ProcessingInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port ctrlIn;
+        port dataIn;
+    }
 
-	part def FlightModule {
-		port cmdOut : PowerIF;
-		port pwrOut : DataIF;
-		port ctrlIn : TelemetryIF;
-	}
+    part def CommandAssembly {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port cmdOut;
+    }
 
-	part def DistributionProcessor {
-		port sensorOut : ControlIF;
-		port dataIn : ConfigIF;
-		port telemetryOut : DiagnosticIF;
-	}
+    part def SensorModule {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port ctrlIn;
+        port statusOut;
+    }
 
-	part def DataPayload {
-		port dataIn : StatusIF;
-	}
+    part def FlightModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port pwrOut;
+        port ctrlIn;
+    }
 
-	part def MissionAssembly {
-		port cmdIn : DataIF;
-		port sensorOut : PowerIF;
-		port pwrIn : PowerIF;
-	}
+    part def DistributionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+        port dataIn;
+        port telemetryOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The attitude control system shall exchange data through typed interfaces. */
-	}
+    part def DataPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port dataIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The attitude control system shall trace subsystem design to requirements. */
-	}
+    part def MissionAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+        port sensorOut;
+        port pwrIn;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The attitude control system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def AttitudeControlSystem {
+        part processinginterface : ProcessingInterface {
+        }
+        part commandassembly : CommandAssembly {
+            satisfy REQ_003;
+        }
+        part sensormodule : SensorModule {
+        }
+        part flightmodule : FlightModule {
+        }
+        part distributionprocessor : DistributionProcessor {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part datapayload : DataPayload {
+        }
+        part missionassembly : MissionAssembly {
+            satisfy REQ_004;
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The attitude control system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect distributionprocessor.dataIn to flightmodule.pwrOut;
+        connect distributionprocessor.sensorOut to processinginterface.dataIn;
+        connect sensormodule.ctrlIn to distributionprocessor.sensorOut;
+    }
 
-	// System Assembly
-	part attitudecontrolsystem : AttitudeControlSystem {
-		part processinginterface : ProcessingInterface;
-		part commandassembly : CommandAssembly;
-		part sensormodule : SensorModule;
-		part flightmodule : FlightModule;
-		part distributionprocessor : DistributionProcessor;
-		part datapayload : DataPayload;
-		part missionassembly : MissionAssembly;
+    // System Instance
+    part attitudecontrolsystem : AttitudeControlSystem;
 
-		// Connections
-		connection : link1 connect 
-			distributionprocessor.dataIn to flightmodule.pwrOut;
-		connection : link2 connect 
-			distributionprocessor.sensorOut to processinginterface.dataIn;
-		connection : link3 connect 
-			sensormodule.ctrlIn to distributionprocessor.sensorOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by distributionprocessor;
-		satisfy requirement <'REQ-002'> by distributionprocessor;
-		satisfy requirement <'REQ-003'> by commandassembly;
-		satisfy requirement <'REQ-004'> by missionassembly;
-		satisfy requirement <'REQ-004'> by distributionprocessor;
-	}
 }

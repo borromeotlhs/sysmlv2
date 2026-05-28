@@ -1,89 +1,97 @@
 package arch_000028 {
-	// Thermal Control Reference Architecture 28
-	// Domain: thermal control
 
-	import ScalarValues::*;
+    // Thermal Control Reference Architecture 28
+    // Domain: thermal control
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def DataIF;
-	interface def DiagnosticIF;
-	interface def PowerIF;
-	interface def SignalIF;
-	interface def StatusIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The thermal control system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def ThermalControlSystem {
-	}
+    requirement REQ_002 {
+        doc "The thermal control system shall trace subsystem design to requirements."
+    }
 
-	part def DistributionUnit {
-		port cmdOut : ConfigIF;
-	}
+    requirement REQ_003 {
+        doc "The thermal control system shall provide fault detection and recovery."
+    }
 
-	part def ThermalAssembly {
-		port statusOut : StatusIF;
-	}
+    // Component Definitions
+    part def DistributionUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+    }
 
-	part def MissionProcessor {
-		port pwrOut : PowerIF;
-		port pwrOut : SignalIF;
-	}
+    part def ThermalAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
 
-	part def CommandActuator {
-		port pwrOut : DiagnosticIF;
-		port configIn : DataIF;
-		port cmdIn : PowerIF;
-	}
+    part def MissionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+        port pwrOut;
+    }
 
-	part def MonitorSubsystem {
-		port configIn : CommandIF;
-	}
+    part def CommandActuator {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port pwrOut;
+        port configIn;
+        port cmdIn;
+    }
 
-	part def FlightProcessor {
-		port cmdOut : SignalIF;
-		port ctrlIn : StatusIF;
-		port ctrlIn : DiagnosticIF;
-	}
+    part def MonitorSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
 
-	part def ProcessingInterface {
-		port statusOut : SignalIF;
-		port dataOut : ConfigIF;
-	}
+    part def FlightProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port ctrlIn;
+        port ctrlIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The thermal control system shall exchange data through typed interfaces. */
-	}
+    part def ProcessingInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+        port dataOut;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The thermal control system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def ThermalControlSystem {
+        part distributionunit : DistributionUnit {
+            satisfy REQ_002;
+        }
+        part thermalassembly : ThermalAssembly {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
+        part missionprocessor : MissionProcessor {
+        }
+        part commandactuator : CommandActuator {
+        }
+        part monitorsubsystem : MonitorSubsystem {
+            satisfy REQ_002;
+        }
+        part flightprocessor : FlightProcessor {
+        }
+        part processinginterface : ProcessingInterface {
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The thermal control system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect thermalassembly.statusOut to commandactuator.pwrOut;
+        connect monitorsubsystem.configIn to flightprocessor.cmdOut;
+    }
 
-	// System Assembly
-	part thermalcontrolsystem : ThermalControlSystem {
-		part distributionunit : DistributionUnit;
-		part thermalassembly : ThermalAssembly;
-		part missionprocessor : MissionProcessor;
-		part commandactuator : CommandActuator;
-		part monitorsubsystem : MonitorSubsystem;
-		part flightprocessor : FlightProcessor;
-		part processinginterface : ProcessingInterface;
+    // System Instance
+    part thermalcontrolsystem : ThermalControlSystem;
 
-		// Connections
-		connection : link1 connect 
-			thermalassembly.statusOut to commandactuator.pwrOut;
-		connection : link2 connect 
-			monitorsubsystem.configIn to flightprocessor.cmdOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by thermalassembly;
-		satisfy requirement <'REQ-002'> by monitorsubsystem;
-		satisfy requirement <'REQ-002'> by distributionunit;
-		satisfy requirement <'REQ-003'> by thermalassembly;
-	}
 }

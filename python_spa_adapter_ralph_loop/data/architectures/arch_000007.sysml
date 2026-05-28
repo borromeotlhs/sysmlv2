@@ -1,75 +1,75 @@
 package arch_000007 {
-	// Lunar Habitat Reference Architecture 7
-	// Domain: lunar habitat
 
-	import ScalarValues::*;
+    // Lunar Habitat Reference Architecture 7
+    // Domain: lunar habitat
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def SignalIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The lunar habitat system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def LunarHabitatSystem {
-	}
+    requirement REQ_002 {
+        doc "The lunar habitat system shall trace subsystem design to requirements."
+    }
 
-	part def MonitorActuator {
-		port pwrIn : StatusIF;
-	}
+    // Component Definitions
+    part def MonitorActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+    }
 
-	part def ControlSensor {
-		port telemetryOut : SignalIF;
-	}
+    part def ControlSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+    }
 
-	part def ThermalUnit {
-		port pwrOut : DataIF;
-		port cmdIn : TelemetryIF;
-	}
+    part def ThermalUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port cmdIn;
+    }
 
-	part def DataInterface {
-		port configIn : DataIF;
-		port cmdOut : ConfigIF;
-		port dataOut : ConfigIF;
-	}
+    part def DataInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port cmdOut;
+        port dataOut;
+    }
 
-	part def ProcessingAssembly {
-		port dataIn : ControlIF;
-		port cmdOut : ThermalIF;
-	}
+    part def ProcessingAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port cmdOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The lunar habitat system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def LunarHabitatSystem {
+        part monitoractuator : MonitorActuator {
+        }
+        part controlsensor : ControlSensor {
+        }
+        part thermalunit : ThermalUnit {
+            satisfy REQ_002;
+        }
+        part datainterface : DataInterface {
+        }
+        part processingassembly : ProcessingAssembly {
+            satisfy REQ_001;
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The lunar habitat system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect datainterface.configIn to thermalunit.pwrOut;
+        connect processingassembly.cmdOut to datainterface.configIn;
+        connect processingassembly.cmdOut to monitoractuator.pwrIn;
+        connect controlsensor.telemetryOut to thermalunit.pwrOut;
+    }
 
-	// System Assembly
-	part lunarhabitatsystem : LunarHabitatSystem {
-		part monitoractuator : MonitorActuator;
-		part controlsensor : ControlSensor;
-		part thermalunit : ThermalUnit;
-		part datainterface : DataInterface;
-		part processingassembly : ProcessingAssembly;
+    // System Instance
+    part lunarhabitatsystem : LunarHabitatSystem;
 
-		// Connections
-		connection : link1 connect 
-			datainterface.configIn to thermalunit.pwrOut;
-		connection : link2 connect 
-			processingassembly.cmdOut to datainterface.configIn;
-		connection : link3 connect 
-			processingassembly.cmdOut to monitoractuator.pwrIn;
-		connection : link4 connect 
-			controlsensor.telemetryOut to thermalunit.pwrOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by processingassembly;
-		satisfy requirement <'REQ-002'> by thermalunit;
-	}
 }

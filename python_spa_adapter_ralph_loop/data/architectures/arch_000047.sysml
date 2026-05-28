@@ -1,80 +1,75 @@
 package arch_000047 {
-	// Power Distribution System Reference Architecture 47
-	// Domain: power distribution system
 
-	import ScalarValues::*;
+    // Lunar Habitat Reference Architecture 47
+    // Domain: lunar habitat
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def DiagnosticIF;
-	interface def StatusIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The lunar habitat system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def PowerDistributionSystemSystem {
-	}
+    requirement REQ_002 {
+        doc "The lunar habitat system shall trace subsystem design to requirements."
+    }
 
-	part def ThermalProcessor {
-		port dataOut : ThermalIF;
-	}
+    // Component Definitions
+    part def MonitorActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+    }
 
-	part def PowerModule {
-		port cmdOut : DiagnosticIF;
-	}
+    part def ControlSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+    }
 
-	part def ProcessingController {
-		port ctrlIn : DiagnosticIF;
-	}
+    part def ThermalUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port cmdIn;
+    }
 
-	part def MissionInterface {
-		port cmdIn : ThermalIF;
-		port cmdIn : StatusIF;
-		port ctrlIn : ThermalIF;
-	}
+    part def DataInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port cmdOut;
+        port dataOut;
+    }
 
-	part def CommActuator {
-		port dataOut : CommandIF;
-		port dataIn : ConfigIF;
-		port pwrIn : ThermalIF;
-	}
+    part def ProcessingAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port cmdOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The power distribution system system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def LunarHabitatSystem {
+        part monitoractuator : MonitorActuator {
+        }
+        part controlsensor : ControlSensor {
+        }
+        part thermalunit : ThermalUnit {
+            satisfy REQ_002;
+        }
+        part datainterface : DataInterface {
+        }
+        part processingassembly : ProcessingAssembly {
+            satisfy REQ_001;
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The power distribution system system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect datainterface.configIn to thermalunit.pwrOut;
+        connect processingassembly.cmdOut to datainterface.configIn;
+        connect processingassembly.cmdOut to monitoractuator.pwrIn;
+        connect controlsensor.telemetryOut to thermalunit.pwrOut;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The power distribution system system shall provide fault detection and recovery. */
-	}
+    // System Instance
+    part lunarhabitatsystem : LunarHabitatSystem;
 
-	// System Assembly
-	part powerdistributionsystemsystem : PowerDistributionSystemSystem {
-		part thermalprocessor : ThermalProcessor;
-		part powermodule : PowerModule;
-		part processingcontroller : ProcessingController;
-		part missioninterface : MissionInterface;
-		part commactuator : CommActuator;
-
-		// Connections
-		connection : link1 connect 
-			missioninterface.cmdIn to processingcontroller.ctrlIn;
-		connection : link2 connect 
-			commactuator.pwrIn to missioninterface.cmdIn;
-		connection : link3 connect 
-			thermalprocessor.dataOut to commactuator.pwrIn;
-		connection : link4 connect 
-			processingcontroller.ctrlIn to commactuator.dataOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by processingcontroller;
-		satisfy requirement <'REQ-002'> by commactuator;
-		satisfy requirement <'REQ-002'> by processingcontroller;
-		satisfy requirement <'REQ-003'> by missioninterface;
-		satisfy requirement <'REQ-003'> by powermodule;
-	}
 }

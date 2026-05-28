@@ -1,59 +1,57 @@
 package arch_000025 {
-	// Thermal Control Reference Architecture 25
-	// Domain: thermal control
 
-	import ScalarValues::*;
+    // Thermal Control Reference Architecture 25
+    // Domain: thermal control
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def PowerIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The thermal control system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def ThermalControlSystem {
-	}
+    requirement REQ_002 {
+        doc "The thermal control system shall trace subsystem design to requirements."
+    }
 
-	part def FlightPayload {
-		port configIn : CommandIF;
-		port cmdIn : ControlIF;
-		port dataOut : PowerIF;
-	}
+    // Component Definitions
+    part def FlightPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port configIn;
+        port cmdIn;
+        port dataOut;
+    }
 
-	part def FlightInterface {
-		port dataOut : DataIF;
-		port sensorOut : ThermalIF;
-		port configIn : ThermalIF;
-	}
+    part def FlightInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port sensorOut;
+        port configIn;
+    }
 
-	part def DataInterface {
-		port pwrOut : PowerIF;
-	}
+    part def DataInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The thermal control system shall exchange data through typed interfaces. */
-	}
+    // System Definition
+    part def ThermalControlSystem {
+        part flightpayload : FlightPayload {
+            satisfy REQ_002;
+        }
+        part flightinterface : FlightInterface {
+        }
+        part datainterface : DataInterface {
+            satisfy REQ_001;
+        }
 
-	requirement <'REQ-002'> {
-		doc /* The thermal control system shall trace subsystem design to requirements. */
-	}
+        // Connections
+        connect flightpayload.dataOut to datainterface.pwrOut;
+        connect flightpayload.cmdIn to flightinterface.sensorOut;
+    }
 
-	// System Assembly
-	part thermalcontrolsystem : ThermalControlSystem {
-		part flightpayload : FlightPayload;
-		part flightinterface : FlightInterface;
-		part datainterface : DataInterface;
+    // System Instance
+    part thermalcontrolsystem : ThermalControlSystem;
 
-		// Connections
-		connection : link1 connect 
-			flightpayload.dataOut to datainterface.pwrOut;
-		connection : link2 connect 
-			flightpayload.cmdIn to flightinterface.sensorOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by datainterface;
-		satisfy requirement <'REQ-002'> by flightpayload;
-	}
 }

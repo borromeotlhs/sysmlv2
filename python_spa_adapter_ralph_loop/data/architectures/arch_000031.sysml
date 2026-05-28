@@ -1,58 +1,54 @@
 package arch_000031 {
-	// Autonomous Rover Reference Architecture 31
-	// Domain: autonomous rover
 
-	import ScalarValues::*;
+    // Autonomous Rover Reference Architecture 31
+    // Domain: autonomous rover
 
-	// Interface Definitions
-	interface def ConfigIF;
-	interface def DiagnosticIF;
-	interface def TelemetryIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The autonomous rover system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def AutonomousRoverSystem {
-	}
+    requirement REQ_002 {
+        doc "The autonomous rover system shall trace subsystem design to requirements."
+    }
 
-	part def ThermalUnit {
-		port configIn : DiagnosticIF;
-	}
+    requirement REQ_003 {
+        doc "The autonomous rover system shall provide fault detection and recovery."
+    }
 
-	part def FlightInterface {
-		port statusOut : TelemetryIF;
-		port configIn : ConfigIF;
-		port cmdIn : TelemetryIF;
-	}
+    // Component Definitions
+    part def ThermalUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The autonomous rover system shall exchange data through typed interfaces. */
-	}
+    part def FlightInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+        port configIn;
+        port cmdIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The autonomous rover system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def AutonomousRoverSystem {
+        part thermalunit : ThermalUnit {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part flightinterface : FlightInterface {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The autonomous rover system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect flightinterface.statusOut to thermalunit.configIn;
+        connect thermalunit.configIn to flightinterface.configIn;
+        connect thermalunit.configIn to flightinterface.cmdIn;
+    }
 
-	// System Assembly
-	part autonomousroversystem : AutonomousRoverSystem {
-		part thermalunit : ThermalUnit;
-		part flightinterface : FlightInterface;
+    // System Instance
+    part autonomousroversystem : AutonomousRoverSystem;
 
-		// Connections
-		connection : link1 connect 
-			flightinterface.statusOut to thermalunit.configIn;
-		connection : link2 connect 
-			thermalunit.configIn to flightinterface.configIn;
-		connection : link3 connect 
-			thermalunit.configIn to flightinterface.cmdIn;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by flightinterface;
-		satisfy requirement <'REQ-002'> by thermalunit;
-		satisfy requirement <'REQ-003'> by flightinterface;
-		satisfy requirement <'REQ-003'> by thermalunit;
-	}
 }

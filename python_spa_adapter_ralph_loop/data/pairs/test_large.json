@@ -1,0 +1,202 @@
+[
+  {
+    "description": "Large test architecture 0",
+    "sysml": "package large_test_0 { part def Block0 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 1",
+    "sysml": "package large_test_1 { part def Block1 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 2",
+    "sysml": "package large_test_2 { part def Block2 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 3",
+    "sysml": "package large_test_3 { part def Block3 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 4",
+    "sysml": "package large_test_4 { part def Block4 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 5",
+    "sysml": "package large_test_5 { part def Block5 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 6",
+    "sysml": "package large_test_6 { part def Block6 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 7",
+    "sysml": "package large_test_7 { part def Block7 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 8",
+    "sysml": "package large_test_8 { part def Block8 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 9",
+    "sysml": "package large_test_9 { part def Block9 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 10",
+    "sysml": "package large_test_10 { part def Block10 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 11",
+    "sysml": "package large_test_11 { part def Block11 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 12",
+    "sysml": "package large_test_12 { part def Block12 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 13",
+    "sysml": "package large_test_13 { part def Block13 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 14",
+    "sysml": "package large_test_14 { part def Block14 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 15",
+    "sysml": "package large_test_15 { part def Block15 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 16",
+    "sysml": "package large_test_16 { part def Block16 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 17",
+    "sysml": "package large_test_17 { part def Block17 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 18",
+    "sysml": "package large_test_18 { part def Block18 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 19",
+    "sysml": "package large_test_19 { part def Block19 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 20",
+    "sysml": "package large_test_20 { part def Block20 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 21",
+    "sysml": "package large_test_21 { part def Block21 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 22",
+    "sysml": "package large_test_22 { part def Block22 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 23",
+    "sysml": "package large_test_23 { part def Block23 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 24",
+    "sysml": "package large_test_24 { part def Block24 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 25",
+    "sysml": "package large_test_25 { part def Block25 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 26",
+    "sysml": "package large_test_26 { part def Block26 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 27",
+    "sysml": "package large_test_27 { part def Block27 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 28",
+    "sysml": "package large_test_28 { part def Block28 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 29",
+    "sysml": "package large_test_29 { part def Block29 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 30",
+    "sysml": "package large_test_30 { part def Block30 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 31",
+    "sysml": "package large_test_31 { part def Block31 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 32",
+    "sysml": "package large_test_32 { part def Block32 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 33",
+    "sysml": "package large_test_33 { part def Block33 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 34",
+    "sysml": "package large_test_34 { part def Block34 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 35",
+    "sysml": "package large_test_35 { part def Block35 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 36",
+    "sysml": "package large_test_36 { part def Block36 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 37",
+    "sysml": "package large_test_37 { part def Block37 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 38",
+    "sysml": "package large_test_38 { part def Block38 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 39",
+    "sysml": "package large_test_39 { part def Block39 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 40",
+    "sysml": "package large_test_40 { part def Block40 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 41",
+    "sysml": "package large_test_41 { part def Block41 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 42",
+    "sysml": "package large_test_42 { part def Block42 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 43",
+    "sysml": "package large_test_43 { part def Block43 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 44",
+    "sysml": "package large_test_44 { part def Block44 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 45",
+    "sysml": "package large_test_45 { part def Block45 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 46",
+    "sysml": "package large_test_46 { part def Block46 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 47",
+    "sysml": "package large_test_47 { part def Block47 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 48",
+    "sysml": "package large_test_48 { part def Block48 { attribute x : Real; } }"
+  },
+  {
+    "description": "Large test architecture 49",
+    "sysml": "package large_test_49 { part def Block49 { attribute x : Real; } }"
+  }
+]

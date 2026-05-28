@@ -1,83 +1,89 @@
 package arch_000008 {
-	// Propulsion Module Reference Architecture 8
-	// Domain: propulsion module
 
-	import ScalarValues::*;
+    // Propulsion Module Reference Architecture 8
+    // Domain: propulsion module
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ConfigIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def PowerIF;
-	interface def SignalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The propulsion module system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def PropulsionModuleSystem {
-	}
+    requirement REQ_002 {
+        doc "The propulsion module system shall trace subsystem design to requirements."
+    }
 
-	part def DataBus {
-		port statusOut : SignalIF;
-		port cmdIn : CommandIF;
-		port pwrOut : PowerIF;
-	}
+    requirement REQ_003 {
+        doc "The propulsion module system shall provide fault detection and recovery."
+    }
 
-	part def ThermalModule {
-		port pwrIn : PowerIF;
-		port ctrlIn : ConfigIF;
-		port statusOut : ConfigIF;
-	}
+    // Component Definitions
+    part def DataBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+        port cmdIn;
+        port pwrOut;
+    }
 
-	part def MonitorInterface {
-		port cmdOut : DataIF;
-	}
+    part def ThermalModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port ctrlIn;
+        port statusOut;
+    }
 
-	part def PowerSensor {
-		port dataIn : ConfigIF;
-		port cmdIn : ControlIF;
-		port configIn : ConfigIF;
-	}
+    part def MonitorInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+    }
 
-	part def NavUnit {
-		port statusOut : PowerIF;
-	}
+    part def PowerSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port dataIn;
+        port cmdIn;
+        port configIn;
+    }
 
-	part def MissionController {
-		port pwrIn : ControlIF;
-	}
+    part def NavUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The propulsion module system shall exchange data through typed interfaces. */
-	}
+    part def MissionController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The propulsion module system shall trace subsystem design to requirements. */
-	}
+    // System Definition
+    part def PropulsionModuleSystem {
+        part databus : DataBus {
+            satisfy REQ_003;
+        }
+        part thermalmodule : ThermalModule {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part monitorinterface : MonitorInterface {
+        }
+        part powersensor : PowerSensor {
+        }
+        part navunit : NavUnit {
+        }
+        part missioncontroller : MissionController {
+        }
 
-	requirement <'REQ-003'> {
-		doc /* The propulsion module system shall provide fault detection and recovery. */
-	}
+        // Connections
+        connect navunit.statusOut to thermalmodule.pwrIn;
+        connect databus.cmdIn to thermalmodule.statusOut;
+    }
 
-	// System Assembly
-	part propulsionmodulesystem : PropulsionModuleSystem {
-		part databus : DataBus;
-		part thermalmodule : ThermalModule;
-		part monitorinterface : MonitorInterface;
-		part powersensor : PowerSensor;
-		part navunit : NavUnit;
-		part missioncontroller : MissionController;
+    // System Instance
+    part propulsionmodulesystem : PropulsionModuleSystem;
 
-		// Connections
-		connection : link1 connect 
-			navunit.statusOut to thermalmodule.pwrIn;
-		connection : link2 connect 
-			databus.cmdIn to thermalmodule.statusOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by thermalmodule;
-		satisfy requirement <'REQ-002'> by thermalmodule;
-		satisfy requirement <'REQ-003'> by databus;
-		satisfy requirement <'REQ-003'> by thermalmodule;
-	}
 }

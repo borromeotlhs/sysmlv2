@@ -1,91 +1,90 @@
 package arch_000033 {
-	// Antenna Subsystem Reference Architecture 33
-	// Domain: antenna subsystem
 
-	import ScalarValues::*;
+    // Antenna Subsystem Reference Architecture 33
+    // Domain: antenna subsystem
 
-	// Interface Definitions
-	interface def CommandIF;
-	interface def ControlIF;
-	interface def DataIF;
-	interface def PowerIF;
-	interface def StatusIF;
-	interface def TelemetryIF;
-	interface def ThermalIF;
+    // Requirements
+    requirement REQ_001 {
+        doc "The antenna subsystem system shall exchange data through typed interfaces."
+    }
 
-	// Part Definitions
-	part def AntennaSubsystemSystem {
-	}
+    requirement REQ_002 {
+        doc "The antenna subsystem system shall trace subsystem design to requirements."
+    }
 
-	part def DistributionUnit {
-		port pwrIn : CommandIF;
-	}
+    requirement REQ_003 {
+        doc "The antenna subsystem system shall provide fault detection and recovery."
+    }
 
-	part def DistributionSubsystem {
-		port ctrlIn : ControlIF;
-		port sensorOut : DataIF;
-		port sensorOut : DataIF;
-	}
+    requirement REQ_004 {
+        doc "The antenna subsystem system shall maintain operational status monitoring."
+    }
 
-	part def SensorSensor {
-		port cmdOut : PowerIF;
-		port pwrIn : TelemetryIF;
-	}
+    // Component Definitions
+    part def DistributionUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+    }
 
-	part def CommProcessor {
-		port dataIn : StatusIF;
-		port cmdOut : ThermalIF;
-		port ctrlIn : ControlIF;
-	}
+    part def DistributionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port sensorOut;
+        port sensorOut;
+    }
 
-	part def DataActuator {
-		port statusOut : CommandIF;
-	}
+    part def SensorSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+        port pwrIn;
+    }
 
-	// Requirements
-	requirement <'REQ-001'> {
-		doc /* The antenna subsystem system shall exchange data through typed interfaces. */
-	}
+    part def CommProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
+        port cmdOut;
+        port ctrlIn;
+    }
 
-	requirement <'REQ-002'> {
-		doc /* The antenna subsystem system shall trace subsystem design to requirements. */
-	}
+    part def DataActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
 
-	requirement <'REQ-003'> {
-		doc /* The antenna subsystem system shall provide fault detection and recovery. */
-	}
+    // System Definition
+    part def AntennaSubsystemSystem {
+        part distributionunit : DistributionUnit {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part distributionsubsystem : DistributionSubsystem {
+            satisfy REQ_003;
+        }
+        part sensorsensor : SensorSensor {
+            satisfy REQ_004;
+        }
+        part commprocessor : CommProcessor {
+            satisfy REQ_001;
+        }
+        part dataactuator : DataActuator {
+            satisfy REQ_003;
+        }
 
-	requirement <'REQ-004'> {
-		doc /* The antenna subsystem system shall maintain operational status monitoring. */
-	}
+        // Connections
+        connect commprocessor.ctrlIn to sensorsensor.pwrIn;
+        connect commprocessor.dataIn to distributionsubsystem.ctrlIn;
+        connect distributionsubsystem.sensorOut to distributionunit.pwrIn;
+        connect distributionsubsystem.ctrlIn to sensorsensor.pwrIn;
+        connect sensorsensor.cmdOut to commprocessor.cmdOut;
+    }
 
-	// System Assembly
-	part antennasubsystemsystem : AntennaSubsystemSystem {
-		part distributionunit : DistributionUnit;
-		part distributionsubsystem : DistributionSubsystem;
-		part sensorsensor : SensorSensor;
-		part commprocessor : CommProcessor;
-		part dataactuator : DataActuator;
+    // System Instance
+    part antennasubsystemsystem : AntennaSubsystemSystem;
 
-		// Connections
-		connection : link1 connect 
-			commprocessor.ctrlIn to sensorsensor.pwrIn;
-		connection : link2 connect 
-			commprocessor.dataIn to distributionsubsystem.ctrlIn;
-		connection : link3 connect 
-			distributionsubsystem.sensorOut to distributionunit.pwrIn;
-		connection : link4 connect 
-			distributionsubsystem.ctrlIn to sensorsensor.pwrIn;
-		connection : link5 connect 
-			sensorsensor.cmdOut to commprocessor.cmdOut;
-
-		// Requirement Satisfaction
-		satisfy requirement <'REQ-001'> by commprocessor;
-		satisfy requirement <'REQ-001'> by distributionunit;
-		satisfy requirement <'REQ-002'> by distributionunit;
-		satisfy requirement <'REQ-003'> by distributionsubsystem;
-		satisfy requirement <'REQ-003'> by dataactuator;
-		satisfy requirement <'REQ-004'> by distributionunit;
-		satisfy requirement <'REQ-004'> by sensorsensor;
-	}
 }

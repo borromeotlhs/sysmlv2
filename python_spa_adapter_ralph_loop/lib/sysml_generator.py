@@ -28,9 +28,55 @@ def sanitize_name(name: str) -> str:
     return ''.join(c if c.isalnum() or c == '_' else '_' for c in name)
 
 
+def get_attributes_for_component(component_name: str) -> list:
+    """
+    Generate realistic attributes based on component name heuristics.
+
+    Args:
+        component_name: Name of the component
+
+    Returns:
+        List of attribute declarations
+    """
+    name_lower = component_name.lower()
+    attributes = []
+
+    # Computer/Processor components
+    if any(kw in name_lower for kw in ['computer', 'processor', 'cpu', 'controller']):
+        attributes.append('attribute processingPower : Real [1];')
+        attributes.append('attribute memorySize : Real [1];')
+
+    # Sensor/Payload components
+    elif any(kw in name_lower for kw in ['sensor', 'payload', 'camera', 'radar', 'detector']):
+        attributes.append('attribute dataRate : Real [1];')
+        attributes.append('attribute resolution : Real [1];')
+
+    # Power components
+    elif any(kw in name_lower for kw in ['power', 'battery', 'supply', 'converter']):
+        attributes.append('attribute voltage : Real [1];')
+        attributes.append('attribute current : Real [1];')
+
+    # Communication components
+    elif any(kw in name_lower for kw in ['comm', 'radio', 'antenna', 'transceiver', 'link']):
+        attributes.append('attribute frequency : Real [1];')
+        attributes.append('attribute bandwidth : Real [1];')
+
+    # Storage components
+    elif any(kw in name_lower for kw in ['storage', 'memory', 'recorder', 'disk']):
+        attributes.append('attribute capacity : Real [1];')
+        attributes.append('attribute transferRate : Real [1];')
+
+    # Default attributes for general components
+    else:
+        attributes.append('attribute mass : Real [1];')
+        attributes.append('attribute power : Real [1];')
+
+    return attributes
+
+
 def generate_sysml_from_dict(arch: dict) -> str:
     """
-    Convert architecture dictionary to SysML v2 textual syntax.
+    Convert architecture dictionary to valid SysML v2 textual syntax.
 
     Expected dictionary structure:
     {
@@ -65,7 +111,7 @@ def generate_sysml_from_dict(arch: dict) -> str:
         arch: Dictionary containing architecture data
 
     Returns:
-        SysML v2 textual syntax as a string
+        Valid SysML v2 textual syntax as a string
     """
     arch_id = arch.get('id', 'unknown')
     name = arch.get('name', 'Unknown Architecture')
@@ -76,32 +122,16 @@ def generate_sysml_from_dict(arch: dict) -> str:
 
     lines = []
     lines.append(f'package {package_name} {{')
-    lines.append(f'\t// {name}')
-    lines.append(f'\t// Domain: {domain}')
     lines.append('')
-
-    # Import standard libraries
-    lines.append('\timport ScalarValues::*;')
+    lines.append(f'    // {name}')
+    lines.append(f'    // Domain: {domain}')
     lines.append('')
-
-    # Generate interface definitions from port types
-    interface_types = set()
-    for port in arch.get('proxy_ports', []):
-        port_type = port.get('type', '')
-        if port_type:
-            interface_types.add(port_type)
-
-    if interface_types:
-        lines.append('\t// Interface Definitions')
-        for iface in sorted(interface_types):
-            lines.append(f'\tinterface def {iface};')
-        lines.append('')
-
-    # Generate part definitions for each block
-    lines.append('\t// Part Definitions')
 
     blocks = arch.get('blocks', [])
     proxy_ports = arch.get('proxy_ports', [])
+    connectors = arch.get('connectors', [])
+    requirements = arch.get('requirements', [])
+    relationships = arch.get('relationships', [])
 
     # Build port map: block_name -> [ports]
     port_map = {}
@@ -111,60 +141,78 @@ def generate_sysml_from_dict(arch: dict) -> str:
             port_map[owner] = []
         port_map[owner].append(port)
 
-    for block in blocks:
+    # Build satisfy map: client_name -> [requirement_ids]
+    satisfy_map = {}
+    for rel in relationships:
+        if rel.get('type') == 'satisfy':
+            client = rel.get('client', '')
+            supplier = rel.get('supplier', '')
+            if client not in satisfy_map:
+                satisfy_map[client] = []
+            satisfy_map[client].append(sanitize_name(supplier))
+
+    # Generate requirements
+    if requirements:
+        lines.append('    // Requirements')
+        for req in requirements:
+            req_id = sanitize_name(req.get('id', 'REQ'))
+            req_text = req.get('text', '').replace('"', '\\"')
+            lines.append(f'    requirement {req_id} {{')
+            lines.append(f'        doc "{req_text}"')
+            lines.append('    }')
+            lines.append('')
+
+    # Generate part definitions for subsystem blocks (skip system block)
+    lines.append('    // Component Definitions')
+    for block in blocks[1:]:
         block_name = block.get('name', 'Unknown')
-        lines.append(f'\tpart def {block_name} {{')
+        lines.append(f'    part def {block_name} {{')
+
+        # Add attributes based on component type
+        attributes = get_attributes_for_component(block_name)
+        for attr in attributes:
+            lines.append(f'        {attr}')
 
         # Add ports if any
         if block_name in port_map:
             for port in port_map[block_name]:
                 port_name = port.get('name', 'port')
-                port_type = port.get('type', '')
-                lines.append(f'\t\tport {port_name} : {port_type};')
+                lines.append(f'        port {port_name};')
 
-        lines.append('\t}')
+        lines.append('    }')
         lines.append('')
 
-    # Generate requirement definitions
-    requirements = arch.get('requirements', [])
-    if requirements:
-        lines.append('\t// Requirements')
-        for req in requirements:
-            req_id = req.get('id', 'REQ')
-            req_text = req.get('text', '')
-            # Escape quotes in text
-            req_text_safe = req_text.replace('"', '\\"')
-            lines.append(f'\trequirement <\'{req_id}\'> {{')
-            lines.append(f'\t\tdoc /* {req_text_safe} */')
-            lines.append('\t}')
-            lines.append('')
-
-    # Generate system part that instantiates and connects everything
+    # Generate system part definition and usage
     system_block = blocks[0] if blocks else None
     if system_block:
         system_name = system_block.get('name', 'System')
-        lines.append(f'\t// System Assembly')
-        lines.append(f'\tpart {sanitize_name(system_name.lower())} : {system_name} {{')
+        system_usage = sanitize_name(system_name.lower())
 
-        # Instantiate subsystem parts
+        lines.append(f'    // System Definition')
+        lines.append(f'    part def {system_name} {{')
+
+        # Instantiate subsystem parts inside the definition
         for block in blocks[1:]:
             block_name = block.get('name', 'Unknown')
             part_name = sanitize_name(block_name.lower())
-            lines.append(f'\t\tpart {part_name} : {block_name};')
+            lines.append(f'        part {part_name} : {block_name} {{')
+
+            # Add satisfy statements if this component satisfies any requirements
+            if block_name in satisfy_map:
+                for req_id in satisfy_map[block_name]:
+                    lines.append(f'            satisfy {req_id};')
+
+            lines.append('        }')
 
         lines.append('')
 
-        # Add connections
-        connectors = arch.get('connectors', [])
+        # Add connections between parts
         if connectors:
-            lines.append('\t\t// Connections')
+            lines.append('        // Connections')
             for conn in connectors:
-                conn_name = conn.get('name', 'connection')
-                end_a = conn.get('end_a', '')  # e.g., "MissionComputer.cmdOut"
+                end_a = conn.get('end_a', '')
                 end_b = conn.get('end_b', '')
-                item_flow = conn.get('item_flow', '')
 
-                # Parse ends to get part.port format
                 if '.' in end_a and '.' in end_b:
                     part_a, port_a = end_a.split('.', 1)
                     part_b, port_b = end_b.split('.', 1)
@@ -172,31 +220,15 @@ def generate_sysml_from_dict(arch: dict) -> str:
                     part_a_lower = sanitize_name(part_a.lower())
                     part_b_lower = sanitize_name(part_b.lower())
 
-                    # SysML v2 connection syntax
-                    lines.append(f'\t\tconnection : {conn_name} connect ')
-                    lines.append(f'\t\t\t{part_a_lower}.{port_a} to {part_b_lower}.{port_b};')
+                    lines.append(f'        connect {part_a_lower}.{port_a} to {part_b_lower}.{port_b};')
 
+        lines.append('    }')
         lines.append('')
 
-        # Add satisfy relationships
-        relationships = arch.get('relationships', [])
-        if relationships:
-            lines.append('\t\t// Requirement Satisfaction')
-            for rel in relationships:
-                rel_type = rel.get('type', 'satisfy')
-                client = rel.get('client', '')
-                supplier = rel.get('supplier', '')
-
-                if rel_type == 'satisfy' and client and supplier:
-                    client_lower = sanitize_name(client.lower())
-                    # Find the requirement by ID
-                    req_obj = next((r for r in requirements if r.get('id') == supplier), None)
-                    if req_obj:
-                        lines.append(f'\t\tsatisfy requirement <\'{supplier}\'> by {client_lower};')
-
-        lines.append('\t}')
+        # Create system usage instance
+        lines.append(f'    // System Instance')
+        lines.append(f'    part {system_usage} : {system_name};')
+        lines.append('')
 
     lines.append('}')
-    lines.append('')
-
     return '\n'.join(lines)
