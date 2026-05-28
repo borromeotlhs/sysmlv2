@@ -52,6 +52,9 @@ async function loadArchitectureFromPath(path) {
       // Show RAW .sysml textual syntax (not JSON!)
       $('architecturePreview').textContent = rawContent;
 
+      // Show copy/download controls for .sysml files
+      $('textControls').style.display = 'flex';
+
     } else {
       // For JSON files, use existing behavior
       currentArchitecture = await getJson('/api/architecture/' + encodeURIComponent(path));
@@ -70,6 +73,9 @@ async function loadArchitectureFromPath(path) {
 
       // Show JSON
       $('architecturePreview').textContent = JSON.stringify(currentArchitecture, null, 2);
+
+      // Hide copy/download controls for JSON files
+      $('textControls').style.display = 'none';
     }
 
     // Reset to text tab
@@ -261,6 +267,47 @@ function popoutBdd() {
   } else {
     alert('Load the BDD first by clicking the BDD tab');
   }
+}
+
+function copySysmlContent() {
+  const content = $('architecturePreview').textContent;
+  if (!content) {
+    alert('No content to copy');
+    return;
+  }
+
+  const btn = $('copySysmlContent');
+  const originalText = btn.textContent;
+
+  copyToClipboard(content).then(success => {
+    if (success) {
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => {
+        btn.textContent = originalText;
+      }, 2000);
+    } else {
+      alert('Failed to copy to clipboard');
+    }
+  });
+}
+
+function downloadSysml() {
+  const content = $('architecturePreview').textContent;
+  if (!content) {
+    alert('No content to download');
+    return;
+  }
+
+  // Extract filename from currentPath
+  const filename = currentPath ? currentPath.split('/').pop() : 'architecture.sysml';
+
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function popoutIbd() {
@@ -562,6 +609,8 @@ $('copyBddSource').onclick = copyBddSource;
 $('copyIbdSource').onclick = copyIbdSource;
 $('popoutBdd').onclick = popoutBdd;
 $('popoutIbd').onclick = popoutIbd;
+$('copySysmlContent').onclick = copySysmlContent;
+$('downloadSysml').onclick = downloadSysml;
 
 // Allow Enter key in root path input
 $('rootPath').onkeypress = (e) => {
@@ -575,6 +624,279 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 window.updatePair = updatePair;
 window.deletePair = deletePair;
+
+// ========== SysML Editor Modal ==========
+
+let validationTimeout = null;
+let currentValidation = null;
+let editorLineCount = 1;
+
+function openSysmlEditor(content = '', filename = '') {
+  const modal = $('sysmlEditorModal');
+  const editor = $('sysmlEditor');
+  const filenameInput = $('architectureFilename');
+
+  // Set content and filename
+  editor.value = content;
+  filenameInput.value = filename || generateNextArchitectureFilename();
+
+  // Show modal
+  modal.classList.add('active');
+
+  // Focus editor
+  setTimeout(() => editor.focus(), 100);
+
+  // Update line numbers
+  updateLineNumbers();
+
+  // Clear validation
+  clearValidation();
+
+  // Trigger initial validation if there's content
+  if (content.trim()) {
+    scheduleValidation();
+  }
+}
+
+function closeSysmlEditor() {
+  const modal = $('sysmlEditorModal');
+  modal.classList.remove('active');
+
+  // Clear editor
+  $('sysmlEditor').value = '';
+  $('architectureFilename').value = '';
+
+  // Clear validation
+  if (validationTimeout) {
+    clearTimeout(validationTimeout);
+    validationTimeout = null;
+  }
+  if (currentValidation) {
+    currentValidation = null;
+  }
+}
+
+function generateNextArchitectureFilename() {
+  // Try to find highest numbered architecture in current tree
+  // For now, just return a placeholder
+  return 'arch_000XXX.sysml';
+}
+
+function updateLineNumbers() {
+  const editor = $('sysmlEditor');
+  const lineNumbers = $('lineNumbers');
+  const lines = editor.value.split('\n');
+  editorLineCount = lines.length;
+
+  // Generate line numbers
+  const numbers = [];
+  for (let i = 1; i <= editorLineCount; i++) {
+    numbers.push(i);
+  }
+  lineNumbers.textContent = numbers.join('\n');
+
+  // Sync scroll
+  lineNumbers.scrollTop = editor.scrollTop;
+}
+
+function scheduleValidation() {
+  // Clear existing timeout
+  if (validationTimeout) {
+    clearTimeout(validationTimeout);
+  }
+
+  // Show validating status
+  showValidationStatus('validating', 'Validating...');
+
+  // Schedule validation after 500ms of no typing
+  validationTimeout = setTimeout(() => {
+    validateSysmlContent();
+  }, 500);
+}
+
+async function validateSysmlContent() {
+  const editor = $('sysmlEditor');
+  const content = editor.value.trim();
+
+  if (!content) {
+    clearValidation();
+    return;
+  }
+
+  try {
+    // Call backend validation endpoint
+    const response = await fetch('/api/validate-sysml', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content })
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.valid) {
+      // No errors
+      showValidationStatus('valid', 'Valid SysML v2 syntax');
+      editor.classList.remove('has-errors');
+      $('saveArchitecture').disabled = false;
+    } else {
+      // Has errors
+      const errors = result.errors || [];
+      displayValidationErrors(errors);
+      editor.classList.add('has-errors');
+      $('saveArchitecture').disabled = errors.some(e => e.severity === 'error');
+    }
+  } catch (e) {
+    console.error('Validation failed:', e);
+    showValidationStatus('error', 'Validation service unavailable');
+    editor.classList.remove('has-errors');
+    $('saveArchitecture').disabled = false; // Allow saving even if validation fails
+  }
+}
+
+function clearValidation() {
+  const errorList = $('errorList');
+  errorList.innerHTML = '<div class="status-message">Type to validate...</div>';
+  $('sysmlEditor').classList.remove('has-errors');
+  $('saveArchitecture').disabled = false;
+}
+
+function showValidationStatus(type, message) {
+  const errorList = $('errorList');
+  errorList.innerHTML = `<div class="status-message ${type}">${escapeHtml(message)}</div>`;
+}
+
+function displayValidationErrors(errors) {
+  const errorList = $('errorList');
+
+  if (errors.length === 0) {
+    showValidationStatus('valid', 'Valid SysML v2 syntax');
+    return;
+  }
+
+  // Sort errors by line number
+  errors.sort((a, b) => (a.line || 0) - (b.line || 0));
+
+  // Generate error items
+  const errorItems = errors.map((err, index) => {
+    const severity = err.severity || 'error';
+    const line = err.line || '?';
+    const column = err.column ? `:${err.column}` : '';
+    const message = err.message || 'Unknown error';
+
+    return `
+      <div class="error-item ${severity}" onclick="jumpToErrorLine(${err.line})" data-line="${err.line}">
+        <div class="error-line">Line ${line}${column}</div>
+        <div class="error-message">${escapeHtml(message)}</div>
+      </div>
+    `;
+  }).join('');
+
+  errorList.innerHTML = errorItems;
+}
+
+function jumpToErrorLine(line) {
+  if (!line) return;
+
+  const editor = $('sysmlEditor');
+  const lines = editor.value.split('\n');
+
+  // Calculate character position for the line
+  let charPos = 0;
+  for (let i = 0; i < line - 1 && i < lines.length; i++) {
+    charPos += lines[i].length + 1; // +1 for newline
+  }
+
+  // Set cursor position
+  editor.focus();
+  editor.setSelectionRange(charPos, charPos + (lines[line - 1]?.length || 0));
+
+  // Scroll to line
+  const lineHeight = 19.5; // Approximate line height in pixels
+  editor.scrollTop = (line - 1) * lineHeight - (editor.clientHeight / 3);
+}
+
+async function saveSysmlArchitecture() {
+  const editor = $('sysmlEditor');
+  const filenameInput = $('architectureFilename');
+
+  const content = editor.value.trim();
+  const filename = filenameInput.value.trim();
+
+  if (!content) {
+    alert('Content is empty. Please enter SysML v2 syntax.');
+    return;
+  }
+
+  if (!filename) {
+    alert('Please enter a filename.');
+    filenameInput.focus();
+    return;
+  }
+
+  // Ensure filename ends with .sysml
+  const finalFilename = filename.endsWith('.sysml') ? filename : filename + '.sysml';
+
+  try {
+    // Save to backend
+    const result = await postJson('/api/save-sysml', {
+      filename: finalFilename,
+      content: content
+    });
+
+    alert(`Architecture saved to ${result.path}`);
+
+    // Close modal
+    closeSysmlEditor();
+
+    // Refresh file tree
+    await refreshFileTree(treeRoot);
+
+    // Load the newly created file
+    if (result.path) {
+      loadArchitectureFromPath(result.path);
+    }
+  } catch (e) {
+    alert('Failed to save architecture: ' + e.message);
+  }
+}
+
+// Event listeners for modal
+$('newArchitectureBtn').onclick = () => openSysmlEditor();
+$('closeModal').onclick = closeSysmlEditor;
+$('cancelEditor').onclick = closeSysmlEditor;
+$('saveArchitecture').onclick = saveSysmlArchitecture;
+
+// Modal backdrop click to close
+$('sysmlEditorModal').onclick = (e) => {
+  if (e.target.classList.contains('modal-backdrop')) {
+    closeSysmlEditor();
+  }
+};
+
+// ESC key to close modal
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modal = $('sysmlEditorModal');
+    if (modal.classList.contains('active')) {
+      closeSysmlEditor();
+    }
+  }
+});
+
+// Editor events
+$('sysmlEditor').addEventListener('input', () => {
+  updateLineNumbers();
+  scheduleValidation();
+});
+
+$('sysmlEditor').addEventListener('scroll', () => {
+  const editor = $('sysmlEditor');
+  const lineNumbers = $('lineNumbers');
+  lineNumbers.scrollTop = editor.scrollTop;
+});
+
+// Expose jumpToErrorLine globally
+window.jumpToErrorLine = jumpToErrorLine;
 
 (async function init(){
   await refreshPairFiles();

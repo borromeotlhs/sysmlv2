@@ -20,12 +20,158 @@ STATIC = Path(__file__).resolve().parent / 'static'
 ARCH_DIR = ROOT / 'data' / 'architectures'
 PAIR_DIR = ROOT / 'data' / 'pairs'
 
+# Security constants
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
+ALLOWED_EXTENSIONS = {'.sysml'}
+
 
 def safe_data_path(base: Path, rel: str) -> Path:
     candidate = (base / rel).resolve()
     if base.resolve() not in candidate.parents and candidate != base.resolve():
         raise ValueError('path escapes data directory')
     return candidate
+
+
+def validate_save_path(path_str: str, base_dir: Path = None) -> Path:
+    """
+    Validate and resolve a file path for saving.
+
+    Args:
+        path_str: Path string (relative or absolute)
+        base_dir: Base directory to resolve relative paths (defaults to ARCH_DIR)
+
+    Returns:
+        Validated absolute Path object
+
+    Raises:
+        ValueError: If path is invalid or unsafe
+    """
+    if base_dir is None:
+        base_dir = ARCH_DIR
+
+    # Convert to Path object
+    path = Path(path_str)
+
+    # Security checks
+    # 1. Check for directory traversal attempts
+    if '..' in path.parts:
+        raise ValueError('Path contains directory traversal (..) - not allowed')
+
+    # 2. Check for absolute paths outside allowed directories
+    if path.is_absolute():
+        # Must be under ROOT or a subdirectory
+        try:
+            path.relative_to(ROOT)
+        except ValueError:
+            raise ValueError(f'Absolute paths must be under project root: {ROOT}')
+    else:
+        # Relative path - resolve relative to base_dir
+        path = base_dir / path
+
+    # 3. Resolve to absolute and verify it's under base_dir
+    path = path.resolve()
+    if base_dir.resolve() not in path.parents and path.parent != base_dir.resolve():
+        raise ValueError(f'Path must be under {base_dir}')
+
+    # 4. Check file extension
+    if path.suffix.lower() not in ALLOWED_EXTENSIONS:
+        raise ValueError(f'File extension must be one of: {", ".join(ALLOWED_EXTENSIONS)}')
+
+    # 5. Sanitize filename (no special characters that could cause issues)
+    if any(char in path.name for char in ['<', '>', ':', '"', '|', '?', '*']):
+        raise ValueError('Filename contains invalid characters')
+
+    return path
+
+
+def validate_sysml_content(content: str) -> dict:
+    """
+    Validate SysML v2 textual content.
+
+    Args:
+        content: SysML content string
+
+    Returns:
+        Validation result dictionary with:
+        - valid: bool
+        - errors: list of error dicts with line, column, message, severity
+    """
+    from tests.test_sysml_validation import SysMLValidator, ErrorSeverity
+    import tempfile
+
+    # Write content to temp file for validation
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.sysml', delete=False, encoding='utf-8') as f:
+        f.write(content)
+        temp_path = Path(f.name)
+
+    try:
+        # Run validator
+        validator = SysMLValidator()
+        issues = validator.validate_file(temp_path)
+
+        # Convert to API response format
+        errors = []
+        for issue in issues:
+            errors.append({
+                'line': issue.line_number,
+                'column': None,  # Our validator doesn't track columns yet
+                'message': issue.message,
+                'severity': issue.severity.value,
+                'category': issue.category
+            })
+
+        # Determine if valid (no errors, warnings are OK)
+        is_valid = not any(e['severity'] == 'error' for e in errors)
+
+        return {
+            'valid': is_valid,
+            'errors': errors
+        }
+
+    finally:
+        # Clean up temp file
+        if temp_path.exists():
+            temp_path.unlink()
+
+
+def validate_sysml_content_basic(content: str) -> dict:
+    """
+    Basic SysML validation using parser (fallback if full validator unavailable).
+
+    Args:
+        content: SysML content string
+
+    Returns:
+        Validation result dictionary
+    """
+    try:
+        # Try to parse the content
+        parse_sysml_to_json(content)
+        return {
+            'valid': True,
+            'errors': []
+        }
+    except Exception as e:
+        # Parse error - extract useful information
+        error_msg = str(e)
+
+        # Try to extract line number from error message
+        line_num = None
+        import re
+        line_match = re.search(r'line (\d+)', error_msg, re.IGNORECASE)
+        if line_match:
+            line_num = int(line_match.group(1))
+
+        return {
+            'valid': False,
+            'errors': [{
+                'line': line_num,
+                'column': None,
+                'message': error_msg,
+                'severity': 'error',
+                'category': 'ParseError'
+            }]
+        }
 
 
 def detect_architecture_format(arch_path: Path) -> str:
@@ -726,6 +872,187 @@ class Handler(BaseHTTPRequestHandler):
                 out = PAIR_DIR / filename
                 out.write_text(json.dumps(records, indent=2), encoding='utf-8')
                 return self.send_json({'ok': True, 'path': str(out.relative_to(ROOT)).replace('\\','/'), 'records': len(records)})
+
+            if parsed.path == '/api/save-architecture':
+                """
+                Save a SysML architecture file.
+
+                Request body:
+                {
+                    "path": "data/architectures/my_arch.sysml",  // relative or absolute
+                    "content": "package MyArch { ... }"
+                }
+
+                Response:
+                {
+                    "ok": true,
+                    "path": "data/architectures/my_arch.sysml",
+                    "size": 1234
+                }
+                """
+                body = self.read_body_json()
+
+                # Validate request
+                if 'path' not in body:
+                    return self.send_json({'error': 'Missing required field: path'}, 400)
+                if 'content' not in body:
+                    return self.send_json({'error': 'Missing required field: content'}, 400)
+
+                path_str = body['path']
+                content = body['content']
+
+                # Validate content size
+                content_size = len(content.encode('utf-8'))
+                if content_size > MAX_FILE_SIZE:
+                    return self.send_json({
+                        'error': f'Content too large: {content_size} bytes (max {MAX_FILE_SIZE})'
+                    }, 400)
+
+                # Validate and resolve path
+                try:
+                    file_path = validate_save_path(path_str)
+                except ValueError as e:
+                    return self.send_json({'error': f'Invalid path: {str(e)}'}, 400)
+
+                # Create parent directories if needed
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+
+                # Write content to file
+                try:
+                    file_path.write_text(content, encoding='utf-8')
+                except Exception as e:
+                    return self.send_json({'error': f'Failed to write file: {str(e)}'}, 500)
+
+                # Return success
+                return self.send_json({
+                    'ok': True,
+                    'path': str(file_path.relative_to(ROOT)).replace('\\', '/'),
+                    'size': content_size
+                }, 201)
+
+            if parsed.path == '/api/validate-sysml':
+                """
+                Validate SysML v2 textual content.
+
+                Request body:
+                {
+                    "content": "package Test { ... }"
+                }
+
+                Response (valid):
+                {
+                    "valid": true,
+                    "errors": []
+                }
+
+                Response (invalid):
+                {
+                    "valid": false,
+                    "errors": [
+                        {
+                            "line": 5,
+                            "column": 10,
+                            "message": "Missing semicolon",
+                            "severity": "error",
+                            "category": "SyntaxError"
+                        }
+                    ]
+                }
+                """
+                body = self.read_body_json()
+
+                # Validate request
+                if 'content' not in body:
+                    return self.send_json({'error': 'Missing required field: content'}, 400)
+
+                content = body['content']
+
+                # Validate content size
+                content_size = len(content.encode('utf-8'))
+                if content_size > MAX_FILE_SIZE:
+                    return self.send_json({
+                        'error': f'Content too large: {content_size} bytes (max {MAX_FILE_SIZE})'
+                    }, 400)
+
+                # Run validation
+                try:
+                    # Try full validator first
+                    result = validate_sysml_content(content)
+                except Exception as e:
+                    # Fall back to basic parser validation
+                    try:
+                        result = validate_sysml_content_basic(content)
+                    except Exception as e2:
+                        return self.send_json({
+                            'error': f'Validation failed: {str(e2)}'
+                        }, 500)
+
+                return self.send_json(result, 200)
+
+            if parsed.path == '/api/save-sysml':
+                """
+                Save a SysML architecture file from the editor modal.
+
+                Request body:
+                {
+                    "filename": "arch_000XXX.sysml",  // just the filename
+                    "content": "package MyArch { ... }"
+                }
+
+                Response:
+                {
+                    "ok": true,
+                    "path": "data/architectures/arch_000XXX.sysml",
+                    "size": 1234
+                }
+                """
+                body = self.read_body_json()
+
+                # Validate request
+                if 'filename' not in body:
+                    return self.send_json({'error': 'Missing required field: filename'}, 400)
+                if 'content' not in body:
+                    return self.send_json({'error': 'Missing required field: content'}, 400)
+
+                filename = body['filename']
+                content = body['content']
+
+                # Ensure filename ends with .sysml
+                if not filename.endswith('.sysml'):
+                    filename += '.sysml'
+
+                # Construct full path (use just filename to ensure it goes to ARCH_DIR)
+                path_str = f'data/architectures/{Path(filename).name}'
+
+                # Validate content size
+                content_size = len(content.encode('utf-8'))
+                if content_size > MAX_FILE_SIZE:
+                    return self.send_json({
+                        'error': f'Content too large: {content_size} bytes (max {MAX_FILE_SIZE})'
+                    }, 400)
+
+                # Validate and resolve path
+                try:
+                    file_path = validate_save_path(path_str)
+                except ValueError as e:
+                    return self.send_json({'error': f'Invalid path: {str(e)}'}, 400)
+
+                # Create parent directories if needed
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+
+                # Write content to file
+                try:
+                    file_path.write_text(content, encoding='utf-8')
+                except Exception as e:
+                    return self.send_json({'error': f'Failed to write file: {str(e)}'}, 500)
+
+                # Return success
+                return self.send_json({
+                    'ok': True,
+                    'path': str(file_path.relative_to(ROOT)).replace('\\', '/'),
+                    'size': content_size
+                }, 201)
+
             return self.send_json({'error': 'unknown endpoint'}, 404)
         except Exception as e:
             return self.send_json({'error': str(e)}, 500)

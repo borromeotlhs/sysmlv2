@@ -10,6 +10,7 @@
   <header>
     <h1>Adapter Pair Authoring SPA</h1>
     <p>Python-only, no npm. Author and edit prompt → architecture pairs.</p>
+    <button id="newArchitectureBtn" class="header-action-btn">+ New Architecture</button>
   </header>
   <div class="container">
     <aside id="sidebar">
@@ -41,6 +42,10 @@
           </div>
           <div class="tab-content">
             <div id="tab-text" class="tab-pane active">
+              <div class="diagram-controls" id="textControls" style="display: none;">
+                <button id="copySysmlContent" title="Copy .sysml content to clipboard">📋 Copy Content</button>
+                <button id="downloadSysml" title="Download .sysml file">💾 Download .sysml</button>
+              </div>
               <pre id="architecturePreview"></pre>
             </div>
             <div id="tab-bdd" class="tab-pane">
@@ -94,6 +99,40 @@
     </section>
   </main>
   </div>
+
+  <!-- SysML Editor Modal -->
+  <div id="sysmlEditorModal" class="modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>SysML v2 Architecture Editor</h2>
+        <button id="closeModal" class="close-btn" title="Close (ESC)">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="editor-controls">
+          <label for="architectureFilename">Filename:</label>
+          <input type="text" id="architectureFilename" placeholder="arch_000XXX.sysml" />
+        </div>
+        <div class="editor-container">
+          <div class="editor-wrapper">
+            <div class="line-numbers" id="lineNumbers"></div>
+            <textarea id="sysmlEditor" class="sysml-editor" placeholder="Enter SysML v2 textual syntax here..."></textarea>
+          </div>
+          <div class="error-panel" id="errorPanel">
+            <div class="error-header">Validation</div>
+            <div id="errorList" class="error-list">
+              <div class="status-message">Type to validate...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelEditor" class="btn-secondary">Cancel</button>
+        <button id="saveArchitecture" class="btn-primary">Save Architecture</button>
+      </div>
+    </div>
+  </div>
+
   <script src="/app.js"></script>
 </body>
 </html>
