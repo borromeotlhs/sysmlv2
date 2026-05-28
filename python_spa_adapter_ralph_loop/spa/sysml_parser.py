@@ -31,6 +31,116 @@ def parse_import_statement(line: str) -> Optional[str]:
     return None
 
 
+def parse_namespace_import(line: str) -> Optional[Dict]:
+    """
+    Parse namespace import statement and determine import pattern.
+
+    Args:
+        line: Line containing namespace import statement
+
+    Returns:
+        Dictionary with 'package' and 'pattern' keys, or None if not a namespace import
+
+    Examples:
+        'import Systems::*;' -> {'package': 'Systems', 'pattern': 'direct'}
+        'import Systems::**;' -> {'package': 'Systems', 'pattern': 'recursive'}
+        'import Systems::*::**;' -> {'package': 'Systems', 'pattern': 'hybrid'}
+    """
+    # Match namespace imports
+    # Pattern 1: import PackageName::*; (direct members only)
+    match_direct = re.match(r'\s*import\s+(\w+)::\*\s*;', line)
+    if match_direct:
+        return {'package': match_direct.group(1), 'pattern': 'direct'}
+
+    # Pattern 2: import PackageName::**; (recursive, all nested)
+    match_recursive = re.match(r'\s*import\s+(\w+)::\*\*\s*;', line)
+    if match_recursive:
+        return {'package': match_recursive.group(1), 'pattern': 'recursive'}
+
+    # Pattern 3: import PackageName::*::**; (direct + all nested)
+    match_hybrid = re.match(r'\s*import\s+(\w+)::\*::\*\*\s*;', line)
+    if match_hybrid:
+        return {'package': match_hybrid.group(1), 'pattern': 'hybrid'}
+
+    return None
+
+
+def resolve_namespace_import(package_name: str, pattern: str, arch: Dict) -> Set[str]:
+    """
+    Resolve namespace import to set of visible element names.
+
+    Args:
+        package_name: Name of the package being imported from
+        pattern: Import pattern ('direct', 'recursive', or 'hybrid')
+        arch: Architecture dictionary containing all packages and elements
+
+    Returns:
+        Set of element names that should be visible after the import
+
+    Examples:
+        For package Systems with:
+            - public part def PowerSystem { part battery; }
+            - public part def CoolingSystem { part radiator; }
+
+        resolve_namespace_import('Systems', 'direct', arch)
+            -> {'PowerSystem', 'CoolingSystem'}
+            (not 'battery' or 'radiator' - those are nested)
+
+        resolve_namespace_import('Systems', 'recursive', arch)
+            -> {'battery', 'radiator'}
+            (only nested elements, recursively)
+
+        resolve_namespace_import('Systems', 'hybrid', arch)
+            -> {'PowerSystem', 'CoolingSystem', 'battery', 'radiator'}
+            (both direct and nested)
+    """
+    visible = set()
+
+    # Extract all blocks and their compositions from the architecture
+    blocks = arch.get('blocks', [])
+    compositions = arch.get('compositions', [])
+
+    # Build a map of parent-child relationships
+    parent_children = {}
+    for comp in compositions:
+        parent = comp['parent']
+        child = comp['child']
+        if parent not in parent_children:
+            parent_children[parent] = []
+        parent_children[parent].append(child)
+
+    # Get direct members (public elements at package level)
+    # Assuming public elements are marked in exposed_elements
+    exposed = arch.get('exposed_elements', [])
+    direct_members = set(exposed) if exposed else {b['name'] for b in blocks}
+
+    # Helper function to get all nested children recursively
+    def get_nested_children(parent_name: str) -> Set[str]:
+        nested = set()
+        children = parent_children.get(parent_name, [])
+        for child in children:
+            nested.add(child)
+            # Recursively get children of this child
+            nested.update(get_nested_children(child))
+        return nested
+
+    # Apply pattern
+    if pattern == 'direct':
+        # Only direct members
+        visible = direct_members
+    elif pattern == 'recursive':
+        # Only nested elements, recursively from all direct members
+        for member in direct_members:
+            visible.update(get_nested_children(member))
+    elif pattern == 'hybrid':
+        # Both direct members and all nested
+        visible = direct_members.copy()
+        for member in direct_members:
+            visible.update(get_nested_children(member))
+
+    return visible
+
+
 def resolve_import_path(view_file: Path, import_target: str) -> Path:
     """
     Resolve relative import path from view file location.
@@ -335,6 +445,31 @@ def parse_sysml_to_json(sysml_content: str, file_path: Optional[Path] = None) ->
     # Extract exposed elements (for view filtering)
     exposed_elements = extract_exposed_elements(sysml_content)
 
+    # Process namespace imports
+    namespace_imports = []
+    imported_elements = set()
+
+    for line in lines:
+        ns_import = parse_namespace_import(line)
+        if ns_import:
+            namespace_imports.append(ns_import)
+            # Build temporary architecture dict for resolution
+            temp_arch = {
+                'blocks': blocks,
+                'compositions': compositions,
+                'exposed_elements': list(exposed_elements)
+            }
+            # Resolve and add visible elements
+            visible = resolve_namespace_import(
+                ns_import['package'],
+                ns_import['pattern'],
+                temp_arch
+            )
+            imported_elements.update(visible)
+
+    # Merge imported elements with locally exposed elements
+    all_exposed = exposed_elements.union(imported_elements)
+
     # Determine source type
     source_type = 'view' if view_metadata else 'monolithic'
 
@@ -350,7 +485,8 @@ def parse_sysml_to_json(sysml_content: str, file_path: Optional[Path] = None) ->
         'requirements': requirements,
         'relationships': relationships,
         'compositions': compositions,
-        'exposed_elements': list(exposed_elements)  # Add exposed elements for view filtering
+        'exposed_elements': list(all_exposed),  # Add exposed elements for view filtering
+        'namespace_imports': namespace_imports  # Track namespace imports
     }
 
     # Add view metadata if present
