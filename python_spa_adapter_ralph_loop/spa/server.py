@@ -296,11 +296,12 @@ def plantuml_encode(source: str) -> str:
     return custom.rstrip('=')
 
 
-def generate_bdd_plantuml(sysml_path: Path) -> str:
+def generate_bdd_plantuml(sysml_path: Path, truncate_text: bool = True) -> str:
     """Generate Block Definition Diagram PlantUML from .sysml file
 
     Args:
         sysml_path: Path to .sysml file or directory with model.sysml
+        truncate_text: Whether to truncate requirement text (default True for preview, False for full render)
 
     Returns:
         PlantUML source code as string
@@ -357,7 +358,9 @@ def generate_bdd_plantuml(sysml_path: Path) -> str:
     # Add requirements - use note style to avoid syntax issues
     for req in arch.get('requirements', []):
         req_id = req.get('id', 'REQ-?')
-        text = req.get('text', '').replace('"', '\\"')[:80]  # Escape quotes and truncate
+        text = req.get('text', '').replace('"', '\\"')
+        if truncate_text:
+            text = text[:80]  # Truncate for preview
         # Use object notation for requirements
         lines.append(f'object "{req_id}" as {req_id.replace("-", "_")} <<requirement>> {{')
         lines.append(f'  text = "{text}"')
@@ -379,7 +382,7 @@ def generate_bdd_plantuml(sysml_path: Path) -> str:
     return '\n'.join(lines)
 
 
-def generate_ibd_plantuml(sysml_path: Path) -> str:
+def generate_ibd_plantuml(sysml_path: Path, truncate_text: bool = True) -> str:
     """Generate Internal Block Diagram PlantUML from .sysml file
 
     Uses component-based syntax with real ports that straddle component boundaries.
@@ -387,6 +390,7 @@ def generate_ibd_plantuml(sysml_path: Path) -> str:
 
     Args:
         sysml_path: Path to .sysml file or directory with model.sysml
+        truncate_text: Whether to truncate text (default True for preview, False for full render)
 
     Returns:
         PlantUML source code as string
@@ -850,6 +854,11 @@ class Handler(BaseHTTPRequestHandler):
                 p = safe_data_path(ROOT, rel)
                 if not p.exists(): return self.send_json({'error': 'not found'}, 404)
 
+                # Check for full render query parameter
+                from urllib.parse import parse_qs
+                query_params = parse_qs(parsed.query)
+                full_render = query_params.get('full', ['false'])[0].lower() == 'true'
+
                 # Auto-detect format
                 fmt = detect_architecture_format(p)
                 if fmt == 'json':
@@ -862,7 +871,7 @@ class Handler(BaseHTTPRequestHandler):
                 elif fmt in ('separated', 'monolithic'):
                     # Pass the path directly to the generator
                     # It will handle parsing internally
-                    plantuml_src = generate_bdd_plantuml(p)
+                    plantuml_src = generate_bdd_plantuml(p, truncate_text=not full_render)
                     encoded = plantuml_encode(plantuml_src)
                     return self.send_json({
                         'plantuml': plantuml_src,
@@ -875,6 +884,11 @@ class Handler(BaseHTTPRequestHandler):
                 p = safe_data_path(ROOT, rel)
                 if not p.exists(): return self.send_json({'error': 'not found'}, 404)
 
+                # Check for full render query parameter
+                from urllib.parse import parse_qs
+                query_params = parse_qs(parsed.query)
+                full_render = query_params.get('full', ['false'])[0].lower() == 'true'
+
                 # Auto-detect format
                 fmt = detect_architecture_format(p)
                 if fmt == 'json':
@@ -883,7 +897,7 @@ class Handler(BaseHTTPRequestHandler):
                 elif fmt in ('separated', 'monolithic'):
                     # Pass the path directly to the generator
                     # It will handle parsing internally
-                    plantuml_src = generate_ibd_plantuml(p)
+                    plantuml_src = generate_ibd_plantuml(p, truncate_text=not full_render)
                     encoded = plantuml_encode(plantuml_src)
                     return self.send_json({
                         'plantuml': plantuml_src,
