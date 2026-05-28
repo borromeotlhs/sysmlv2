@@ -123,6 +123,8 @@ def generate_sysml_from_dict(arch: dict) -> str:
     lines = []
     lines.append(f'package {package_name} {{')
     lines.append('')
+    lines.append('    import ScalarValues::*;')
+    lines.append('')
     lines.append(f'    // {name}')
     lines.append(f'    // Domain: {domain}')
     lines.append('')
@@ -140,6 +142,13 @@ def generate_sysml_from_dict(arch: dict) -> str:
         if owner not in port_map:
             port_map[owner] = []
         port_map[owner].append(port)
+
+    # Collect unique port types for port def generation
+    port_types = set()
+    for port in proxy_ports:
+        port_type = port.get('type')
+        if port_type:
+            port_types.add(port_type)
 
     # Build satisfy map: client_name -> [requirement_ids]
     satisfy_map = {}
@@ -162,6 +171,13 @@ def generate_sysml_from_dict(arch: dict) -> str:
             lines.append('    }')
             lines.append('')
 
+    # Generate port definitions
+    if port_types:
+        lines.append('    // Port Definitions')
+        for port_type in sorted(port_types):
+            lines.append(f'    public port def {port_type};')
+        lines.append('')
+
     # Generate part definitions for subsystem blocks (skip system block)
     lines.append('    // Component Definitions')
     for block in blocks[1:]:
@@ -177,7 +193,11 @@ def generate_sysml_from_dict(arch: dict) -> str:
         if block_name in port_map:
             for port in port_map[block_name]:
                 port_name = port.get('name', 'port')
-                lines.append(f'        port {port_name};')
+                port_type = port.get('type')
+                if port_type:
+                    lines.append(f'        port {port_name} : {port_type};')
+                else:
+                    lines.append(f'        port {port_name};')
 
         lines.append('    }')
         lines.append('')
@@ -227,7 +247,7 @@ def generate_sysml_from_dict(arch: dict) -> str:
 
         # Create system usage instance
         lines.append(f'    // System Instance')
-        lines.append(f'    part {system_usage} : {system_name};')
+        lines.append(f'    public part {system_usage} : {system_name};')
         lines.append('')
 
     lines.append('}')
