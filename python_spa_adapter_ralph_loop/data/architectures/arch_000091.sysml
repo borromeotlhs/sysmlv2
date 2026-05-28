@@ -4,64 +4,49 @@ package arch_000091 {
     // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The autonomous rover system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
-        doc "The autonomous rover system shall maintain operational status monitoring."
-    }
-
     // Component Definitions
-    part def NavActuator {
+    public part def MonitorAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port statusOut;
-        port statusOut;
-    }
-
-    part def DistributionController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
         port telemetryOut;
+        port pwrIn;
+        port sensorOut;
     }
 
-    part def NavSubsystem {
+    public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
     }
 
     // System Definition
-    part def AutonomousRoverSystem {
-        part navactuator : NavActuator {
-            satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part distributioncontroller : DistributionController {
+    public part def AutonomousRoverSystem {
+        part monitorassembly : MonitorAssembly {
             satisfy REQ_001;
             satisfy REQ_002;
             satisfy REQ_003;
-            satisfy REQ_004;
         }
-        part navsubsystem : NavSubsystem {
+        part flightbus : FlightBus {
             satisfy REQ_001;
-            satisfy REQ_004;
+            satisfy REQ_002;
         }
 
         // Connections
-        connect navsubsystem.statusOut to distributioncontroller.telemetryOut;
-        connect navsubsystem.statusOut to navactuator.statusOut;
-        connect distributioncontroller.telemetryOut to navactuator.statusOut;
+        connect flightbus.statusOut to monitorassembly.pwrIn;
+        connect flightbus.statusOut to monitorassembly.sensorOut;
+        connect monitorassembly.telemetryOut to flightbus.statusOut;
     }
 
     // System Instance

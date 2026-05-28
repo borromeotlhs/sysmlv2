@@ -1,85 +1,77 @@
 package arch_000175 {
 
-    // Sensor Suite Reference Architecture 175
-    // Domain: sensor suite
+    // Autonomous Rover Reference Architecture 175
+    // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
-        doc "The sensor suite system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The sensor suite system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The autonomous rover system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The autonomous rover system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The autonomous rover system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def CommInterface {
+    public part def SensorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+    }
+
+    public part def CommandAssembly {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port telemetryOut;
-        port dataIn;
-    }
-
-    part def ThermalController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-    }
-
-    part def SensorInterface {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port sensorOut;
-        port ctrlIn;
-        port configIn;
-    }
-
-    part def ThermalComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+        port cmdOut;
         port dataOut;
+    }
+
+    public part def CommSubsystem {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
         port pwrIn;
     }
 
-    part def CommPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port ctrlIn;
-    }
-
-    part def FlightSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def CommandController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port telemetryOut;
-        port pwrOut;
-        port ctrlIn;
+        port dataIn;
+        port configIn;
     }
 
     // System Definition
-    part def SensorSuiteSystem {
-        part comminterface : CommInterface {
+    public part def AutonomousRoverSystem {
+        part sensorcomputer : SensorComputer {
+            satisfy REQ_003;
         }
-        part thermalcontroller : ThermalController {
+        part commandassembly : CommandAssembly {
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part commsubsystem : CommSubsystem {
             satisfy REQ_001;
         }
-        part sensorinterface : SensorInterface {
-        }
-        part thermalcomputer : ThermalComputer {
+        part commandcontroller : CommandController {
             satisfy REQ_002;
-        }
-        part commpayload : CommPayload {
-            satisfy REQ_002;
-        }
-        part flightsubsystem : FlightSubsystem {
+            satisfy REQ_004;
         }
 
         // Connections
-        connect thermalcomputer.pwrIn to sensorinterface.sensorOut;
-        connect sensorinterface.ctrlIn to flightsubsystem.telemetryOut;
-        connect commpayload.ctrlIn to comminterface.telemetryOut;
+        connect commandcontroller.dataIn to commsubsystem.pwrIn;
+        connect commandassembly.cmdOut to sensorcomputer.sensorOut;
+        connect commsubsystem.pwrIn to sensorcomputer.sensorOut;
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    part autonomousroversystem : AutonomousRoverSystem;
 
 }

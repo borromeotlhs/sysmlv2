@@ -1,90 +1,96 @@
 package arch_000193 {
 
-    // Antenna Subsystem Reference Architecture 193
-    // Domain: antenna subsystem
+    // Uav Payload Reference Architecture 193
+    // Domain: uav payload
 
     // Requirements
-    requirement REQ_001 {
-        doc "The antenna subsystem system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The uav payload system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The antenna subsystem system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The uav payload system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The antenna subsystem system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The antenna subsystem system shall maintain operational status monitoring."
+    public requirement REQ_003 {
+        doc "The uav payload system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def DistributionUnit {
+    public part def DataBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
-    }
-
-    part def DistributionSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+        port telemetryOut;
+        port cmdIn;
         port ctrlIn;
-        port sensorOut;
-        port sensorOut;
     }
 
-    part def SensorSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port cmdOut;
-        port pwrIn;
-    }
-
-    part def CommProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+    public part def MissionBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
         port dataIn;
-        port cmdOut;
-        port ctrlIn;
+        port pwrOut;
     }
 
-    part def DataActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def CommBus {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port pwrOut;
+        port statusOut;
         port statusOut;
     }
 
+    public part def SensorBus {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+        port telemetryOut;
+    }
+
+    public part def ThermalModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port pwrIn;
+        port pwrIn;
+    }
+
+    public part def ProcessingInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+    }
+
     // System Definition
-    part def AntennaSubsystemSystem {
-        part distributionunit : DistributionUnit {
-            satisfy REQ_001;
+    public part def UavPayloadSystem {
+        part databus : DataBus {
             satisfy REQ_002;
-            satisfy REQ_004;
         }
-        part distributionsubsystem : DistributionSubsystem {
+        part missionbus : MissionBus {
             satisfy REQ_003;
         }
-        part sensorsensor : SensorSensor {
-            satisfy REQ_004;
-        }
-        part commprocessor : CommProcessor {
+        part commbus : CommBus {
             satisfy REQ_001;
         }
-        part dataactuator : DataActuator {
+        part sensorbus : SensorBus {
+        }
+        part thermalmodule : ThermalModule {
+        }
+        part processinginterface : ProcessingInterface {
+            satisfy REQ_001;
             satisfy REQ_003;
         }
 
         // Connections
-        connect commprocessor.ctrlIn to sensorsensor.pwrIn;
-        connect commprocessor.dataIn to distributionsubsystem.ctrlIn;
-        connect distributionsubsystem.sensorOut to distributionunit.pwrIn;
-        connect distributionsubsystem.ctrlIn to sensorsensor.pwrIn;
-        connect sensorsensor.cmdOut to commprocessor.cmdOut;
+        connect missionbus.sensorOut to processinginterface.cmdIn;
+        connect sensorbus.telemetryOut to commbus.statusOut;
+        connect processinginterface.cmdIn to commbus.statusOut;
+        connect thermalmodule.pwrIn to commbus.statusOut;
+        connect missionbus.pwrOut to databus.telemetryOut;
     }
 
     // System Instance
-    part antennasubsystemsystem : AntennaSubsystemSystem;
+    part uavpayloadsystem : UavPayloadSystem;
 
 }

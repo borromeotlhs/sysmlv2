@@ -1,95 +1,78 @@
 package arch_000150 {
 
-    // Antenna Subsystem Reference Architecture 150
-    // Domain: antenna subsystem
+    // Telemetry System Reference Architecture 150
+    // Domain: telemetry system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The antenna subsystem system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The telemetry system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The antenna subsystem system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The telemetry system system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The telemetry system system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The telemetry system system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ThermalController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrOut;
-    }
-
-    part def CommController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-    }
-
-    part def DataSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
-        port pwrOut;
-        port telemetryOut;
-    }
-
-    part def ControlSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def SensorController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port dataOut;
-        port configIn;
-    }
-
-    part def CommUnit {
+    public part def CommandSubsystem {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
+        port configIn;
         port cmdOut;
-        port telemetryOut;
-        port ctrlIn;
+        port dataOut;
     }
 
-    part def ProcessingAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port telemetryOut;
+    public part def CommActuator {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataIn;
+        port statusOut;
+        port statusOut;
+    }
+
+    public part def DataComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
         port pwrOut;
+    }
+
+    public part def MissionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+        port sensorOut;
+        port ctrlIn;
     }
 
     // System Definition
-    part def AntennaSubsystemSystem {
-        part thermalcontroller : ThermalController {
+    public part def TelemetrySystemSystem {
+        part commandsubsystem : CommandSubsystem {
+            satisfy REQ_004;
+        }
+        part commactuator : CommActuator {
+        }
+        part datacomputer : DataComputer {
             satisfy REQ_001;
         }
-        part commcontroller : CommController {
-        }
-        part datasubsystem : DataSubsystem {
-        }
-        part controlsubsystem : ControlSubsystem {
+        part missionsensor : MissionSensor {
             satisfy REQ_002;
-        }
-        part sensorcontroller : SensorController {
-            satisfy REQ_001;
-        }
-        part communit : CommUnit {
-        }
-        part processingassembly : ProcessingAssembly {
-            satisfy REQ_002;
+            satisfy REQ_003;
         }
 
         // Connections
-        connect sensorcontroller.configIn to commcontroller.sensorOut;
-        connect sensorcontroller.configIn to communit.ctrlIn;
-        connect processingassembly.telemetryOut to datasubsystem.telemetryOut;
+        connect commactuator.statusOut to datacomputer.pwrOut;
+        connect commandsubsystem.dataOut to datacomputer.dataIn;
     }
 
     // System Instance
-    part antennasubsystemsystem : AntennaSubsystemSystem;
+    part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

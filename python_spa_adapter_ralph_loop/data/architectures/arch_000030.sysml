@@ -4,28 +4,28 @@ package arch_000030 {
     // Domain: antenna subsystem
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The antenna subsystem system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The antenna subsystem system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def ThermalController {
+    public part def ThermalController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrOut;
     }
 
-    part def CommController {
+    public part def CommController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port sensorOut;
     }
 
-    part def DataSubsystem {
+    public part def DataSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port sensorOut;
@@ -33,20 +33,20 @@ package arch_000030 {
         port telemetryOut;
     }
 
-    part def ControlSubsystem {
+    public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdOut;
     }
 
-    part def SensorController {
+    public part def SensorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port dataOut;
         port configIn;
     }
 
-    part def CommUnit {
+    public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port cmdOut;
@@ -54,7 +54,7 @@ package arch_000030 {
         port ctrlIn;
     }
 
-    part def ProcessingAssembly {
+    public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port ctrlIn;
@@ -63,7 +63,7 @@ package arch_000030 {
     }
 
     // System Definition
-    part def AntennaSubsystemSystem {
+    public part def AntennaSubsystemSystem {
         part thermalcontroller : ThermalController {
             satisfy REQ_001;
         }

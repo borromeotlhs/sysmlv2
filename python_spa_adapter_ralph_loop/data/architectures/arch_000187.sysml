@@ -1,83 +1,66 @@
 package arch_000187 {
 
-    // Telemetry System Reference Architecture 187
-    // Domain: telemetry system
+    // Avionics Bay Reference Architecture 187
+    // Domain: avionics bay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The telemetry system system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The avionics bay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The telemetry system system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The avionics bay system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The telemetry system system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The avionics bay system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def DataSubsystem {
+    public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
-        port pwrOut;
     }
 
-    part def ThermalPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port ctrlIn;
-        port cmdOut;
-        port cmdOut;
-    }
-
-    part def CommSubsystem {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port pwrOut;
-    }
-
-    part def ProcessingController {
+    public part def NavProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port sensorOut;
         port pwrOut;
+        port sensorOut;
+        port pwrIn;
     }
 
-    part def ThermalSubsystem {
+    public part def ControlUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port cmdIn;
+        port telemetryOut;
+        port ctrlIn;
     }
 
     // System Definition
-    part def TelemetrySystemSystem {
-        part datasubsystem : DataSubsystem {
-            satisfy REQ_003;
+    public part def AvionicsBaySystem {
+        part navinterface : NavInterface {
         }
-        part thermalpayload : ThermalPayload {
-            satisfy REQ_003;
-        }
-        part commsubsystem : CommSubsystem {
-        }
-        part processingcontroller : ProcessingController {
+        part navprocessor : NavProcessor {
             satisfy REQ_001;
-        }
-        part thermalsubsystem : ThermalSubsystem {
             satisfy REQ_002;
+        }
+        part controlunit : ControlUnit {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
         }
 
         // Connections
-        connect commsubsystem.pwrOut to datasubsystem.pwrOut;
-        connect processingcontroller.pwrOut to thermalpayload.cmdOut;
-        connect thermalsubsystem.cmdIn to processingcontroller.sensorOut;
-        connect processingcontroller.pwrOut to commsubsystem.pwrOut;
+        connect navinterface.telemetryOut to navprocessor.sensorOut;
+        connect controlunit.ctrlIn to navprocessor.pwrOut;
+        connect navinterface.telemetryOut to navprocessor.pwrOut;
+        connect controlunit.ctrlIn to navprocessor.pwrIn;
+        connect navinterface.telemetryOut to controlunit.telemetryOut;
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    part avionicsbaysystem : AvionicsBaySystem;
 
 }

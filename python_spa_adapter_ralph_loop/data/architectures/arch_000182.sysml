@@ -1,74 +1,60 @@
 package arch_000182 {
 
-    // Sensor Suite Reference Architecture 182
-    // Domain: sensor suite
+    // Autonomous Rover Reference Architecture 182
+    // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
-        doc "The sensor suite system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The sensor suite system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The autonomous rover system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The sensor suite system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The autonomous rover system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The autonomous rover system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def CommProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port dataIn;
-    }
-
-    part def DataSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port statusOut;
-        port telemetryOut;
-        port ctrlIn;
-    }
-
-    part def CommActuator {
+    public part def CommActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataOut;
+        port pwrIn;
+        port sensorOut;
     }
 
-    part def MonitorProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrIn;
-        port pwrIn;
-        port ctrlIn;
+    public part def CommandModule {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port pwrOut;
+        port telemetryOut;
+        port statusOut;
     }
 
     // System Definition
-    part def SensorSuiteSystem {
-        part commprocessor : CommProcessor {
-            satisfy REQ_001;
-            satisfy REQ_003;
-        }
-        part datasensor : DataSensor {
-        }
+    public part def AutonomousRoverSystem {
         part commactuator : CommActuator {
+            satisfy REQ_001;
             satisfy REQ_002;
             satisfy REQ_003;
         }
-        part monitorprocessor : MonitorProcessor {
-            satisfy REQ_001;
-            satisfy REQ_002;
+        part commandmodule : CommandModule {
+            satisfy REQ_003;
+            satisfy REQ_004;
         }
 
         // Connections
-        connect datasensor.statusOut to monitorprocessor.ctrlIn;
-        connect commactuator.dataOut to monitorprocessor.pwrIn;
-        connect monitorprocessor.ctrlIn to commactuator.dataOut;
+        connect commandmodule.telemetryOut to commactuator.pwrIn;
+        connect commandmodule.telemetryOut to commactuator.sensorOut;
+        connect commactuator.sensorOut to commandmodule.statusOut;
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    part autonomousroversystem : AutonomousRoverSystem;
 
 }

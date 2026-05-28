@@ -1,92 +1,103 @@
 package arch_000060 {
 
-    // Thermal Control Reference Architecture 60
-    // Domain: thermal control
+    // Lunar Habitat Reference Architecture 60
+    // Domain: lunar habitat
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The lunar habitat system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The lunar habitat system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The thermal control system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The lunar habitat system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The lunar habitat system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def CommandUnit {
+    public part def ThermalUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port cmdOut;
+    }
+
+    public part def FlightAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+    }
+
+    public part def MonitorInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
+
+    public part def CommandComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port cmdIn;
+        port pwrOut;
+    }
+
+    public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port sensorOut;
-        port sensorOut;
-    }
-
-    part def NavBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-    }
-
-    part def NavController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port cmdOut;
-        port ctrlIn;
-    }
-
-    part def MissionInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-        port ctrlIn;
-        port dataOut;
-    }
-
-    part def ControlModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
         port dataIn;
-        port dataOut;
-        port sensorOut;
+        port cmdOut;
     }
 
-    part def ProcessingProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+    public part def PowerBus {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port cmdOut;
+        port cmdOut;
+    }
+
+    public part def ProcessingModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port pwrIn;
+        port statusOut;
     }
 
     // System Definition
-    part def ThermalControlSystem {
-        part commandunit : CommandUnit {
+    public part def LunarHabitatSystem {
+        part thermalunit : ThermalUnit {
+            satisfy REQ_004;
         }
-        part navbus : NavBus {
+        part flightassembly : FlightAssembly {
+            satisfy REQ_003;
         }
-        part navcontroller : NavController {
+        part monitorinterface : MonitorInterface {
+        }
+        part commandcomputer : CommandComputer {
             satisfy REQ_002;
         }
-        part missioninterface : MissionInterface {
-            satisfy REQ_002;
+        part comminterface : CommInterface {
         }
-        part controlmodule : ControlModule {
+        part powerbus : PowerBus {
             satisfy REQ_001;
         }
-        part processingprocessor : ProcessingProcessor {
-            satisfy REQ_001;
+        part processingmodule : ProcessingModule {
             satisfy REQ_003;
         }
 
         // Connections
-        connect controlmodule.dataIn to navcontroller.ctrlIn;
-        connect navcontroller.ctrlIn to processingprocessor.pwrIn;
-        connect controlmodule.sensorOut to missioninterface.dataOut;
-        connect missioninterface.dataOut to controlmodule.dataIn;
+        connect thermalunit.cmdOut to comminterface.cmdOut;
+        connect thermalunit.telemetryOut to powerbus.cmdOut;
+        connect flightassembly.ctrlIn to comminterface.dataIn;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part lunarhabitatsystem : LunarHabitatSystem;
 
 }

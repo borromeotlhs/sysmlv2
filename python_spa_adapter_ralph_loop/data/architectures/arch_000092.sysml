@@ -1,65 +1,97 @@
 package arch_000092 {
 
-    // Solar Array Reference Architecture 92
-    // Domain: solar array
+    // Docking Mechanism Reference Architecture 92
+    // Domain: docking mechanism
 
     // Requirements
-    requirement REQ_001 {
-        doc "The solar array system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The docking mechanism system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The solar array system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The docking mechanism system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The solar array system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The docking mechanism system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The docking mechanism system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def PowerPayload {
+    public part def CommandProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port configIn;
+        port telemetryOut;
+    }
+
+    public part def MonitorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port sensorOut;
+        port telemetryOut;
+        port cmdOut;
+        port ctrlIn;
     }
 
-    part def FlightBus {
+    public part def MissionActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port ctrlIn;
+        port dataOut;
     }
 
-    part def PowerModule {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
+    public part def CommandComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port dataIn;
+        port dataIn;
+        port telemetryOut;
+    }
+
+    public part def CommandUnit {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataIn;
+        port ctrlIn;
+    }
+
+    public part def CommandSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port cmdOut;
+        port statusOut;
+        port dataIn;
     }
 
     // System Definition
-    part def SolarArraySystem {
-        part powerpayload : PowerPayload {
+    public part def DockingMechanismSystem {
+        part commandprocessor : CommandProcessor {
+            satisfy REQ_004;
+        }
+        part monitorsensor : MonitorSensor {
             satisfy REQ_001;
+        }
+        part missionactuator : MissionActuator {
+        }
+        part commandcomputer : CommandComputer {
+        }
+        part commandunit : CommandUnit {
             satisfy REQ_002;
             satisfy REQ_003;
         }
-        part flightbus : FlightBus {
+        part commandsensor : CommandSensor {
             satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part powermodule : PowerModule {
-            satisfy REQ_001;
         }
 
         // Connections
-        connect flightbus.dataIn to powermodule.cmdOut;
-        connect powermodule.dataIn to powerpayload.pwrOut;
-        connect powermodule.cmdOut to powerpayload.pwrOut;
-        connect powerpayload.pwrOut to flightbus.dataIn;
+        connect monitorsensor.cmdOut to commandcomputer.dataIn;
+        connect commandunit.dataIn to missionactuator.dataOut;
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    part dockingmechanismsystem : DockingMechanismSystem;
 
 }

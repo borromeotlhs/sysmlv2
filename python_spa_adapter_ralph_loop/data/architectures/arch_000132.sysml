@@ -1,65 +1,50 @@
 package arch_000132 {
 
-    // Solar Array Reference Architecture 132
-    // Domain: solar array
+    // Ground Station Reference Architecture 132
+    // Domain: ground station
 
     // Requirements
-    requirement REQ_001 {
-        doc "The solar array system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The ground station system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The solar array system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The solar array system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The ground station system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def PowerPayload {
+    public part def NavPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port sensorOut;
+        port dataOut;
+        port configIn;
     }
 
-    part def FlightBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataIn;
-    }
-
-    part def PowerModule {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port dataIn;
-        port cmdOut;
+    public part def CommProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port configIn;
+        port configIn;
+        port dataOut;
     }
 
     // System Definition
-    part def SolarArraySystem {
-        part powerpayload : PowerPayload {
+    public part def GroundStationSystem {
+        part navpayload : NavPayload {
+        }
+        part commprocessor : CommProcessor {
             satisfy REQ_001;
             satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part flightbus : FlightBus {
-            satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part powermodule : PowerModule {
-            satisfy REQ_001;
         }
 
         // Connections
-        connect flightbus.dataIn to powermodule.cmdOut;
-        connect powermodule.dataIn to powerpayload.pwrOut;
-        connect powermodule.cmdOut to powerpayload.pwrOut;
-        connect powerpayload.pwrOut to flightbus.dataIn;
+        connect navpayload.configIn to commprocessor.dataOut;
+        connect navpayload.dataOut to commprocessor.configIn;
+        connect navpayload.configIn to commprocessor.configIn;
+        connect commprocessor.dataOut to navpayload.dataOut;
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    part groundstationsystem : GroundStationSystem;
 
 }

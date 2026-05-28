@@ -1,55 +1,81 @@
 package arch_000043 {
 
-    // Instrument Platform Reference Architecture 43
-    // Domain: instrument platform
+    // Solar Array Reference Architecture 43
+    // Domain: solar array
 
     // Requirements
-    requirement REQ_001 {
-        doc "The instrument platform system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The solar array system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The instrument platform system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The solar array system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The instrument platform system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The solar array system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommandInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port statusOut;
+    public part def NavInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port sensorOut;
+        port dataIn;
     }
 
-    part def CommActuator {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port ctrlIn;
-        port pwrIn;
+    public part def DataUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port cmdIn;
     }
 
+    public part def ThermalUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port cmdIn;
+    }
+
+    public part def MonitorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port configIn;
+        port cmdOut;
+    }
+
+    public part def DistributionController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port ctrlIn;
+        port sensorOut;
+    }
+
     // System Definition
-    part def InstrumentPlatformSystem {
-        part commandinterface : CommandInterface {
+    public part def SolarArraySystem {
+        part navinterface : NavInterface {
             satisfy REQ_001;
-            satisfy REQ_002;
-            satisfy REQ_003;
         }
-        part commactuator : CommActuator {
+        part dataunit : DataUnit {
             satisfy REQ_002;
+        }
+        part thermalunit : ThermalUnit {
+            satisfy REQ_002;
+        }
+        part monitorcomputer : MonitorComputer {
+        }
+        part distributioncontroller : DistributionController {
             satisfy REQ_003;
         }
 
         // Connections
-        connect commactuator.pwrIn to commandinterface.statusOut;
-        connect commactuator.cmdIn to commandinterface.statusOut;
-        connect commactuator.ctrlIn to commandinterface.statusOut;
+        connect distributioncontroller.ctrlIn to monitorcomputer.cmdOut;
+        connect dataunit.cmdIn to navinterface.sensorOut;
+        connect navinterface.dataIn to monitorcomputer.cmdOut;
     }
 
     // System Instance
-    part instrumentplatformsystem : InstrumentPlatformSystem;
+    part solararraysystem : SolarArraySystem;
 
 }

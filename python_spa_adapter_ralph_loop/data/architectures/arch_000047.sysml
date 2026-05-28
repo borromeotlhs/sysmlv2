@@ -1,75 +1,82 @@
 package arch_000047 {
 
-    // Lunar Habitat Reference Architecture 47
-    // Domain: lunar habitat
+    // Power Distribution System Reference Architecture 47
+    // Domain: power distribution system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The lunar habitat system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The power distribution system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The lunar habitat system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The power distribution system system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The power distribution system system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MonitorActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-    }
-
-    part def ControlSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port telemetryOut;
-    }
-
-    part def ThermalUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
-        port cmdIn;
-    }
-
-    part def DataInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
-        port cmdOut;
+    public part def ThermalProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port dataOut;
     }
 
-    part def ProcessingAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataIn;
+    public part def PowerModule {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
         port cmdOut;
     }
 
+    public part def ProcessingController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port ctrlIn;
+    }
+
+    public part def MissionInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+        port cmdIn;
+        port ctrlIn;
+    }
+
+    public part def CommActuator {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataOut;
+        port dataIn;
+        port pwrIn;
+    }
+
     // System Definition
-    part def LunarHabitatSystem {
-        part monitoractuator : MonitorActuator {
+    public part def PowerDistributionSystemSystem {
+        part thermalprocessor : ThermalProcessor {
         }
-        part controlsensor : ControlSensor {
+        part powermodule : PowerModule {
+            satisfy REQ_003;
         }
-        part thermalunit : ThermalUnit {
+        part processingcontroller : ProcessingController {
+            satisfy REQ_001;
             satisfy REQ_002;
         }
-        part datainterface : DataInterface {
+        part missioninterface : MissionInterface {
+            satisfy REQ_003;
         }
-        part processingassembly : ProcessingAssembly {
-            satisfy REQ_001;
+        part commactuator : CommActuator {
+            satisfy REQ_002;
         }
 
         // Connections
-        connect datainterface.configIn to thermalunit.pwrOut;
-        connect processingassembly.cmdOut to datainterface.configIn;
-        connect processingassembly.cmdOut to monitoractuator.pwrIn;
-        connect controlsensor.telemetryOut to thermalunit.pwrOut;
+        connect missioninterface.cmdIn to processingcontroller.ctrlIn;
+        connect commactuator.pwrIn to missioninterface.cmdIn;
+        connect thermalprocessor.dataOut to commactuator.pwrIn;
+        connect processingcontroller.ctrlIn to commactuator.dataOut;
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

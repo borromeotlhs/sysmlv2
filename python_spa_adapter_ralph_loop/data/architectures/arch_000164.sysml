@@ -1,71 +1,63 @@
 package arch_000164 {
 
-    // Satellite Bus Reference Architecture 164
-    // Domain: satellite bus
+    // Avionics Bay Reference Architecture 164
+    // Domain: avionics bay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The satellite bus system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The avionics bay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The satellite bus system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The avionics bay system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The avionics bay system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The avionics bay system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DistributionUnit {
+    public part def MissionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port sensorOut;
-        port dataIn;
-    }
-
-    part def DataComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port dataIn;
+        port dataOut;
         port sensorOut;
         port statusOut;
     }
 
-    part def DataActuator {
+    public part def DataActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port statusOut;
+        port cmdIn;
         port ctrlIn;
-    }
-
-    part def FlightController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port cmdOut;
-        port dataOut;
     }
 
     // System Definition
-    part def SatelliteBusSystem {
-        part distributionunit : DistributionUnit {
-            satisfy REQ_001;
-        }
-        part datacomputer : DataComputer {
-        }
-        part dataactuator : DataActuator {
-        }
-        part flightcontroller : FlightController {
+    public part def AvionicsBaySystem {
+        part missionmodule : MissionModule {
             satisfy REQ_001;
             satisfy REQ_002;
+            satisfy REQ_003;
+            satisfy REQ_004;
+        }
+        part dataactuator : DataActuator {
+            satisfy REQ_001;
+            satisfy REQ_003;
+            satisfy REQ_004;
         }
 
         // Connections
-        connect distributionunit.ctrlIn to flightcontroller.cmdOut;
-        connect datacomputer.dataIn to flightcontroller.cmdOut;
-        connect flightcontroller.dataOut to distributionunit.ctrlIn;
-        connect datacomputer.statusOut to distributionunit.sensorOut;
+        connect missionmodule.dataOut to dataactuator.cmdIn;
+        connect dataactuator.cmdIn to missionmodule.sensorOut;
+        connect missionmodule.statusOut to dataactuator.ctrlIn;
+        connect dataactuator.ctrlIn to missionmodule.sensorOut;
     }
 
     // System Instance
-    part satellitebussystem : SatelliteBusSystem;
+    part avionicsbaysystem : AvionicsBaySystem;
 
 }

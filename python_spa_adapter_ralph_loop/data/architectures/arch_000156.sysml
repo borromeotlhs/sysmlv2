@@ -1,107 +1,93 @@
 package arch_000156 {
 
-    // Thermal Control Reference Architecture 156
-    // Domain: thermal control
+    // Communication Relay Reference Architecture 156
+    // Domain: communication relay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The communication relay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The thermal control system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The thermal control system shall maintain operational status monitoring."
+    public requirement REQ_002 {
+        doc "The communication relay system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DistributionComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port telemetryOut;
-        port cmdIn;
-        port cmdOut;
-    }
-
-    part def FlightInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
-        port statusOut;
-        port cmdIn;
-    }
-
-    part def MonitorSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-    }
-
-    part def ThermalSensor {
+    public part def NavPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port cmdOut;
-    }
-
-    part def DistributionBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
-    }
-
-    part def MonitorProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrOut;
-        port dataOut;
-    }
-
-    part def MissionProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+        port telemetryOut;
+        port pwrIn;
         port dataIn;
     }
 
+    public part def ProcessingSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+    }
+
+    public part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+    }
+
+    public part def ControlBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+    }
+
+    public part def NavUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port telemetryOut;
+        port dataOut;
+    }
+
+    public part def ControlActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port ctrlIn;
+    }
+
+    public part def ThermalBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+    }
+
     // System Definition
-    part def ThermalControlSystem {
-        part distributioncomputer : DistributionComputer {
+    public part def CommunicationRelaySystem {
+        part navpayload : NavPayload {
             satisfy REQ_001;
         }
-        part flightinterface : FlightInterface {
-            satisfy REQ_004;
+        part processingsubsystem : ProcessingSubsystem {
         }
-        part monitorsubsystem : MonitorSubsystem {
+        part monitorbus : MonitorBus {
+        }
+        part controlbus : ControlBus {
             satisfy REQ_002;
-            satisfy REQ_004;
         }
-        part thermalsensor : ThermalSensor {
+        part navunit : NavUnit {
         }
-        part distributionbus : DistributionBus {
-            satisfy REQ_003;
+        part controlactuator : ControlActuator {
         }
-        part monitorprocessor : MonitorProcessor {
+        part thermalbus : ThermalBus {
             satisfy REQ_001;
             satisfy REQ_002;
-        }
-        part missionprocessor : MissionProcessor {
         }
 
         // Connections
-        connect thermalsensor.cmdOut to distributioncomputer.cmdIn;
-        connect missionprocessor.dataIn to flightinterface.statusOut;
-        connect flightinterface.pwrOut to distributionbus.sensorOut;
-        connect monitorprocessor.dataOut to thermalsensor.pwrOut;
-        connect distributioncomputer.cmdIn to thermalsensor.pwrOut;
+        connect navunit.telemetryOut to navpayload.telemetryOut;
+        connect controlactuator.ctrlIn to processingsubsystem.dataOut;
+        connect monitorbus.dataOut to controlactuator.ctrlIn;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part communicationrelaysystem : CommunicationRelaySystem;
 
 }

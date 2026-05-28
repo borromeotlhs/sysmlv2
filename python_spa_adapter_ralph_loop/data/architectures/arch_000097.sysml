@@ -1,62 +1,92 @@
 package arch_000097 {
 
-    // Robotic Arm Reference Architecture 97
-    // Domain: robotic arm
+    // Autonomous Rover Reference Architecture 97
+    // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The autonomous rover system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def PowerComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port telemetryOut;
-    }
-
-    part def MissionSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
+    public part def DistributionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+        port pwrOut;
         port cmdIn;
     }
 
-    part def PowerBus {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port ctrlIn;
+    public part def NavSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port configIn;
+        port pwrOut;
+    }
+
+    public part def MissionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrIn;
+        port sensorOut;
+        port dataOut;
+    }
+
+    public part def ThermalSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port pwrOut;
+    }
+
+    public part def MonitorProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+        port statusOut;
+    }
+
+    public part def NavController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
         port ctrlIn;
     }
 
     // System Definition
-    part def RoboticArmSystem {
-        part powercomputer : PowerComputer {
-            satisfy REQ_002;
+    public part def AutonomousRoverSystem {
+        part distributionsubsystem : DistributionSubsystem {
+        }
+        part navsensor : NavSensor {
+            satisfy REQ_001;
             satisfy REQ_003;
         }
         part missionsensor : MissionSensor {
-            satisfy REQ_001;
+        }
+        part thermalsubsystem : ThermalSubsystem {
             satisfy REQ_002;
         }
-        part powerbus : PowerBus {
+        part monitorprocessor : MonitorProcessor {
+        }
+        part navcontroller : NavController {
             satisfy REQ_001;
         }
 
         // Connections
-        connect powercomputer.telemetryOut to powerbus.ctrlIn;
-        connect missionsensor.cmdIn to powercomputer.telemetryOut;
-        connect powerbus.ctrlIn to missionsensor.cmdIn;
+        connect thermalsubsystem.pwrOut to monitorprocessor.statusOut;
+        connect navcontroller.ctrlIn to distributionsubsystem.pwrOut;
+        connect navcontroller.statusOut to navsensor.configIn;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part autonomousroversystem : AutonomousRoverSystem;
 
 }

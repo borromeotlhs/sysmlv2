@@ -1,109 +1,74 @@
 package arch_000075 {
 
-    // Power Distribution System Reference Architecture 75
-    // Domain: power distribution system
+    // Thermal Control Reference Architecture 75
+    // Domain: thermal control
 
     // Requirements
-    requirement REQ_001 {
-        doc "The power distribution system system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The thermal control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The power distribution system system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The power distribution system system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The power distribution system system shall maintain operational status monitoring."
+    public requirement REQ_002 {
+        doc "The thermal control system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def MonitorInterface {
+    public part def CommandActuator {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port cmdIn;
+    }
+
+    public part def ControlInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
+        port pwrOut;
+        port pwrOut;
+    }
+
+    public part def ProcessingSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port telemetryOut;
+    }
+
+    public part def MissionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port dataIn;
     }
 
-    part def FlightActuator {
+    public part def ThermalBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port ctrlIn;
         port pwrIn;
-        port cmdIn;
-    }
-
-    part def ProcessingAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
-    }
-
-    part def CommandComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port statusOut;
-        port ctrlIn;
-        port cmdIn;
-    }
-
-    part def ThermalSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port pwrOut;
-        port telemetryOut;
-    }
-
-    part def ThermalInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-        port statusOut;
-    }
-
-    part def CommandInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port ctrlIn;
-        port pwrOut;
-        port ctrlIn;
+        port configIn;
     }
 
     // System Definition
-    part def PowerDistributionSystemSystem {
-        part monitorinterface : MonitorInterface {
+    public part def ThermalControlSystem {
+        part commandactuator : CommandActuator {
         }
-        part flightactuator : FlightActuator {
+        part controlinterface : ControlInterface {
             satisfy REQ_001;
-        }
-        part processingassembly : ProcessingAssembly {
             satisfy REQ_002;
         }
-        part commandcomputer : CommandComputer {
-            satisfy REQ_002;
-            satisfy REQ_004;
+        part processingsubsystem : ProcessingSubsystem {
         }
-        part thermalsensor : ThermalSensor {
-            satisfy REQ_004;
+        part missionsubsystem : MissionSubsystem {
         }
-        part thermalinterface : ThermalInterface {
-            satisfy REQ_001;
-            satisfy REQ_003;
-        }
-        part commandinterface : CommandInterface {
+        part thermalbus : ThermalBus {
         }
 
         // Connections
-        connect commandcomputer.cmdIn to flightactuator.ctrlIn;
-        connect flightactuator.ctrlIn to commandinterface.ctrlIn;
-        connect processingassembly.pwrOut to thermalsensor.pwrOut;
-        connect thermalsensor.pwrOut to commandinterface.pwrOut;
+        connect thermalbus.pwrIn to processingsubsystem.pwrIn;
+        connect missionsubsystem.dataIn to commandactuator.cmdIn;
+        connect processingsubsystem.telemetryOut to thermalbus.configIn;
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    part thermalcontrolsystem : ThermalControlSystem;
 
 }

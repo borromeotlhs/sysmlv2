@@ -1,83 +1,80 @@
 package arch_000107 {
 
-    // Telemetry System Reference Architecture 107
-    // Domain: telemetry system
+    // Ground Station Reference Architecture 107
+    // Domain: ground station
 
     // Requirements
-    requirement REQ_001 {
-        doc "The telemetry system system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The ground station system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The telemetry system system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The ground station system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The telemetry system system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The ground station system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The ground station system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DataSubsystem {
+    public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port sensorOut;
+        port sensorOut;
+    }
+
+    public part def DataModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port cmdIn;
         port pwrOut;
     }
 
-    part def ThermalPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port ctrlIn;
-        port cmdOut;
-        port cmdOut;
-    }
-
-    part def CommSubsystem {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port pwrOut;
-    }
-
-    part def ProcessingController {
+    public part def ThermalComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
-        port sensorOut;
-        port pwrOut;
+        port pwrIn;
     }
 
-    part def ThermalSubsystem {
+    public part def DistributionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
-        port cmdIn;
+        port dataOut;
+        port pwrIn;
+        port cmdOut;
     }
 
     // System Definition
-    part def TelemetrySystemSystem {
-        part datasubsystem : DataSubsystem {
-            satisfy REQ_003;
+    public part def GroundStationSystem {
+        part missionunit : MissionUnit {
+            satisfy REQ_004;
         }
-        part thermalpayload : ThermalPayload {
-            satisfy REQ_003;
+        part datamodule : DataModule {
+            satisfy REQ_002;
         }
-        part commsubsystem : CommSubsystem {
-        }
-        part processingcontroller : ProcessingController {
+        part thermalcomputer : ThermalComputer {
             satisfy REQ_001;
         }
-        part thermalsubsystem : ThermalSubsystem {
-            satisfy REQ_002;
+        part distributionbus : DistributionBus {
+            satisfy REQ_003;
+            satisfy REQ_004;
         }
 
         // Connections
-        connect commsubsystem.pwrOut to datasubsystem.pwrOut;
-        connect processingcontroller.pwrOut to thermalpayload.cmdOut;
-        connect thermalsubsystem.cmdIn to processingcontroller.sensorOut;
-        connect processingcontroller.pwrOut to commsubsystem.pwrOut;
+        connect datamodule.cmdIn to missionunit.sensorOut;
+        connect distributionbus.pwrIn to datamodule.dataIn;
+        connect missionunit.sensorOut to datamodule.pwrOut;
+        connect distributionbus.dataOut to missionunit.sensorOut;
+        connect distributionbus.cmdOut to missionunit.sensorOut;
     }
 
     // System Instance
-    part telemetrysystemsystem : TelemetrySystemSystem;
+    part groundstationsystem : GroundStationSystem;
 
 }

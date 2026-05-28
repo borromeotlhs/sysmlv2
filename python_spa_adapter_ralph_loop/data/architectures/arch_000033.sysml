@@ -4,30 +4,30 @@ package arch_000033 {
     // Domain: antenna subsystem
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The antenna subsystem system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The antenna subsystem system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The antenna subsystem system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The antenna subsystem system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DistributionUnit {
+    public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrIn;
     }
 
-    part def DistributionSubsystem {
+    public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port ctrlIn;
@@ -35,14 +35,14 @@ package arch_000033 {
         port sensorOut;
     }
 
-    part def SensorSensor {
+    public part def SensorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port cmdOut;
         port pwrIn;
     }
 
-    part def CommProcessor {
+    public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port dataIn;
@@ -50,14 +50,14 @@ package arch_000033 {
         port ctrlIn;
     }
 
-    part def DataActuator {
+    public part def DataActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
     }
 
     // System Definition
-    part def AntennaSubsystemSystem {
+    public part def AntennaSubsystemSystem {
         part distributionunit : DistributionUnit {
             satisfy REQ_001;
             satisfy REQ_002;

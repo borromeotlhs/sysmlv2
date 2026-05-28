@@ -1,70 +1,110 @@
 package arch_000093 {
 
-    // Command Data Handling Reference Architecture 93
-    // Domain: command data handling
+    // Radar System Reference Architecture 93
+    // Domain: radar system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The command data handling system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The radar system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The command data handling system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The radar system system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The command data handling system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The radar system system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The radar system system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def MonitorInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
+    public part def CommandActuator {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataOut;
         port statusOut;
+    }
+
+    public part def SensorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port configIn;
-    }
-
-    part def DistributionSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-    }
-
-    part def ProcessingProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port ctrlIn;
-    }
-
-    part def NavProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+        port statusOut;
         port pwrIn;
     }
 
+    public part def DistributionInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+    }
+
+    public part def MonitorSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+        port pwrIn;
+        port cmdIn;
+    }
+
+    public part def SensorSubsystem {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port sensorOut;
+        port sensorOut;
+        port statusOut;
+    }
+
+    public part def ThermalComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+        port pwrOut;
+        port dataIn;
+    }
+
+    public part def ProcessingSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port configIn;
+        port pwrIn;
+        port statusOut;
+    }
+
     // System Definition
-    part def CommandDataHandlingSystem {
-        part monitorinterface : MonitorInterface {
-            satisfy REQ_001;
+    public part def RadarSystemSystem {
+        part commandactuator : CommandActuator {
+        }
+        part sensorcomputer : SensorComputer {
             satisfy REQ_002;
         }
-        part distributionsubsystem : DistributionSubsystem {
+        part distributioninterface : DistributionInterface {
+        }
+        part monitorsubsystem : MonitorSubsystem {
+            satisfy REQ_004;
+        }
+        part sensorsubsystem : SensorSubsystem {
+        }
+        part thermalcomputer : ThermalComputer {
+            satisfy REQ_001;
+            satisfy REQ_002;
             satisfy REQ_003;
         }
-        part processingprocessor : ProcessingProcessor {
-        }
-        part navprocessor : NavProcessor {
+        part processingsensor : ProcessingSensor {
+            satisfy REQ_001;
         }
 
         // Connections
-        connect monitorinterface.statusOut to distributionsubsystem.telemetryOut;
-        connect monitorinterface.configIn to distributionsubsystem.telemetryOut;
-        connect monitorinterface.sensorOut to distributionsubsystem.telemetryOut;
-        connect navprocessor.pwrIn to processingprocessor.ctrlIn;
+        connect monitorsubsystem.cmdIn to thermalcomputer.pwrOut;
+        connect thermalcomputer.pwrOut to processingsensor.statusOut;
+        connect processingsensor.configIn to distributioninterface.cmdOut;
+        connect processingsensor.configIn to monitorsubsystem.cmdIn;
     }
 
     // System Instance
-    part commanddatahandlingsystem : CommandDataHandlingSystem;
+    part radarsystemsystem : RadarSystemSystem;
 
 }

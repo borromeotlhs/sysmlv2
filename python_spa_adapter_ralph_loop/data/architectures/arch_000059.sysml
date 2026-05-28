@@ -1,77 +1,79 @@
 package arch_000059 {
 
-    // Life Support Reference Architecture 59
-    // Domain: life support
+    // Solar Array Reference Architecture 59
+    // Domain: solar array
 
     // Requirements
-    requirement REQ_001 {
-        doc "The life support system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The solar array system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The life support system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The life support system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The solar array system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def MissionController {
+    public part def CommPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+        port ctrlIn;
+        port configIn;
+    }
+
+    public part def FlightInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port telemetryOut;
+        port cmdOut;
+    }
+
+    public part def DistributionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port configIn;
+        port dataOut;
+        port dataOut;
+    }
+
+    public part def CommSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+        port pwrOut;
+    }
+
+    public part def ProcessingUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port dataIn;
-    }
-
-    part def DataInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-        port pwrIn;
-        port configIn;
-    }
-
-    part def ControlActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
         port ctrlIn;
-        port ctrlIn;
-        port statusOut;
-    }
-
-    part def MissionInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
         port telemetryOut;
-        port dataIn;
     }
 
     // System Definition
-    part def LifeSupportSystem {
-        part missioncontroller : MissionController {
-            satisfy REQ_003;
+    public part def SolarArraySystem {
+        part commpayload : CommPayload {
         }
-        part datainterface : DataInterface {
+        part flightinterface : FlightInterface {
             satisfy REQ_001;
-        }
-        part controlactuator : ControlActuator {
             satisfy REQ_002;
         }
-        part missioninterface : MissionInterface {
+        part distributioncontroller : DistributionController {
             satisfy REQ_002;
-            satisfy REQ_003;
+        }
+        part commsensor : CommSensor {
+        }
+        part processingunit : ProcessingUnit {
+            satisfy REQ_001;
         }
 
         // Connections
-        connect controlactuator.statusOut to datainterface.configIn;
-        connect controlactuator.ctrlIn to missioninterface.telemetryOut;
-        connect controlactuator.statusOut to missioncontroller.dataIn;
-        connect datainterface.configIn to controlactuator.ctrlIn;
-        connect missioncontroller.configIn to missioninterface.telemetryOut;
+        connect commpayload.ctrlIn to processingunit.dataIn;
+        connect commpayload.configIn to distributioncontroller.dataOut;
     }
 
     // System Instance
-    part lifesupportsystem : LifeSupportSystem;
+    part solararraysystem : SolarArraySystem;
 
 }

@@ -1,55 +1,94 @@
 package arch_000123 {
 
-    // Instrument Platform Reference Architecture 123
-    // Domain: instrument platform
+    // Radar System Reference Architecture 123
+    // Domain: radar system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The instrument platform system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The radar system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The instrument platform system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The instrument platform system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The radar system system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def CommandInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port statusOut;
+    public part def ProcessingInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port ctrlIn;
     }
 
-    part def CommActuator {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port ctrlIn;
+    public part def MonitorController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
+        port pwrOut;
         port pwrIn;
+    }
+
+    public part def MonitorInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
+
+    public part def SensorActuator {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port configIn;
         port cmdIn;
+        port configIn;
+    }
+
+    public part def PowerActuator {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port cmdIn;
+        port configIn;
+        port pwrIn;
+    }
+
+    public part def MissionAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+    }
+
+    public part def SensorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
     }
 
     // System Definition
-    part def InstrumentPlatformSystem {
-        part commandinterface : CommandInterface {
-            satisfy REQ_001;
-            satisfy REQ_002;
-            satisfy REQ_003;
+    public part def RadarSystemSystem {
+        part processinginterface : ProcessingInterface {
         }
-        part commactuator : CommActuator {
+        part monitorcontroller : MonitorController {
             satisfy REQ_002;
-            satisfy REQ_003;
+        }
+        part monitorinterface : MonitorInterface {
+            satisfy REQ_002;
+        }
+        part sensoractuator : SensorActuator {
+        }
+        part poweractuator : PowerActuator {
+        }
+        part missionassembly : MissionAssembly {
+            satisfy REQ_001;
+        }
+        part sensorcomputer : SensorComputer {
         }
 
         // Connections
-        connect commactuator.pwrIn to commandinterface.statusOut;
-        connect commactuator.cmdIn to commandinterface.statusOut;
-        connect commactuator.ctrlIn to commandinterface.statusOut;
+        connect poweractuator.cmdIn to monitorcontroller.pwrIn;
+        connect sensorcomputer.pwrIn to monitorcontroller.pwrIn;
+        connect poweractuator.pwrIn to processinginterface.ctrlIn;
     }
 
     // System Instance
-    part instrumentplatformsystem : InstrumentPlatformSystem;
+    part radarsystemsystem : RadarSystemSystem;
 
 }

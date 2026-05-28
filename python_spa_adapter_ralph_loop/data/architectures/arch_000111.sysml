@@ -1,54 +1,78 @@
 package arch_000111 {
 
-    // Autonomous Rover Reference Architecture 111
-    // Domain: autonomous rover
+    // Ground Station Reference Architecture 111
+    // Domain: ground station
 
     // Requirements
-    requirement REQ_001 {
-        doc "The autonomous rover system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The ground station system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The autonomous rover system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The ground station system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The autonomous rover system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The ground station system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ThermalUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
+    public part def DistributionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
     }
 
-    part def FlightInterface {
+    public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port configIn;
         port cmdIn;
     }
 
+    public part def CommandAssembly {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port statusOut;
+        port ctrlIn;
+    }
+
+    public part def FlightSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port dataOut;
+    }
+
+    public part def SensorBus {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port dataIn;
+    }
+
     // System Definition
-    part def AutonomousRoverSystem {
-        part thermalunit : ThermalUnit {
+    public part def GroundStationSystem {
+        part distributionprocessor : DistributionProcessor {
+        }
+        part monitoractuator : MonitorActuator {
             satisfy REQ_002;
             satisfy REQ_003;
         }
-        part flightinterface : FlightInterface {
+        part commandassembly : CommandAssembly {
+        }
+        part flightsensor : FlightSensor {
             satisfy REQ_001;
-            satisfy REQ_003;
+            satisfy REQ_002;
+        }
+        part sensorbus : SensorBus {
         }
 
         // Connections
-        connect flightinterface.statusOut to thermalunit.configIn;
-        connect thermalunit.configIn to flightinterface.configIn;
-        connect thermalunit.configIn to flightinterface.cmdIn;
+        connect flightsensor.dataOut to monitoractuator.cmdIn;
+        connect sensorbus.dataIn to distributionprocessor.dataIn;
+        connect commandassembly.ctrlIn to monitoractuator.cmdIn;
+        connect flightsensor.dataOut to commandassembly.ctrlIn;
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    part groundstationsystem : GroundStationSystem;
 
 }

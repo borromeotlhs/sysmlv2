@@ -1,72 +1,59 @@
 package arch_000104 {
 
-    // Robotic Arm Reference Architecture 104
-    // Domain: robotic arm
+    // Docking Mechanism Reference Architecture 104
+    // Domain: docking mechanism
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The docking mechanism system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The docking mechanism system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def ControlModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-        port dataIn;
-        port cmdIn;
-    }
-
-    part def MonitorController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port cmdOut;
-        port dataOut;
-    }
-
-    part def MonitorPayload {
+    public part def SensorAssembly {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
+        port sensorOut;
+        port cmdOut;
+        port dataIn;
     }
 
-    part def ProcessingUnit {
+    public part def ThermalBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port pwrOut;
+    }
+
+    public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
-        port statusOut;
     }
 
     // System Definition
-    part def RoboticArmSystem {
-        part controlmodule : ControlModule {
-            satisfy REQ_003;
-        }
-        part monitorcontroller : MonitorController {
-            satisfy REQ_003;
-        }
-        part monitorpayload : MonitorPayload {
-            satisfy REQ_001;
+    public part def DockingMechanismSystem {
+        part sensorassembly : SensorAssembly {
             satisfy REQ_002;
         }
-        part processingunit : ProcessingUnit {
+        part thermalbus : ThermalBus {
+        }
+        part navunit : NavUnit {
+            satisfy REQ_001;
         }
 
         // Connections
-        connect processingunit.telemetryOut to controlmodule.dataIn;
-        connect processingunit.telemetryOut to monitorcontroller.dataOut;
-        connect monitorpayload.statusOut to monitorcontroller.cmdOut;
+        connect navunit.telemetryOut to sensorassembly.cmdOut;
+        connect thermalbus.pwrOut to sensorassembly.dataIn;
+        connect navunit.telemetryOut to sensorassembly.sensorOut;
+        connect sensorassembly.cmdOut to thermalbus.pwrOut;
+        connect thermalbus.pwrIn to navunit.telemetryOut;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part dockingmechanismsystem : DockingMechanismSystem;
 
 }

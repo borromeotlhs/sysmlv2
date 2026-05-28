@@ -4,50 +4,90 @@ package arch_000198 {
     // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The autonomous rover system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
+    public requirement REQ_004 {
+        doc "The autonomous rover system shall maintain operational status monitoring."
+    }
+
     // Component Definitions
-    part def FlightComputer {
+    public part def MonitorModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port dataIn;
+    }
+
+    public part def DataBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+    }
+
+    public part def NavController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
+        port pwrIn;
+        port pwrOut;
+        port ctrlIn;
+    }
+
+    public part def FlightSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+        port statusOut;
+    }
+
+    public part def ControlAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
+        port configIn;
+        port dataIn;
+    }
+
+    public part def PowerBus {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
         port configIn;
     }
 
-    part def MonitorActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-        port ctrlIn;
-        port pwrIn;
-    }
-
     // System Definition
-    part def AutonomousRoverSystem {
-        part flightcomputer : FlightComputer {
+    public part def AutonomousRoverSystem {
+        part monitormodule : MonitorModule {
+        }
+        part databus : DataBus {
             satisfy REQ_002;
             satisfy REQ_003;
         }
-        part monitoractuator : MonitorActuator {
+        part navcontroller : NavController {
+        }
+        part flightsensor : FlightSensor {
             satisfy REQ_001;
+        }
+        part controlassembly : ControlAssembly {
+            satisfy REQ_001;
+            satisfy REQ_004;
+        }
+        part powerbus : PowerBus {
             satisfy REQ_002;
         }
 
         // Connections
-        connect flightcomputer.configIn to monitoractuator.ctrlIn;
-        connect monitoractuator.ctrlIn to flightcomputer.telemetryOut;
-        connect flightcomputer.configIn to monitoractuator.telemetryOut;
-        connect flightcomputer.telemetryOut to monitoractuator.telemetryOut;
+        connect powerbus.configIn to flightsensor.cmdOut;
+        connect controlassembly.cmdIn to monitormodule.dataIn;
+        connect flightsensor.statusOut to controlassembly.cmdIn;
     }
 
     // System Instance

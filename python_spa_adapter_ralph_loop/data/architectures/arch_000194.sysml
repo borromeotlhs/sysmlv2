@@ -1,72 +1,65 @@
 package arch_000194 {
 
-    // Power Distribution System Reference Architecture 194
-    // Domain: power distribution system
+    // Command Data Handling Reference Architecture 194
+    // Domain: command data handling
 
     // Requirements
-    requirement REQ_001 {
-        doc "The power distribution system system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The command data handling system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The power distribution system system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The power distribution system system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The command data handling system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def FlightComputer {
+    public part def MissionController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+    }
+
+    public part def CommPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdIn;
+        port telemetryOut;
+    }
+
+    public part def DataController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port ctrlIn;
     }
 
-    part def DataSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdIn;
-        port configIn;
-        port dataIn;
-    }
-
-    part def MonitorActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdIn;
-        port pwrOut;
-    }
-
-    part def NavController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+    public part def SensorSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrIn;
         port statusOut;
-        port telemetryOut;
-        port sensorOut;
     }
 
     // System Definition
-    part def PowerDistributionSystemSystem {
-        part flightcomputer : FlightComputer {
+    public part def CommandDataHandlingSystem {
+        part missioncontroller : MissionController {
         }
-        part datasubsystem : DataSubsystem {
-        }
-        part monitoractuator : MonitorActuator {
-            satisfy REQ_001;
+        part commpayload : CommPayload {
             satisfy REQ_002;
-            satisfy REQ_003;
         }
-        part navcontroller : NavController {
+        part datacontroller : DataController {
             satisfy REQ_001;
+        }
+        part sensorsensor : SensorSensor {
         }
 
         // Connections
-        connect navcontroller.sensorOut to flightcomputer.ctrlIn;
-        connect navcontroller.telemetryOut to flightcomputer.ctrlIn;
+        connect missioncontroller.statusOut to datacontroller.ctrlIn;
+        connect datacontroller.ctrlIn to commpayload.cmdIn;
+        connect commpayload.telemetryOut to sensorsensor.statusOut;
+        connect missioncontroller.statusOut to commpayload.telemetryOut;
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    part commanddatahandlingsystem : CommandDataHandlingSystem;
 
 }

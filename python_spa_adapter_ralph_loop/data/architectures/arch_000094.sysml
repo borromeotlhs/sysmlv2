@@ -1,58 +1,96 @@
 package arch_000094 {
 
-    // Avionics Bay Reference Architecture 94
-    // Domain: avionics bay
+    // Fuel Cell Reference Architecture 94
+    // Domain: fuel cell
 
     // Requirements
-    requirement REQ_001 {
-        doc "The avionics bay system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The fuel cell system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The avionics bay system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The avionics bay system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The avionics bay system shall maintain operational status monitoring."
+    public requirement REQ_002 {
+        doc "The fuel cell system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def ControlProcessor {
+    public part def CommandController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port telemetryOut;
+        port cmdOut;
+    }
+
+    public part def DataSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port configIn;
+        port cmdOut;
+    }
+
+    public part def CommAssembly {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataOut;
+        port cmdOut;
+    }
+
+    public part def DistributionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port statusOut;
+    }
+
+    public part def ControlBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port pwrIn;
+        port cmdIn;
+    }
+
+    public part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port cmdIn;
+        port telemetryOut;
+    }
+
+    public part def MissionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
         port configIn;
     }
 
-    part def DataProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrIn;
-        port dataIn;
-    }
-
     // System Definition
-    part def AvionicsBaySystem {
-        part controlprocessor : ControlProcessor {
+    public part def FuelCellSystem {
+        part commandcontroller : CommandController {
+        }
+        part datasensor : DataSensor {
+        }
+        part commassembly : CommAssembly {
+        }
+        part distributionsensor : DistributionSensor {
             satisfy REQ_001;
             satisfy REQ_002;
-            satisfy REQ_004;
         }
-        part dataprocessor : DataProcessor {
+        part controlbus : ControlBus {
+        }
+        part monitorbus : MonitorBus {
+            satisfy REQ_002;
+        }
+        part missionprocessor : MissionProcessor {
             satisfy REQ_001;
-            satisfy REQ_003;
         }
 
         // Connections
-        connect controlprocessor.configIn to dataprocessor.pwrIn;
-        connect controlprocessor.telemetryOut to dataprocessor.pwrIn;
+        connect controlbus.cmdIn to datasensor.configIn;
+        connect commandcontroller.telemetryOut to commassembly.cmdOut;
+        connect monitorbus.ctrlIn to commandcontroller.telemetryOut;
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    part fuelcellsystem : FuelCellSystem;
 
 }

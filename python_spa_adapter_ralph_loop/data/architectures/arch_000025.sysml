@@ -4,16 +4,16 @@ package arch_000025 {
     // Domain: thermal control
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The thermal control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The thermal control system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def FlightPayload {
+    public part def FlightPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port configIn;
@@ -21,7 +21,7 @@ package arch_000025 {
         port dataOut;
     }
 
-    part def FlightInterface {
+    public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataOut;
@@ -29,14 +29,14 @@ package arch_000025 {
         port configIn;
     }
 
-    part def DataInterface {
+    public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrOut;
     }
 
     // System Definition
-    part def ThermalControlSystem {
+    public part def ThermalControlSystem {
         part flightpayload : FlightPayload {
             satisfy REQ_002;
         }

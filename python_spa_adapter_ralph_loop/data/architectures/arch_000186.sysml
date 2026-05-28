@@ -1,78 +1,89 @@
 package arch_000186 {
 
-    // Uav Payload Reference Architecture 186
-    // Domain: uav payload
+    // Battery Management Reference Architecture 186
+    // Domain: battery management
 
     // Requirements
-    requirement REQ_001 {
-        doc "The uav payload system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The battery management system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The uav payload system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The battery management system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The uav payload system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The battery management system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
-        doc "The uav payload system shall maintain operational status monitoring."
+    public requirement REQ_004 {
+        doc "The battery management system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DistributionModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
+    public part def MonitorController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
+        port configIn;
     }
 
-    part def ControlAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def MissionProcessor {
+    public part def MonitorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrOut;
-        port configIn;
+        port statusOut;
+        port statusOut;
     }
 
-    part def PowerComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
+    public part def SensorInterface {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrIn;
+    }
+
+    public part def ProcessingPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+        port cmdOut;
+    }
+
+    public part def FlightBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port configIn;
+        port cmdOut;
+        port pwrOut;
     }
 
     // System Definition
-    part def UavPayloadSystem {
-        part distributionmodule : DistributionModule {
+    public part def BatteryManagementSystem {
+        part monitorcontroller : MonitorController {
+            satisfy REQ_002;
             satisfy REQ_003;
         }
-        part controlassembly : ControlAssembly {
+        part monitorprocessor : MonitorProcessor {
             satisfy REQ_004;
         }
-        part missionprocessor : MissionProcessor {
-            satisfy REQ_001;
-            satisfy REQ_002;
+        part sensorinterface : SensorInterface {
+            satisfy REQ_004;
+        }
+        part processingpayload : ProcessingPayload {
             satisfy REQ_003;
         }
-        part powercomputer : PowerComputer {
+        part flightbus : FlightBus {
             satisfy REQ_001;
-            satisfy REQ_002;
         }
 
         // Connections
-        connect missionprocessor.configIn to powercomputer.configIn;
-        connect distributionmodule.statusOut to missionprocessor.configIn;
-        connect missionprocessor.pwrOut to powercomputer.sensorOut;
-        connect distributionmodule.statusOut to controlassembly.cmdOut;
+        connect processingpayload.cmdOut to flightbus.cmdOut;
+        connect monitorprocessor.statusOut to monitorcontroller.dataOut;
+        connect flightbus.configIn to monitorprocessor.statusOut;
+        connect processingpayload.cmdOut to sensorinterface.pwrIn;
     }
 
     // System Instance
-    part uavpayloadsystem : UavPayloadSystem;
+    part batterymanagementsystem : BatteryManagementSystem;
 
 }

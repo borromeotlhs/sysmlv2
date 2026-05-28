@@ -4,36 +4,36 @@ package arch_000016 {
     // Domain: thruster assembly
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The thruster assembly system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The thruster assembly system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The thruster assembly system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The thruster assembly system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ProcessingPayload {
+    public part def ProcessingPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port cmdOut;
     }
 
-    part def MonitorBus {
+    public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
     }
 
-    part def NavPayload {
+    public part def NavPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port telemetryOut;
@@ -41,7 +41,7 @@ package arch_000016 {
     }
 
     // System Definition
-    part def ThrusterAssemblySystem {
+    public part def ThrusterAssemblySystem {
         part processingpayload : ProcessingPayload {
             satisfy REQ_001;
             satisfy REQ_002;

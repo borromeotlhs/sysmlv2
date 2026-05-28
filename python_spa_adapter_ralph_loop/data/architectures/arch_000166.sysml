@@ -1,71 +1,108 @@
 package arch_000166 {
 
-    // Thermal Control Reference Architecture 166
-    // Domain: thermal control
+    // Fuel Cell Reference Architecture 166
+    // Domain: fuel cell
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The fuel cell system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The fuel cell system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The fuel cell system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The fuel cell system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def PowerSubsystem {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port pwrIn;
-    }
-
-    part def ProcessingBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
-    }
-
-    part def DistributionSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port pwrOut;
-    }
-
-    part def MonitorBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
-    }
-
-    part def NavProcessor {
+    public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port cmdIn;
         port cmdOut;
     }
 
+    public part def SensorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
+        port cmdIn;
+    }
+
+    public part def MonitorPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdIn;
+        port telemetryOut;
+        port dataOut;
+    }
+
+    public part def ThermalSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port dataOut;
+        port ctrlIn;
+    }
+
+    public part def ControlAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+    }
+
+    public part def CommProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port configIn;
+        port cmdIn;
+        port telemetryOut;
+    }
+
+    public part def DistributionBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+    }
+
     // System Definition
-    part def ThermalControlSystem {
-        part powersubsystem : PowerSubsystem {
+    public part def FuelCellSystem {
+        part monitorcontroller : MonitorController {
+            satisfy REQ_004;
         }
-        part processingbus : ProcessingBus {
+        part sensorcomputer : SensorComputer {
+            satisfy REQ_001;
         }
-        part distributionsensor : DistributionSensor {
+        part monitorpayload : MonitorPayload {
         }
-        part monitorbus : MonitorBus {
+        part thermalsubsystem : ThermalSubsystem {
+            satisfy REQ_004;
         }
-        part navprocessor : NavProcessor {
+        part controlassembly : ControlAssembly {
+            satisfy REQ_003;
+        }
+        part commprocessor : CommProcessor {
             satisfy REQ_001;
             satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part distributionbus : DistributionBus {
         }
 
         // Connections
-        connect navprocessor.sensorOut to powersubsystem.pwrIn;
-        connect navprocessor.cmdOut to processingbus.configIn;
+        connect sensorcomputer.cmdIn to thermalsubsystem.ctrlIn;
+        connect controlassembly.pwrIn to commprocessor.configIn;
+        connect controlassembly.pwrIn to sensorcomputer.cmdIn;
+        connect sensorcomputer.cmdIn to monitorpayload.telemetryOut;
+        connect distributionbus.pwrIn to monitorpayload.cmdIn;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part fuelcellsystem : FuelCellSystem;
 
 }

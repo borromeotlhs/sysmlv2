@@ -1,73 +1,84 @@
 package arch_000098 {
 
-    // Solar Array Reference Architecture 98
-    // Domain: solar array
+    // Telemetry System Reference Architecture 98
+    // Domain: telemetry system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The solar array system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The telemetry system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The solar array system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The telemetry system system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The solar array system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The solar array system shall maintain operational status monitoring."
+    public requirement REQ_003 {
+        doc "The telemetry system system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def PowerInterface {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port ctrlIn;
+    public part def CommandInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port configIn;
+        port statusOut;
+        port dataIn;
     }
 
-    part def FlightProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+    public part def SensorSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port pwrIn;
+    }
+
+    public part def ProcessingAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port pwrOut;
+        port pwrOut;
+    }
+
+    public part def DistributionPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port sensorOut;
+        port pwrOut;
+        port statusOut;
+    }
+
+    public part def PowerUnit {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port telemetryOut;
         port dataOut;
     }
 
-    part def DataProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrIn;
-        port cmdOut;
-        port pwrIn;
-    }
-
     // System Definition
-    part def SolarArraySystem {
-        part powerinterface : PowerInterface {
+    public part def TelemetrySystemSystem {
+        part commandinterface : CommandInterface {
             satisfy REQ_003;
         }
-        part flightprocessor : FlightProcessor {
+        part sensorsensor : SensorSensor {
             satisfy REQ_001;
-            satisfy REQ_002;
-            satisfy REQ_004;
         }
-        part dataprocessor : DataProcessor {
+        part processingassembly : ProcessingAssembly {
+        }
+        part distributionpayload : DistributionPayload {
+            satisfy REQ_002;
+        }
+        part powerunit : PowerUnit {
             satisfy REQ_001;
             satisfy REQ_002;
-            satisfy REQ_003;
-            satisfy REQ_004;
         }
 
         // Connections
-        connect dataprocessor.cmdOut to powerinterface.cmdIn;
-        connect flightprocessor.pwrIn to powerinterface.ctrlIn;
-        connect dataprocessor.pwrIn to powerinterface.cmdIn;
+        connect processingassembly.pwrOut to powerunit.telemetryOut;
+        connect distributionpayload.sensorOut to powerunit.dataOut;
+        connect commandinterface.statusOut to processingassembly.pwrOut;
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

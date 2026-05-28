@@ -4,71 +4,93 @@ package arch_000139 {
     // Domain: life support
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The life support system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The life support system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The life support system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MissionController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port configIn;
-        port dataIn;
-    }
-
-    part def DataInterface {
+    public part def ThermalActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
+        port cmdIn;
+        port dataIn;
+        port cmdIn;
+    }
+
+    public part def NavActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port pwrOut;
+    }
+
+    public part def CommUnit {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port pwrIn;
+    }
+
+    public part def MonitorInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port cmdIn;
+    }
+
+    public part def NavBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+        port sensorOut;
+    }
+
+    public part def FlightAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port configIn;
+        port sensorOut;
+    }
+
+    public part def SensorBus {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port telemetryOut;
         port pwrIn;
-        port configIn;
-    }
-
-    part def ControlActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port ctrlIn;
-        port statusOut;
-    }
-
-    part def MissionInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-        port dataIn;
     }
 
     // System Definition
-    part def LifeSupportSystem {
-        part missioncontroller : MissionController {
-            satisfy REQ_003;
+    public part def LifeSupportSystem {
+        part thermalactuator : ThermalActuator {
         }
-        part datainterface : DataInterface {
+        part navactuator : NavActuator {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part communit : CommUnit {
             satisfy REQ_001;
         }
-        part controlactuator : ControlActuator {
-            satisfy REQ_002;
+        part monitorinterface : MonitorInterface {
         }
-        part missioninterface : MissionInterface {
-            satisfy REQ_002;
+        part navbus : NavBus {
             satisfy REQ_003;
+        }
+        part flightassembly : FlightAssembly {
+        }
+        part sensorbus : SensorBus {
         }
 
         // Connections
-        connect controlactuator.statusOut to datainterface.configIn;
-        connect controlactuator.ctrlIn to missioninterface.telemetryOut;
-        connect controlactuator.statusOut to missioncontroller.dataIn;
-        connect datainterface.configIn to controlactuator.ctrlIn;
-        connect missioncontroller.configIn to missioninterface.telemetryOut;
+        connect communit.pwrIn to sensorbus.telemetryOut;
+        connect navbus.sensorOut to navactuator.pwrOut;
     }
 
     // System Instance

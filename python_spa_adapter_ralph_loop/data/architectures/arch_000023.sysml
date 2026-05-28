@@ -4,30 +4,30 @@ package arch_000023 {
     // Domain: avionics bay
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The avionics bay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The avionics bay system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The avionics bay system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The avionics bay system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def CommUnit {
+    public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port configIn;
     }
 
-    part def MissionActuator {
+    public part def MissionActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
@@ -35,14 +35,14 @@ package arch_000023 {
         port telemetryOut;
     }
 
-    part def MonitorBus {
+    public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port ctrlIn;
         port configIn;
     }
 
-    part def ProcessingPayload {
+    public part def ProcessingPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port dataIn;
@@ -50,20 +50,20 @@ package arch_000023 {
         port statusOut;
     }
 
-    part def PowerModule {
+    public part def PowerModule {
         attribute voltage : Real [1];
         attribute current : Real [1];
         port dataIn;
     }
 
-    part def ControlAssembly {
+    public part def ControlAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port sensorOut;
         port pwrIn;
     }
 
-    part def DataInterface {
+    public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port ctrlIn;
@@ -71,7 +71,7 @@ package arch_000023 {
     }
 
     // System Definition
-    part def AvionicsBaySystem {
+    public part def AvionicsBaySystem {
         part communit : CommUnit {
             satisfy REQ_002;
         }

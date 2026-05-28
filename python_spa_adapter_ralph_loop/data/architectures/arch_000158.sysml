@@ -1,56 +1,70 @@
 package arch_000158 {
 
-    // Autonomous Rover Reference Architecture 158
-    // Domain: autonomous rover
+    // Radar System Reference Architecture 158
+    // Domain: radar system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The autonomous rover system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The radar system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The autonomous rover system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The autonomous rover system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The radar system system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def FlightComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port telemetryOut;
-        port configIn;
-    }
-
-    part def MonitorActuator {
+    public part def DataModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port ctrlIn;
+        port dataIn;
+        port sensorOut;
+        port cmdOut;
+    }
+
+    public part def SensorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port dataOut;
+    }
+
+    public part def MissionAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
         port pwrIn;
+        port pwrOut;
+    }
+
+    public part def PowerAssembly {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port pwrIn;
+        port sensorOut;
+        port telemetryOut;
     }
 
     // System Definition
-    part def AutonomousRoverSystem {
-        part flightcomputer : FlightComputer {
-            satisfy REQ_002;
-            satisfy REQ_003;
+    public part def RadarSystemSystem {
+        part datamodule : DataModule {
         }
-        part monitoractuator : MonitorActuator {
+        part sensorcomputer : SensorComputer {
             satisfy REQ_001;
+        }
+        part missionassembly : MissionAssembly {
+            satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part powerassembly : PowerAssembly {
             satisfy REQ_002;
         }
 
         // Connections
-        connect flightcomputer.configIn to monitoractuator.ctrlIn;
-        connect monitoractuator.ctrlIn to flightcomputer.telemetryOut;
-        connect flightcomputer.configIn to monitoractuator.telemetryOut;
-        connect flightcomputer.telemetryOut to monitoractuator.telemetryOut;
+        connect datamodule.sensorOut to powerassembly.pwrIn;
+        connect datamodule.cmdOut to powerassembly.telemetryOut;
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    part radarsystemsystem : RadarSystemSystem;
 
 }

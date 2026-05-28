@@ -1,87 +1,50 @@
 package arch_000112 {
 
-    // Ground Station Reference Architecture 112
-    // Domain: ground station
+    // Power Distribution System Reference Architecture 112
+    // Domain: power distribution system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The ground station system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The power distribution system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The ground station system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The power distribution system system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The power distribution system system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ProcessingController {
+    public part def CommComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
         port telemetryOut;
-        port sensorOut;
     }
 
-    part def PowerSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port pwrOut;
-    }
-
-    part def CommInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port dataOut;
-    }
-
-    part def DistributionAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-        port dataIn;
-    }
-
-    part def CommandInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port pwrIn;
-    }
-
-    part def ProcessingBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
-        port cmdIn;
-        port configIn;
+    public part def PowerSubsystem {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port cmdOut;
     }
 
     // System Definition
-    part def GroundStationSystem {
-        part processingcontroller : ProcessingController {
-        }
-        part powersensor : PowerSensor {
-            satisfy REQ_001;
-        }
-        part comminterface : CommInterface {
-        }
-        part distributionassembly : DistributionAssembly {
-            satisfy REQ_001;
-        }
-        part commandinterface : CommandInterface {
+    public part def PowerDistributionSystemSystem {
+        part commcomputer : CommComputer {
             satisfy REQ_002;
         }
-        part processingbus : ProcessingBus {
+        part powersubsystem : PowerSubsystem {
+            satisfy REQ_001;
             satisfy REQ_002;
+            satisfy REQ_003;
         }
 
         // Connections
-        connect processingcontroller.sensorOut to processingbus.cmdIn;
-        connect commandinterface.pwrIn to processingcontroller.sensorOut;
-        connect distributionassembly.dataOut to processingbus.configIn;
-        connect commandinterface.pwrIn to processingbus.cmdIn;
-        connect commandinterface.pwrIn to powersensor.pwrOut;
+        connect powersubsystem.cmdOut to commcomputer.telemetryOut;
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

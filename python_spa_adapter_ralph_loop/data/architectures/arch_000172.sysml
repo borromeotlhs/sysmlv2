@@ -1,65 +1,71 @@
 package arch_000172 {
 
-    // Solar Array Reference Architecture 172
-    // Domain: solar array
+    // Radar System Reference Architecture 172
+    // Domain: radar system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The solar array system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The radar system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The solar array system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The radar system system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The solar array system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The radar system system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def PowerPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port pwrOut;
-        port sensorOut;
-    }
-
-    part def FlightBus {
+    public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port ctrlIn;
     }
 
-    part def PowerModule {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
+    public part def MonitorActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port statusOut;
+    }
+
+    public part def MonitorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port dataIn;
+        port pwrIn;
         port cmdOut;
     }
 
+    public part def DataModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+    }
+
     // System Definition
-    part def SolarArraySystem {
-        part powerpayload : PowerPayload {
+    public part def RadarSystemSystem {
+        part controlsubsystem : ControlSubsystem {
+        }
+        part monitoractuator : MonitorActuator {
+        }
+        part monitorcomputer : MonitorComputer {
             satisfy REQ_001;
             satisfy REQ_002;
             satisfy REQ_003;
         }
-        part flightbus : FlightBus {
-            satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part powermodule : PowerModule {
-            satisfy REQ_001;
+        part datamodule : DataModule {
         }
 
         // Connections
-        connect flightbus.dataIn to powermodule.cmdOut;
-        connect powermodule.dataIn to powerpayload.pwrOut;
-        connect powermodule.cmdOut to powerpayload.pwrOut;
-        connect powerpayload.pwrOut to flightbus.dataIn;
+        connect monitoractuator.dataOut to monitorcomputer.pwrIn;
+        connect monitorcomputer.pwrIn to monitoractuator.statusOut;
+        connect monitoractuator.statusOut to datamodule.pwrIn;
+        connect monitorcomputer.dataIn to controlsubsystem.ctrlIn;
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    part radarsystemsystem : RadarSystemSystem;
 
 }

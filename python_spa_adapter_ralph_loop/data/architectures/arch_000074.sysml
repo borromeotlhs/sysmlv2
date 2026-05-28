@@ -1,72 +1,68 @@
 package arch_000074 {
 
-    // Power Distribution System Reference Architecture 74
-    // Domain: power distribution system
+    // Communication Relay Reference Architecture 74
+    // Domain: communication relay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The power distribution system system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The communication relay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The power distribution system system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The communication relay system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The power distribution system system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The communication relay system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def FlightComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port ctrlIn;
-    }
-
-    part def DataSubsystem {
+    public part def DataModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port configIn;
-        port dataIn;
-    }
-
-    part def MonitorActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdIn;
-        port pwrOut;
-    }
-
-    part def NavController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
         port statusOut;
         port telemetryOut;
+        port configIn;
+    }
+
+    public part def CommandComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port statusOut;
+    }
+
+    public part def CommController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port sensorOut;
+        port pwrIn;
     }
 
     // System Definition
-    part def PowerDistributionSystemSystem {
-        part flightcomputer : FlightComputer {
+    public part def CommunicationRelaySystem {
+        part datamodule : DataModule {
+            satisfy REQ_003;
         }
-        part datasubsystem : DataSubsystem {
+        part commandcomputer : CommandComputer {
+            satisfy REQ_001;
+            satisfy REQ_002;
         }
-        part monitoractuator : MonitorActuator {
+        part commcontroller : CommController {
             satisfy REQ_001;
             satisfy REQ_002;
             satisfy REQ_003;
         }
-        part navcontroller : NavController {
-            satisfy REQ_001;
-        }
 
         // Connections
-        connect navcontroller.sensorOut to flightcomputer.ctrlIn;
-        connect navcontroller.telemetryOut to flightcomputer.ctrlIn;
+        connect commcontroller.pwrIn to datamodule.statusOut;
+        connect commcontroller.pwrIn to commandcomputer.cmdOut;
+        connect commandcomputer.cmdOut to datamodule.telemetryOut;
+        connect commandcomputer.statusOut to commcontroller.pwrIn;
+        connect datamodule.statusOut to commandcomputer.statusOut;
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    part communicationrelaysystem : CommunicationRelaySystem;
 
 }

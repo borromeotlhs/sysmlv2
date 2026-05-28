@@ -1,67 +1,98 @@
 package arch_000056 {
 
-    // Thruster Assembly Reference Architecture 56
-    // Domain: thruster assembly
+    // Reaction Wheel Reference Architecture 56
+    // Domain: reaction wheel
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thruster assembly system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The reaction wheel system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thruster assembly system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The reaction wheel system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The thruster assembly system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The reaction wheel system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
-        doc "The thruster assembly system shall maintain operational status monitoring."
+    public requirement REQ_004 {
+        doc "The reaction wheel system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ProcessingPayload {
+    public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port cmdOut;
+        port configIn;
     }
 
-    part def MonitorBus {
+    public part def ControlSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port pwrOut;
+        port ctrlIn;
+    }
+
+    public part def CommComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port sensorOut;
+    }
+
+    public part def ProcessingModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
+        port statusOut;
+        port cmdOut;
     }
 
-    part def NavPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
+    public part def DataUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port dataIn;
+    }
+
+    public part def DistributionBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
         port telemetryOut;
         port pwrOut;
     }
 
     // System Definition
-    part def ThrusterAssemblySystem {
-        part processingpayload : ProcessingPayload {
+    public part def ReactionWheelSystem {
+        part datapayload : DataPayload {
+        }
+        part controlsubsystem : ControlSubsystem {
             satisfy REQ_001;
-            satisfy REQ_002;
         }
-        part monitorbus : MonitorBus {
-            satisfy REQ_002;
-            satisfy REQ_003;
+        part commcomputer : CommComputer {
         }
-        part navpayload : NavPayload {
+        part processingmodule : ProcessingModule {
             satisfy REQ_001;
             satisfy REQ_004;
         }
+        part dataunit : DataUnit {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part distributionbus : DistributionBus {
+            satisfy REQ_002;
+        }
 
         // Connections
-        connect navpayload.telemetryOut to monitorbus.statusOut;
-        connect processingpayload.cmdOut to monitorbus.statusOut;
-        connect monitorbus.statusOut to navpayload.pwrOut;
+        connect commcomputer.telemetryOut to controlsubsystem.dataIn;
+        connect commcomputer.sensorOut to distributionbus.configIn;
+        connect processingmodule.statusOut to dataunit.ctrlIn;
     }
 
     // System Instance
-    part thrusterassemblysystem : ThrusterAssemblySystem;
+    part reactionwheelsystem : ReactionWheelSystem;
 
 }

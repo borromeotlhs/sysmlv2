@@ -1,92 +1,70 @@
 package arch_000100 {
 
-    // Thermal Control Reference Architecture 100
-    // Domain: thermal control
+    // Imaging Payload Reference Architecture 100
+    // Domain: imaging payload
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The imaging payload system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The imaging payload system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The thermal control system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The imaging payload system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The imaging payload system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def CommandUnit {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port sensorOut;
-        port sensorOut;
-    }
-
-    part def NavBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-    }
-
-    part def NavController {
+    public part def MissionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port ctrlIn;
-    }
-
-    part def MissionInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-        port ctrlIn;
-        port dataOut;
-    }
-
-    part def ControlModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataIn;
-        port dataOut;
+        port sensorOut;
         port sensorOut;
     }
 
-    part def ProcessingProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrIn;
+    public part def MonitorAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+    }
+
+    public part def ThermalPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port configIn;
+        port telemetryOut;
+        port statusOut;
     }
 
     // System Definition
-    part def ThermalControlSystem {
-        part commandunit : CommandUnit {
-        }
-        part navbus : NavBus {
-        }
-        part navcontroller : NavController {
-            satisfy REQ_002;
-        }
-        part missioninterface : MissionInterface {
-            satisfy REQ_002;
-        }
-        part controlmodule : ControlModule {
+    public part def ImagingPayloadSystem {
+        part missioncomputer : MissionComputer {
             satisfy REQ_001;
-        }
-        part processingprocessor : ProcessingProcessor {
-            satisfy REQ_001;
+            satisfy REQ_002;
             satisfy REQ_003;
+        }
+        part monitorassembly : MonitorAssembly {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part thermalpayload : ThermalPayload {
+            satisfy REQ_004;
         }
 
         // Connections
-        connect controlmodule.dataIn to navcontroller.ctrlIn;
-        connect navcontroller.ctrlIn to processingprocessor.pwrIn;
-        connect controlmodule.sensorOut to missioninterface.dataOut;
-        connect missioninterface.dataOut to controlmodule.dataIn;
+        connect monitorassembly.sensorOut to thermalpayload.configIn;
+        connect monitorassembly.sensorOut to missioncomputer.sensorOut;
+        connect thermalpayload.telemetryOut to missioncomputer.sensorOut;
+        connect missioncomputer.sensorOut to thermalpayload.configIn;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part imagingpayloadsystem : ImagingPayloadSystem;
 
 }

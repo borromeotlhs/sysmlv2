@@ -4,27 +4,27 @@ package arch_000038 {
     // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The autonomous rover system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def FlightComputer {
+    public part def FlightComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port telemetryOut;
         port configIn;
     }
 
-    part def MonitorActuator {
+    public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
@@ -33,7 +33,7 @@ package arch_000038 {
     }
 
     // System Definition
-    part def AutonomousRoverSystem {
+    public part def AutonomousRoverSystem {
         part flightcomputer : FlightComputer {
             satisfy REQ_002;
             satisfy REQ_003;

@@ -4,26 +4,26 @@ package arch_000029 {
     // Domain: propulsion module
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The propulsion module system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The propulsion module system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The propulsion module system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def DistributionProcessor {
+    public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port cmdIn;
     }
 
-    part def DistributionUnit {
+    public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
@@ -31,7 +31,7 @@ package arch_000029 {
         port sensorOut;
     }
 
-    part def PowerAssembly {
+    public part def PowerAssembly {
         attribute voltage : Real [1];
         attribute current : Real [1];
         port sensorOut;
@@ -40,7 +40,7 @@ package arch_000029 {
     }
 
     // System Definition
-    part def PropulsionModuleSystem {
+    public part def PropulsionModuleSystem {
         part distributionprocessor : DistributionProcessor {
             satisfy REQ_001;
             satisfy REQ_002;

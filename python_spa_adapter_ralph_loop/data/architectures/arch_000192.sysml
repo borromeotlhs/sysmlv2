@@ -1,87 +1,98 @@
 package arch_000192 {
 
-    // Ground Station Reference Architecture 192
-    // Domain: ground station
+    // Sensor Suite Reference Architecture 192
+    // Domain: sensor suite
 
     // Requirements
-    requirement REQ_001 {
-        doc "The ground station system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The sensor suite system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The ground station system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The sensor suite system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The sensor suite system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ProcessingController {
+    public part def MonitorSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port statusOut;
+    }
+
+    public part def SensorActuator {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrIn;
+        port telemetryOut;
+        port dataOut;
+    }
+
+    public part def CommPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port ctrlIn;
+        port ctrlIn;
+    }
+
+    public part def ControlProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port sensorOut;
-        port telemetryOut;
-        port sensorOut;
-    }
-
-    part def PowerSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port pwrOut;
-    }
-
-    part def CommInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port dataOut;
-    }
-
-    part def DistributionAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-        port dataIn;
-    }
-
-    part def CommandInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
         port pwrIn;
     }
 
-    part def ProcessingBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
-        port cmdIn;
-        port configIn;
+    public part def PowerComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
+        port telemetryOut;
+        port pwrIn;
+    }
+
+    public part def ProcessingProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port cmdOut;
+    }
+
+    public part def MonitorProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
     }
 
     // System Definition
-    part def GroundStationSystem {
-        part processingcontroller : ProcessingController {
+    public part def SensorSuiteSystem {
+        part monitorsensor : MonitorSensor {
         }
-        part powersensor : PowerSensor {
+        part sensoractuator : SensorActuator {
+        }
+        part commpayload : CommPayload {
+        }
+        part controlprocessor : ControlProcessor {
             satisfy REQ_001;
+            satisfy REQ_003;
         }
-        part comminterface : CommInterface {
-        }
-        part distributionassembly : DistributionAssembly {
-            satisfy REQ_001;
-        }
-        part commandinterface : CommandInterface {
+        part powercomputer : PowerComputer {
             satisfy REQ_002;
         }
-        part processingbus : ProcessingBus {
+        part processingprocessor : ProcessingProcessor {
             satisfy REQ_002;
+        }
+        part monitorprocessor : MonitorProcessor {
         }
 
         // Connections
-        connect processingcontroller.sensorOut to processingbus.cmdIn;
-        connect commandinterface.pwrIn to processingcontroller.sensorOut;
-        connect distributionassembly.dataOut to processingbus.configIn;
-        connect commandinterface.pwrIn to processingbus.cmdIn;
-        connect commandinterface.pwrIn to powersensor.pwrOut;
+        connect sensoractuator.pwrIn to processingprocessor.cmdOut;
+        connect powercomputer.dataOut to controlprocessor.pwrIn;
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    part sensorsuitesystem : SensorSuiteSystem;
 
 }

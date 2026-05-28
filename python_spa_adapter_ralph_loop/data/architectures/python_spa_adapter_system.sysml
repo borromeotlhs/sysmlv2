@@ -10,40 +10,40 @@ package PythonSPAAdapterSystem {
     port def TestPort;
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc /* Must generate valid SysML v2 textual syntax compliant with official specification */
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc /* Must support separated format with model and view files */
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc /* Must validate syntax and semantic correctness of generated SysML */
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc /* API must be thread-safe for concurrent requests */
     }
 
-    requirement REQ_005 {
+    public requirement REQ_005 {
         doc /* Must maintain round-trip consistency: IR to .sysml to IR preserves all data */
     }
 
-    requirement REQ_006 {
+    public requirement REQ_006 {
         doc /* Test suite must achieve >90% code coverage */
     }
 
-    requirement REQ_007 {
+    public requirement REQ_007 {
         doc /* Must generate valid PlantUML for BDD and IBD diagrams */
     }
 
-    requirement REQ_008 {
+    public requirement REQ_008 {
         doc /* Dataset pipeline must produce training pairs in JSONL format */
     }
 
     // Component definitions
-    part def SPAServer {
+    public part def SPAServer {
         doc /* Python HTTP server providing REST API and static file serving */
         attribute host : String [1];
         attribute port : Integer [1];
@@ -53,7 +53,7 @@ package PythonSPAAdapterSystem {
         port fileIn : FilePort;
     }
 
-    part def SysMLParser {
+    public part def SysMLParser {
         doc /* Parses SysML v2 textual syntax to intermediate representation */
         attribute supportedSyntax : String [1..*];
         port fileIn : FilePort;
@@ -61,7 +61,7 @@ package PythonSPAAdapterSystem {
         port validationOut : ValidationPort;
     }
 
-    part def SysMLGenerator {
+    public part def SysMLGenerator {
         doc /* Generates SysML v2 textual syntax from intermediate representation */
         attribute outputFormat : String [1];
         attribute indentSize : Integer [1];
@@ -70,7 +70,7 @@ package PythonSPAAdapterSystem {
         port validationIn : ValidationPort;
     }
 
-    part def SysMLValidator {
+    public part def SysMLValidator {
         doc /* Validates SysML syntax and semantics */
         attribute validationRules : String [1..*];
         attribute errorThreshold : Real [1];
@@ -79,7 +79,7 @@ package PythonSPAAdapterSystem {
         port reportOut : DataPort;
     }
 
-    part def PlantUMLRenderer {
+    public part def PlantUMLRenderer {
         doc /* Generates PlantUML diagrams from SysML architectures */
         attribute diagramTypes : String [1..*];
         attribute encodingAlgorithm : String [1];
@@ -88,7 +88,7 @@ package PythonSPAAdapterSystem {
         port urlOut : DataPort;
     }
 
-    part def TestSuite {
+    public part def TestSuite {
         doc /* Comprehensive test infrastructure for validation */
         attribute testCount : Integer [1];
         attribute passRate : Real [1];
@@ -97,14 +97,14 @@ package PythonSPAAdapterSystem {
         port reportOut : DataPort;
     }
 
-    part def ParserTests {
+    public part def ParserTests {
         doc /* Tests for SysML parser functionality */
         attribute edgeCaseTests : Integer [1];
         attribute unicodeTests : Integer [1];
         port testOut : TestPort;
     }
 
-    part def VVTests {
+    public part def VVTests {
         doc /* Verification and validation test suite */
         attribute syntaxTests : Integer [1];
         attribute semanticTests : Integer [1];
@@ -112,14 +112,14 @@ package PythonSPAAdapterSystem {
         port testOut : TestPort;
     }
 
-    part def IntegrationTests {
+    public part def IntegrationTests {
         doc /* SPA integration and API tests */
         attribute endpointTests : Integer [1];
         attribute concurrencyTests : Integer [1];
         port testOut : TestPort;
     }
 
-    part def DatasetPipeline {
+    public part def DatasetPipeline {
         doc /* Generates training pairs for ML fine-tuning */
         attribute pairCount : Integer [1];
         attribute trainingSplit : Real [1];
@@ -128,7 +128,7 @@ package PythonSPAAdapterSystem {
         port fileOut : FilePort;
     }
 
-    part def ArchitectureGenerator {
+    public part def ArchitectureGenerator {
         doc /* Generates sample SysML architectures */
         attribute generationStrategy : String [1];
         attribute varietyLevel : String [1];
@@ -136,7 +136,7 @@ package PythonSPAAdapterSystem {
         port fileOut : FilePort;
     }
 
-    part def FileStorage {
+    public part def FileStorage {
         doc /* Persistent storage for architectures and pairs */
         attribute storagePath : String [1];
         attribute formatSupport : String [1..*];
@@ -145,7 +145,7 @@ package PythonSPAAdapterSystem {
     }
 
     // Main system definition
-    part def PythonSPAAdapter {
+    public part def PythonSPAAdapter {
         doc /* Complete Python-based SPA adapter system for SysML v2 generation and validation */
 
         // Core processing components

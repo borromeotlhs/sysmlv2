@@ -1,70 +1,80 @@
 package arch_000053 {
 
-    // Command Data Handling Reference Architecture 53
-    // Domain: command data handling
+    // Communication Relay Reference Architecture 53
+    // Domain: communication relay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The command data handling system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The communication relay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The command data handling system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The communication relay system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The command data handling system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The communication relay system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MonitorInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
-        port statusOut;
+    public part def PowerSubsystem {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port ctrlIn;
         port configIn;
-    }
-
-    part def DistributionSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-    }
-
-    part def ProcessingProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
         port ctrlIn;
     }
 
-    part def NavProcessor {
+    public part def PowerPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrIn;
+    }
+
+    public part def DistributionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
+        port pwrOut;
+        port statusOut;
+    }
+
+    public part def ThermalUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port telemetryOut;
+    }
+
+    public part def DataBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port pwrIn;
     }
 
     // System Definition
-    part def CommandDataHandlingSystem {
-        part monitorinterface : MonitorInterface {
+    public part def CommunicationRelaySystem {
+        part powersubsystem : PowerSubsystem {
+        }
+        part powerpayload : PowerPayload {
+        }
+        part distributioncontroller : DistributionController {
             satisfy REQ_001;
+        }
+        part thermalunit : ThermalUnit {
+            satisfy REQ_001;
+        }
+        part databus : DataBus {
             satisfy REQ_002;
-        }
-        part distributionsubsystem : DistributionSubsystem {
             satisfy REQ_003;
-        }
-        part processingprocessor : ProcessingProcessor {
-        }
-        part navprocessor : NavProcessor {
         }
 
         // Connections
-        connect monitorinterface.statusOut to distributionsubsystem.telemetryOut;
-        connect monitorinterface.configIn to distributionsubsystem.telemetryOut;
-        connect monitorinterface.sensorOut to distributionsubsystem.telemetryOut;
-        connect navprocessor.pwrIn to processingprocessor.ctrlIn;
+        connect thermalunit.telemetryOut to distributioncontroller.statusOut;
+        connect thermalunit.pwrOut to distributioncontroller.statusOut;
+        connect thermalunit.telemetryOut to powerpayload.pwrIn;
     }
 
     // System Instance
-    part commanddatahandlingsystem : CommandDataHandlingSystem;
+    part communicationrelaysystem : CommunicationRelaySystem;
 
 }

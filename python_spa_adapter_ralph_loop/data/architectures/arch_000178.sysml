@@ -1,73 +1,64 @@
 package arch_000178 {
 
-    // Solar Array Reference Architecture 178
-    // Domain: solar array
+    // Sensor Suite Reference Architecture 178
+    // Domain: sensor suite
 
     // Requirements
-    requirement REQ_001 {
-        doc "The solar array system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The sensor suite system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The solar array system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The sensor suite system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The solar array system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The solar array system shall maintain operational status monitoring."
+    public requirement REQ_003 {
+        doc "The sensor suite system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def PowerInterface {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port ctrlIn;
-    }
-
-    part def FlightProcessor {
+    public part def DataController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port dataOut;
         port dataOut;
     }
 
-    part def DataProcessor {
+    public part def MissionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+        port cmdIn;
+        port sensorOut;
+    }
+
+    public part def MissionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port cmdOut;
-        port pwrIn;
+        port pwrOut;
+        port telemetryOut;
     }
 
     // System Definition
-    part def SolarArraySystem {
-        part powerinterface : PowerInterface {
-            satisfy REQ_003;
-        }
-        part flightprocessor : FlightProcessor {
+    public part def SensorSuiteSystem {
+        part datacontroller : DataController {
             satisfy REQ_001;
-            satisfy REQ_002;
-            satisfy REQ_004;
         }
-        part dataprocessor : DataProcessor {
-            satisfy REQ_001;
+        part missionsubsystem : MissionSubsystem {
             satisfy REQ_002;
             satisfy REQ_003;
-            satisfy REQ_004;
+        }
+        part missioncomputer : MissionComputer {
+            satisfy REQ_003;
         }
 
         // Connections
-        connect dataprocessor.cmdOut to powerinterface.cmdIn;
-        connect flightprocessor.pwrIn to powerinterface.ctrlIn;
-        connect dataprocessor.pwrIn to powerinterface.cmdIn;
+        connect missionsubsystem.cmdIn to datacontroller.dataOut;
+        connect missionsubsystem.cmdIn to missioncomputer.pwrOut;
+        connect missionsubsystem.dataIn to missioncomputer.pwrOut;
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    part sensorsuitesystem : SensorSuiteSystem;
 
 }

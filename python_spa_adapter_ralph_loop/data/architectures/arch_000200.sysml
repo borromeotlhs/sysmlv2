@@ -1,81 +1,69 @@
 package arch_000200 {
 
-    // Robotic Arm Reference Architecture 200
-    // Domain: robotic arm
+    // Communication Relay Reference Architecture 200
+    // Domain: communication relay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The communication relay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The robotic arm system shall maintain operational status monitoring."
+    public requirement REQ_002 {
+        doc "The communication relay system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def FlightSubsystem {
+    public part def MissionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+        port telemetryOut;
+    }
+
+    public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port dataOut;
+        port dataOut;
+        port pwrIn;
+    }
+
+    public part def FlightBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
         port dataIn;
-        port statusOut;
+        port dataOut;
     }
 
-    part def SensorPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port sensorOut;
+    public part def ProcessingBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port dataIn;
-    }
-
-    part def DistributionSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port sensorOut;
-        port sensorOut;
-        port cmdIn;
-    }
-
-    part def PowerActuator {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port pwrOut;
+        port cmdOut;
     }
 
     // System Definition
-    part def RoboticArmSystem {
-        part flightsubsystem : FlightSubsystem {
-            satisfy REQ_002;
-            satisfy REQ_004;
-        }
-        part sensorpayload : SensorPayload {
-        }
-        part distributionsensor : DistributionSensor {
-            satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part poweractuator : PowerActuator {
+    public part def CommunicationRelaySystem {
+        part missionsensor : MissionSensor {
             satisfy REQ_001;
-            satisfy REQ_003;
+            satisfy REQ_002;
+        }
+        part monitoractuator : MonitorActuator {
+            satisfy REQ_001;
+        }
+        part flightbus : FlightBus {
+        }
+        part processingbus : ProcessingBus {
         }
 
         // Connections
-        connect flightsubsystem.statusOut to poweractuator.pwrOut;
-        connect flightsubsystem.statusOut to distributionsensor.sensorOut;
-        connect sensorpayload.dataIn to distributionsensor.sensorOut;
-        connect distributionsensor.cmdIn to sensorpayload.dataIn;
-        connect flightsubsystem.configIn to distributionsensor.sensorOut;
+        connect flightbus.dataOut to monitoractuator.dataOut;
+        connect monitoractuator.dataOut to processingbus.cmdOut;
+        connect missionsensor.telemetryOut to monitoractuator.pwrIn;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part communicationrelaysystem : CommunicationRelaySystem;
 
 }

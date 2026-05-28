@@ -1,81 +1,81 @@
 package arch_000160 {
 
-    // Robotic Arm Reference Architecture 160
-    // Domain: robotic arm
+    // Guidance Navigation Reference Architecture 160
+    // Domain: guidance navigation
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The guidance navigation system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The guidance navigation system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The guidance navigation system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
-        doc "The robotic arm system shall maintain operational status monitoring."
+    public requirement REQ_004 {
+        doc "The guidance navigation system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def FlightSubsystem {
+    public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
+        port dataOut;
         port configIn;
-        port dataIn;
-        port statusOut;
+        port telemetryOut;
     }
 
-    part def SensorPayload {
+    public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port dataIn;
-    }
-
-    part def DistributionSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port sensorOut;
-        port sensorOut;
-        port cmdIn;
-    }
-
-    part def PowerActuator {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
         port pwrOut;
+        port dataOut;
+        port cmdOut;
+    }
+
+    public part def CommandBus {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port pwrOut;
+        port dataIn;
+        port sensorOut;
+    }
+
+    public part def CommPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
     }
 
     // System Definition
-    part def RoboticArmSystem {
-        part flightsubsystem : FlightSubsystem {
+    public part def GuidanceNavigationSystem {
+        part missionunit : MissionUnit {
+        }
+        part sensoractuator : SensorActuator {
             satisfy REQ_002;
+        }
+        part commandbus : CommandBus {
+            satisfy REQ_002;
+            satisfy REQ_003;
             satisfy REQ_004;
         }
-        part sensorpayload : SensorPayload {
-        }
-        part distributionsensor : DistributionSensor {
-            satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part poweractuator : PowerActuator {
+        part commpayload : CommPayload {
             satisfy REQ_001;
-            satisfy REQ_003;
+            satisfy REQ_004;
         }
 
         // Connections
-        connect flightsubsystem.statusOut to poweractuator.pwrOut;
-        connect flightsubsystem.statusOut to distributionsensor.sensorOut;
-        connect sensorpayload.dataIn to distributionsensor.sensorOut;
-        connect distributionsensor.cmdIn to sensorpayload.dataIn;
-        connect flightsubsystem.configIn to distributionsensor.sensorOut;
+        connect commandbus.sensorOut to sensoractuator.cmdOut;
+        connect missionunit.dataOut to commandbus.sensorOut;
+        connect sensoractuator.dataOut to commandbus.pwrOut;
+        connect missionunit.configIn to commandbus.dataIn;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part guidancenavigationsystem : GuidanceNavigationSystem;
 
 }

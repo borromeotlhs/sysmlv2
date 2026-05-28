@@ -1,107 +1,68 @@
 package arch_000103 {
 
-    // Avionics Bay Reference Architecture 103
-    // Domain: avionics bay
+    // Telemetry System Reference Architecture 103
+    // Domain: telemetry system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The avionics bay system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The telemetry system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The avionics bay system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The avionics bay system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The avionics bay system shall maintain operational status monitoring."
+    public requirement REQ_002 {
+        doc "The telemetry system system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def CommUnit {
+    public part def MissionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdIn;
+    }
+
+    public part def DistributionUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port dataIn;
+        port cmdOut;
+    }
+
+    public part def ControlController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port ctrlIn;
+    }
+
+    public part def CommModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port configIn;
-    }
-
-    part def MissionActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
         port telemetryOut;
-        port telemetryOut;
-        port telemetryOut;
-    }
-
-    part def MonitorBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port configIn;
-    }
-
-    part def ProcessingPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port dataIn;
-        port pwrIn;
-        port statusOut;
-    }
-
-    part def PowerModule {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port dataIn;
-    }
-
-    part def ControlAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
-        port pwrIn;
-    }
-
-    part def DataInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port pwrOut;
+        port cmdIn;
     }
 
     // System Definition
-    part def AvionicsBaySystem {
-        part communit : CommUnit {
+    public part def TelemetrySystemSystem {
+        part missionprocessor : MissionProcessor {
             satisfy REQ_002;
         }
-        part missionactuator : MissionActuator {
+        part distributionunit : DistributionUnit {
         }
-        part monitorbus : MonitorBus {
-        }
-        part processingpayload : ProcessingPayload {
+        part controlcontroller : ControlController {
             satisfy REQ_001;
-            satisfy REQ_003;
         }
-        part powermodule : PowerModule {
+        part commmodule : CommModule {
             satisfy REQ_001;
-            satisfy REQ_004;
-        }
-        part controlassembly : ControlAssembly {
             satisfy REQ_002;
-        }
-        part datainterface : DataInterface {
         }
 
         // Connections
-        connect datainterface.ctrlIn to missionactuator.telemetryOut;
-        connect processingpayload.dataIn to datainterface.pwrOut;
-        connect monitorbus.configIn to missionactuator.telemetryOut;
-        connect communit.configIn to monitorbus.ctrlIn;
-        connect missionactuator.telemetryOut to processingpayload.pwrIn;
+        connect commmodule.cmdIn to distributionunit.cmdOut;
+        connect distributionunit.cmdOut to missionprocessor.cmdIn;
+        connect commmodule.configIn to distributionunit.dataIn;
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

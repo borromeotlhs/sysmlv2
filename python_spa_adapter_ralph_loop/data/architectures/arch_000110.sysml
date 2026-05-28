@@ -4,89 +4,87 @@ package arch_000110 {
     // Domain: antenna subsystem
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The antenna subsystem system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The antenna subsystem system shall trace subsystem design to requirements."
     }
 
+    public requirement REQ_003 {
+        doc "The antenna subsystem system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The antenna subsystem system shall maintain operational status monitoring."
+    }
+
     // Component Definitions
-    part def ThermalController {
+    public part def ProcessingComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
+        port telemetryOut;
         port pwrOut;
     }
 
-    part def CommController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-    }
-
-    part def DataSubsystem {
+    public part def MissionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port sensorOut;
-        port pwrOut;
+    }
+
+    public part def SensorUnit {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port telemetryOut;
     }
 
-    part def ControlSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
+    public part def ThermalPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdIn;
+        port pwrIn;
     }
 
-    part def SensorController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port dataOut;
-        port configIn;
-    }
-
-    part def CommUnit {
+    public part def CommBus {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
-        port telemetryOut;
-        port ctrlIn;
+        port pwrOut;
     }
 
-    part def ProcessingAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
+    public part def CommandComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
+        port statusOut;
         port telemetryOut;
-        port pwrOut;
     }
 
     // System Definition
-    part def AntennaSubsystemSystem {
-        part thermalcontroller : ThermalController {
+    public part def AntennaSubsystemSystem {
+        part processingcomputer : ProcessingComputer {
+        }
+        part missionmodule : MissionModule {
             satisfy REQ_001;
+            satisfy REQ_003;
         }
-        part commcontroller : CommController {
+        part sensorunit : SensorUnit {
         }
-        part datasubsystem : DataSubsystem {
+        part thermalpayload : ThermalPayload {
         }
-        part controlsubsystem : ControlSubsystem {
+        part commbus : CommBus {
             satisfy REQ_002;
+            satisfy REQ_004;
         }
-        part sensorcontroller : SensorController {
-            satisfy REQ_001;
-        }
-        part communit : CommUnit {
-        }
-        part processingassembly : ProcessingAssembly {
-            satisfy REQ_002;
+        part commandcomputer : CommandComputer {
+            satisfy REQ_004;
         }
 
         // Connections
-        connect sensorcontroller.configIn to commcontroller.sensorOut;
-        connect sensorcontroller.configIn to communit.ctrlIn;
-        connect processingassembly.telemetryOut to datasubsystem.telemetryOut;
+        connect commbus.pwrOut to sensorunit.telemetryOut;
+        connect missionmodule.sensorOut to commbus.pwrOut;
+        connect commandcomputer.telemetryOut to thermalpayload.pwrIn;
     }
 
     // System Instance

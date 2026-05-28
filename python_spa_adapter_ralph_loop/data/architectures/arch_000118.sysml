@@ -1,56 +1,73 @@
 package arch_000118 {
 
-    // Autonomous Rover Reference Architecture 118
-    // Domain: autonomous rover
+    // Lunar Habitat Reference Architecture 118
+    // Domain: lunar habitat
 
     // Requirements
-    requirement REQ_001 {
-        doc "The autonomous rover system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The lunar habitat system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The autonomous rover system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The autonomous rover system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The lunar habitat system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def FlightComputer {
+    public part def SensorComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port telemetryOut;
-        port configIn;
+        port pwrIn;
+        port dataIn;
+        port sensorOut;
     }
 
-    part def MonitorActuator {
+    public part def DistributionPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdIn;
+    }
+
+    public part def SensorProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+        port cmdIn;
+    }
+
+    public part def DataAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
-        port ctrlIn;
-        port pwrIn;
+    }
+
+    public part def NavBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
     }
 
     // System Definition
-    part def AutonomousRoverSystem {
-        part flightcomputer : FlightComputer {
-            satisfy REQ_002;
-            satisfy REQ_003;
+    public part def LunarHabitatSystem {
+        part sensorcomputer : SensorComputer {
         }
-        part monitoractuator : MonitorActuator {
+        part distributionpayload : DistributionPayload {
+        }
+        part sensorprocessor : SensorProcessor {
             satisfy REQ_001;
+            satisfy REQ_002;
+        }
+        part dataassembly : DataAssembly {
+        }
+        part navbus : NavBus {
             satisfy REQ_002;
         }
 
         // Connections
-        connect flightcomputer.configIn to monitoractuator.ctrlIn;
-        connect monitoractuator.ctrlIn to flightcomputer.telemetryOut;
-        connect flightcomputer.configIn to monitoractuator.telemetryOut;
-        connect flightcomputer.telemetryOut to monitoractuator.telemetryOut;
+        connect sensorcomputer.dataIn to sensorprocessor.sensorOut;
+        connect sensorprocessor.sensorOut to distributionpayload.cmdIn;
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    part lunarhabitatsystem : LunarHabitatSystem;
 
 }

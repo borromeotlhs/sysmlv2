@@ -1,109 +1,61 @@
 package arch_000155 {
 
-    // Power Distribution System Reference Architecture 155
-    // Domain: power distribution system
+    // Avionics Bay Reference Architecture 155
+    // Domain: avionics bay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The power distribution system system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The avionics bay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The power distribution system system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The avionics bay system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The power distribution system system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The power distribution system system shall maintain operational status monitoring."
+    public requirement REQ_003 {
+        doc "The avionics bay system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MonitorInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port dataIn;
-    }
-
-    part def FlightActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port pwrIn;
-        port cmdIn;
-    }
-
-    part def ProcessingAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
-    }
-
-    part def CommandComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port statusOut;
-        port ctrlIn;
-        port cmdIn;
-    }
-
-    part def ThermalSensor {
+    public part def SensorSubsystem {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
+        port cmdIn;
+    }
+
+    public part def PowerActuator {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port sensorOut;
+    }
+
+    public part def MissionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
         port telemetryOut;
     }
 
-    part def ThermalInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-        port statusOut;
-    }
-
-    part def CommandInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port ctrlIn;
-        port pwrOut;
-        port ctrlIn;
-    }
-
     // System Definition
-    part def PowerDistributionSystemSystem {
-        part monitorinterface : MonitorInterface {
-        }
-        part flightactuator : FlightActuator {
-            satisfy REQ_001;
-        }
-        part processingassembly : ProcessingAssembly {
+    public part def AvionicsBaySystem {
+        part sensorsubsystem : SensorSubsystem {
             satisfy REQ_002;
-        }
-        part commandcomputer : CommandComputer {
-            satisfy REQ_002;
-            satisfy REQ_004;
-        }
-        part thermalsensor : ThermalSensor {
-            satisfy REQ_004;
-        }
-        part thermalinterface : ThermalInterface {
-            satisfy REQ_001;
             satisfy REQ_003;
         }
-        part commandinterface : CommandInterface {
+        part poweractuator : PowerActuator {
+            satisfy REQ_001;
+        }
+        part missionsensor : MissionSensor {
+            satisfy REQ_003;
         }
 
         // Connections
-        connect commandcomputer.cmdIn to flightactuator.ctrlIn;
-        connect flightactuator.ctrlIn to commandinterface.ctrlIn;
-        connect processingassembly.pwrOut to thermalsensor.pwrOut;
-        connect thermalsensor.pwrOut to commandinterface.pwrOut;
+        connect sensorsubsystem.cmdIn to missionsensor.telemetryOut;
+        connect poweractuator.sensorOut to missionsensor.telemetryOut;
+        connect poweractuator.sensorOut to sensorsubsystem.cmdIn;
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    part avionicsbaysystem : AvionicsBaySystem;
 
 }

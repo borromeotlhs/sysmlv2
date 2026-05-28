@@ -1,67 +1,79 @@
 package arch_000096 {
 
-    // Thruster Assembly Reference Architecture 96
-    // Domain: thruster assembly
+    // Lunar Habitat Reference Architecture 96
+    // Domain: lunar habitat
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thruster assembly system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The lunar habitat system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thruster assembly system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The lunar habitat system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The thruster assembly system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The thruster assembly system shall maintain operational status monitoring."
+    public requirement REQ_003 {
+        doc "The lunar habitat system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ProcessingPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
+    public part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port telemetryOut;
+        port ctrlIn;
+    }
+
+    public part def ThermalController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
+    }
+
+    public part def SensorProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
+    }
+
+    public part def NavAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
+
+    public part def ThermalModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port cmdOut;
     }
 
-    part def MonitorBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-    }
-
-    part def NavPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port telemetryOut;
-        port pwrOut;
-    }
-
     // System Definition
-    part def ThrusterAssemblySystem {
-        part processingpayload : ProcessingPayload {
-            satisfy REQ_001;
-            satisfy REQ_002;
-        }
+    public part def LunarHabitatSystem {
         part monitorbus : MonitorBus {
+        }
+        part thermalcontroller : ThermalController {
             satisfy REQ_002;
             satisfy REQ_003;
         }
-        part navpayload : NavPayload {
+        part sensorprocessor : SensorProcessor {
             satisfy REQ_001;
-            satisfy REQ_004;
+            satisfy REQ_002;
+        }
+        part navassembly : NavAssembly {
+            satisfy REQ_001;
+        }
+        part thermalmodule : ThermalModule {
+            satisfy REQ_003;
         }
 
         // Connections
-        connect navpayload.telemetryOut to monitorbus.statusOut;
-        connect processingpayload.cmdOut to monitorbus.statusOut;
-        connect monitorbus.statusOut to navpayload.pwrOut;
+        connect thermalcontroller.dataOut to sensorprocessor.dataOut;
+        connect sensorprocessor.dataOut to monitorbus.pwrIn;
     }
 
     // System Instance
-    part thrusterassemblysystem : ThrusterAssemblySystem;
+    part lunarhabitatsystem : LunarHabitatSystem;
 
 }

@@ -1,57 +1,80 @@
 package arch_000145 {
 
-    // Thermal Control Reference Architecture 145
-    // Domain: thermal control
+    // Battery Management Reference Architecture 145
+    // Domain: battery management
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The battery management system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The battery management system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The battery management system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def FlightPayload {
+    public part def ControlSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port configIn;
-        port cmdIn;
-        port dataOut;
-    }
-
-    part def FlightInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-        port sensorOut;
-        port configIn;
-    }
-
-    part def DataInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
         port pwrOut;
     }
 
+    public part def CommUnit {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port ctrlIn;
+    }
+
+    public part def MissionBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port pwrOut;
+        port sensorOut;
+    }
+
+    public part def NavActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
+
+    public part def MissionAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+        port ctrlIn;
+    }
+
     // System Definition
-    part def ThermalControlSystem {
-        part flightpayload : FlightPayload {
-            satisfy REQ_002;
+    public part def BatteryManagementSystem {
+        part controlsensor : ControlSensor {
         }
-        part flightinterface : FlightInterface {
+        part communit : CommUnit {
         }
-        part datainterface : DataInterface {
+        part missionbus : MissionBus {
             satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part navactuator : NavActuator {
+            satisfy REQ_003;
+        }
+        part missionassembly : MissionAssembly {
         }
 
         // Connections
-        connect flightpayload.dataOut to datainterface.pwrOut;
-        connect flightpayload.cmdIn to flightinterface.sensorOut;
+        connect controlsensor.configIn to missionbus.pwrOut;
+        connect navactuator.configIn to missionbus.telemetryOut;
+        connect controlsensor.pwrOut to missionassembly.ctrlIn;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part batterymanagementsystem : BatteryManagementSystem;
 
 }

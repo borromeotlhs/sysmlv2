@@ -1,86 +1,72 @@
 package arch_000090 {
 
-    // Fuel Cell Reference Architecture 90
-    // Domain: fuel cell
+    // Robotic Arm Reference Architecture 90
+    // Domain: robotic arm
 
     // Requirements
-    requirement REQ_001 {
-        doc "The fuel cell system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The robotic arm system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The fuel cell system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The robotic arm system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The robotic arm system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MonitorBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-        port pwrIn;
-    }
-
-    part def ProcessingBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-        port pwrOut;
-    }
-
-    part def MonitorModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-        port dataIn;
-        port statusOut;
-    }
-
-    part def ThermalSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataIn;
+    public part def SensorSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port configIn;
-        port statusOut;
     }
 
-    part def FlightInterface {
+    public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrIn;
+        port ctrlIn;
     }
 
-    part def ThermalActuator {
+    public part def DistributionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port pwrOut;
+        port cmdIn;
+    }
+
+    public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port telemetryOut;
+        port sensorOut;
+        port ctrlIn;
     }
 
     // System Definition
-    part def FuelCellSystem {
-        part monitorbus : MonitorBus {
+    public part def RoboticArmSystem {
+        part sensorsensor : SensorSensor {
+            satisfy REQ_001;
+        }
+        part navinterface : NavInterface {
+            satisfy REQ_003;
+        }
+        part distributionprocessor : DistributionProcessor {
             satisfy REQ_002;
         }
-        part processingbus : ProcessingBus {
-            satisfy REQ_001;
-        }
-        part monitormodule : MonitorModule {
-        }
         part thermalsubsystem : ThermalSubsystem {
-        }
-        part flightinterface : FlightInterface {
-        }
-        part thermalactuator : ThermalActuator {
-            satisfy REQ_001;
+            satisfy REQ_003;
         }
 
         // Connections
-        connect thermalsubsystem.dataIn to flightinterface.pwrIn;
-        connect thermalactuator.statusOut to processingbus.telemetryOut;
-        connect monitorbus.pwrIn to monitormodule.pwrIn;
-        connect thermalsubsystem.statusOut to monitormodule.dataIn;
+        connect distributionprocessor.cmdOut to thermalsubsystem.ctrlIn;
+        connect sensorsensor.configIn to distributionprocessor.pwrOut;
+        connect distributionprocessor.pwrOut to navinterface.ctrlIn;
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    part roboticarmsystem : RoboticArmSystem;
 
 }

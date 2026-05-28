@@ -4,20 +4,20 @@ package arch_000021 {
     // Domain: power distribution system
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The power distribution system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The power distribution system system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The power distribution system system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommModule {
+    public part def CommModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port dataIn;
@@ -25,34 +25,34 @@ package arch_000021 {
         port sensorOut;
     }
 
-    part def DistributionSubsystem {
+    public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdOut;
         port cmdOut;
     }
 
-    part def MissionAssembly {
+    public part def MissionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdIn;
         port statusOut;
     }
 
-    part def ProcessingPayload {
+    public part def ProcessingPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port ctrlIn;
     }
 
-    part def ProcessingSubsystem {
+    public part def ProcessingSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port configIn;
         port telemetryOut;
     }
 
-    part def CommInterface {
+    public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port telemetryOut;
@@ -60,7 +60,7 @@ package arch_000021 {
     }
 
     // System Definition
-    part def PowerDistributionSystemSystem {
+    public part def PowerDistributionSystemSystem {
         part commmodule : CommModule {
             satisfy REQ_002;
             satisfy REQ_003;

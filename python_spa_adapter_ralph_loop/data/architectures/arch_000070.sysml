@@ -1,95 +1,89 @@
 package arch_000070 {
 
-    // Antenna Subsystem Reference Architecture 70
-    // Domain: antenna subsystem
+    // Attitude Control Reference Architecture 70
+    // Domain: attitude control
 
     // Requirements
-    requirement REQ_001 {
-        doc "The antenna subsystem system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The attitude control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The antenna subsystem system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The attitude control system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The attitude control system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ThermalController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrOut;
-    }
-
-    part def CommController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-    }
-
-    part def DataSubsystem {
+    public part def DistributionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port pwrOut;
+        port cmdIn;
+    }
+
+    public part def DataInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port dataIn;
+    }
+
+    public part def ControlProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port configIn;
         port telemetryOut;
     }
 
-    part def ControlSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def SensorController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port dataOut;
-        port configIn;
-    }
-
-    part def CommUnit {
+    public part def CommUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port cmdOut;
-        port telemetryOut;
         port ctrlIn;
     }
 
-    part def ProcessingAssembly {
+    public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port telemetryOut;
+        port cmdOut;
         port pwrOut;
+    }
+
+    public part def PowerProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
     }
 
     // System Definition
-    part def AntennaSubsystemSystem {
-        part thermalcontroller : ThermalController {
-            satisfy REQ_001;
-        }
-        part commcontroller : CommController {
-        }
-        part datasubsystem : DataSubsystem {
-        }
-        part controlsubsystem : ControlSubsystem {
+    public part def AttitudeControlSystem {
+        part distributionassembly : DistributionAssembly {
             satisfy REQ_002;
         }
-        part sensorcontroller : SensorController {
+        part datainterface : DataInterface {
+            satisfy REQ_003;
+        }
+        part controlprocessor : ControlProcessor {
             satisfy REQ_001;
         }
         part communit : CommUnit {
-        }
-        part processingassembly : ProcessingAssembly {
             satisfy REQ_002;
+        }
+        part processingbus : ProcessingBus {
+            satisfy REQ_001;
+        }
+        part powerprocessor : PowerProcessor {
         }
 
         // Connections
-        connect sensorcontroller.configIn to commcontroller.sensorOut;
-        connect sensorcontroller.configIn to communit.ctrlIn;
-        connect processingassembly.telemetryOut to datasubsystem.telemetryOut;
+        connect processingbus.pwrOut to distributionassembly.cmdIn;
+        connect datainterface.configIn to communit.ctrlIn;
+        connect datainterface.configIn to distributionassembly.cmdIn;
+        connect processingbus.cmdOut to datainterface.dataIn;
     }
 
     // System Instance
-    part antennasubsystemsystem : AntennaSubsystemSystem;
+    part attitudecontrolsystem : AttitudeControlSystem;
 
 }

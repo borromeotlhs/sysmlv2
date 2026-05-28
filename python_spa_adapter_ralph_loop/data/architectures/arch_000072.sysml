@@ -1,87 +1,66 @@
 package arch_000072 {
 
-    // Ground Station Reference Architecture 72
-    // Domain: ground station
+    // Data Processing Unit Reference Architecture 72
+    // Domain: data processing unit
 
     // Requirements
-    requirement REQ_001 {
-        doc "The ground station system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The data processing unit system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The ground station system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The data processing unit system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The data processing unit system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ProcessingController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
+    public part def CommBus {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
         port telemetryOut;
-        port sensorOut;
-    }
-
-    part def PowerSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port pwrOut;
-    }
-
-    part def CommInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port dataOut;
-    }
-
-    part def DistributionAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-        port dataIn;
-    }
-
-    part def CommandInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
         port pwrIn;
     }
 
-    part def ProcessingBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
+    public part def SensorBus {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port cmdIn;
-        port configIn;
+    }
+
+    public part def ProcessingSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port sensorOut;
+        port dataIn;
+        port pwrOut;
     }
 
     // System Definition
-    part def GroundStationSystem {
-        part processingcontroller : ProcessingController {
-        }
-        part powersensor : PowerSensor {
+    public part def DataProcessingUnitSystem {
+        part commbus : CommBus {
             satisfy REQ_001;
+            satisfy REQ_003;
         }
-        part comminterface : CommInterface {
-        }
-        part distributionassembly : DistributionAssembly {
+        part sensorbus : SensorBus {
             satisfy REQ_001;
-        }
-        part commandinterface : CommandInterface {
             satisfy REQ_002;
+            satisfy REQ_003;
         }
-        part processingbus : ProcessingBus {
-            satisfy REQ_002;
+        part processingsensor : ProcessingSensor {
         }
 
         // Connections
-        connect processingcontroller.sensorOut to processingbus.cmdIn;
-        connect commandinterface.pwrIn to processingcontroller.sensorOut;
-        connect distributionassembly.dataOut to processingbus.configIn;
-        connect commandinterface.pwrIn to processingbus.cmdIn;
-        connect commandinterface.pwrIn to powersensor.pwrOut;
+        connect commbus.telemetryOut to sensorbus.cmdIn;
+        connect processingsensor.sensorOut to commbus.pwrIn;
+        connect commbus.pwrIn to processingsensor.pwrOut;
+        connect commbus.telemetryOut to processingsensor.sensorOut;
+        connect sensorbus.cmdIn to processingsensor.sensorOut;
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    part dataprocessingunitsystem : DataProcessingUnitSystem;
 
 }

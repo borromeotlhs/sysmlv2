@@ -1,57 +1,82 @@
 package arch_000185 {
 
-    // Thermal Control Reference Architecture 185
-    // Domain: thermal control
+    // Sensor Suite Reference Architecture 185
+    // Domain: sensor suite
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The sensor suite system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The sensor suite system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The sensor suite system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def FlightPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port configIn;
+    public part def ControlInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port cmdIn;
-        port dataOut;
+        port cmdIn;
     }
 
-    part def FlightInterface {
+    public part def MonitorPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port ctrlIn;
+        port configIn;
+        port statusOut;
+    }
+
+    public part def SensorSubsystem {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+    }
+
+    public part def MonitorModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port statusOut;
+    }
+
+    public part def MissionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataOut;
         port sensorOut;
-        port configIn;
-    }
-
-    part def DataInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
+        port sensorOut;
     }
 
     // System Definition
-    part def ThermalControlSystem {
-        part flightpayload : FlightPayload {
+    public part def SensorSuiteSystem {
+        part controlinterface : ControlInterface {
+        }
+        part monitorpayload : MonitorPayload {
+            satisfy REQ_001;
+        }
+        part sensorsubsystem : SensorSubsystem {
+            satisfy REQ_002;
+            satisfy REQ_003;
+        }
+        part monitormodule : MonitorModule {
             satisfy REQ_002;
         }
-        part flightinterface : FlightInterface {
-        }
-        part datainterface : DataInterface {
-            satisfy REQ_001;
+        part missioninterface : MissionInterface {
         }
 
         // Connections
-        connect flightpayload.dataOut to datainterface.pwrOut;
-        connect flightpayload.cmdIn to flightinterface.sensorOut;
+        connect monitormodule.statusOut to controlinterface.cmdIn;
+        connect monitormodule.statusOut to monitorpayload.ctrlIn;
+        connect missioninterface.sensorOut to controlinterface.cmdIn;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part sensorsuitesystem : SensorSuiteSystem;
 
 }

@@ -4,39 +4,39 @@ package arch_000028 {
     // Domain: thermal control
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The thermal control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The thermal control system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The thermal control system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def DistributionUnit {
+    public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdOut;
     }
 
-    part def ThermalAssembly {
+    public part def ThermalAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
     }
 
-    part def MissionProcessor {
+    public part def MissionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrOut;
         port pwrOut;
     }
 
-    part def CommandActuator {
+    public part def CommandActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port pwrOut;
@@ -44,13 +44,13 @@ package arch_000028 {
         port cmdIn;
     }
 
-    part def MonitorSubsystem {
+    public part def MonitorSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port configIn;
     }
 
-    part def FlightProcessor {
+    public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port cmdOut;
@@ -58,7 +58,7 @@ package arch_000028 {
         port ctrlIn;
     }
 
-    part def ProcessingInterface {
+    public part def ProcessingInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
@@ -66,7 +66,7 @@ package arch_000028 {
     }
 
     // System Definition
-    part def ThermalControlSystem {
+    public part def ThermalControlSystem {
         part distributionunit : DistributionUnit {
             satisfy REQ_002;
         }

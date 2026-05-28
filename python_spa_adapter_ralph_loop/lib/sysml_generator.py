@@ -157,7 +157,7 @@ def generate_sysml_from_dict(arch: dict) -> str:
         for req in requirements:
             req_id = sanitize_name(req.get('id', 'REQ'))
             req_text = req.get('text', '').replace('"', '\\"')
-            lines.append(f'    requirement {req_id} {{')
+            lines.append(f'    public requirement {req_id} {{')
             lines.append(f'        doc "{req_text}"')
             lines.append('    }')
             lines.append('')
@@ -166,7 +166,7 @@ def generate_sysml_from_dict(arch: dict) -> str:
     lines.append('    // Component Definitions')
     for block in blocks[1:]:
         block_name = block.get('name', 'Unknown')
-        lines.append(f'    part def {block_name} {{')
+        lines.append(f'    public part def {block_name} {{')
 
         # Add attributes based on component type
         attributes = get_attributes_for_component(block_name)
@@ -189,7 +189,7 @@ def generate_sysml_from_dict(arch: dict) -> str:
         system_usage = sanitize_name(system_name.lower())
 
         lines.append(f'    // System Definition')
-        lines.append(f'    part def {system_name} {{')
+        lines.append(f'    public part def {system_name} {{')
 
         # Instantiate subsystem parts inside the definition
         for block in blocks[1:]:

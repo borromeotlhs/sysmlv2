@@ -1,78 +1,64 @@
 package arch_000106 {
 
-    // Uav Payload Reference Architecture 106
-    // Domain: uav payload
+    // Lunar Habitat Reference Architecture 106
+    // Domain: lunar habitat
 
     // Requirements
-    requirement REQ_001 {
-        doc "The uav payload system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The lunar habitat system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The uav payload system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The lunar habitat system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The uav payload system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The uav payload system shall maintain operational status monitoring."
+    public requirement REQ_003 {
+        doc "The lunar habitat system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def DistributionModule {
+    public part def SensorController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
+        port sensorOut;
+    }
+
+    public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
+        port telemetryOut;
+        port sensorOut;
         port statusOut;
     }
 
-    part def ControlAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def MissionProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrOut;
+    public part def DataSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port configIn;
-    }
-
-    part def PowerComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-        port configIn;
+        port telemetryOut;
+        port telemetryOut;
     }
 
     // System Definition
-    part def UavPayloadSystem {
-        part distributionmodule : DistributionModule {
-            satisfy REQ_003;
+    public part def LunarHabitatSystem {
+        part sensorcontroller : SensorController {
+            satisfy REQ_001;
         }
-        part controlassembly : ControlAssembly {
-            satisfy REQ_004;
-        }
-        part missionprocessor : MissionProcessor {
+        part flightbus : FlightBus {
             satisfy REQ_001;
             satisfy REQ_002;
-            satisfy REQ_003;
         }
-        part powercomputer : PowerComputer {
-            satisfy REQ_001;
-            satisfy REQ_002;
+        part datasensor : DataSensor {
+            satisfy REQ_003;
         }
 
         // Connections
-        connect missionprocessor.configIn to powercomputer.configIn;
-        connect distributionmodule.statusOut to missionprocessor.configIn;
-        connect missionprocessor.pwrOut to powercomputer.sensorOut;
-        connect distributionmodule.statusOut to controlassembly.cmdOut;
+        connect flightbus.telemetryOut to datasensor.telemetryOut;
+        connect datasensor.telemetryOut to flightbus.statusOut;
     }
 
     // System Instance
-    part uavpayloadsystem : UavPayloadSystem;
+    part lunarhabitatsystem : LunarHabitatSystem;
 
 }

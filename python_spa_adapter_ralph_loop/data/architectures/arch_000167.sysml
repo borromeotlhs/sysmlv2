@@ -1,75 +1,105 @@
 package arch_000167 {
 
-    // Lunar Habitat Reference Architecture 167
-    // Domain: lunar habitat
+    // Solar Array Reference Architecture 167
+    // Domain: solar array
 
     // Requirements
-    requirement REQ_001 {
-        doc "The lunar habitat system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The solar array system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The lunar habitat system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The solar array system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The solar array system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The solar array system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def MonitorActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def MonitorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
         port pwrIn;
+        port sensorOut;
     }
 
-    part def ControlSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port telemetryOut;
-    }
-
-    part def ThermalUnit {
+    public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port pwrOut;
         port cmdIn;
+        port dataOut;
     }
 
-    part def DataInterface {
+    public part def CommUnit {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port configIn;
+    }
+
+    public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
+        port dataOut;
         port cmdOut;
         port dataOut;
     }
 
-    part def ProcessingAssembly {
+    public part def SensorPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrIn;
+        port telemetryOut;
+    }
+
+    public part def NavAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port cmdOut;
+        port ctrlIn;
+    }
+
+    public part def SensorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port configIn;
     }
 
     // System Definition
-    part def LunarHabitatSystem {
-        part monitoractuator : MonitorActuator {
+    public part def SolarArraySystem {
+        part monitorcomputer : MonitorComputer {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
         }
-        part controlsensor : ControlSensor {
+        part thermalsubsystem : ThermalSubsystem {
         }
-        part thermalunit : ThermalUnit {
+        part communit : CommUnit {
+        }
+        part flightinterface : FlightInterface {
+            satisfy REQ_004;
+        }
+        part sensorpayload : SensorPayload {
             satisfy REQ_002;
         }
-        part datainterface : DataInterface {
+        part navassembly : NavAssembly {
         }
-        part processingassembly : ProcessingAssembly {
+        part sensorcomputer : SensorComputer {
             satisfy REQ_001;
         }
 
         // Connections
-        connect datainterface.configIn to thermalunit.pwrOut;
-        connect processingassembly.cmdOut to datainterface.configIn;
-        connect processingassembly.cmdOut to monitoractuator.pwrIn;
-        connect controlsensor.telemetryOut to thermalunit.pwrOut;
+        connect thermalsubsystem.cmdIn to monitorcomputer.pwrIn;
+        connect thermalsubsystem.cmdIn to communit.configIn;
+        connect communit.configIn to flightinterface.dataOut;
+        connect monitorcomputer.pwrIn to sensorcomputer.configIn;
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    part solararraysystem : SolarArraySystem;
 
 }

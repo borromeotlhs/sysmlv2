@@ -1,62 +1,65 @@
 package arch_000137 {
 
-    // Robotic Arm Reference Architecture 137
-    // Domain: robotic arm
+    // Life Support Reference Architecture 137
+    // Domain: life support
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The life support system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The life support system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The life support system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def PowerComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+    public part def NavAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataOut;
+        port sensorOut;
+        port pwrIn;
+    }
+
+    public part def FlightAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+    }
+
+    public part def MissionActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port telemetryOut;
-    }
-
-    part def MissionSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port cmdIn;
-    }
-
-    part def PowerBus {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port ctrlIn;
-        port ctrlIn;
+        port sensorOut;
     }
 
     // System Definition
-    part def RoboticArmSystem {
-        part powercomputer : PowerComputer {
+    public part def LifeSupportSystem {
+        part navassembly : NavAssembly {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
+        part flightassembly : FlightAssembly {
+            satisfy REQ_001;
             satisfy REQ_002;
             satisfy REQ_003;
         }
-        part missionsensor : MissionSensor {
-            satisfy REQ_001;
+        part missionactuator : MissionActuator {
             satisfy REQ_002;
-        }
-        part powerbus : PowerBus {
-            satisfy REQ_001;
         }
 
         // Connections
-        connect powercomputer.telemetryOut to powerbus.ctrlIn;
-        connect missionsensor.cmdIn to powercomputer.telemetryOut;
-        connect powerbus.ctrlIn to missionsensor.cmdIn;
+        connect flightassembly.cmdOut to navassembly.pwrIn;
+        connect navassembly.dataOut to missionactuator.sensorOut;
+        connect flightassembly.cmdOut to navassembly.sensorOut;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part lifesupportsystem : LifeSupportSystem;
 
 }

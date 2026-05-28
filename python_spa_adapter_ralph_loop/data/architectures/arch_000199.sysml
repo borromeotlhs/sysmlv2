@@ -1,77 +1,57 @@
 package arch_000199 {
 
-    // Propulsion Module Reference Architecture 199
-    // Domain: propulsion module
+    // Attitude Control Reference Architecture 199
+    // Domain: attitude control
 
     // Requirements
-    requirement REQ_001 {
-        doc "The propulsion module system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The attitude control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The propulsion module system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The attitude control system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The propulsion module system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The attitude control system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ControlSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port ctrlIn;
-    }
-
-    part def DataProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port statusOut;
-    }
-
-    part def ThermalActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-        port configIn;
-    }
-
-    part def ProcessingAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdIn;
-    }
-
-    part def NavSensor {
+    public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
+        port sensorOut;
+        port pwrIn;
         port pwrIn;
     }
 
+    public part def NavSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+        port dataOut;
+        port sensorOut;
+    }
+
     // System Definition
-    part def PropulsionModuleSystem {
-        part controlsubsystem : ControlSubsystem {
-        }
-        part dataprocessor : DataProcessor {
-        }
-        part thermalactuator : ThermalActuator {
-            satisfy REQ_003;
-        }
-        part processingassembly : ProcessingAssembly {
+    public part def AttitudeControlSystem {
+        part distributionsensor : DistributionSensor {
             satisfy REQ_001;
         }
         part navsensor : NavSensor {
+            satisfy REQ_001;
             satisfy REQ_002;
+            satisfy REQ_003;
         }
 
         // Connections
-        connect controlsubsystem.ctrlIn to navsensor.configIn;
-        connect thermalactuator.configIn to processingassembly.cmdIn;
+        connect distributionsensor.sensorOut to navsensor.sensorOut;
+        connect navsensor.sensorOut to distributionsensor.pwrIn;
+        connect navsensor.dataOut to distributionsensor.sensorOut;
+        connect navsensor.dataOut to distributionsensor.pwrIn;
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    part attitudecontrolsystem : AttitudeControlSystem;
 
 }

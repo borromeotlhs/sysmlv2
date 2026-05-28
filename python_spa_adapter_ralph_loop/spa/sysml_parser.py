@@ -332,6 +332,9 @@ def parse_sysml_to_json(sysml_content: str, file_path: Optional[Path] = None) ->
     # Extract view metadata if present
     view_metadata = extract_view_metadata(sysml_content)
 
+    # Extract exposed elements (for view filtering)
+    exposed_elements = extract_exposed_elements(sysml_content)
+
     # Determine source type
     source_type = 'view' if view_metadata else 'monolithic'
 
@@ -346,7 +349,8 @@ def parse_sysml_to_json(sysml_content: str, file_path: Optional[Path] = None) ->
         'connectors': connectors,
         'requirements': requirements,
         'relationships': relationships,
-        'compositions': compositions
+        'compositions': compositions,
+        'exposed_elements': list(exposed_elements)  # Add exposed elements for view filtering
     }
 
     # Add view metadata if present
@@ -387,12 +391,37 @@ def extract_name_comment(lines: List[str]) -> Optional[str]:
     return None
 
 
+def extract_exposed_elements(content: str) -> Set[str]:
+    """
+    Extract elements marked with 'public' visibility keyword.
+
+    Returns set of element names that should be visible in view diagrams.
+    If no elements are marked public, returns empty set (default: all visible).
+
+    Examples:
+        public part def MissionComputer { ... }  -> 'MissionComputer'
+        part def SensorPayload { ... }            -> not included
+    """
+    exposed = set()
+
+    # Match: public part def ElementName
+    pattern = r'public\s+part\s+def\s+(\w+)'
+    matches = re.finditer(pattern, content)
+
+    for match in matches:
+        element_name = match.group(1)
+        exposed.add(element_name)
+
+    return exposed
+
+
 def extract_part_definitions(content: str) -> List[Dict]:
     """Extract part definitions"""
     blocks = []
 
-    # Match: part def BlockName {
-    pattern = r'part\s+def\s+(\w+)\s*\{'
+    # Match: part def BlockName { or public part def BlockName {
+    # Capture optional 'public' keyword
+    pattern = r'(?:public\s+)?part\s+def\s+(\w+)\s*\{'
     matches = re.finditer(pattern, content)
 
     for match in matches:
@@ -413,8 +442,8 @@ def extract_compositions(content: str) -> List[Dict]:
     """
     compositions = []
 
-    # Find each part def block
-    part_def_pattern = r'part\s+def\s+(\w+)\s*\{'
+    # Find each part def block (with optional public keyword)
+    part_def_pattern = r'(?:public\s+)?part\s+def\s+(\w+)\s*\{'
 
     for part_match in re.finditer(part_def_pattern, content):
         parent_name = part_match.group(1)
@@ -453,8 +482,8 @@ def extract_ports_from_parts(content: str) -> List[Dict]:
     """Extract ports from part definitions"""
     ports = []
 
-    # Find each part def block with balanced braces
-    part_pattern = r'part\s+def\s+(\w+)\s*\{'
+    # Find each part def block with balanced braces (with optional public keyword)
+    part_pattern = r'(?:public\s+)?part\s+def\s+(\w+)\s*\{'
 
     for part_match in re.finditer(part_pattern, content):
         owner = part_match.group(1)
@@ -506,10 +535,10 @@ def extract_requirements(content: str) -> List[Dict]:
     """Extract requirement definitions"""
     requirements = []
 
-    # Match: requirement REQ_001 {
+    # Match: requirement REQ_001 { or public requirement REQ_001 {
     #          doc "text"
     #        }
-    pattern = r'requirement\s+(\w+)\s*\{\s*doc\s+"([^"]+)"'
+    pattern = r'(?:public\s+)?requirement\s+(\w+)\s*\{\s*doc\s+"([^"]+)"'
 
     for match in re.finditer(pattern, content, re.DOTALL):
         req_id = match.group(1)

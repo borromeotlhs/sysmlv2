@@ -1,75 +1,93 @@
 package arch_000087 {
 
-    // Lunar Habitat Reference Architecture 87
-    // Domain: lunar habitat
+    // Communication Relay Reference Architecture 87
+    // Domain: communication relay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The lunar habitat system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The communication relay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The lunar habitat system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The communication relay system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The communication relay system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MonitorActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-    }
-
-    part def ControlSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
+    public part def SensorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
         port telemetryOut;
-    }
-
-    part def ThermalUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
         port cmdIn;
     }
 
-    part def DataInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
+    public part def MonitorController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
         port cmdOut;
-        port dataOut;
+        port cmdIn;
     }
 
-    part def ProcessingAssembly {
+    public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
+        port sensorOut;
+        port configIn;
+    }
+
+    public part def MonitorModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+        port ctrlIn;
+    }
+
+    public part def MonitorSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port statusOut;
+    }
+
+    public part def FlightModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
         port cmdOut;
+        port cmdIn;
     }
 
     // System Definition
-    part def LunarHabitatSystem {
-        part monitoractuator : MonitorActuator {
+    public part def CommunicationRelaySystem {
+        part sensorcomputer : SensorComputer {
         }
-        part controlsensor : ControlSensor {
-        }
-        part thermalunit : ThermalUnit {
-            satisfy REQ_002;
+        part monitorcontroller : MonitorController {
+            satisfy REQ_003;
         }
         part datainterface : DataInterface {
         }
-        part processingassembly : ProcessingAssembly {
+        part monitormodule : MonitorModule {
             satisfy REQ_001;
+        }
+        part monitorsubsystem : MonitorSubsystem {
+            satisfy REQ_002;
+        }
+        part flightmodule : FlightModule {
         }
 
         // Connections
-        connect datainterface.configIn to thermalunit.pwrOut;
-        connect processingassembly.cmdOut to datainterface.configIn;
-        connect processingassembly.cmdOut to monitoractuator.pwrIn;
-        connect controlsensor.telemetryOut to thermalunit.pwrOut;
+        connect flightmodule.cmdIn to monitormodule.statusOut;
+        connect monitorcontroller.cmdOut to flightmodule.cmdIn;
+        connect monitorcontroller.cmdOut to monitormodule.ctrlIn;
+        connect flightmodule.cmdIn to datainterface.configIn;
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    part communicationrelaysystem : CommunicationRelaySystem;
 
 }

@@ -4,35 +4,35 @@ package arch_000007 {
     // Domain: lunar habitat
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The lunar habitat system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The lunar habitat system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def MonitorActuator {
+    public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrIn;
     }
 
-    part def ControlSensor {
+    public part def ControlSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port telemetryOut;
     }
 
-    part def ThermalUnit {
+    public part def ThermalUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrOut;
         port cmdIn;
     }
 
-    part def DataInterface {
+    public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port configIn;
@@ -40,7 +40,7 @@ package arch_000007 {
         port dataOut;
     }
 
-    part def ProcessingAssembly {
+    public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataIn;
@@ -48,7 +48,7 @@ package arch_000007 {
     }
 
     // System Definition
-    part def LunarHabitatSystem {
+    public part def LunarHabitatSystem {
         part monitoractuator : MonitorActuator {
         }
         part controlsensor : ControlSensor {

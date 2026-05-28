@@ -1,85 +1,93 @@
 package arch_000135 {
 
-    // Sensor Suite Reference Architecture 135
-    // Domain: sensor suite
+    // Satellite Bus Reference Architecture 135
+    // Domain: satellite bus
 
     // Requirements
-    requirement REQ_001 {
-        doc "The sensor suite system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The satellite bus system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The sensor suite system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The satellite bus system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def CommInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port telemetryOut;
-        port dataIn;
-    }
-
-    part def ThermalController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-    }
-
-    part def SensorInterface {
+    public part def CommandPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
         port ctrlIn;
-        port configIn;
-    }
-
-    part def ThermalComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port dataOut;
         port pwrIn;
     }
 
-    part def CommPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port ctrlIn;
+    public part def CommandModule {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port cmdIn;
     }
 
-    part def FlightSubsystem {
+    public part def SensorInterface {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+        port statusOut;
+        port pwrOut;
+    }
+
+    public part def MissionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port configIn;
+        port sensorOut;
+    }
+
+    public part def CommInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port pwrIn;
+        port dataIn;
+    }
+
+    public part def SensorProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+    }
+
+    public part def NavAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port pwrOut;
-        port ctrlIn;
+        port cmdIn;
     }
 
     // System Definition
-    part def SensorSuiteSystem {
-        part comminterface : CommInterface {
-        }
-        part thermalcontroller : ThermalController {
+    public part def SatelliteBusSystem {
+        part commandpayload : CommandPayload {
             satisfy REQ_001;
         }
+        part commandmodule : CommandModule {
+        }
         part sensorinterface : SensorInterface {
-        }
-        part thermalcomputer : ThermalComputer {
             satisfy REQ_002;
         }
-        part commpayload : CommPayload {
-            satisfy REQ_002;
+        part missionunit : MissionUnit {
         }
-        part flightsubsystem : FlightSubsystem {
+        part comminterface : CommInterface {
+        }
+        part sensorprocessor : SensorProcessor {
+        }
+        part navassembly : NavAssembly {
         }
 
         // Connections
-        connect thermalcomputer.pwrIn to sensorinterface.sensorOut;
-        connect sensorinterface.ctrlIn to flightsubsystem.telemetryOut;
-        connect commpayload.ctrlIn to comminterface.telemetryOut;
+        connect sensorinterface.statusOut to missionunit.sensorOut;
+        connect comminterface.dataIn to commandmodule.cmdIn;
+        connect sensorinterface.statusOut to commandmodule.cmdIn;
+        connect sensorprocessor.pwrIn to navassembly.cmdIn;
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    part satellitebussystem : SatelliteBusSystem;
 
 }

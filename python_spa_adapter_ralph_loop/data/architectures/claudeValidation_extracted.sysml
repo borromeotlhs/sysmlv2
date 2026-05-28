@@ -10,83 +10,83 @@ package AutomotiveDomain {
     port def ThermalPort;
 
     // Part definitions
-    part def ElectricVehicleSystem {
+    public part def ElectricVehicleSystem {
     }
 
-    part def ChargingSystem {
+    public part def ChargingSystem {
         port acIn : PowerPort;
         port controlIn : ControlPort;
         port dcOut : PowerPort;
         port sense : SensorPort;
     }
 
-    part def DriveShaft {
+    public part def DriveShaft {
         port driveIn : MechanicalPort;
         port driveOut : MechanicalPort;
     }
 
-    part def ElectricMotor {
+    public part def ElectricMotor {
         port powerIn : PowerPort;
         port controlIn : ControlPort;
         port driveOut : MechanicalPort;
     }
 
-    part def BatteryPack {
+    public part def BatteryPack {
         port thermalin : ThermalPort;
         port dataOut : DataPort;
         port powerOut : PowerPort;
         port sense : SensorPort;
     }
 
-    part def BrakeController {
+    public part def BrakeController {
         port canOut : DataPort;
     }
 
-    part def Differential {
+    public part def Differential {
         port driveIn : MechanicalPort;
         port leftDriveOut : MechanicalPort;
         port rightDriveOut : MechanicalPort;
     }
 
-    part def Suspension {
+    public part def Suspension {
         port wheelHub : MechanicalPort;
     }
 
-    part def Wheel {
+    public part def Wheel {
         port wheelHub : MechanicalPort;
     }
 
-    part def Transmission {
+    public part def Transmission {
         port inputShaft : MechanicalPort;
         port torqueOut : MechanicalPort;
     }
 
-    part def VehicleControlUnit {
+    public part def VehicleControlUnit {
         port canBusA : DataPort;
         port canBusB : DataPort;
         port sensorIn : SensorPort;
         port commandOut : ControlPort;
     }
 
-    part def ThermalManagementSystem {
+    public part def ThermalManagementSystem {
         port coolantout : ThermalPort;
         port dataout : DataPort;
         port sense : SensorPort;
     }
 
-    part def Inverter {
+    public part def Inverter {
         port dcIn : PowerPort;
         port controlIn : ControlPort;
         port acOut : PowerPort;
         port sense : SensorPort;
     }
 
-    part def RearHalfShaft {
+    public part def RearHalfShaft {
         port innerCVJoint : MechanicalPort;
         port outerCVJoint : MechanicalPort;
     }
 
-    part def DrivetrainSystem {
+    public part def DrivetrainSystem {
         port canOut : DataPort;
         port powerIn : PowerPort;
         port commandOut : ControlPort;
@@ -94,7 +94,7 @@ package AutomotiveDomain {
         port leftOuterCVJoint : MechanicalPort;
     }
 
-    part def ElectricalPowerSubsystem {
+    public part def ElectricalPowerSubsystem {
         port dataOut : DataPort;
         port acOut : PowerPort;
         port dataout : DataPort;
@@ -103,7 +103,7 @@ package AutomotiveDomain {
     }
 
     // System definition
-    part def AutomotiveSystem {
+    public part def AutomotiveSystem {
         part suspensionFL : Suspension;
         part suspensionFR : Suspension;
         part suspensionRL : Suspension;

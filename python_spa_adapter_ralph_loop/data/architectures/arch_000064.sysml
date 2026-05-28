@@ -1,72 +1,62 @@
 package arch_000064 {
 
-    // Robotic Arm Reference Architecture 64
-    // Domain: robotic arm
+    // Uav Payload Reference Architecture 64
+    // Domain: uav payload
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The uav payload system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The uav payload system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The uav payload system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The uav payload system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ControlModule {
+    public part def MissionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
         port dataIn;
-        port cmdIn;
     }
 
-    part def MonitorController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port cmdOut;
+    public part def MissionPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+        port dataOut;
         port dataOut;
     }
 
-    part def MonitorPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port statusOut;
-    }
-
-    part def ProcessingUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-        port statusOut;
-    }
-
     // System Definition
-    part def RoboticArmSystem {
-        part controlmodule : ControlModule {
-            satisfy REQ_003;
-        }
-        part monitorcontroller : MonitorController {
-            satisfy REQ_003;
-        }
-        part monitorpayload : MonitorPayload {
+    public part def UavPayloadSystem {
+        part missionmodule : MissionModule {
             satisfy REQ_001;
             satisfy REQ_002;
+            satisfy REQ_003;
         }
-        part processingunit : ProcessingUnit {
+        part missionpayload : MissionPayload {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_004;
         }
 
         // Connections
-        connect processingunit.telemetryOut to controlmodule.dataIn;
-        connect processingunit.telemetryOut to monitorcontroller.dataOut;
-        connect monitorpayload.statusOut to monitorcontroller.cmdOut;
+        connect missionpayload.telemetryOut to missionmodule.statusOut;
+        connect missionpayload.dataOut to missionmodule.statusOut;
+        connect missionmodule.dataIn to missionpayload.dataOut;
+        connect missionpayload.telemetryOut to missionmodule.dataIn;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part uavpayloadsystem : UavPayloadSystem;
 
 }

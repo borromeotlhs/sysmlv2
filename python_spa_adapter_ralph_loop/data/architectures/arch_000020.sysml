@@ -4,40 +4,40 @@ package arch_000020 {
     // Domain: thermal control
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The thermal control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The thermal control system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The thermal control system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommandUnit {
+    public part def CommandUnit {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port sensorOut;
         port sensorOut;
     }
 
-    part def NavBus {
+    public part def NavBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataOut;
     }
 
-    part def NavController {
+    public part def NavController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port cmdOut;
         port ctrlIn;
     }
 
-    part def MissionInterface {
+    public part def MissionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrIn;
@@ -45,7 +45,7 @@ package arch_000020 {
         port dataOut;
     }
 
-    part def ControlModule {
+    public part def ControlModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataIn;
@@ -53,14 +53,14 @@ package arch_000020 {
         port sensorOut;
     }
 
-    part def ProcessingProcessor {
+    public part def ProcessingProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrIn;
     }
 
     // System Definition
-    part def ThermalControlSystem {
+    public part def ThermalControlSystem {
         part commandunit : CommandUnit {
         }
         part navbus : NavBus {

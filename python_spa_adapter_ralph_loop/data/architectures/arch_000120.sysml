@@ -1,81 +1,99 @@
 package arch_000120 {
 
-    // Robotic Arm Reference Architecture 120
-    // Domain: robotic arm
+    // Avionics Bay Reference Architecture 120
+    // Domain: avionics bay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The avionics bay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The avionics bay system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The robotic arm system shall maintain operational status monitoring."
+    public requirement REQ_003 {
+        doc "The avionics bay system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def FlightSubsystem {
+    public part def NavController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+        port telemetryOut;
+    }
+
+    public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port dataIn;
-        port statusOut;
-    }
-
-    part def SensorPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port sensorOut;
-        port dataIn;
-    }
-
-    part def DistributionSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port sensorOut;
-        port sensorOut;
+        port ctrlIn;
         port cmdIn;
     }
 
-    part def PowerActuator {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port pwrOut;
+    public part def MonitorInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port ctrlIn;
+    }
+
+    public part def ProcessingPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrIn;
+    }
+
+    public part def NavModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port sensorOut;
+        port statusOut;
+    }
+
+    public part def DataProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+        port pwrIn;
+    }
+
+    public part def ControlUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+        port statusOut;
     }
 
     // System Definition
-    part def RoboticArmSystem {
-        part flightsubsystem : FlightSubsystem {
+    public part def AvionicsBaySystem {
+        part navcontroller : NavController {
+        }
+        part navunit : NavUnit {
             satisfy REQ_002;
-            satisfy REQ_004;
         }
-        part sensorpayload : SensorPayload {
-        }
-        part distributionsensor : DistributionSensor {
-            satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part poweractuator : PowerActuator {
+        part monitorinterface : MonitorInterface {
             satisfy REQ_001;
+        }
+        part processingpayload : ProcessingPayload {
+        }
+        part navmodule : NavModule {
+            satisfy REQ_001;
+        }
+        part dataprocessor : DataProcessor {
             satisfy REQ_003;
+        }
+        part controlunit : ControlUnit {
         }
 
         // Connections
-        connect flightsubsystem.statusOut to poweractuator.pwrOut;
-        connect flightsubsystem.statusOut to distributionsensor.sensorOut;
-        connect sensorpayload.dataIn to distributionsensor.sensorOut;
-        connect distributionsensor.cmdIn to sensorpayload.dataIn;
-        connect flightsubsystem.configIn to distributionsensor.sensorOut;
+        connect navmodule.sensorOut to navunit.ctrlIn;
+        connect processingpayload.pwrIn to navcontroller.telemetryOut;
+        connect navunit.cmdIn to controlunit.statusOut;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part avionicsbaysystem : AvionicsBaySystem;
 
 }

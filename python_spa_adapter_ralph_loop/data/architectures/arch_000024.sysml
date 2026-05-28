@@ -4,20 +4,20 @@ package arch_000024 {
     // Domain: robotic arm
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The robotic arm system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The robotic arm system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The robotic arm system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ControlModule {
+    public part def ControlModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
@@ -25,20 +25,20 @@ package arch_000024 {
         port cmdIn;
     }
 
-    part def MonitorController {
+    public part def MonitorController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port cmdOut;
         port dataOut;
     }
 
-    part def MonitorPayload {
+    public part def MonitorPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port statusOut;
     }
 
-    part def ProcessingUnit {
+    public part def ProcessingUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
@@ -46,7 +46,7 @@ package arch_000024 {
     }
 
     // System Definition
-    part def RoboticArmSystem {
+    public part def RoboticArmSystem {
         part controlmodule : ControlModule {
             satisfy REQ_003;
         }

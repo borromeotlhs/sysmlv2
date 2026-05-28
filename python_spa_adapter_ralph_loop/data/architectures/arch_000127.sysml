@@ -1,75 +1,61 @@
 package arch_000127 {
 
-    // Lunar Habitat Reference Architecture 127
-    // Domain: lunar habitat
+    // Battery Management Reference Architecture 127
+    // Domain: battery management
 
     // Requirements
-    requirement REQ_001 {
-        doc "The lunar habitat system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The battery management system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The lunar habitat system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The battery management system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The battery management system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MonitorActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-    }
-
-    part def ControlSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
+    public part def PowerBus {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port ctrlIn;
         port telemetryOut;
     }
 
-    part def ThermalUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
+    public part def CommController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataOut;
+        port cmdIn;
         port cmdIn;
     }
 
-    part def DataInterface {
+    public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port cmdOut;
-        port dataOut;
-    }
-
-    part def ProcessingAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataIn;
-        port cmdOut;
+        port ctrlIn;
     }
 
     // System Definition
-    part def LunarHabitatSystem {
-        part monitoractuator : MonitorActuator {
+    public part def BatteryManagementSystem {
+        part powerbus : PowerBus {
+            satisfy REQ_003;
         }
-        part controlsensor : ControlSensor {
-        }
-        part thermalunit : ThermalUnit {
+        part commcontroller : CommController {
+            satisfy REQ_001;
             satisfy REQ_002;
         }
-        part datainterface : DataInterface {
-        }
-        part processingassembly : ProcessingAssembly {
-            satisfy REQ_001;
+        part monitorbus : MonitorBus {
         }
 
         // Connections
-        connect datainterface.configIn to thermalunit.pwrOut;
-        connect processingassembly.cmdOut to datainterface.configIn;
-        connect processingassembly.cmdOut to monitoractuator.pwrIn;
-        connect controlsensor.telemetryOut to thermalunit.pwrOut;
+        connect commcontroller.cmdIn to monitorbus.ctrlIn;
+        connect commcontroller.cmdIn to powerbus.ctrlIn;
     }
 
     // System Instance
-    part lunarhabitatsystem : LunarHabitatSystem;
+    part batterymanagementsystem : BatteryManagementSystem;
 
 }

@@ -1,97 +1,75 @@
 package arch_000108 {
 
-    // Thermal Control Reference Architecture 108
-    // Domain: thermal control
+    // Telemetry System Reference Architecture 108
+    // Domain: telemetry system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The telemetry system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The telemetry system system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The thermal control system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The telemetry system system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def DistributionUnit {
+    public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def ThermalAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-    }
-
-    part def MissionProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrOut;
-        port pwrOut;
-    }
-
-    part def CommandActuator {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port pwrOut;
-        port configIn;
         port cmdIn;
+        port statusOut;
+        port cmdOut;
     }
 
-    part def MonitorSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
-    }
-
-    part def FlightProcessor {
+    public part def CommandProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port ctrlIn;
-        port ctrlIn;
+        port statusOut;
+        port dataIn;
+        port sensorOut;
     }
 
-    part def ProcessingInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def ThermalController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port statusOut;
         port dataOut;
     }
 
+    public part def NavActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+        port dataOut;
+        port pwrIn;
+    }
+
     // System Definition
-    part def ThermalControlSystem {
-        part distributionunit : DistributionUnit {
-            satisfy REQ_002;
-        }
-        part thermalassembly : ThermalAssembly {
-            satisfy REQ_001;
+    public part def TelemetrySystemSystem {
+        part distributionsubsystem : DistributionSubsystem {
             satisfy REQ_003;
         }
-        part missionprocessor : MissionProcessor {
+        part commandprocessor : CommandProcessor {
+            satisfy REQ_001;
         }
-        part commandactuator : CommandActuator {
-        }
-        part monitorsubsystem : MonitorSubsystem {
+        part thermalcontroller : ThermalController {
             satisfy REQ_002;
         }
-        part flightprocessor : FlightProcessor {
-        }
-        part processinginterface : ProcessingInterface {
+        part navactuator : NavActuator {
         }
 
         // Connections
-        connect thermalassembly.statusOut to commandactuator.pwrOut;
-        connect monitorsubsystem.configIn to flightprocessor.cmdOut;
+        connect navactuator.pwrIn to thermalcontroller.statusOut;
+        connect commandprocessor.sensorOut to navactuator.dataOut;
+        connect distributionsubsystem.cmdIn to commandprocessor.dataIn;
+        connect thermalcontroller.dataOut to navactuator.dataOut;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

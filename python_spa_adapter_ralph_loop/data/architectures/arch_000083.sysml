@@ -1,55 +1,49 @@
 package arch_000083 {
 
-    // Instrument Platform Reference Architecture 83
-    // Domain: instrument platform
+    // Satellite Bus Reference Architecture 83
+    // Domain: satellite bus
 
     // Requirements
-    requirement REQ_001 {
-        doc "The instrument platform system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The satellite bus system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The instrument platform system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The instrument platform system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The satellite bus system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def CommandInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port statusOut;
+    public part def DistributionInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port sensorOut;
     }
 
-    part def CommActuator {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port ctrlIn;
-        port pwrIn;
-        port cmdIn;
+    public part def DataComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port dataIn;
     }
 
     // System Definition
-    part def InstrumentPlatformSystem {
-        part commandinterface : CommandInterface {
+    public part def SatelliteBusSystem {
+        part distributioninterface : DistributionInterface {
+            satisfy REQ_002;
+        }
+        part datacomputer : DataComputer {
             satisfy REQ_001;
             satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part commactuator : CommActuator {
-            satisfy REQ_002;
-            satisfy REQ_003;
         }
 
         // Connections
-        connect commactuator.pwrIn to commandinterface.statusOut;
-        connect commactuator.cmdIn to commandinterface.statusOut;
-        connect commactuator.ctrlIn to commandinterface.statusOut;
+        connect datacomputer.dataIn to distributioninterface.pwrOut;
+        connect distributioninterface.sensorOut to datacomputer.dataIn;
+        connect datacomputer.cmdOut to distributioninterface.pwrOut;
     }
 
     // System Instance
-    part instrumentplatformsystem : InstrumentPlatformSystem;
+    part satellitebussystem : SatelliteBusSystem;
 
 }

@@ -1,106 +1,77 @@
 package arch_000197 {
 
-    // Attitude Control Reference Architecture 197
-    // Domain: attitude control
+    // Satellite Bus Reference Architecture 197
+    // Domain: satellite bus
 
     // Requirements
-    requirement REQ_001 {
-        doc "The attitude control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The satellite bus system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The attitude control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The satellite bus system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The attitude control system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The satellite bus system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
-        doc "The attitude control system shall maintain operational status monitoring."
+    public requirement REQ_004 {
+        doc "The satellite bus system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ProcessingInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
-        port ctrlIn;
-        port dataIn;
-    }
-
-    part def CommandAssembly {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port cmdOut;
-    }
-
-    part def SensorModule {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port ctrlIn;
-        port statusOut;
-    }
-
-    part def FlightModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-        port pwrOut;
-        port ctrlIn;
-    }
-
-    part def DistributionProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-        port dataIn;
-        port telemetryOut;
-    }
-
-    part def DataPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port dataIn;
-    }
-
-    part def MissionAssembly {
+    public part def ThermalUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdIn;
-        port sensorOut;
+    }
+
+    public part def ThermalBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+    }
+
+    public part def CommModule {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
         port pwrIn;
     }
 
+    public part def ThermalComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port configIn;
+        port statusOut;
+    }
+
     // System Definition
-    part def AttitudeControlSystem {
-        part processinginterface : ProcessingInterface {
-        }
-        part commandassembly : CommandAssembly {
+    public part def SatelliteBusSystem {
+        part thermalunit : ThermalUnit {
             satisfy REQ_003;
+            satisfy REQ_004;
         }
-        part sensormodule : SensorModule {
-        }
-        part flightmodule : FlightModule {
-        }
-        part distributionprocessor : DistributionProcessor {
+        part thermalbus : ThermalBus {
             satisfy REQ_001;
             satisfy REQ_002;
-            satisfy REQ_004;
         }
-        part datapayload : DataPayload {
+        part commmodule : CommModule {
+            satisfy REQ_001;
+            satisfy REQ_002;
         }
-        part missionassembly : MissionAssembly {
-            satisfy REQ_004;
+        part thermalcomputer : ThermalComputer {
+            satisfy REQ_003;
         }
 
         // Connections
-        connect distributionprocessor.dataIn to flightmodule.pwrOut;
-        connect distributionprocessor.sensorOut to processinginterface.dataIn;
-        connect sensormodule.ctrlIn to distributionprocessor.sensorOut;
+        connect thermalcomputer.configIn to commmodule.pwrIn;
+        connect commmodule.pwrIn to thermalunit.cmdIn;
+        connect thermalunit.cmdIn to thermalcomputer.statusOut;
+        connect commmodule.pwrIn to thermalcomputer.statusOut;
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    part satellitebussystem : SatelliteBusSystem;
 
 }

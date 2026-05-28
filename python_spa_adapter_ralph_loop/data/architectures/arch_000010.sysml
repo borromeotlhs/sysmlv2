@@ -4,30 +4,30 @@ package arch_000010 {
     // Domain: fuel cell
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The fuel cell system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The fuel cell system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def MonitorBus {
+    public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
         port pwrIn;
     }
 
-    part def ProcessingBus {
+    public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
         port pwrOut;
     }
 
-    part def MonitorModule {
+    public part def MonitorModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrIn;
@@ -35,7 +35,7 @@ package arch_000010 {
         port statusOut;
     }
 
-    part def ThermalSubsystem {
+    public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataIn;
@@ -43,20 +43,20 @@ package arch_000010 {
         port statusOut;
     }
 
-    part def FlightInterface {
+    public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrIn;
     }
 
-    part def ThermalActuator {
+    public part def ThermalActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
     }
 
     // System Definition
-    part def FuelCellSystem {
+    public part def FuelCellSystem {
         part monitorbus : MonitorBus {
             satisfy REQ_002;
         }

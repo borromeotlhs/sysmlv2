@@ -4,24 +4,24 @@ package arch_000036 {
     // Domain: thermal control
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The thermal control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The thermal control system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The thermal control system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The thermal control system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DistributionComputer {
+    public part def DistributionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port telemetryOut;
@@ -29,7 +29,7 @@ package arch_000036 {
         port cmdOut;
     }
 
-    part def FlightInterface {
+    public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrOut;
@@ -37,40 +37,40 @@ package arch_000036 {
         port cmdIn;
     }
 
-    part def MonitorSubsystem {
+    public part def MonitorSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
     }
 
-    part def ThermalSensor {
+    public part def ThermalSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port pwrOut;
         port cmdOut;
     }
 
-    part def DistributionBus {
+    public part def DistributionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port sensorOut;
     }
 
-    part def MonitorProcessor {
+    public part def MonitorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrOut;
         port dataOut;
     }
 
-    part def MissionProcessor {
+    public part def MissionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port dataIn;
     }
 
     // System Definition
-    part def ThermalControlSystem {
+    public part def ThermalControlSystem {
         part distributioncomputer : DistributionComputer {
             satisfy REQ_001;
         }

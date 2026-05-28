@@ -1,97 +1,58 @@
 package arch_000148 {
 
-    // Thermal Control Reference Architecture 148
-    // Domain: thermal control
+    // Reaction Wheel Reference Architecture 148
+    // Domain: reaction wheel
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The reaction wheel system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The thermal control system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The reaction wheel system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DistributionUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def ThermalAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-    }
-
-    part def MissionProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrOut;
-        port pwrOut;
-    }
-
-    part def CommandActuator {
+    public part def CommModule {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrOut;
-        port configIn;
-        port cmdIn;
+        port ctrlIn;
+        port pwrIn;
     }
 
-    part def MonitorSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
-    }
-
-    part def FlightProcessor {
+    public part def CommandController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port ctrlIn;
         port ctrlIn;
     }
 
-    part def ProcessingInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-        port dataOut;
+    public part def CommandModule {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port cmdOut;
+        port sensorOut;
     }
 
     // System Definition
-    part def ThermalControlSystem {
-        part distributionunit : DistributionUnit {
-            satisfy REQ_002;
+    public part def ReactionWheelSystem {
+        part commmodule : CommModule {
         }
-        part thermalassembly : ThermalAssembly {
+        part commandcontroller : CommandController {
             satisfy REQ_001;
-            satisfy REQ_003;
-        }
-        part missionprocessor : MissionProcessor {
-        }
-        part commandactuator : CommandActuator {
-        }
-        part monitorsubsystem : MonitorSubsystem {
             satisfy REQ_002;
         }
-        part flightprocessor : FlightProcessor {
-        }
-        part processinginterface : ProcessingInterface {
+        part commandmodule : CommandModule {
+            satisfy REQ_002;
         }
 
         // Connections
-        connect thermalassembly.statusOut to commandactuator.pwrOut;
-        connect monitorsubsystem.configIn to flightprocessor.cmdOut;
+        connect commmodule.pwrIn to commandcontroller.ctrlIn;
+        connect commandcontroller.ctrlIn to commandmodule.cmdOut;
+        connect commandcontroller.ctrlIn to commmodule.ctrlIn;
+        connect commandmodule.sensorOut to commmodule.ctrlIn;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part reactionwheelsystem : ReactionWheelSystem;
 
 }

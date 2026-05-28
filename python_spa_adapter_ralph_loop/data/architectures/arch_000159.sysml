@@ -1,77 +1,100 @@
 package arch_000159 {
 
-    // Propulsion Module Reference Architecture 159
-    // Domain: propulsion module
+    // Radar System Reference Architecture 159
+    // Domain: radar system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The propulsion module system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The radar system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The propulsion module system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The radar system system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The propulsion module system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The radar system system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The radar system system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ControlSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port ctrlIn;
-    }
-
-    part def DataProcessor {
+    public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
+        port pwrIn;
+        port dataIn;
+    }
+
+    public part def MonitorAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
+        port pwrOut;
+    }
+
+    public part def ThermalProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+    }
+
+    public part def FlightModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+    }
+
+    public part def NavSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port statusOut;
+        port sensorOut;
     }
 
-    part def ThermalActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-        port configIn;
+    public part def DistributionComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port ctrlIn;
     }
 
-    part def ProcessingAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdIn;
-    }
-
-    part def NavSensor {
+    public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
-        port pwrIn;
+        port sensorOut;
     }
 
     // System Definition
-    part def PropulsionModuleSystem {
-        part controlsubsystem : ControlSubsystem {
+    public part def RadarSystemSystem {
+        part flightprocessor : FlightProcessor {
         }
-        part dataprocessor : DataProcessor {
+        part monitorassembly : MonitorAssembly {
         }
-        part thermalactuator : ThermalActuator {
+        part thermalprocessor : ThermalProcessor {
+        }
+        part flightmodule : FlightModule {
             satisfy REQ_003;
         }
-        part processingassembly : ProcessingAssembly {
+        part navsubsystem : NavSubsystem {
             satisfy REQ_001;
         }
-        part navsensor : NavSensor {
+        part distributioncomputer : DistributionComputer {
             satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part datapayload : DataPayload {
+            satisfy REQ_003;
+            satisfy REQ_004;
         }
 
         // Connections
-        connect controlsubsystem.ctrlIn to navsensor.configIn;
-        connect thermalactuator.configIn to processingassembly.cmdIn;
+        connect navsubsystem.statusOut to monitorassembly.pwrOut;
+        connect flightprocessor.pwrIn to navsubsystem.statusOut;
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    part radarsystemsystem : RadarSystemSystem;
 
 }

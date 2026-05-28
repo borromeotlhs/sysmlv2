@@ -1,93 +1,96 @@
 package arch_000101 {
 
-    // Power Distribution System Reference Architecture 101
-    // Domain: power distribution system
+    // Reaction Wheel Reference Architecture 101
+    // Domain: reaction wheel
 
     // Requirements
-    requirement REQ_001 {
-        doc "The power distribution system system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The reaction wheel system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The power distribution system system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The reaction wheel system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The power distribution system system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The reaction wheel system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommModule {
+    public part def CommSubsystem {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port dataIn;
-        port cmdIn;
-        port sensorOut;
+        port telemetryOut;
+        port pwrIn;
     }
 
-    part def DistributionSubsystem {
+    public part def DataUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdOut;
-        port cmdOut;
     }
 
-    part def MissionAssembly {
+    public part def FlightSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port statusOut;
+        port pwrIn;
     }
 
-    part def ProcessingPayload {
+    public part def MonitorModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port ctrlIn;
+        port configIn;
+    }
+
+    public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
+        port pwrOut;
     }
 
-    part def ProcessingSubsystem {
+    public part def DistributionBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port telemetryOut;
+        port cmdIn;
     }
 
-    part def CommInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port telemetryOut;
-        port statusOut;
+    public part def MonitorUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
     }
 
     // System Definition
-    part def PowerDistributionSystemSystem {
-        part commmodule : CommModule {
-            satisfy REQ_002;
-            satisfy REQ_003;
+    public part def ReactionWheelSystem {
+        part commsubsystem : CommSubsystem {
         }
-        part distributionsubsystem : DistributionSubsystem {
+        part dataunit : DataUnit {
         }
-        part missionassembly : MissionAssembly {
-            satisfy REQ_003;
-        }
-        part processingpayload : ProcessingPayload {
-        }
-        part processingsubsystem : ProcessingSubsystem {
-        }
-        part comminterface : CommInterface {
+        part flightsubsystem : FlightSubsystem {
             satisfy REQ_001;
             satisfy REQ_002;
         }
+        part monitormodule : MonitorModule {
+            satisfy REQ_001;
+        }
+        part sensoractuator : SensorActuator {
+        }
+        part distributionbus : DistributionBus {
+        }
+        part monitorunit : MonitorUnit {
+            satisfy REQ_003;
+        }
 
         // Connections
-        connect processingsubsystem.configIn to commmodule.dataIn;
-        connect commmodule.cmdIn to distributionsubsystem.cmdOut;
-        connect comminterface.telemetryOut to distributionsubsystem.cmdOut;
-        connect comminterface.statusOut to commmodule.cmdIn;
-        connect commmodule.cmdIn to comminterface.telemetryOut;
+        connect monitormodule.ctrlIn to dataunit.cmdOut;
+        connect commsubsystem.telemetryOut to flightsubsystem.pwrIn;
+        connect dataunit.cmdOut to commsubsystem.telemetryOut;
+        connect flightsubsystem.pwrIn to monitormodule.ctrlIn;
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    part reactionwheelsystem : ReactionWheelSystem;
 
 }

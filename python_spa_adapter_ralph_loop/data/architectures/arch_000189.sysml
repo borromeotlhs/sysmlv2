@@ -1,64 +1,90 @@
 package arch_000189 {
 
-    // Propulsion Module Reference Architecture 189
-    // Domain: propulsion module
+    // Solar Array Reference Architecture 189
+    // Domain: solar array
 
     // Requirements
-    requirement REQ_001 {
-        doc "The propulsion module system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The solar array system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The propulsion module system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The solar array system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The propulsion module system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The solar array system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The solar array system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DistributionProcessor {
+    public part def ThermalComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdIn;
+        port configIn;
+        port ctrlIn;
+        port cmdOut;
     }
 
-    part def DistributionUnit {
+    public part def FlightController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+    }
+
+    public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
-        port dataIn;
+        port configIn;
+        port cmdOut;
+    }
+
+    public part def MonitorSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port sensorOut;
     }
 
-    part def PowerAssembly {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port sensorOut;
-        port cmdOut;
+    public part def DataComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port cmdIn;
+        port sensorOut;
     }
 
     // System Definition
-    part def PropulsionModuleSystem {
-        part distributionprocessor : DistributionProcessor {
+    public part def SolarArraySystem {
+        part thermalcomputer : ThermalComputer {
             satisfy REQ_001;
-            satisfy REQ_002;
+            satisfy REQ_004;
         }
-        part distributionunit : DistributionUnit {
-            satisfy REQ_001;
-            satisfy REQ_002;
-        }
-        part powerassembly : PowerAssembly {
+        part flightcontroller : FlightController {
             satisfy REQ_003;
+            satisfy REQ_004;
+        }
+        part navinterface : NavInterface {
+            satisfy REQ_003;
+        }
+        part monitorsensor : MonitorSensor {
+        }
+        part datacomputer : DataComputer {
+            satisfy REQ_001;
+            satisfy REQ_002;
         }
 
         // Connections
-        connect distributionunit.sensorOut to distributionprocessor.cmdIn;
-        connect powerassembly.sensorOut to distributionunit.sensorOut;
+        connect thermalcomputer.ctrlIn to datacomputer.cmdIn;
+        connect flightcontroller.statusOut to thermalcomputer.ctrlIn;
+        connect datacomputer.sensorOut to thermalcomputer.cmdOut;
+        connect datacomputer.cmdIn to monitorsensor.sensorOut;
+        connect flightcontroller.statusOut to thermalcomputer.cmdOut;
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    part solararraysystem : SolarArraySystem;
 
 }

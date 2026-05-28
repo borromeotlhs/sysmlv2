@@ -1,86 +1,52 @@
 package arch_000130 {
 
-    // Fuel Cell Reference Architecture 130
-    // Domain: fuel cell
+    // Autonomous Rover Reference Architecture 130
+    // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
-        doc "The fuel cell system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The fuel cell system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The autonomous rover system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MonitorBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-        port pwrIn;
-    }
-
-    part def ProcessingBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-        port pwrOut;
-    }
-
-    part def MonitorModule {
+    public part def MonitorAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrIn;
-        port dataIn;
-        port statusOut;
-    }
-
-    part def ThermalSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataIn;
         port configIn;
-        port statusOut;
     }
 
-    part def FlightInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-    }
-
-    part def ThermalActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
+    public part def PowerModule {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port cmdOut;
     }
 
     // System Definition
-    part def FuelCellSystem {
-        part monitorbus : MonitorBus {
+    public part def AutonomousRoverSystem {
+        part monitorassembly : MonitorAssembly {
+            satisfy REQ_001;
             satisfy REQ_002;
         }
-        part processingbus : ProcessingBus {
-            satisfy REQ_001;
-        }
-        part monitormodule : MonitorModule {
-        }
-        part thermalsubsystem : ThermalSubsystem {
-        }
-        part flightinterface : FlightInterface {
-        }
-        part thermalactuator : ThermalActuator {
-            satisfy REQ_001;
+        part powermodule : PowerModule {
+            satisfy REQ_002;
+            satisfy REQ_003;
         }
 
         // Connections
-        connect thermalsubsystem.dataIn to flightinterface.pwrIn;
-        connect thermalactuator.statusOut to processingbus.telemetryOut;
-        connect monitorbus.pwrIn to monitormodule.pwrIn;
-        connect thermalsubsystem.statusOut to monitormodule.dataIn;
+        connect monitorassembly.configIn to powermodule.cmdOut;
+        connect monitorassembly.pwrIn to powermodule.cmdOut;
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    part autonomousroversystem : AutonomousRoverSystem;
 
 }

@@ -1,86 +1,100 @@
 package arch_000050 {
 
-    // Fuel Cell Reference Architecture 50
-    // Domain: fuel cell
+    // Communication Relay Reference Architecture 50
+    // Domain: communication relay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The fuel cell system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The communication relay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The fuel cell system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The communication relay system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The communication relay system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MonitorBus {
+    public part def DistributionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
+        port cmdIn;
+        port statusOut;
         port telemetryOut;
-        port pwrIn;
     }
 
-    part def ProcessingBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def CommandProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
+    }
+
+    public part def ProcessingSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port sensorOut;
+    }
+
+    public part def NavProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdIn;
         port telemetryOut;
-        port pwrOut;
     }
 
-    part def MonitorModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def SensorInterface {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+        port cmdIn;
+    }
+
+    public part def MissionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port sensorOut;
+        port cmdIn;
+        port sensorOut;
+    }
+
+    public part def MissionController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port pwrIn;
+        port sensorOut;
         port dataIn;
-        port statusOut;
-    }
-
-    part def ThermalSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataIn;
-        port configIn;
-        port statusOut;
-    }
-
-    part def FlightInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-    }
-
-    part def ThermalActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
     }
 
     // System Definition
-    part def FuelCellSystem {
-        part monitorbus : MonitorBus {
+    public part def CommunicationRelaySystem {
+        part distributionassembly : DistributionAssembly {
+        }
+        part commandprocessor : CommandProcessor {
+        }
+        part processingsensor : ProcessingSensor {
+            satisfy REQ_001;
             satisfy REQ_002;
         }
-        part processingbus : ProcessingBus {
+        part navprocessor : NavProcessor {
             satisfy REQ_001;
+            satisfy REQ_003;
         }
-        part monitormodule : MonitorModule {
+        part sensorinterface : SensorInterface {
+            satisfy REQ_003;
         }
-        part thermalsubsystem : ThermalSubsystem {
+        part missionsensor : MissionSensor {
         }
-        part flightinterface : FlightInterface {
-        }
-        part thermalactuator : ThermalActuator {
-            satisfy REQ_001;
+        part missioncontroller : MissionController {
         }
 
         // Connections
-        connect thermalsubsystem.dataIn to flightinterface.pwrIn;
-        connect thermalactuator.statusOut to processingbus.telemetryOut;
-        connect monitorbus.pwrIn to monitormodule.pwrIn;
-        connect thermalsubsystem.statusOut to monitormodule.dataIn;
+        connect sensorinterface.cmdIn to distributionassembly.telemetryOut;
+        connect commandprocessor.dataIn to missionsensor.sensorOut;
     }
 
     // System Instance
-    part fuelcellsystem : FuelCellSystem;
+    part communicationrelaysystem : CommunicationRelaySystem;
 
 }

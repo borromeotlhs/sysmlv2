@@ -1,85 +1,91 @@
 package arch_000055 {
 
-    // Sensor Suite Reference Architecture 55
-    // Domain: sensor suite
+    // Reaction Wheel Reference Architecture 55
+    // Domain: reaction wheel
 
     // Requirements
-    requirement REQ_001 {
-        doc "The sensor suite system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The reaction wheel system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The sensor suite system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The reaction wheel system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The reaction wheel system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port telemetryOut;
+    public part def SensorActuator {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port dataIn;
+        port cmdIn;
+        port cmdOut;
+    }
+
+    public part def ProcessingActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
         port dataIn;
     }
 
-    part def ThermalController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-    }
-
-    part def SensorInterface {
+    public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port ctrlIn;
-        port configIn;
-    }
-
-    part def ThermalComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+        port pwrOut;
         port dataOut;
-        port pwrIn;
     }
 
-    part def CommPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port ctrlIn;
-    }
-
-    part def FlightSubsystem {
+    public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
         port pwrOut;
+        port cmdOut;
+    }
+
+    public part def NavInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port ctrlIn;
+        port cmdOut;
+        port cmdIn;
+    }
+
+    public part def ControlBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrOut;
     }
 
     // System Definition
-    part def SensorSuiteSystem {
-        part comminterface : CommInterface {
+    public part def ReactionWheelSystem {
+        part sensoractuator : SensorActuator {
+            satisfy REQ_003;
         }
-        part thermalcontroller : ThermalController {
+        part processingactuator : ProcessingActuator {
+            satisfy REQ_002;
+        }
+        part datapayload : DataPayload {
+        }
+        part thermalsubsystem : ThermalSubsystem {
             satisfy REQ_001;
+            satisfy REQ_003;
         }
-        part sensorinterface : SensorInterface {
+        part navinterface : NavInterface {
         }
-        part thermalcomputer : ThermalComputer {
-            satisfy REQ_002;
-        }
-        part commpayload : CommPayload {
-            satisfy REQ_002;
-        }
-        part flightsubsystem : FlightSubsystem {
+        part controlbus : ControlBus {
         }
 
         // Connections
-        connect thermalcomputer.pwrIn to sensorinterface.sensorOut;
-        connect sensorinterface.ctrlIn to flightsubsystem.telemetryOut;
-        connect commpayload.ctrlIn to comminterface.telemetryOut;
+        connect navinterface.cmdIn to processingactuator.cmdOut;
+        connect sensoractuator.cmdOut to thermalsubsystem.cmdOut;
+        connect datapayload.pwrOut to thermalsubsystem.cmdOut;
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    part reactionwheelsystem : ReactionWheelSystem;
 
 }

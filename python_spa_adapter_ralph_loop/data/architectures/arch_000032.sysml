@@ -4,16 +4,16 @@ package arch_000032 {
     // Domain: ground station
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The ground station system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The ground station system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def ProcessingController {
+    public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port sensorOut;
@@ -21,32 +21,32 @@ package arch_000032 {
         port sensorOut;
     }
 
-    part def PowerSensor {
+    public part def PowerSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port pwrOut;
     }
 
-    part def CommInterface {
+    public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port dataOut;
     }
 
-    part def DistributionAssembly {
+    public part def DistributionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataOut;
         port dataIn;
     }
 
-    part def CommandInterface {
+    public part def CommandInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port pwrIn;
     }
 
-    part def ProcessingBus {
+    public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port sensorOut;
@@ -55,7 +55,7 @@ package arch_000032 {
     }
 
     // System Definition
-    part def GroundStationSystem {
+    public part def GroundStationSystem {
         part processingcontroller : ProcessingController {
         }
         part powersensor : PowerSensor {

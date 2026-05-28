@@ -1,74 +1,101 @@
 package arch_000142 {
 
-    // Sensor Suite Reference Architecture 142
-    // Domain: sensor suite
+    // Robotic Arm Reference Architecture 142
+    // Domain: robotic arm
 
     // Requirements
-    requirement REQ_001 {
-        doc "The sensor suite system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The robotic arm system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The sensor suite system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The robotic arm system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The sensor suite system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The robotic arm system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommProcessor {
+    public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
+        port statusOut;
+        port statusOut;
+        port cmdOut;
+    }
+
+    public part def ThermalPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrOut;
+        port cmdIn;
+        port telemetryOut;
+    }
+
+    public part def FlightSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port telemetryOut;
+    }
+
+    public part def PowerPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port dataIn;
     }
 
-    part def DataSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port statusOut;
-        port telemetryOut;
-        port ctrlIn;
+    public part def ControlBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port dataIn;
     }
 
-    part def CommActuator {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
+    public part def PowerInterface {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port dataOut;
         port dataOut;
     }
 
-    part def MonitorProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrIn;
-        port pwrIn;
-        port ctrlIn;
+    public part def NavModule {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port statusOut;
     }
 
     // System Definition
-    part def SensorSuiteSystem {
-        part commprocessor : CommProcessor {
+    public part def RoboticArmSystem {
+        part missioncontroller : MissionController {
             satisfy REQ_001;
-            satisfy REQ_003;
         }
-        part datasensor : DataSensor {
+        part thermalpayload : ThermalPayload {
         }
-        part commactuator : CommActuator {
+        part flightsubsystem : FlightSubsystem {
+        }
+        part powerpayload : PowerPayload {
             satisfy REQ_002;
+        }
+        part controlbus : ControlBus {
+        }
+        part powerinterface : PowerInterface {
             satisfy REQ_003;
         }
-        part monitorprocessor : MonitorProcessor {
-            satisfy REQ_001;
+        part navmodule : NavModule {
             satisfy REQ_002;
         }
 
         // Connections
-        connect datasensor.statusOut to monitorprocessor.ctrlIn;
-        connect commactuator.dataOut to monitorprocessor.pwrIn;
-        connect monitorprocessor.ctrlIn to commactuator.dataOut;
+        connect powerinterface.dataOut to controlbus.configIn;
+        connect thermalpayload.cmdIn to powerinterface.dataOut;
+        connect flightsubsystem.ctrlIn to thermalpayload.telemetryOut;
+        connect powerpayload.dataIn to thermalpayload.cmdIn;
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    part roboticarmsystem : RoboticArmSystem;
 
 }

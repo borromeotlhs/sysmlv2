@@ -1,106 +1,100 @@
 package arch_000157 {
 
-    // Attitude Control Reference Architecture 157
-    // Domain: attitude control
+    // Reaction Wheel Reference Architecture 157
+    // Domain: reaction wheel
 
     // Requirements
-    requirement REQ_001 {
-        doc "The attitude control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The reaction wheel system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The attitude control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The reaction wheel system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The attitude control system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The reaction wheel system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
-        doc "The attitude control system shall maintain operational status monitoring."
+    public requirement REQ_004 {
+        doc "The reaction wheel system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ProcessingInterface {
+    public part def ControlBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
         port ctrlIn;
-        port dataIn;
+        port cmdIn;
+        port cmdIn;
     }
 
-    part def CommandAssembly {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port cmdOut;
-    }
-
-    part def SensorModule {
+    public part def SensorUnit {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-        port statusOut;
-    }
-
-    part def FlightModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
         port pwrOut;
-        port ctrlIn;
-    }
-
-    part def DistributionProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-        port dataIn;
+        port cmdOut;
         port telemetryOut;
     }
 
-    part def DataPayload {
+    public part def MissionPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
+        port cmdOut;
+        port configIn;
+    }
+
+    public part def CommPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port statusOut;
         port dataIn;
     }
 
-    part def MissionAssembly {
+    public part def SensorActuator {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port dataOut;
+        port pwrOut;
+        port dataOut;
+    }
+
+    public part def ProcessingActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port sensorOut;
-        port pwrIn;
+        port configIn;
     }
 
     // System Definition
-    part def AttitudeControlSystem {
-        part processinginterface : ProcessingInterface {
+    public part def ReactionWheelSystem {
+        part controlbus : ControlBus {
+            satisfy REQ_004;
         }
-        part commandassembly : CommandAssembly {
+        part sensorunit : SensorUnit {
+            satisfy REQ_002;
             satisfy REQ_003;
         }
-        part sensormodule : SensorModule {
+        part missionpayload : MissionPayload {
         }
-        part flightmodule : FlightModule {
+        part commpayload : CommPayload {
+            satisfy REQ_004;
         }
-        part distributionprocessor : DistributionProcessor {
+        part sensoractuator : SensorActuator {
+        }
+        part processingactuator : ProcessingActuator {
             satisfy REQ_001;
             satisfy REQ_002;
-            satisfy REQ_004;
-        }
-        part datapayload : DataPayload {
-        }
-        part missionassembly : MissionAssembly {
-            satisfy REQ_004;
         }
 
         // Connections
-        connect distributionprocessor.dataIn to flightmodule.pwrOut;
-        connect distributionprocessor.sensorOut to processinginterface.dataIn;
-        connect sensormodule.ctrlIn to distributionprocessor.sensorOut;
+        connect controlbus.cmdIn to sensorunit.cmdOut;
+        connect missionpayload.cmdOut to processingactuator.configIn;
+        connect sensorunit.telemetryOut to sensoractuator.dataOut;
+        connect sensoractuator.dataOut to processingactuator.configIn;
+        connect commpayload.dataIn to sensorunit.pwrOut;
     }
 
     // System Instance
-    part attitudecontrolsystem : AttitudeControlSystem;
+    part reactionwheelsystem : ReactionWheelSystem;
 
 }

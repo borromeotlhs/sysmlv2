@@ -4,24 +4,24 @@ package arch_000040 {
     // Domain: robotic arm
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The robotic arm system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The robotic arm system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The robotic arm system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The robotic arm system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def FlightSubsystem {
+    public part def FlightSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port configIn;
@@ -29,14 +29,14 @@ package arch_000040 {
         port statusOut;
     }
 
-    part def SensorPayload {
+    public part def SensorPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port sensorOut;
         port dataIn;
     }
 
-    part def DistributionSensor {
+    public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port sensorOut;
@@ -44,14 +44,14 @@ package arch_000040 {
         port cmdIn;
     }
 
-    part def PowerActuator {
+    public part def PowerActuator {
         attribute voltage : Real [1];
         attribute current : Real [1];
         port pwrOut;
     }
 
     // System Definition
-    part def RoboticArmSystem {
+    public part def RoboticArmSystem {
         part flightsubsystem : FlightSubsystem {
             satisfy REQ_002;
             satisfy REQ_004;

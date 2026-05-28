@@ -4,32 +4,32 @@ package arch_000017 {
     // Domain: robotic arm
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The robotic arm system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The robotic arm system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The robotic arm system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def PowerComputer {
+    public part def PowerComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port telemetryOut;
     }
 
-    part def MissionSensor {
+    public part def MissionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port cmdIn;
     }
 
-    part def PowerBus {
+    public part def PowerBus {
         attribute voltage : Real [1];
         attribute current : Real [1];
         port ctrlIn;
@@ -37,7 +37,7 @@ package arch_000017 {
     }
 
     // System Definition
-    part def RoboticArmSystem {
+    public part def RoboticArmSystem {
         part powercomputer : PowerComputer {
             satisfy REQ_002;
             satisfy REQ_003;

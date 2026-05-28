@@ -1,71 +1,106 @@
 package arch_000124 {
 
-    // Satellite Bus Reference Architecture 124
-    // Domain: satellite bus
+    // Thermal Control Reference Architecture 124
+    // Domain: thermal control
 
     // Requirements
-    requirement REQ_001 {
-        doc "The satellite bus system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The thermal control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The satellite bus system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The thermal control system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The thermal control system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The thermal control system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DistributionUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port sensorOut;
-        port dataIn;
+    public part def DataPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
     }
 
-    part def DataComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port dataIn;
-        port sensorOut;
-        port statusOut;
-    }
-
-    part def DataActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def CommandSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
         port dataOut;
-        port statusOut;
+        port pwrOut;
+    }
+
+    public part def MissionAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port cmdIn;
         port ctrlIn;
     }
 
-    part def FlightController {
+    public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port dataOut;
+        port pwrIn;
+        port sensorOut;
+    }
+
+    public part def ControlProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port ctrlIn;
+    }
+
+    public part def NavSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+    }
+
+    public part def DistributionSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
     }
 
     // System Definition
-    part def SatelliteBusSystem {
-        part distributionunit : DistributionUnit {
+    public part def ThermalControlSystem {
+        part datapayload : DataPayload {
+        }
+        part commandsensor : CommandSensor {
+        }
+        part missionassembly : MissionAssembly {
+        }
+        part flightprocessor : FlightProcessor {
             satisfy REQ_001;
         }
-        part datacomputer : DataComputer {
+        part controlprocessor : ControlProcessor {
+            satisfy REQ_003;
         }
-        part dataactuator : DataActuator {
-        }
-        part flightcontroller : FlightController {
+        part navsubsystem : NavSubsystem {
             satisfy REQ_001;
             satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part distributionsubsystem : DistributionSubsystem {
+            satisfy REQ_004;
         }
 
         // Connections
-        connect distributionunit.ctrlIn to flightcontroller.cmdOut;
-        connect datacomputer.dataIn to flightcontroller.cmdOut;
-        connect flightcontroller.dataOut to distributionunit.ctrlIn;
-        connect datacomputer.statusOut to distributionunit.sensorOut;
+        connect controlprocessor.ctrlIn to missionassembly.cmdIn;
+        connect controlprocessor.ctrlIn to datapayload.telemetryOut;
+        connect flightprocessor.sensorOut to controlprocessor.ctrlIn;
+        connect missionassembly.ctrlIn to controlprocessor.telemetryOut;
+        connect distributionsubsystem.pwrIn to commandsensor.telemetryOut;
     }
 
     // System Instance
-    part satellitebussystem : SatelliteBusSystem;
+    part thermalcontrolsystem : ThermalControlSystem;
 
 }

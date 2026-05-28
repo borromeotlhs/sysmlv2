@@ -1,107 +1,100 @@
 package arch_000116 {
 
-    // Thermal Control Reference Architecture 116
-    // Domain: thermal control
+    // Docking Mechanism Reference Architecture 116
+    // Domain: docking mechanism
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The docking mechanism system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The thermal control system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The thermal control system shall maintain operational status monitoring."
+    public requirement REQ_002 {
+        doc "The docking mechanism system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DistributionComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port telemetryOut;
-        port cmdIn;
-        port cmdOut;
-    }
-
-    part def FlightInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
-        port statusOut;
-        port cmdIn;
-    }
-
-    part def MonitorSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-    }
-
-    part def ThermalSensor {
+    public part def MonitorSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port pwrOut;
-        port cmdOut;
+        port configIn;
+        port dataIn;
+        port configIn;
     }
 
-    part def DistributionBus {
+    public part def FlightPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+        port ctrlIn;
+        port configIn;
+    }
+
+    public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
+        port pwrIn;
+        port cmdIn;
+        port cmdIn;
     }
 
-    part def MonitorProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+    public part def ControlBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port configIn;
+        port statusOut;
+    }
+
+    public part def PowerSubsystem {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
         port pwrOut;
-        port dataOut;
+        port telemetryOut;
     }
 
-    part def MissionProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port dataIn;
+    public part def ControlAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+    }
+
+    public part def PowerSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port pwrIn;
+        port cmdOut;
+        port pwrIn;
     }
 
     // System Definition
-    part def ThermalControlSystem {
-        part distributioncomputer : DistributionComputer {
-            satisfy REQ_001;
+    public part def DockingMechanismSystem {
+        part monitorsensor : MonitorSensor {
         }
-        part flightinterface : FlightInterface {
-            satisfy REQ_004;
+        part flightpayload : FlightPayload {
         }
-        part monitorsubsystem : MonitorSubsystem {
-            satisfy REQ_002;
-            satisfy REQ_004;
+        part processingbus : ProcessingBus {
         }
-        part thermalsensor : ThermalSensor {
-        }
-        part distributionbus : DistributionBus {
-            satisfy REQ_003;
-        }
-        part monitorprocessor : MonitorProcessor {
-            satisfy REQ_001;
+        part controlbus : ControlBus {
             satisfy REQ_002;
         }
-        part missionprocessor : MissionProcessor {
+        part powersubsystem : PowerSubsystem {
+            satisfy REQ_001;
+        }
+        part controlassembly : ControlAssembly {
+        }
+        part powersensor : PowerSensor {
+            satisfy REQ_001;
+            satisfy REQ_002;
         }
 
         // Connections
-        connect thermalsensor.cmdOut to distributioncomputer.cmdIn;
-        connect missionprocessor.dataIn to flightinterface.statusOut;
-        connect flightinterface.pwrOut to distributionbus.sensorOut;
-        connect monitorprocessor.dataOut to thermalsensor.pwrOut;
-        connect distributioncomputer.cmdIn to thermalsensor.pwrOut;
+        connect monitorsensor.configIn to flightpayload.telemetryOut;
+        connect powersubsystem.pwrOut to monitorsensor.configIn;
+        connect processingbus.pwrIn to controlbus.configIn;
+        connect monitorsensor.dataIn to flightpayload.ctrlIn;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part dockingmechanismsystem : DockingMechanismSystem;
 
 }

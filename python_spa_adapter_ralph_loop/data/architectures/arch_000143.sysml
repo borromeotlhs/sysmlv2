@@ -1,107 +1,62 @@
 package arch_000143 {
 
-    // Avionics Bay Reference Architecture 143
-    // Domain: avionics bay
+    // Ground Station Reference Architecture 143
+    // Domain: ground station
 
     // Requirements
-    requirement REQ_001 {
-        doc "The avionics bay system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The ground station system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The avionics bay system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The ground station system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The avionics bay system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The ground station system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
-        doc "The avionics bay system shall maintain operational status monitoring."
+    public requirement REQ_004 {
+        doc "The ground station system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def CommUnit {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port configIn;
-    }
-
-    part def MissionActuator {
+    public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
-        port telemetryOut;
-        port telemetryOut;
-    }
-
-    part def MonitorBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port configIn;
-    }
-
-    part def ProcessingPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port dataIn;
-        port pwrIn;
-        port statusOut;
-    }
-
-    part def PowerModule {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
         port dataIn;
     }
 
-    part def ControlAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
-        port pwrIn;
-    }
-
-    part def DataInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port pwrOut;
+    public part def MissionController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port dataIn;
+        port configIn;
     }
 
     // System Definition
-    part def AvionicsBaySystem {
-        part communit : CommUnit {
+    public part def GroundStationSystem {
+        part flightbus : FlightBus {
+            satisfy REQ_001;
             satisfy REQ_002;
-        }
-        part missionactuator : MissionActuator {
-        }
-        part monitorbus : MonitorBus {
-        }
-        part processingpayload : ProcessingPayload {
-            satisfy REQ_001;
             satisfy REQ_003;
-        }
-        part powermodule : PowerModule {
-            satisfy REQ_001;
             satisfy REQ_004;
         }
-        part controlassembly : ControlAssembly {
+        part missioncontroller : MissionController {
+            satisfy REQ_001;
             satisfy REQ_002;
-        }
-        part datainterface : DataInterface {
+            satisfy REQ_003;
+            satisfy REQ_004;
         }
 
         // Connections
-        connect datainterface.ctrlIn to missionactuator.telemetryOut;
-        connect processingpayload.dataIn to datainterface.pwrOut;
-        connect monitorbus.configIn to missionactuator.telemetryOut;
-        connect communit.configIn to monitorbus.ctrlIn;
-        connect missionactuator.telemetryOut to processingpayload.pwrIn;
+        connect flightbus.telemetryOut to missioncontroller.configIn;
+        connect missioncontroller.dataIn to flightbus.dataIn;
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    part groundstationsystem : GroundStationSystem;
 
 }

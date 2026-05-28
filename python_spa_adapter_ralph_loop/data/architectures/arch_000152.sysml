@@ -1,87 +1,73 @@
 package arch_000152 {
 
-    // Ground Station Reference Architecture 152
-    // Domain: ground station
+    // Radar System Reference Architecture 152
+    // Domain: radar system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The ground station system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The radar system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The ground station system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The radar system system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The radar system system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ProcessingController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-        port telemetryOut;
-        port sensorOut;
-    }
-
-    part def PowerSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port pwrOut;
-    }
-
-    part def CommInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port dataOut;
-    }
-
-    part def DistributionAssembly {
+    public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
+        port pwrOut;
+        port dataIn;
+        port ctrlIn;
+    }
+
+    public part def CommUnit {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port telemetryOut;
+        port cmdIn;
         port dataIn;
     }
 
-    part def CommandInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port pwrIn;
+    public part def PowerActuator {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port dataIn;
     }
 
-    part def ProcessingBus {
+    public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port sensorOut;
-        port cmdIn;
-        port configIn;
+        port pwrIn;
+        port ctrlIn;
     }
 
     // System Definition
-    part def GroundStationSystem {
-        part processingcontroller : ProcessingController {
+    public part def RadarSystemSystem {
+        part processingassembly : ProcessingAssembly {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
         }
-        part powersensor : PowerSensor {
+        part communit : CommUnit {
+        }
+        part poweractuator : PowerActuator {
             satisfy REQ_001;
         }
-        part comminterface : CommInterface {
-        }
-        part distributionassembly : DistributionAssembly {
-            satisfy REQ_001;
-        }
-        part commandinterface : CommandInterface {
-            satisfy REQ_002;
-        }
-        part processingbus : ProcessingBus {
-            satisfy REQ_002;
+        part distributionunit : DistributionUnit {
+            satisfy REQ_003;
         }
 
         // Connections
-        connect processingcontroller.sensorOut to processingbus.cmdIn;
-        connect commandinterface.pwrIn to processingcontroller.sensorOut;
-        connect distributionassembly.dataOut to processingbus.configIn;
-        connect commandinterface.pwrIn to processingbus.cmdIn;
-        connect commandinterface.pwrIn to powersensor.pwrOut;
+        connect distributionunit.pwrIn to processingassembly.pwrOut;
+        connect communit.dataIn to distributionunit.ctrlIn;
     }
 
     // System Instance
-    part groundstationsystem : GroundStationSystem;
+    part radarsystemsystem : RadarSystemSystem;
 
 }

@@ -4,43 +4,43 @@ package arch_000026 {
     // Domain: uav payload
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The uav payload system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The uav payload system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The uav payload system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The uav payload system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DistributionModule {
+    public part def DistributionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
     }
 
-    part def ControlAssembly {
+    public part def ControlAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdOut;
     }
 
-    part def MissionProcessor {
+    public part def MissionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrOut;
         port configIn;
     }
 
-    part def PowerComputer {
+    public part def PowerComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port sensorOut;
@@ -48,7 +48,7 @@ package arch_000026 {
     }
 
     // System Definition
-    part def UavPayloadSystem {
+    public part def UavPayloadSystem {
         part distributionmodule : DistributionModule {
             satisfy REQ_003;
         }

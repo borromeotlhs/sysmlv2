@@ -1,72 +1,85 @@
 package arch_000184 {
 
-    // Robotic Arm Reference Architecture 184
-    // Domain: robotic arm
+    // Solar Array Reference Architecture 184
+    // Domain: solar array
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The solar array system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The solar array system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def ControlModule {
+    public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
-        port dataIn;
+        port ctrlIn;
         port cmdIn;
     }
 
-    part def MonitorController {
+    public part def CommandController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port dataOut;
+        port cmdIn;
+        port cmdIn;
     }
 
-    part def MonitorPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
+    public part def PowerController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+    }
+
+    public part def CommController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port configIn;
+        port pwrIn;
+    }
+
+    public part def ThermalComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrOut;
         port statusOut;
     }
 
-    part def ProcessingUnit {
+    public part def ControlModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
-        port statusOut;
+        port pwrOut;
     }
 
     // System Definition
-    part def RoboticArmSystem {
-        part controlmodule : ControlModule {
-            satisfy REQ_003;
+    public part def SolarArraySystem {
+        part flightinterface : FlightInterface {
         }
-        part monitorcontroller : MonitorController {
-            satisfy REQ_003;
-        }
-        part monitorpayload : MonitorPayload {
-            satisfy REQ_001;
+        part commandcontroller : CommandController {
             satisfy REQ_002;
         }
-        part processingunit : ProcessingUnit {
+        part powercontroller : PowerController {
+        }
+        part commcontroller : CommController {
+        }
+        part thermalcomputer : ThermalComputer {
+            satisfy REQ_001;
+        }
+        part controlmodule : ControlModule {
+            satisfy REQ_002;
         }
 
         // Connections
-        connect processingunit.telemetryOut to controlmodule.dataIn;
-        connect processingunit.telemetryOut to monitorcontroller.dataOut;
-        connect monitorpayload.statusOut to monitorcontroller.cmdOut;
+        connect controlmodule.pwrOut to commcontroller.pwrIn;
+        connect controlmodule.telemetryOut to flightinterface.ctrlIn;
+        connect commcontroller.configIn to flightinterface.cmdIn;
+        connect thermalcomputer.pwrOut to commcontroller.pwrIn;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part solararraysystem : SolarArraySystem;
 
 }

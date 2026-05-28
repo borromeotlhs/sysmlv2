@@ -1,62 +1,65 @@
 package arch_000057 {
 
-    // Robotic Arm Reference Architecture 57
-    // Domain: robotic arm
+    // Propulsion Module Reference Architecture 57
+    // Domain: propulsion module
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The propulsion module system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The propulsion module system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The propulsion module system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def PowerComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+    public part def CommandAssembly {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port ctrlIn;
+    }
+
+    public part def NavActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
+
+    public part def MissionAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port telemetryOut;
-    }
-
-    part def MissionSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port cmdIn;
-    }
-
-    part def PowerBus {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port ctrlIn;
-        port ctrlIn;
+        port statusOut;
+        port statusOut;
     }
 
     // System Definition
-    part def RoboticArmSystem {
-        part powercomputer : PowerComputer {
+    public part def PropulsionModuleSystem {
+        part commandassembly : CommandAssembly {
+            satisfy REQ_001;
             satisfy REQ_002;
             satisfy REQ_003;
         }
-        part missionsensor : MissionSensor {
+        part navactuator : NavActuator {
+        }
+        part missionassembly : MissionAssembly {
             satisfy REQ_001;
             satisfy REQ_002;
-        }
-        part powerbus : PowerBus {
-            satisfy REQ_001;
+            satisfy REQ_003;
         }
 
         // Connections
-        connect powercomputer.telemetryOut to powerbus.ctrlIn;
-        connect missionsensor.cmdIn to powercomputer.telemetryOut;
-        connect powerbus.ctrlIn to missionsensor.cmdIn;
+        connect navactuator.statusOut to commandassembly.ctrlIn;
+        connect missionassembly.telemetryOut to commandassembly.ctrlIn;
+        connect navactuator.statusOut to missionassembly.statusOut;
+        connect commandassembly.ctrlIn to missionassembly.statusOut;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part propulsionmodulesystem : PropulsionModuleSystem;
 
 }

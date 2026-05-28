@@ -1,77 +1,52 @@
 package arch_000079 {
 
-    // Propulsion Module Reference Architecture 79
-    // Domain: propulsion module
+    // Battery Management Reference Architecture 79
+    // Domain: battery management
 
     // Requirements
-    requirement REQ_001 {
-        doc "The propulsion module system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The battery management system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The propulsion module system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The propulsion module system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The battery management system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def ControlSubsystem {
+    public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port ctrlIn;
-    }
-
-    part def DataProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+        port pwrOut;
+        port dataIn;
         port statusOut;
     }
 
-    part def ThermalActuator {
+    public part def DataModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataOut;
-        port configIn;
-    }
-
-    part def ProcessingAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdIn;
-    }
-
-    part def NavSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port configIn;
+        port pwrIn;
+        port cmdOut;
         port pwrIn;
     }
 
     // System Definition
-    part def PropulsionModuleSystem {
-        part controlsubsystem : ControlSubsystem {
-        }
-        part dataprocessor : DataProcessor {
-        }
-        part thermalactuator : ThermalActuator {
-            satisfy REQ_003;
-        }
-        part processingassembly : ProcessingAssembly {
+    public part def BatteryManagementSystem {
+        part monitorbus : MonitorBus {
             satisfy REQ_001;
-        }
-        part navsensor : NavSensor {
             satisfy REQ_002;
+        }
+        part datamodule : DataModule {
         }
 
         // Connections
-        connect controlsubsystem.ctrlIn to navsensor.configIn;
-        connect thermalactuator.configIn to processingassembly.cmdIn;
+        connect monitorbus.statusOut to datamodule.pwrIn;
+        connect datamodule.pwrIn to monitorbus.pwrOut;
+        connect monitorbus.dataIn to datamodule.pwrIn;
+        connect monitorbus.pwrOut to datamodule.cmdOut;
+        connect monitorbus.statusOut to datamodule.cmdOut;
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    part batterymanagementsystem : BatteryManagementSystem;
 
 }

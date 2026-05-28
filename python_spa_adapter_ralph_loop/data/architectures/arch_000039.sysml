@@ -4,46 +4,46 @@ package arch_000039 {
     // Domain: propulsion module
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The propulsion module system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The propulsion module system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The propulsion module system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ControlSubsystem {
+    public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port ctrlIn;
         port ctrlIn;
     }
 
-    part def DataProcessor {
+    public part def DataProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port statusOut;
     }
 
-    part def ThermalActuator {
+    public part def ThermalActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataOut;
         port configIn;
     }
 
-    part def ProcessingAssembly {
+    public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdIn;
     }
 
-    part def NavSensor {
+    public part def NavSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port configIn;
@@ -51,7 +51,7 @@ package arch_000039 {
     }
 
     // System Definition
-    part def PropulsionModuleSystem {
+    public part def PropulsionModuleSystem {
         part controlsubsystem : ControlSubsystem {
         }
         part dataprocessor : DataProcessor {

@@ -4,24 +4,24 @@ package arch_000037 {
     // Domain: attitude control
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The attitude control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The attitude control system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The attitude control system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The attitude control system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ProcessingInterface {
+    public part def ProcessingInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port configIn;
@@ -29,20 +29,20 @@ package arch_000037 {
         port dataIn;
     }
 
-    part def CommandAssembly {
+    public part def CommandAssembly {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port cmdOut;
     }
 
-    part def SensorModule {
+    public part def SensorModule {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port ctrlIn;
         port statusOut;
     }
 
-    part def FlightModule {
+    public part def FlightModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdOut;
@@ -50,7 +50,7 @@ package arch_000037 {
         port ctrlIn;
     }
 
-    part def DistributionProcessor {
+    public part def DistributionProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port sensorOut;
@@ -58,13 +58,13 @@ package arch_000037 {
         port telemetryOut;
     }
 
-    part def DataPayload {
+    public part def DataPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port dataIn;
     }
 
-    part def MissionAssembly {
+    public part def MissionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdIn;
@@ -73,7 +73,7 @@ package arch_000037 {
     }
 
     // System Definition
-    part def AttitudeControlSystem {
+    public part def AttitudeControlSystem {
         part processinginterface : ProcessingInterface {
         }
         part commandassembly : CommandAssembly {

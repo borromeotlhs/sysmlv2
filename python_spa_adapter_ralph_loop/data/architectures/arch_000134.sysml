@@ -1,58 +1,56 @@
 package arch_000134 {
 
-    // Avionics Bay Reference Architecture 134
-    // Domain: avionics bay
+    // Life Support Reference Architecture 134
+    // Domain: life support
 
     // Requirements
-    requirement REQ_001 {
-        doc "The avionics bay system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The life support system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The avionics bay system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The life support system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The avionics bay system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The avionics bay system shall maintain operational status monitoring."
+    public requirement REQ_003 {
+        doc "The life support system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ControlProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port telemetryOut;
-        port configIn;
+    public part def ThermalAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+        port dataOut;
+        port pwrOut;
     }
 
-    part def DataProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrIn;
-        port dataIn;
+    public part def CommandInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port cmdOut;
+        port configIn;
+        port dataOut;
     }
 
     // System Definition
-    part def AvionicsBaySystem {
-        part controlprocessor : ControlProcessor {
-            satisfy REQ_001;
+    public part def LifeSupportSystem {
+        part thermalassembly : ThermalAssembly {
             satisfy REQ_002;
-            satisfy REQ_004;
         }
-        part dataprocessor : DataProcessor {
+        part commandinterface : CommandInterface {
             satisfy REQ_001;
             satisfy REQ_003;
         }
 
         // Connections
-        connect controlprocessor.configIn to dataprocessor.pwrIn;
-        connect controlprocessor.telemetryOut to dataprocessor.pwrIn;
+        connect thermalassembly.pwrOut to commandinterface.configIn;
+        connect commandinterface.cmdOut to thermalassembly.pwrOut;
+        connect commandinterface.configIn to thermalassembly.cmdOut;
+        connect commandinterface.cmdOut to thermalassembly.cmdOut;
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    part lifesupportsystem : LifeSupportSystem;
 
 }

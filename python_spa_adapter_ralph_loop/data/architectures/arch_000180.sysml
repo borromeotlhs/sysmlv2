@@ -1,92 +1,97 @@
 package arch_000180 {
 
-    // Thermal Control Reference Architecture 180
-    // Domain: thermal control
+    // Autonomous Rover Reference Architecture 180
+    // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The autonomous rover system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The thermal control system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommandUnit {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port sensorOut;
-        port sensorOut;
-    }
-
-    part def NavBus {
+    public part def DataInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
+        port cmdOut;
+        port cmdIn;
+    }
+
+    public part def ProcessingBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port dataIn;
+    }
+
+    public part def DataActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
+
+    public part def CommSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port dataOut;
     }
 
-    part def NavController {
+    public part def ThermalProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port ctrlIn;
+        port statusOut;
     }
 
-    part def MissionInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-        port ctrlIn;
-        port dataOut;
-    }
-
-    part def ControlModule {
+    public part def NavInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataIn;
         port dataOut;
-        port sensorOut;
     }
 
-    part def ProcessingProcessor {
+    public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port configIn;
     }
 
     // System Definition
-    part def ThermalControlSystem {
-        part commandunit : CommandUnit {
-        }
-        part navbus : NavBus {
-        }
-        part navcontroller : NavController {
-            satisfy REQ_002;
-        }
-        part missioninterface : MissionInterface {
-            satisfy REQ_002;
-        }
-        part controlmodule : ControlModule {
-            satisfy REQ_001;
-        }
-        part processingprocessor : ProcessingProcessor {
-            satisfy REQ_001;
+    public part def AutonomousRoverSystem {
+        part datainterface : DataInterface {
             satisfy REQ_003;
+        }
+        part processingbus : ProcessingBus {
+            satisfy REQ_002;
+        }
+        part dataactuator : DataActuator {
+        }
+        part commsensor : CommSensor {
+            satisfy REQ_003;
+        }
+        part thermalprocessor : ThermalProcessor {
+            satisfy REQ_001;
+        }
+        part navinterface : NavInterface {
+        }
+        part missioncontroller : MissionController {
+            satisfy REQ_001;
+            satisfy REQ_002;
         }
 
         // Connections
-        connect controlmodule.dataIn to navcontroller.ctrlIn;
-        connect navcontroller.ctrlIn to processingprocessor.pwrIn;
-        connect controlmodule.sensorOut to missioninterface.dataOut;
-        connect missioninterface.dataOut to controlmodule.dataIn;
+        connect commsensor.dataOut to navinterface.dataOut;
+        connect dataactuator.configIn to commsensor.dataOut;
+        connect datainterface.cmdIn to thermalprocessor.statusOut;
+        connect navinterface.dataIn to processingbus.dataIn;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part autonomousroversystem : AutonomousRoverSystem;
 
 }

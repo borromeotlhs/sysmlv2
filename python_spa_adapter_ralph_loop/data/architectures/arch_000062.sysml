@@ -1,74 +1,52 @@
 package arch_000062 {
 
-    // Sensor Suite Reference Architecture 62
-    // Domain: sensor suite
+    // Docking Mechanism Reference Architecture 62
+    // Domain: docking mechanism
 
     // Requirements
-    requirement REQ_001 {
-        doc "The sensor suite system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The docking mechanism system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The sensor suite system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The docking mechanism system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The sensor suite system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The docking mechanism system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port dataIn;
-    }
-
-    part def DataSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
+    public part def MissionUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port statusOut;
-        port telemetryOut;
-        port ctrlIn;
     }
 
-    part def CommActuator {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port dataOut;
-    }
-
-    part def MonitorProcessor {
+    public part def DataComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
-        port pwrIn;
-        port ctrlIn;
+        port telemetryOut;
+        port statusOut;
     }
 
     // System Definition
-    part def SensorSuiteSystem {
-        part commprocessor : CommProcessor {
+    public part def DockingMechanismSystem {
+        part missionunit : MissionUnit {
             satisfy REQ_001;
             satisfy REQ_003;
         }
-        part datasensor : DataSensor {
-        }
-        part commactuator : CommActuator {
+        part datacomputer : DataComputer {
             satisfy REQ_002;
             satisfy REQ_003;
-        }
-        part monitorprocessor : MonitorProcessor {
-            satisfy REQ_001;
-            satisfy REQ_002;
         }
 
         // Connections
-        connect datasensor.statusOut to monitorprocessor.ctrlIn;
-        connect commactuator.dataOut to monitorprocessor.pwrIn;
-        connect monitorprocessor.ctrlIn to commactuator.dataOut;
+        connect missionunit.statusOut to datacomputer.statusOut;
+        connect missionunit.statusOut to datacomputer.telemetryOut;
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    part dockingmechanismsystem : DockingMechanismSystem;
 
 }

@@ -1,69 +1,67 @@
 package arch_000169 {
 
-    // Reaction Wheel Reference Architecture 169
-    // Domain: reaction wheel
+    // Ground Station Reference Architecture 169
+    // Domain: ground station
 
     // Requirements
-    requirement REQ_001 {
-        doc "The reaction wheel system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The ground station system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The reaction wheel system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The ground station system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DistributionSubsystem {
+    public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port dataOut;
+        port dataIn;
+        port ctrlIn;
+        port configIn;
     }
 
-    part def DistributionInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def SensorInterface {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
         port pwrOut;
-        port dataOut;
+        port sensorOut;
     }
 
-    part def ProcessingModule {
+    public part def DistributionAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
+        port cmdIn;
+        port sensorOut;
     }
 
-    part def PowerProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrOut;
-        port cmdOut;
+    public part def PowerActuator {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port statusOut;
     }
 
     // System Definition
-    part def ReactionWheelSystem {
-        part distributionsubsystem : DistributionSubsystem {
+    public part def GroundStationSystem {
+        part controlsubsystem : ControlSubsystem {
+        }
+        part sensorinterface : SensorInterface {
             satisfy REQ_001;
+        }
+        part distributionassembly : DistributionAssembly {
+        }
+        part poweractuator : PowerActuator {
             satisfy REQ_002;
-        }
-        part distributioninterface : DistributionInterface {
-        }
-        part processingmodule : ProcessingModule {
-            satisfy REQ_001;
-            satisfy REQ_002;
-        }
-        part powerprocessor : PowerProcessor {
         }
 
         // Connections
-        connect powerprocessor.pwrOut to processingmodule.telemetryOut;
-        connect distributionsubsystem.cmdIn to distributioninterface.dataOut;
-        connect distributioninterface.dataOut to distributionsubsystem.cmdOut;
-        connect distributionsubsystem.cmdIn to powerprocessor.pwrOut;
+        connect controlsubsystem.ctrlIn to distributionassembly.telemetryOut;
+        connect sensorinterface.sensorOut to distributionassembly.cmdIn;
+        connect distributionassembly.sensorOut to controlsubsystem.dataIn;
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    part groundstationsystem : GroundStationSystem;
 
 }

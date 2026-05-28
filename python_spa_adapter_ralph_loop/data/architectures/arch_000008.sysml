@@ -4,20 +4,20 @@ package arch_000008 {
     // Domain: propulsion module
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The propulsion module system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The propulsion module system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The propulsion module system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def DataBus {
+    public part def DataBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
@@ -25,7 +25,7 @@ package arch_000008 {
         port pwrOut;
     }
 
-    part def ThermalModule {
+    public part def ThermalModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrIn;
@@ -33,13 +33,13 @@ package arch_000008 {
         port statusOut;
     }
 
-    part def MonitorInterface {
+    public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdOut;
     }
 
-    part def PowerSensor {
+    public part def PowerSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port dataIn;
@@ -47,20 +47,20 @@ package arch_000008 {
         port configIn;
     }
 
-    part def NavUnit {
+    public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
     }
 
-    part def MissionController {
+    public part def MissionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrIn;
     }
 
     // System Definition
-    part def PropulsionModuleSystem {
+    public part def PropulsionModuleSystem {
         part databus : DataBus {
             satisfy REQ_003;
         }

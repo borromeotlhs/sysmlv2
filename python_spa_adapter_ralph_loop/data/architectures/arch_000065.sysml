@@ -1,57 +1,67 @@
 package arch_000065 {
 
-    // Thermal Control Reference Architecture 65
-    // Domain: thermal control
+    // Uav Payload Reference Architecture 65
+    // Domain: uav payload
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The uav payload system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The uav payload system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The uav payload system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The uav payload system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def FlightPayload {
+    public part def SensorAssembly {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port configIn;
+        port telemetryOut;
+    }
+
+    public part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port dataOut;
+        port dataOut;
+    }
+
+    public part def MissionAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port cmdIn;
-        port dataOut;
-    }
-
-    part def FlightInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-        port sensorOut;
-        port configIn;
-    }
-
-    part def DataInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
+        port pwrIn;
     }
 
     // System Definition
-    part def ThermalControlSystem {
-        part flightpayload : FlightPayload {
-            satisfy REQ_002;
+    public part def UavPayloadSystem {
+        part sensorassembly : SensorAssembly {
+            satisfy REQ_004;
         }
-        part flightinterface : FlightInterface {
+        part monitorbus : MonitorBus {
         }
-        part datainterface : DataInterface {
+        part missionassembly : MissionAssembly {
             satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_003;
+            satisfy REQ_004;
         }
 
         // Connections
-        connect flightpayload.dataOut to datainterface.pwrOut;
-        connect flightpayload.cmdIn to flightinterface.sensorOut;
+        connect monitorbus.pwrIn to missionassembly.cmdIn;
+        connect missionassembly.pwrIn to monitorbus.dataOut;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part uavpayloadsystem : UavPayloadSystem;
 
 }

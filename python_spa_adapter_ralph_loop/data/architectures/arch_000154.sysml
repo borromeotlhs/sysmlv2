@@ -1,72 +1,88 @@
 package arch_000154 {
 
-    // Power Distribution System Reference Architecture 154
-    // Domain: power distribution system
+    // Lunar Habitat Reference Architecture 154
+    // Domain: lunar habitat
 
     // Requirements
-    requirement REQ_001 {
-        doc "The power distribution system system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The lunar habitat system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The power distribution system system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The lunar habitat system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The power distribution system system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The lunar habitat system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The lunar habitat system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def FlightComputer {
+    public part def PowerProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port ctrlIn;
+        port telemetryOut;
+        port cmdOut;
     }
 
-    part def DataSubsystem {
+    public part def DataSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port configIn;
-        port dataIn;
+        port statusOut;
+        port telemetryOut;
     }
 
-    part def MonitorActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdIn;
+    public part def FlightComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port pwrOut;
     }
 
-    part def NavController {
+    public part def DataProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port statusOut;
-        port telemetryOut;
         port sensorOut;
+        port ctrlIn;
+    }
+
+    public part def CommSubsystem {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port ctrlIn;
+        port configIn;
     }
 
     // System Definition
-    part def PowerDistributionSystemSystem {
-        part flightcomputer : FlightComputer {
+    public part def LunarHabitatSystem {
+        part powerprocessor : PowerProcessor {
+            satisfy REQ_002;
         }
         part datasubsystem : DataSubsystem {
-        }
-        part monitoractuator : MonitorActuator {
-            satisfy REQ_001;
-            satisfy REQ_002;
             satisfy REQ_003;
         }
-        part navcontroller : NavController {
+        part flightcomputer : FlightComputer {
             satisfy REQ_001;
+            satisfy REQ_003;
+            satisfy REQ_004;
+        }
+        part dataprocessor : DataProcessor {
+            satisfy REQ_002;
+        }
+        part commsubsystem : CommSubsystem {
         }
 
         // Connections
-        connect navcontroller.sensorOut to flightcomputer.ctrlIn;
-        connect navcontroller.telemetryOut to flightcomputer.ctrlIn;
+        connect powerprocessor.cmdOut to dataprocessor.ctrlIn;
+        connect datasubsystem.statusOut to dataprocessor.ctrlIn;
+        connect powerprocessor.telemetryOut to commsubsystem.configIn;
+        connect commsubsystem.ctrlIn to datasubsystem.telemetryOut;
+        connect datasubsystem.statusOut to commsubsystem.ctrlIn;
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    part lunarhabitatsystem : LunarHabitatSystem;
 
 }

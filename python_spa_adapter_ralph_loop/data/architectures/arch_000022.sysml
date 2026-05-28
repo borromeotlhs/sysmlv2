@@ -4,26 +4,26 @@ package arch_000022 {
     // Domain: sensor suite
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The sensor suite system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The sensor suite system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The sensor suite system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommProcessor {
+    public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port dataIn;
     }
 
-    part def DataSensor {
+    public part def DataSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port statusOut;
@@ -31,13 +31,13 @@ package arch_000022 {
         port ctrlIn;
     }
 
-    part def CommActuator {
+    public part def CommActuator {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port dataOut;
     }
 
-    part def MonitorProcessor {
+    public part def MonitorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrIn;
@@ -46,7 +46,7 @@ package arch_000022 {
     }
 
     // System Definition
-    part def SensorSuiteSystem {
+    public part def SensorSuiteSystem {
         part commprocessor : CommProcessor {
             satisfy REQ_001;
             satisfy REQ_003;

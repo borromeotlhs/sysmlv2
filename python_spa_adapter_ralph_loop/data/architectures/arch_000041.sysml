@@ -1,53 +1,91 @@
 package arch_000041 {
 
-    // Solar Array Reference Architecture 41
-    // Domain: solar array
+    // Docking Mechanism Reference Architecture 41
+    // Domain: docking mechanism
 
     // Requirements
-    requirement REQ_001 {
-        doc "The solar array system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The docking mechanism system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The solar array system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The docking mechanism system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The solar array system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The docking mechanism system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The docking mechanism system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def MissionBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataIn;
+    public part def CommandSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+        port cmdIn;
+        port pwrOut;
     }
 
-    part def PowerModule {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
+    public part def MonitorBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port statusOut;
+    }
+
+    public part def ControlSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port sensorOut;
-        port configIn;
-        port cmdIn;
+        port ctrlIn;
+    }
+
+    public part def CommandInterface {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataIn;
+        port dataOut;
+        port pwrOut;
+    }
+
+    public part def DataComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+        port dataIn;
+        port sensorOut;
     }
 
     // System Definition
-    part def SolarArraySystem {
-        part missionbus : MissionBus {
-            satisfy REQ_001;
+    public part def DockingMechanismSystem {
+        part commandsensor : CommandSensor {
+            satisfy REQ_003;
         }
-        part powermodule : PowerModule {
-            satisfy REQ_001;
+        part monitorbus : MonitorBus {
+        }
+        part controlsubsystem : ControlSubsystem {
             satisfy REQ_002;
             satisfy REQ_003;
+            satisfy REQ_004;
+        }
+        part commandinterface : CommandInterface {
+            satisfy REQ_001;
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part datacomputer : DataComputer {
         }
 
         // Connections
-        connect missionbus.dataIn to powermodule.sensorOut;
-        connect powermodule.cmdIn to missionbus.dataIn;
+        connect datacomputer.sensorOut to controlsubsystem.sensorOut;
+        connect commandinterface.dataOut to monitorbus.statusOut;
+        connect controlsubsystem.sensorOut to commandinterface.pwrOut;
+        connect monitorbus.statusOut to controlsubsystem.sensorOut;
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    part dockingmechanismsystem : DockingMechanismSystem;
 
 }

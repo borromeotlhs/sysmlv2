@@ -1,54 +1,51 @@
 package arch_000071 {
 
-    // Autonomous Rover Reference Architecture 71
-    // Domain: autonomous rover
+    // Antenna Subsystem Reference Architecture 71
+    // Domain: antenna subsystem
 
     // Requirements
-    requirement REQ_001 {
-        doc "The autonomous rover system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The antenna subsystem system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The autonomous rover system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The antenna subsystem system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The autonomous rover system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The antenna subsystem system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ThermalUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
+    public part def DistributionComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+        port cmdOut;
     }
 
-    part def FlightInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def PowerComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port statusOut;
-        port configIn;
-        port cmdIn;
     }
 
     // System Definition
-    part def AutonomousRoverSystem {
-        part thermalunit : ThermalUnit {
+    public part def AntennaSubsystemSystem {
+        part distributioncomputer : DistributionComputer {
             satisfy REQ_002;
-            satisfy REQ_003;
         }
-        part flightinterface : FlightInterface {
+        part powercomputer : PowerComputer {
             satisfy REQ_001;
             satisfy REQ_003;
         }
 
         // Connections
-        connect flightinterface.statusOut to thermalunit.configIn;
-        connect thermalunit.configIn to flightinterface.configIn;
-        connect thermalunit.configIn to flightinterface.cmdIn;
+        connect powercomputer.statusOut to distributioncomputer.pwrIn;
+        connect distributioncomputer.cmdOut to powercomputer.statusOut;
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    part antennasubsystemsystem : AntennaSubsystemSystem;
 
 }

@@ -1,101 +1,61 @@
 package arch_000122 {
 
-    // Avionics Bay Reference Architecture 122
-    // Domain: avionics bay
+    // Instrument Platform Reference Architecture 122
+    // Domain: instrument platform
 
     // Requirements
-    requirement REQ_001 {
-        doc "The avionics bay system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The instrument platform system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The avionics bay system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The instrument platform system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The avionics bay system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The instrument platform system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The instrument platform system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ControlAssembly {
+    public part def DataSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
-        port dataIn;
-    }
-
-    part def ControlModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
         port telemetryOut;
+        port statusOut;
     }
 
-    part def ProcessingController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port telemetryOut;
-        port sensorOut;
-        port dataIn;
-    }
-
-    part def MissionInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-        port dataOut;
-    }
-
-    part def DataUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port dataOut;
-    }
-
-    part def FlightModule {
+    public part def ProcessingActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
-        port cmdOut;
-    }
-
-    part def FlightSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
-        port telemetryOut;
-        port statusOut;
+        port dataOut;
     }
 
     // System Definition
-    part def AvionicsBaySystem {
-        part controlassembly : ControlAssembly {
-            satisfy REQ_003;
-        }
-        part controlmodule : ControlModule {
+    public part def InstrumentPlatformSystem {
+        part datasubsystem : DataSubsystem {
             satisfy REQ_001;
-        }
-        part processingcontroller : ProcessingController {
-            satisfy REQ_001;
-        }
-        part missioninterface : MissionInterface {
-        }
-        part dataunit : DataUnit {
             satisfy REQ_002;
+            satisfy REQ_003;
+            satisfy REQ_004;
         }
-        part flightmodule : FlightModule {
-        }
-        part flightsubsystem : FlightSubsystem {
+        part processingactuator : ProcessingActuator {
+            satisfy REQ_001;
+            satisfy REQ_002;
             satisfy REQ_003;
         }
 
         // Connections
-        connect processingcontroller.telemetryOut to controlmodule.dataOut;
-        connect flightmodule.cmdOut to missioninterface.dataOut;
-        connect processingcontroller.telemetryOut to flightmodule.cmdOut;
+        connect processingactuator.dataOut to datasubsystem.statusOut;
+        connect processingactuator.dataOut to datasubsystem.telemetryOut;
+        connect processingactuator.statusOut to datasubsystem.telemetryOut;
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    part instrumentplatformsystem : InstrumentPlatformSystem;
 
 }

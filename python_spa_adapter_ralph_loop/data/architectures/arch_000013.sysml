@@ -4,20 +4,20 @@ package arch_000013 {
     // Domain: command data handling
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The command data handling system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The command data handling system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The command data handling system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def MonitorInterface {
+    public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port sensorOut;
@@ -25,26 +25,26 @@ package arch_000013 {
         port configIn;
     }
 
-    part def DistributionSubsystem {
+    public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
     }
 
-    part def ProcessingProcessor {
+    public part def ProcessingProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port ctrlIn;
     }
 
-    part def NavProcessor {
+    public part def NavProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrIn;
     }
 
     // System Definition
-    part def CommandDataHandlingSystem {
+    public part def CommandDataHandlingSystem {
         part monitorinterface : MonitorInterface {
             satisfy REQ_001;
             satisfy REQ_002;

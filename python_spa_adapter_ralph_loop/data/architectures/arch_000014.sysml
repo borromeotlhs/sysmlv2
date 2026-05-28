@@ -4,31 +4,31 @@ package arch_000014 {
     // Domain: avionics bay
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The avionics bay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The avionics bay system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The avionics bay system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The avionics bay system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def ControlProcessor {
+    public part def ControlProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port telemetryOut;
         port configIn;
     }
 
-    part def DataProcessor {
+    public part def DataProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrIn;
@@ -36,7 +36,7 @@ package arch_000014 {
     }
 
     // System Definition
-    part def AvionicsBaySystem {
+    public part def AvionicsBaySystem {
         part controlprocessor : ControlProcessor {
             satisfy REQ_001;
             satisfy REQ_002;

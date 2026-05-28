@@ -1,77 +1,67 @@
 package arch_000099 {
 
-    // Life Support Reference Architecture 99
-    // Domain: life support
+    // Communication Relay Reference Architecture 99
+    // Domain: communication relay
 
     // Requirements
-    requirement REQ_001 {
-        doc "The life support system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The communication relay system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The life support system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The life support system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The communication relay system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def MissionController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port configIn;
-        port dataIn;
-    }
-
-    part def DataInterface {
+    public part def DataAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port pwrIn;
-        port configIn;
-    }
-
-    part def ControlActuator {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port ctrlIn;
-        port ctrlIn;
         port statusOut;
+        port ctrlIn;
+        port configIn;
     }
 
-    part def MissionInterface {
+    public part def ThermalInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
+        port statusOut;
         port dataIn;
+    }
+
+    public part def PowerBus {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port dataOut;
+    }
+
+    public part def PowerActuator {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port cmdOut;
+        port dataIn;
+        port cmdOut;
     }
 
     // System Definition
-    part def LifeSupportSystem {
-        part missioncontroller : MissionController {
-            satisfy REQ_003;
+    public part def CommunicationRelaySystem {
+        part dataassembly : DataAssembly {
         }
-        part datainterface : DataInterface {
+        part thermalinterface : ThermalInterface {
+            satisfy REQ_002;
+        }
+        part powerbus : PowerBus {
             satisfy REQ_001;
         }
-        part controlactuator : ControlActuator {
-            satisfy REQ_002;
-        }
-        part missioninterface : MissionInterface {
-            satisfy REQ_002;
-            satisfy REQ_003;
+        part poweractuator : PowerActuator {
+            satisfy REQ_001;
         }
 
         // Connections
-        connect controlactuator.statusOut to datainterface.configIn;
-        connect controlactuator.ctrlIn to missioninterface.telemetryOut;
-        connect controlactuator.statusOut to missioncontroller.dataIn;
-        connect datainterface.configIn to controlactuator.ctrlIn;
-        connect missioncontroller.configIn to missioninterface.telemetryOut;
+        connect thermalinterface.dataIn to dataassembly.configIn;
+        connect poweractuator.cmdOut to thermalinterface.dataIn;
     }
 
     // System Instance
-    part lifesupportsystem : LifeSupportSystem;
+    part communicationrelaysystem : CommunicationRelaySystem;
 
 }

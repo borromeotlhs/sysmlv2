@@ -4,24 +4,24 @@ package arch_000011 {
     // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The autonomous rover system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The autonomous rover system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def NavActuator {
+    public part def NavActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port configIn;
@@ -29,20 +29,20 @@ package arch_000011 {
         port statusOut;
     }
 
-    part def DistributionController {
+    public part def DistributionController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port telemetryOut;
     }
 
-    part def NavSubsystem {
+    public part def NavSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
     }
 
     // System Definition
-    part def AutonomousRoverSystem {
+    public part def AutonomousRoverSystem {
         part navactuator : NavActuator {
             satisfy REQ_002;
             satisfy REQ_003;

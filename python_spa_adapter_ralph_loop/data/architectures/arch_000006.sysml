@@ -4,40 +4,40 @@ package arch_000006 {
     // Domain: thermal control
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The thermal control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The thermal control system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def PowerSubsystem {
+    public part def PowerSubsystem {
         attribute voltage : Real [1];
         attribute current : Real [1];
         port pwrIn;
     }
 
-    part def ProcessingBus {
+    public part def ProcessingBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port configIn;
     }
 
-    part def DistributionSensor {
+    public part def DistributionSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port pwrOut;
     }
 
-    part def MonitorBus {
+    public part def MonitorBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port configIn;
     }
 
-    part def NavProcessor {
+    public part def NavProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port sensorOut;
@@ -46,7 +46,7 @@ package arch_000006 {
     }
 
     // System Definition
-    part def ThermalControlSystem {
+    public part def ThermalControlSystem {
         part powersubsystem : PowerSubsystem {
         }
         part processingbus : ProcessingBus {

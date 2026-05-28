@@ -4,23 +4,23 @@ package car_system {
     // Domain: automotive
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The vehicle shall provide propulsion with at least 300 kW peak power."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The vehicle shall safely manage high-voltage electrical distribution."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The vehicle shall monitor and control battery thermal conditions."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The vehicle shall provide regenerative braking capability."
     }
 
-    requirement REQ_005 {
+    public requirement REQ_005 {
         doc "The vehicle shall maintain real-time communication between all control units."
     }
 
@@ -33,7 +33,7 @@ package car_system {
     port def CANPort;
 
     // Component Definitions
-    part def BatteryPack {
+    public part def BatteryPack {
         attribute capacity : Real [1];  // kWh
         attribute voltage : Real [1];   // Volts
         attribute mass : Real [1];      // kg
@@ -42,7 +42,7 @@ package car_system {
         port dataOut : DataPort;
     }
 
-    part def ElectricMotor {
+    public part def ElectricMotor {
         attribute peakPower : Real [1];      // kW
         attribute continuousPower : Real [1]; // kW
         attribute maxTorque : Real [1];       // Nm
@@ -52,7 +52,7 @@ package car_system {
         port driveOut : MechanicalPort;
     }
 
-    part def Inverter {
+    public part def Inverter {
         attribute efficiency : Real [1];     // percent
         attribute maxCurrent : Real [1];     // Amps
         attribute coolingCapacity : Real [1]; // kW
@@ -61,7 +61,7 @@ package car_system {
         port controlIn : ControlPort;
     }
 
-    part def ThermalManagementSystem {
+    public part def ThermalManagementSystem {
         attribute coolingCapacity : Real [1];  // kW
         attribute pumpPower : Real [1];        // W
         attribute fluidVolume : Real [1];      // liters
@@ -70,7 +70,7 @@ package car_system {
         port dataOut : DataPort;
     }
 
-    part def BrakeController {
+    public part def BrakeController {
         attribute maxBrakingForce : Real [1];  // kN
         attribute responseTime : Real [1];      // ms
         port sensorIn : DataPort;
@@ -79,7 +79,7 @@ package car_system {
         port canOut : CANPort;
     }
 
-    part def VehicleControlUnit {
+    public part def VehicleControlUnit {
         attribute processingPower : Real [1];  // MIPS
         attribute memorySize : Real [1];       // GB
         attribute canChannels : Real [1];      // count
@@ -89,7 +89,7 @@ package car_system {
         port commandOut : ControlPort;
     }
 
-    part def ChargingSystem {
+    public part def ChargingSystem {
         attribute maxChargeRate : Real [1];  // kW
         attribute acInputVoltage : Real [1]; // V
         attribute dcOutputVoltage : Real [1]; // V
@@ -98,7 +98,7 @@ package car_system {
         port controlIn : ControlPort;
     }
 
-    part def Transmission {
+    public part def Transmission {
         attribute gearRatio : Real [1];
         attribute maxTorque : Real [1];  // Nm
         attribute efficiency : Real [1];  // percent
@@ -106,7 +106,7 @@ package car_system {
         port outputShaft : MechanicalPort;
     }
 
-    part def Differential {
+    public part def Differential {
         attribute torqueSplitRatio : Real [1];
         attribute maxTorque : Real [1];  // Nm
         attribute mass : Real [1];  // kg
@@ -115,7 +115,7 @@ package car_system {
         port rightOut : MechanicalPort;
     }
 
-    part def DriveShaft {
+    public part def DriveShaft {
         attribute length : Real [1];  // meters
         attribute diameter : Real [1];  // mm
         attribute maxTorque : Real [1];  // Nm
@@ -123,14 +123,14 @@ package car_system {
         port torqueOut : MechanicalPort;
     }
 
-    part def Wheel {
+    public part def Wheel {
         attribute diameter : Real [1];  // inches
         attribute width : Real [1];  // mm
         attribute mass : Real [1];  // kg
         port axleMount : MechanicalPort;
     }
 
-    part def Suspension {
+    public part def Suspension {
         attribute springRate : Real [1];  // N/mm
         attribute damperRate : Real [1];  // N·s/mm
         attribute travelDistance : Real [1];  // mm
@@ -139,7 +139,7 @@ package car_system {
     }
 
     // System Definition
-    part def ElectricVehicleSystem {
+    public part def ElectricVehicleSystem {
         part batterypack : BatteryPack {
             satisfy REQ_001;
             satisfy REQ_002;

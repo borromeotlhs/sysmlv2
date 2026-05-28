@@ -4,33 +4,33 @@ package arch_000012 {
     // Domain: solar array
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The solar array system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The solar array system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The solar array system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def PowerPayload {
+    public part def PowerPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port pwrOut;
         port sensorOut;
     }
 
-    part def FlightBus {
+    public part def FlightBus {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataIn;
     }
 
-    part def PowerModule {
+    public part def PowerModule {
         attribute voltage : Real [1];
         attribute current : Real [1];
         port dataIn;
@@ -38,7 +38,7 @@ package arch_000012 {
     }
 
     // System Definition
-    part def SolarArraySystem {
+    public part def SolarArraySystem {
         part powerpayload : PowerPayload {
             satisfy REQ_001;
             satisfy REQ_002;

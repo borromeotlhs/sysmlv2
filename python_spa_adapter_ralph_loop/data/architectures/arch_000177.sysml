@@ -1,62 +1,57 @@
 package arch_000177 {
 
-    // Robotic Arm Reference Architecture 177
-    // Domain: robotic arm
+    // Satellite Bus Reference Architecture 177
+    // Domain: satellite bus
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The satellite bus system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The satellite bus system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def PowerComputer {
+    public part def PowerController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port telemetryOut;
     }
 
-    part def MissionSensor {
+    public part def SensorBus {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
+        port pwrIn;
+        port ctrlIn;
+        port dataIn;
+    }
+
+    public part def CommProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdIn;
+        port dataOut;
         port cmdIn;
     }
 
-    part def PowerBus {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port ctrlIn;
-        port ctrlIn;
-    }
-
     // System Definition
-    part def RoboticArmSystem {
-        part powercomputer : PowerComputer {
-            satisfy REQ_002;
-            satisfy REQ_003;
-        }
-        part missionsensor : MissionSensor {
-            satisfy REQ_001;
+    public part def SatelliteBusSystem {
+        part powercontroller : PowerController {
             satisfy REQ_002;
         }
-        part powerbus : PowerBus {
+        part sensorbus : SensorBus {
             satisfy REQ_001;
+        }
+        part commprocessor : CommProcessor {
         }
 
         // Connections
-        connect powercomputer.telemetryOut to powerbus.ctrlIn;
-        connect missionsensor.cmdIn to powercomputer.telemetryOut;
-        connect powerbus.ctrlIn to missionsensor.cmdIn;
+        connect sensorbus.dataIn to commprocessor.dataOut;
+        connect sensorbus.dataIn to powercontroller.telemetryOut;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part satellitebussystem : SatelliteBusSystem;
 
 }

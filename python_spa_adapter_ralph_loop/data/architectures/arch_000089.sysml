@@ -1,69 +1,93 @@
 package arch_000089 {
 
-    // Reaction Wheel Reference Architecture 89
-    // Domain: reaction wheel
+    // Ground Station Reference Architecture 89
+    // Domain: ground station
 
     // Requirements
-    requirement REQ_001 {
-        doc "The reaction wheel system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The ground station system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The reaction wheel system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The ground station system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DistributionSubsystem {
+    public part def MonitorModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port dataOut;
-    }
-
-    part def DistributionInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+        port configIn;
+        port configIn;
         port pwrOut;
-        port dataOut;
     }
 
-    part def ProcessingModule {
+    public part def FlightUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
+        port dataIn;
+        port pwrOut;
+    }
+
+    public part def ControlController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port telemetryOut;
     }
 
-    part def PowerProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+    public part def DataAssembly {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port pwrOut;
-        port cmdOut;
+        port telemetryOut;
+    }
+
+    public part def NavPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port ctrlIn;
+        port pwrOut;
+    }
+
+    public part def ThermalActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port sensorOut;
+        port dataIn;
+    }
+
+    public part def MonitorUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
     }
 
     // System Definition
-    part def ReactionWheelSystem {
-        part distributionsubsystem : DistributionSubsystem {
-            satisfy REQ_001;
+    public part def GroundStationSystem {
+        part monitormodule : MonitorModule {
             satisfy REQ_002;
         }
-        part distributioninterface : DistributionInterface {
+        part flightunit : FlightUnit {
         }
-        part processingmodule : ProcessingModule {
+        part controlcontroller : ControlController {
+        }
+        part dataassembly : DataAssembly {
+        }
+        part navpayload : NavPayload {
             satisfy REQ_001;
-            satisfy REQ_002;
         }
-        part powerprocessor : PowerProcessor {
+        part thermalactuator : ThermalActuator {
+        }
+        part monitorunit : MonitorUnit {
+            satisfy REQ_001;
         }
 
         // Connections
-        connect powerprocessor.pwrOut to processingmodule.telemetryOut;
-        connect distributionsubsystem.cmdIn to distributioninterface.dataOut;
-        connect distributioninterface.dataOut to distributionsubsystem.cmdOut;
-        connect distributionsubsystem.cmdIn to powerprocessor.pwrOut;
+        connect flightunit.pwrOut to thermalactuator.dataIn;
+        connect monitormodule.configIn to thermalactuator.dataIn;
+        connect monitormodule.configIn to navpayload.ctrlIn;
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    part groundstationsystem : GroundStationSystem;
 
 }

@@ -1,72 +1,76 @@
 package arch_000144 {
 
-    // Robotic Arm Reference Architecture 144
-    // Domain: robotic arm
+    // Antenna Subsystem Reference Architecture 144
+    // Domain: antenna subsystem
 
     // Requirements
-    requirement REQ_001 {
-        doc "The robotic arm system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The antenna subsystem system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The robotic arm system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The robotic arm system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The antenna subsystem system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def ControlModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-        port dataIn;
-        port cmdIn;
-    }
-
-    part def MonitorController {
+    public part def MissionComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port dataOut;
+        port pwrIn;
     }
 
-    part def MonitorPayload {
+    public part def CommandSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port statusOut;
+        port cmdOut;
+        port telemetryOut;
     }
 
-    part def ProcessingUnit {
+    public part def MonitorUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port statusOut;
+        port sensorOut;
+        port configIn;
+        port ctrlIn;
+    }
+
+    public part def ProcessingProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port sensorOut;
+    }
+
+    public part def NavSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+        port configIn;
     }
 
     // System Definition
-    part def RoboticArmSystem {
-        part controlmodule : ControlModule {
-            satisfy REQ_003;
-        }
-        part monitorcontroller : MonitorController {
-            satisfy REQ_003;
-        }
-        part monitorpayload : MonitorPayload {
-            satisfy REQ_001;
+    public part def AntennaSubsystemSystem {
+        part missioncomputer : MissionComputer {
             satisfy REQ_002;
         }
-        part processingunit : ProcessingUnit {
+        part commandsensor : CommandSensor {
+        }
+        part monitorunit : MonitorUnit {
+        }
+        part processingprocessor : ProcessingProcessor {
+            satisfy REQ_002;
+        }
+        part navsubsystem : NavSubsystem {
+            satisfy REQ_001;
         }
 
         // Connections
-        connect processingunit.telemetryOut to controlmodule.dataIn;
-        connect processingunit.telemetryOut to monitorcontroller.dataOut;
-        connect monitorpayload.statusOut to monitorcontroller.cmdOut;
+        connect missioncomputer.pwrIn to commandsensor.telemetryOut;
+        connect monitorunit.ctrlIn to missioncomputer.pwrIn;
+        connect monitorunit.ctrlIn to processingprocessor.sensorOut;
+        connect monitorunit.configIn to commandsensor.cmdOut;
     }
 
     // System Instance
-    part roboticarmsystem : RoboticArmSystem;
+    part antennasubsystemsystem : AntennaSubsystemSystem;
 
 }

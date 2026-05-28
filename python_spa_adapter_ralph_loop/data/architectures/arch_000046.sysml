@@ -1,71 +1,65 @@
 package arch_000046 {
 
-    // Thermal Control Reference Architecture 46
-    // Domain: thermal control
+    // Telemetry System Reference Architecture 46
+    // Domain: telemetry system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The telemetry system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The telemetry system system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def PowerSubsystem {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port pwrIn;
-    }
-
-    part def ProcessingBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
-    }
-
-    part def DistributionSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port pwrOut;
-    }
-
-    part def MonitorBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
-    }
-
-    part def NavProcessor {
+    public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port sensorOut;
-        port cmdIn;
-        port cmdOut;
+        port dataIn;
+        port telemetryOut;
+    }
+
+    public part def SensorComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+        port statusOut;
+    }
+
+    public part def FlightPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+    }
+
+    public part def MissionUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
     }
 
     // System Definition
-    part def ThermalControlSystem {
-        part powersubsystem : PowerSubsystem {
+    public part def TelemetrySystemSystem {
+        part processingcontroller : ProcessingController {
+            satisfy REQ_002;
         }
-        part processingbus : ProcessingBus {
+        part sensorcomputer : SensorComputer {
         }
-        part distributionsensor : DistributionSensor {
+        part flightpayload : FlightPayload {
+            satisfy REQ_001;
         }
-        part monitorbus : MonitorBus {
-        }
-        part navprocessor : NavProcessor {
+        part missionunit : MissionUnit {
             satisfy REQ_001;
             satisfy REQ_002;
         }
 
         // Connections
-        connect navprocessor.sensorOut to powersubsystem.pwrIn;
-        connect navprocessor.cmdOut to processingbus.configIn;
+        connect processingcontroller.telemetryOut to flightpayload.telemetryOut;
+        connect missionunit.telemetryOut to processingcontroller.telemetryOut;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part telemetrysystemsystem : TelemetrySystemSystem;
 
 }

@@ -1,78 +1,77 @@
 package arch_000146 {
 
-    // Uav Payload Reference Architecture 146
-    // Domain: uav payload
+    // Data Processing Unit Reference Architecture 146
+    // Domain: data processing unit
 
     // Requirements
-    requirement REQ_001 {
-        doc "The uav payload system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The data processing unit system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The uav payload system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The uav payload system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The uav payload system shall maintain operational status monitoring."
+    public requirement REQ_002 {
+        doc "The data processing unit system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DistributionModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-    }
-
-    part def ControlAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def MissionProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrOut;
-        port configIn;
-    }
-
-    part def PowerComputer {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
+    public part def CommUnit {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
         port sensorOut;
         port configIn;
+        port dataOut;
+    }
+
+    public part def ControlSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port telemetryOut;
+        port configIn;
+    }
+
+    public part def NavInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port sensorOut;
+        port pwrOut;
+    }
+
+    public part def DistributionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port dataOut;
+    }
+
+    public part def CommandComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port statusOut;
+        port pwrOut;
     }
 
     // System Definition
-    part def UavPayloadSystem {
-        part distributionmodule : DistributionModule {
-            satisfy REQ_003;
+    public part def DataProcessingUnitSystem {
+        part communit : CommUnit {
         }
-        part controlassembly : ControlAssembly {
-            satisfy REQ_004;
-        }
-        part missionprocessor : MissionProcessor {
+        part controlsensor : ControlSensor {
             satisfy REQ_001;
             satisfy REQ_002;
-            satisfy REQ_003;
         }
-        part powercomputer : PowerComputer {
-            satisfy REQ_001;
-            satisfy REQ_002;
+        part navinterface : NavInterface {
+        }
+        part distributionsensor : DistributionSensor {
+        }
+        part commandcomputer : CommandComputer {
         }
 
         // Connections
-        connect missionprocessor.configIn to powercomputer.configIn;
-        connect distributionmodule.statusOut to missionprocessor.configIn;
-        connect missionprocessor.pwrOut to powercomputer.sensorOut;
-        connect distributionmodule.statusOut to controlassembly.cmdOut;
+        connect navinterface.sensorOut to controlsensor.configIn;
+        connect commandcomputer.statusOut to communit.dataOut;
+        connect controlsensor.telemetryOut to navinterface.sensorOut;
     }
 
     // System Instance
-    part uavpayloadsystem : UavPayloadSystem;
+    part dataprocessingunitsystem : DataProcessingUnitSystem;
 
 }

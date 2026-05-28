@@ -4,16 +4,16 @@ package arch_000004 {
     // Domain: satellite bus
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The satellite bus system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The satellite bus system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DistributionUnit {
+    public part def DistributionUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port ctrlIn;
@@ -21,7 +21,7 @@ package arch_000004 {
         port dataIn;
     }
 
-    part def DataComputer {
+    public part def DataComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port dataIn;
@@ -29,7 +29,7 @@ package arch_000004 {
         port statusOut;
     }
 
-    part def DataActuator {
+    public part def DataActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port dataOut;
@@ -37,7 +37,7 @@ package arch_000004 {
         port ctrlIn;
     }
 
-    part def FlightController {
+    public part def FlightController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port cmdOut;
@@ -45,7 +45,7 @@ package arch_000004 {
     }
 
     // System Definition
-    part def SatelliteBusSystem {
+    public part def SatelliteBusSystem {
         part distributionunit : DistributionUnit {
             satisfy REQ_001;
         }

@@ -1,85 +1,94 @@
 package arch_000095 {
 
-    // Sensor Suite Reference Architecture 95
-    // Domain: sensor suite
+    // Command Data Handling Reference Architecture 95
+    // Domain: command data handling
 
     // Requirements
-    requirement REQ_001 {
-        doc "The sensor suite system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The command data handling system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The sensor suite system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The command data handling system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The command data handling system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def CommInterface {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port telemetryOut;
-        port dataIn;
-    }
-
-    part def ThermalController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port sensorOut;
-    }
-
-    part def SensorInterface {
+    public part def DataSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port sensorOut;
-        port ctrlIn;
-        port configIn;
+        port pwrOut;
+        port dataOut;
     }
 
-    part def ThermalComputer {
+    public part def MissionBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+    }
+
+    public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port dataOut;
+        port cmdIn;
+        port dataIn;
+        port sensorOut;
+    }
+
+    public part def FlightSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+        port pwrIn;
+        port cmdOut;
+    }
+
+    public part def PowerBus {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port sensorOut;
         port pwrIn;
     }
 
-    part def CommPayload {
+    public part def SensorActuator {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port ctrlIn;
-    }
-
-    part def FlightSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port telemetryOut;
-        port pwrOut;
-        port ctrlIn;
+        port configIn;
+        port dataOut;
     }
 
     // System Definition
-    part def SensorSuiteSystem {
-        part comminterface : CommInterface {
+    public part def CommandDataHandlingSystem {
+        part datasensor : DataSensor {
         }
-        part thermalcontroller : ThermalController {
+        part missionbus : MissionBus {
+            satisfy REQ_003;
+        }
+        part processingcontroller : ProcessingController {
+            satisfy REQ_001;
+            satisfy REQ_003;
+        }
+        part flightsensor : FlightSensor {
+        }
+        part powerbus : PowerBus {
             satisfy REQ_001;
         }
-        part sensorinterface : SensorInterface {
-        }
-        part thermalcomputer : ThermalComputer {
+        part sensoractuator : SensorActuator {
             satisfy REQ_002;
-        }
-        part commpayload : CommPayload {
-            satisfy REQ_002;
-        }
-        part flightsubsystem : FlightSubsystem {
         }
 
         // Connections
-        connect thermalcomputer.pwrIn to sensorinterface.sensorOut;
-        connect sensorinterface.ctrlIn to flightsubsystem.telemetryOut;
-        connect commpayload.ctrlIn to comminterface.telemetryOut;
+        connect powerbus.pwrIn to flightsensor.pwrIn;
+        connect datasensor.pwrOut to flightsensor.pwrIn;
+        connect processingcontroller.dataIn to datasensor.dataOut;
+        connect powerbus.pwrIn to sensoractuator.dataOut;
+        connect powerbus.pwrIn to sensoractuator.configIn;
     }
 
     // System Instance
-    part sensorsuitesystem : SensorSuiteSystem;
+    part commanddatahandlingsystem : CommandDataHandlingSystem;
 
 }

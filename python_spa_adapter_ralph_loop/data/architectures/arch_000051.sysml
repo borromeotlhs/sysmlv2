@@ -1,70 +1,98 @@
 package arch_000051 {
 
-    // Autonomous Rover Reference Architecture 51
-    // Domain: autonomous rover
+    // Power Distribution System Reference Architecture 51
+    // Domain: power distribution system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The autonomous rover system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The power distribution system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The autonomous rover system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The autonomous rover system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The autonomous rover system shall maintain operational status monitoring."
+    public requirement REQ_002 {
+        doc "The power distribution system system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def NavActuator {
+    public part def DataUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port configIn;
-        port statusOut;
-        port statusOut;
-    }
-
-    part def DistributionController {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
         port telemetryOut;
     }
 
-    part def NavSubsystem {
+    public part def MonitorController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port dataIn;
+        port ctrlIn;
+        port telemetryOut;
+    }
+
+    public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port cmdOut;
+        port cmdIn;
+        port dataOut;
+    }
+
+    public part def DistributionComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+        port cmdOut;
+    }
+
+    public part def FlightSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port dataIn;
+        port cmdIn;
+    }
+
+    public part def CommSubsystem {
+        attribute frequency : Real [1];
+        attribute bandwidth : Real [1];
+        port dataIn;
+        port cmdOut;
+        port dataIn;
+    }
+
+    public part def SensorPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port configIn;
     }
 
     // System Definition
-    part def AutonomousRoverSystem {
-        part navactuator : NavActuator {
-            satisfy REQ_002;
-            satisfy REQ_003;
+    public part def PowerDistributionSystemSystem {
+        part dataunit : DataUnit {
         }
-        part distributioncontroller : DistributionController {
-            satisfy REQ_001;
+        part monitorcontroller : MonitorController {
             satisfy REQ_002;
-            satisfy REQ_003;
-            satisfy REQ_004;
         }
-        part navsubsystem : NavSubsystem {
+        part monitorinterface : MonitorInterface {
+            satisfy REQ_002;
+        }
+        part distributioncomputer : DistributionComputer {
             satisfy REQ_001;
-            satisfy REQ_004;
+        }
+        part flightsubsystem : FlightSubsystem {
+        }
+        part commsubsystem : CommSubsystem {
+        }
+        part sensorpayload : SensorPayload {
+            satisfy REQ_001;
         }
 
         // Connections
-        connect navsubsystem.statusOut to distributioncontroller.telemetryOut;
-        connect navsubsystem.statusOut to navactuator.statusOut;
-        connect distributioncontroller.telemetryOut to navactuator.statusOut;
+        connect commsubsystem.dataIn to monitorinterface.cmdOut;
+        connect flightsubsystem.cmdIn to monitorcontroller.dataIn;
+        connect commsubsystem.cmdOut to distributioncomputer.pwrIn;
+        connect flightsubsystem.dataIn to commsubsystem.dataIn;
     }
 
     // System Instance
-    part autonomousroversystem : AutonomousRoverSystem;
+    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
 
 }

@@ -4,26 +4,26 @@ package arch_000031 {
     // Domain: autonomous rover
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The autonomous rover system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The autonomous rover system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The autonomous rover system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def ThermalUnit {
+    public part def ThermalUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
         port configIn;
     }
 
-    part def FlightInterface {
+    public part def FlightInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port statusOut;
@@ -32,7 +32,7 @@ package arch_000031 {
     }
 
     // System Definition
-    part def AutonomousRoverSystem {
+    public part def AutonomousRoverSystem {
         part thermalunit : ThermalUnit {
             satisfy REQ_002;
             satisfy REQ_003;

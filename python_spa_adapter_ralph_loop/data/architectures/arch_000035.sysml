@@ -4,31 +4,31 @@ package arch_000035 {
     // Domain: power distribution system
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The power distribution system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The power distribution system system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The power distribution system system shall provide fault detection and recovery."
     }
 
-    requirement REQ_004 {
+    public requirement REQ_004 {
         doc "The power distribution system system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def MonitorInterface {
+    public part def MonitorInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port ctrlIn;
         port dataIn;
     }
 
-    part def FlightActuator {
+    public part def FlightActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
         port ctrlIn;
@@ -36,13 +36,13 @@ package arch_000035 {
         port cmdIn;
     }
 
-    part def ProcessingAssembly {
+    public part def ProcessingAssembly {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrOut;
     }
 
-    part def CommandComputer {
+    public part def CommandComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port statusOut;
@@ -50,21 +50,21 @@ package arch_000035 {
         port cmdIn;
     }
 
-    part def ThermalSensor {
+    public part def ThermalSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port pwrOut;
         port telemetryOut;
     }
 
-    part def ThermalInterface {
+    public part def ThermalInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdOut;
         port statusOut;
     }
 
-    part def CommandInterface {
+    public part def CommandInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port ctrlIn;
@@ -73,7 +73,7 @@ package arch_000035 {
     }
 
     // System Definition
-    part def PowerDistributionSystemSystem {
+    public part def PowerDistributionSystemSystem {
         part monitorinterface : MonitorInterface {
         }
         part flightactuator : FlightActuator {

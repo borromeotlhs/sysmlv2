@@ -319,27 +319,40 @@ def generate_bdd_plantuml(sysml_path: Path) -> str:
     # Parse to JSON IR
     arch = parse_sysml_to_json(content)
 
+    # Extract exposed elements for view filtering
+    exposed_elements = set(arch.get('exposed_elements', []))
+
+    # If no elements are explicitly marked public, show all (backward compatibility)
+    show_all = len(exposed_elements) == 0
+
     # Generate PlantUML from parsed architecture
     lines = ['@startuml', 'skinparam componentStyle rectangle', '']
 
-    # Add all blocks
+    # Add blocks (only exposed ones if filtering is active)
     for block in arch.get('blocks', []):
         name = block.get('name', 'Unknown')
-        lines.append(f'class {name} <<block>>')
+        if show_all or name in exposed_elements:
+            lines.append(f'class {name} <<block>>')
 
     lines.append('')
 
     # Add composition relationships from actual SysML structure
-    # Use *--> (directed composition) to show parent contains child
+    # Only include if both parent and child are visible
     compositions = arch.get('compositions', [])
     if compositions:
+        filtered_comps = []
         for comp in compositions:
             parent = comp.get('parent', '')
             child = comp.get('child', '')
             mult = comp.get('multiplicity', '1')
-            lines.append(f'{parent} *--> "{mult}" {child}')
 
-        lines.append('')
+            # Include composition if both ends are visible
+            if show_all or (parent in exposed_elements and child in exposed_elements):
+                filtered_comps.append(comp)
+                lines.append(f'{parent} *--> "{mult}" {child}')
+
+        if filtered_comps:
+            lines.append('')
 
     # Add requirements - use note style to avoid syntax issues
     for req in arch.get('requirements', []):
@@ -352,12 +365,15 @@ def generate_bdd_plantuml(sysml_path: Path) -> str:
 
     lines.append('')
 
-    # Add satisfy relationships
+    # Add satisfy relationships (only if client is visible)
     for rel in arch.get('relationships', []):
         client = rel.get('client', '')
         supplier = rel.get('supplier', '').replace('-', '_')  # Handle requirement IDs
         rel_type = rel.get('type', 'trace')
-        lines.append(f'{client} ..> {supplier} : <<{rel_type}>>')
+
+        # Include relationship if client is visible
+        if show_all or client in exposed_elements:
+            lines.append(f'{client} ..> {supplier} : <<{rel_type}>>')
 
     lines.append('@enduml')
     return '\n'.join(lines)
@@ -388,6 +404,12 @@ def generate_ibd_plantuml(sysml_path: Path) -> str:
 
     # Parse to JSON IR
     arch = parse_sysml_to_json(content)
+
+    # Extract exposed elements for view filtering
+    exposed_elements = set(arch.get('exposed_elements', []))
+
+    # If no elements are explicitly marked public, show all (backward compatibility)
+    show_all = len(exposed_elements) == 0
 
     # Generate PlantUML from parsed architecture
     lines = ['@startuml']
@@ -443,6 +465,10 @@ def generate_ibd_plantuml(sysml_path: Path) -> str:
         for comp in children:
             child_name = comp['child']
 
+            # Skip if not exposed (when filtering is active)
+            if not show_all and child_name not in exposed_elements:
+                continue
+
             # Create unique alias
             base_alias = child_name.upper().replace(' ', '_')
             child_alias = base_alias[:8]
@@ -458,7 +484,7 @@ def generate_ibd_plantuml(sysml_path: Path) -> str:
             component_lines.append(f'{indent}component "«part» {child_name.lower()}:{child_name}" as {child_alias} {{')
             component_lines.append('')
 
-            # Add ports for this component
+            # Add ports for this component (only if component is visible)
             if child_name in port_owners:
                 for port in port_owners[child_name]:
                     port_name = port.get('name', '')
@@ -519,13 +545,27 @@ def generate_ibd_plantuml(sysml_path: Path) -> str:
             boundary_port_map[port_name] = boundary_port_map.get(port_name, [])
             boundary_port_map[port_name].append(port_key)
 
-    # Add connections between ports
+    # Add connections between ports (only between visible components)
     connectors = arch.get('connectors', [])
     if connectors:
         for conn in connectors:
             end_a = conn.get('end_a', '')
             end_b = conn.get('end_b', '')
             flow = conn.get('item_flow', '')
+
+            # Helper function to check if endpoint is visible
+            def is_endpoint_visible(end):
+                if '.' in end:
+                    # Extract component name from "Component.port" format
+                    component_name = end.split('.')[0]
+                    return show_all or component_name in exposed_elements
+                else:
+                    # Boundary port or direct part reference
+                    return True  # Boundary ports are always visible if referenced
+
+            # Skip connection if either endpoint is not visible
+            if not is_endpoint_visible(end_a) or not is_endpoint_visible(end_b):
+                continue
 
             # Helper function to resolve port alias
             def resolve_port_alias(end):

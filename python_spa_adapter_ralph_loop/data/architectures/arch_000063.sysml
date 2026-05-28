@@ -1,107 +1,76 @@
 package arch_000063 {
 
-    // Avionics Bay Reference Architecture 63
-    // Domain: avionics bay
+    // Attitude Control Reference Architecture 63
+    // Domain: attitude control
 
     // Requirements
-    requirement REQ_001 {
-        doc "The avionics bay system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The attitude control system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The avionics bay system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The avionics bay system shall provide fault detection and recovery."
-    }
-
-    requirement REQ_004 {
-        doc "The avionics bay system shall maintain operational status monitoring."
+    public requirement REQ_002 {
+        doc "The attitude control system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def CommUnit {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port configIn;
-    }
-
-    part def MissionActuator {
+    public part def ProcessingModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port telemetryOut;
-        port telemetryOut;
-        port telemetryOut;
+        port pwrIn;
     }
 
-    part def MonitorBus {
+    public part def MissionModule {
         attribute mass : Real [1];
         attribute power : Real [1];
+        port cmdIn;
+    }
+
+    public part def FlightSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdIn;
         port ctrlIn;
-        port configIn;
+        port sensorOut;
     }
 
-    part def ProcessingPayload {
+    public part def FlightPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
         port pwrIn;
-        port statusOut;
-    }
-
-    part def PowerModule {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port dataIn;
-    }
-
-    part def ControlAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port sensorOut;
+        port pwrOut;
         port pwrIn;
     }
 
-    part def DataInterface {
+    public part def ControlActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port ctrlIn;
         port pwrOut;
     }
 
     // System Definition
-    part def AvionicsBaySystem {
-        part communit : CommUnit {
-            satisfy REQ_002;
-        }
-        part missionactuator : MissionActuator {
-        }
-        part monitorbus : MonitorBus {
-        }
-        part processingpayload : ProcessingPayload {
+    public part def AttitudeControlSystem {
+        part processingmodule : ProcessingModule {
             satisfy REQ_001;
-            satisfy REQ_003;
         }
-        part powermodule : PowerModule {
+        part missionmodule : MissionModule {
+        }
+        part flightsubsystem : FlightSubsystem {
+        }
+        part flightpayload : FlightPayload {
+        }
+        part controlactuator : ControlActuator {
             satisfy REQ_001;
-            satisfy REQ_004;
-        }
-        part controlassembly : ControlAssembly {
             satisfy REQ_002;
-        }
-        part datainterface : DataInterface {
         }
 
         // Connections
-        connect datainterface.ctrlIn to missionactuator.telemetryOut;
-        connect processingpayload.dataIn to datainterface.pwrOut;
-        connect monitorbus.configIn to missionactuator.telemetryOut;
-        connect communit.configIn to monitorbus.ctrlIn;
-        connect missionactuator.telemetryOut to processingpayload.pwrIn;
+        connect controlactuator.pwrOut to missionmodule.cmdIn;
+        connect missionmodule.cmdIn to flightpayload.pwrIn;
+        connect controlactuator.pwrOut to flightpayload.pwrIn;
+        connect flightpayload.pwrIn to flightsubsystem.cmdIn;
     }
 
     // System Instance
-    part avionicsbaysystem : AvionicsBaySystem;
+    part attitudecontrolsystem : AttitudeControlSystem;
 
 }

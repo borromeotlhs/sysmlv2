@@ -4,29 +4,29 @@ package arch_000015 {
     // Domain: sensor suite
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The sensor suite system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The sensor suite system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def CommInterface {
+    public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port telemetryOut;
         port dataIn;
     }
 
-    part def ThermalController {
+    public part def ThermalController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port sensorOut;
     }
 
-    part def SensorInterface {
+    public part def SensorInterface {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port sensorOut;
@@ -34,20 +34,20 @@ package arch_000015 {
         port configIn;
     }
 
-    part def ThermalComputer {
+    public part def ThermalComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port dataOut;
         port pwrIn;
     }
 
-    part def CommPayload {
+    public part def CommPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port ctrlIn;
     }
 
-    part def FlightSubsystem {
+    public part def FlightSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
@@ -56,7 +56,7 @@ package arch_000015 {
     }
 
     // System Definition
-    part def SensorSuiteSystem {
+    public part def SensorSuiteSystem {
         part comminterface : CommInterface {
         }
         part thermalcontroller : ThermalController {

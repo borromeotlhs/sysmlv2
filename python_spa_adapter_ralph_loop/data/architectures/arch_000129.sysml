@@ -1,69 +1,93 @@
 package arch_000129 {
 
-    // Reaction Wheel Reference Architecture 129
-    // Domain: reaction wheel
+    // Instrument Platform Reference Architecture 129
+    // Domain: instrument platform
 
     // Requirements
-    requirement REQ_001 {
-        doc "The reaction wheel system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The instrument platform system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The reaction wheel system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The instrument platform system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DistributionSubsystem {
+    public part def ControlSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdOut;
-        port cmdIn;
-        port dataOut;
+        port statusOut;
+        port dataIn;
     }
 
-    part def DistributionInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrOut;
-        port dataOut;
-    }
-
-    part def ProcessingModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
+    public part def DistributionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
         port telemetryOut;
     }
 
-    part def PowerProcessor {
+    public part def MissionPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port ctrlIn;
+        port dataOut;
+        port configIn;
+    }
+
+    public part def FlightComputer {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
+        port dataIn;
+        port configIn;
+        port telemetryOut;
+    }
+
+    public part def MissionProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port statusOut;
+        port sensorOut;
+    }
+
+    public part def FlightBus {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port cmdOut;
     }
 
+    public part def MonitorActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+    }
+
     // System Definition
-    part def ReactionWheelSystem {
-        part distributionsubsystem : DistributionSubsystem {
+    public part def InstrumentPlatformSystem {
+        part controlsubsystem : ControlSubsystem {
+        }
+        part distributionprocessor : DistributionProcessor {
             satisfy REQ_001;
+        }
+        part missionpayload : MissionPayload {
+        }
+        part flightcomputer : FlightComputer {
+            satisfy REQ_001;
+        }
+        part missionprocessor : MissionProcessor {
+        }
+        part flightbus : FlightBus {
             satisfy REQ_002;
         }
-        part distributioninterface : DistributionInterface {
-        }
-        part processingmodule : ProcessingModule {
-            satisfy REQ_001;
-            satisfy REQ_002;
-        }
-        part powerprocessor : PowerProcessor {
+        part monitoractuator : MonitorActuator {
         }
 
         // Connections
-        connect powerprocessor.pwrOut to processingmodule.telemetryOut;
-        connect distributionsubsystem.cmdIn to distributioninterface.dataOut;
-        connect distributioninterface.dataOut to distributionsubsystem.cmdOut;
-        connect distributionsubsystem.cmdIn to powerprocessor.pwrOut;
+        connect flightcomputer.configIn to monitoractuator.configIn;
+        connect missionprocessor.sensorOut to missionpayload.ctrlIn;
+        connect controlsubsystem.statusOut to missionpayload.ctrlIn;
     }
 
     // System Instance
-    part reactionwheelsystem : ReactionWheelSystem;
+    part instrumentplatformsystem : InstrumentPlatformSystem;
 
 }

@@ -1,89 +1,92 @@
 package arch_000168 {
 
-    // Propulsion Module Reference Architecture 168
-    // Domain: propulsion module
+    // Guidance Navigation Reference Architecture 168
+    // Domain: guidance navigation
 
     // Requirements
-    requirement REQ_001 {
-        doc "The propulsion module system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The guidance navigation system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The propulsion module system shall trace subsystem design to requirements."
-    }
-
-    requirement REQ_003 {
-        doc "The propulsion module system shall provide fault detection and recovery."
+    public requirement REQ_002 {
+        doc "The guidance navigation system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DataBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-        port cmdIn;
-        port pwrOut;
-    }
-
-    part def ThermalModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-        port ctrlIn;
-        port statusOut;
-    }
-
-    part def MonitorInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def PowerSensor {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port dataIn;
-        port cmdIn;
-        port configIn;
-    }
-
-    part def NavUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-    }
-
-    part def MissionController {
+    public part def FlightProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrIn;
     }
 
+    public part def MissionPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port cmdOut;
+        port statusOut;
+    }
+
+    public part def MissionUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port telemetryOut;
+        port cmdIn;
+        port statusOut;
+    }
+
+    public part def ControlInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port configIn;
+        port cmdOut;
+    }
+
+    public part def CommController {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port telemetryOut;
+        port ctrlIn;
+        port pwrOut;
+    }
+
+    public part def FlightInterface {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+    }
+
+    public part def MissionSensor {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port configIn;
+    }
+
     // System Definition
-    part def PropulsionModuleSystem {
-        part databus : DataBus {
-            satisfy REQ_003;
-        }
-        part thermalmodule : ThermalModule {
-            satisfy REQ_001;
+    public part def GuidanceNavigationSystem {
+        part flightprocessor : FlightProcessor {
             satisfy REQ_002;
-            satisfy REQ_003;
         }
-        part monitorinterface : MonitorInterface {
+        part missionpayload : MissionPayload {
+            satisfy REQ_001;
         }
-        part powersensor : PowerSensor {
+        part missionunit : MissionUnit {
         }
-        part navunit : NavUnit {
+        part controlinterface : ControlInterface {
         }
-        part missioncontroller : MissionController {
+        part commcontroller : CommController {
+        }
+        part flightinterface : FlightInterface {
+        }
+        part missionsensor : MissionSensor {
         }
 
         // Connections
-        connect navunit.statusOut to thermalmodule.pwrIn;
-        connect databus.cmdIn to thermalmodule.statusOut;
+        connect commcontroller.ctrlIn to missionpayload.statusOut;
+        connect commcontroller.telemetryOut to missionunit.cmdIn;
+        connect flightinterface.cmdOut to commcontroller.ctrlIn;
     }
 
     // System Instance
-    part propulsionmodulesystem : PropulsionModuleSystem;
+    part guidancenavigationsystem : GuidanceNavigationSystem;
 
 }

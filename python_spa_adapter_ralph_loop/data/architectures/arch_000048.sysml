@@ -4,83 +4,65 @@ package arch_000048 {
     // Domain: propulsion module
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The propulsion module system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The propulsion module system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The propulsion module system shall provide fault detection and recovery."
-    }
-
     // Component Definitions
-    part def DataBus {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-        port cmdIn;
-        port pwrOut;
-    }
-
-    part def ThermalModule {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port pwrIn;
-        port ctrlIn;
-        port statusOut;
-    }
-
-    part def MonitorInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def PowerSensor {
+    public part def CommandSensor {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
-        port dataIn;
-        port cmdIn;
-        port configIn;
+        port sensorOut;
     }
 
-    part def NavUnit {
+    public part def NavModule {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port statusOut;
+        port sensorOut;
+        port dataIn;
     }
 
-    part def MissionController {
+    public part def DataUnit {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port pwrIn;
+    }
+
+    public part def ProcessingProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrIn;
+        port telemetryOut;
+        port ctrlIn;
+    }
+
+    public part def DistributionPayload {
+        attribute dataRate : Real [1];
+        attribute resolution : Real [1];
+        port sensorOut;
     }
 
     // System Definition
-    part def PropulsionModuleSystem {
-        part databus : DataBus {
-            satisfy REQ_003;
+    public part def PropulsionModuleSystem {
+        part commandsensor : CommandSensor {
         }
-        part thermalmodule : ThermalModule {
-            satisfy REQ_001;
+        part navmodule : NavModule {
+        }
+        part dataunit : DataUnit {
             satisfy REQ_002;
-            satisfy REQ_003;
         }
-        part monitorinterface : MonitorInterface {
+        part processingprocessor : ProcessingProcessor {
+            satisfy REQ_001;
         }
-        part powersensor : PowerSensor {
-        }
-        part navunit : NavUnit {
-        }
-        part missioncontroller : MissionController {
+        part distributionpayload : DistributionPayload {
         }
 
         // Connections
-        connect navunit.statusOut to thermalmodule.pwrIn;
-        connect databus.cmdIn to thermalmodule.statusOut;
+        connect navmodule.dataIn to dataunit.pwrIn;
+        connect commandsensor.sensorOut to distributionpayload.sensorOut;
     }
 
     // System Instance

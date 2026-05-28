@@ -4,27 +4,27 @@ package arch_000027 {
     // Domain: telemetry system
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The telemetry system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The telemetry system system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
+    public requirement REQ_003 {
         doc "The telemetry system system shall provide fault detection and recovery."
     }
 
     // Component Definitions
-    part def DataSubsystem {
+    public part def DataSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
         port pwrOut;
     }
 
-    part def ThermalPayload {
+    public part def ThermalPayload {
         attribute dataRate : Real [1];
         attribute resolution : Real [1];
         port ctrlIn;
@@ -32,13 +32,13 @@ package arch_000027 {
         port cmdOut;
     }
 
-    part def CommSubsystem {
+    public part def CommSubsystem {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
         port pwrOut;
     }
 
-    part def ProcessingController {
+    public part def ProcessingController {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port cmdIn;
@@ -46,7 +46,7 @@ package arch_000027 {
         port pwrOut;
     }
 
-    part def ThermalSubsystem {
+    public part def ThermalSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrOut;
@@ -54,7 +54,7 @@ package arch_000027 {
     }
 
     // System Definition
-    part def TelemetrySystemSystem {
+    public part def TelemetrySystemSystem {
         part datasubsystem : DataSubsystem {
             satisfy REQ_003;
         }

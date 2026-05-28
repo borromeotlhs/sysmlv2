@@ -1,76 +1,87 @@
 package arch_000165 {
 
-    // Power Distribution System Reference Architecture 165
-    // Domain: power distribution system
+    // Uav Payload Reference Architecture 165
+    // Domain: uav payload
 
     // Requirements
-    requirement REQ_001 {
-        doc "The power distribution system system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The uav payload system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The power distribution system system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The uav payload system shall trace subsystem design to requirements."
+    }
+
+    public requirement REQ_003 {
+        doc "The uav payload system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The uav payload system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DistributionSubsystem {
+    public part def ControlUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port cmdIn;
-        port cmdIn;
+        port telemetryOut;
+        port configIn;
     }
 
-    part def DataController {
+    public part def MonitorProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port pwrOut;
-        port dataOut;
-        port dataOut;
+        port cmdIn;
+        port sensorOut;
     }
 
-    part def FlightInterface {
+    public part def MissionComputer {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port pwrIn;
+    }
+
+    public part def NavUnit {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-        port dataIn;
+        port cmdOut;
+        port sensorOut;
     }
 
-    part def CommAssembly {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
+    public part def MonitorSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
         port dataOut;
-        port ctrlIn;
-    }
-
-    part def CommSubsystem {
-        attribute frequency : Real [1];
-        attribute bandwidth : Real [1];
-        port cmdIn;
+        port sensorOut;
     }
 
     // System Definition
-    part def PowerDistributionSystemSystem {
-        part distributionsubsystem : DistributionSubsystem {
+    public part def UavPayloadSystem {
+        part controlunit : ControlUnit {
+            satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part monitorprocessor : MonitorProcessor {
+        }
+        part missioncomputer : MissionComputer {
+        }
+        part navunit : NavUnit {
+            satisfy REQ_003;
+            satisfy REQ_004;
+        }
+        part monitorsubsystem : MonitorSubsystem {
             satisfy REQ_001;
             satisfy REQ_002;
-        }
-        part datacontroller : DataController {
-            satisfy REQ_001;
-        }
-        part flightinterface : FlightInterface {
-        }
-        part commassembly : CommAssembly {
-            satisfy REQ_002;
-        }
-        part commsubsystem : CommSubsystem {
         }
 
         // Connections
-        connect distributionsubsystem.cmdIn to datacontroller.dataOut;
-        connect flightinterface.dataIn to commassembly.dataOut;
+        connect missioncomputer.pwrIn to monitorsubsystem.dataOut;
+        connect monitorprocessor.sensorOut to navunit.cmdOut;
+        connect monitorprocessor.sensorOut to monitorsubsystem.dataOut;
+        connect navunit.cmdOut to controlunit.telemetryOut;
     }
 
     // System Instance
-    part powerdistributionsystemsystem : PowerDistributionSystemSystem;
+    part uavpayloadsystem : UavPayloadSystem;
 
 }

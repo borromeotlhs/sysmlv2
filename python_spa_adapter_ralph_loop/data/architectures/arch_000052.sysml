@@ -1,65 +1,90 @@
 package arch_000052 {
 
-    // Solar Array Reference Architecture 52
-    // Domain: solar array
+    // Robotic Arm Reference Architecture 52
+    // Domain: robotic arm
 
     // Requirements
-    requirement REQ_001 {
-        doc "The solar array system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The robotic arm system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The solar array system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The robotic arm system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The solar array system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The robotic arm system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The robotic arm system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def PowerPayload {
-        attribute dataRate : Real [1];
-        attribute resolution : Real [1];
-        port pwrOut;
-        port sensorOut;
+    public part def CommProcessor {
+        attribute processingPower : Real [1];
+        attribute memorySize : Real [1];
+        port cmdOut;
+        port pwrIn;
+        port statusOut;
     }
 
-    part def FlightBus {
+    public part def MonitorActuator {
         attribute mass : Real [1];
         attribute power : Real [1];
-        port dataIn;
-    }
-
-    part def PowerModule {
-        attribute voltage : Real [1];
-        attribute current : Real [1];
-        port dataIn;
+        port statusOut;
+        port pwrOut;
         port cmdOut;
     }
 
+    public part def MonitorSubsystem {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port ctrlIn;
+        port pwrIn;
+    }
+
+    public part def FlightActuator {
+        attribute mass : Real [1];
+        attribute power : Real [1];
+        port cmdOut;
+    }
+
+    public part def PowerModule {
+        attribute voltage : Real [1];
+        attribute current : Real [1];
+        port ctrlIn;
+        port sensorOut;
+    }
+
     // System Definition
-    part def SolarArraySystem {
-        part powerpayload : PowerPayload {
-            satisfy REQ_001;
+    public part def RoboticArmSystem {
+        part commprocessor : CommProcessor {
+            satisfy REQ_004;
+        }
+        part monitoractuator : MonitorActuator {
             satisfy REQ_002;
+            satisfy REQ_004;
+        }
+        part monitorsubsystem : MonitorSubsystem {
             satisfy REQ_003;
         }
-        part flightbus : FlightBus {
-            satisfy REQ_002;
-            satisfy REQ_003;
+        part flightactuator : FlightActuator {
+            satisfy REQ_001;
         }
         part powermodule : PowerModule {
-            satisfy REQ_001;
+            satisfy REQ_003;
         }
 
         // Connections
-        connect flightbus.dataIn to powermodule.cmdOut;
-        connect powermodule.dataIn to powerpayload.pwrOut;
-        connect powermodule.cmdOut to powerpayload.pwrOut;
-        connect powerpayload.pwrOut to flightbus.dataIn;
+        connect commprocessor.pwrIn to monitoractuator.cmdOut;
+        connect commprocessor.pwrIn to powermodule.ctrlIn;
+        connect monitoractuator.cmdOut to monitorsubsystem.ctrlIn;
+        connect monitoractuator.pwrOut to monitorsubsystem.ctrlIn;
+        connect commprocessor.pwrIn to flightactuator.cmdOut;
     }
 
     // System Instance
-    part solararraysystem : SolarArraySystem;
+    part roboticarmsystem : RoboticArmSystem;
 
 }

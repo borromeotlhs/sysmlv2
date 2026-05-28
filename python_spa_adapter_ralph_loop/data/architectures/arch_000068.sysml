@@ -1,97 +1,59 @@
 package arch_000068 {
 
-    // Thermal Control Reference Architecture 68
-    // Domain: thermal control
+    // Radar System Reference Architecture 68
+    // Domain: radar system
 
     // Requirements
-    requirement REQ_001 {
-        doc "The thermal control system shall exchange data through typed interfaces."
+    public requirement REQ_001 {
+        doc "The radar system system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
-        doc "The thermal control system shall trace subsystem design to requirements."
+    public requirement REQ_002 {
+        doc "The radar system system shall trace subsystem design to requirements."
     }
 
-    requirement REQ_003 {
-        doc "The thermal control system shall provide fault detection and recovery."
+    public requirement REQ_003 {
+        doc "The radar system system shall provide fault detection and recovery."
+    }
+
+    public requirement REQ_004 {
+        doc "The radar system system shall maintain operational status monitoring."
     }
 
     // Component Definitions
-    part def DistributionUnit {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port cmdOut;
-    }
-
-    part def ThermalAssembly {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-    }
-
-    part def MissionProcessor {
-        attribute processingPower : Real [1];
-        attribute memorySize : Real [1];
-        port pwrOut;
-        port pwrOut;
-    }
-
-    part def CommandActuator {
+    public part def CommInterface {
         attribute frequency : Real [1];
         attribute bandwidth : Real [1];
-        port pwrOut;
-        port configIn;
-        port cmdIn;
+        port dataOut;
+        port pwrIn;
     }
 
-    part def MonitorSubsystem {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port configIn;
-    }
-
-    part def FlightProcessor {
+    public part def CommProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
-        port cmdOut;
-        port ctrlIn;
-        port ctrlIn;
-    }
-
-    part def ProcessingInterface {
-        attribute mass : Real [1];
-        attribute power : Real [1];
-        port statusOut;
-        port dataOut;
+        port dataIn;
+        port configIn;
     }
 
     // System Definition
-    part def ThermalControlSystem {
-        part distributionunit : DistributionUnit {
+    public part def RadarSystemSystem {
+        part comminterface : CommInterface {
+            satisfy REQ_001;
             satisfy REQ_002;
+            satisfy REQ_004;
         }
-        part thermalassembly : ThermalAssembly {
+        part commprocessor : CommProcessor {
             satisfy REQ_001;
             satisfy REQ_003;
         }
-        part missionprocessor : MissionProcessor {
-        }
-        part commandactuator : CommandActuator {
-        }
-        part monitorsubsystem : MonitorSubsystem {
-            satisfy REQ_002;
-        }
-        part flightprocessor : FlightProcessor {
-        }
-        part processinginterface : ProcessingInterface {
-        }
 
         // Connections
-        connect thermalassembly.statusOut to commandactuator.pwrOut;
-        connect monitorsubsystem.configIn to flightprocessor.cmdOut;
+        connect comminterface.pwrIn to commprocessor.configIn;
+        connect commprocessor.dataIn to comminterface.pwrIn;
+        connect commprocessor.dataIn to comminterface.dataOut;
     }
 
     // System Instance
-    part thermalcontrolsystem : ThermalControlSystem;
+    part radarsystemsystem : RadarSystemSystem;
 
 }

@@ -4,16 +4,16 @@ package arch_000009 {
     // Domain: reaction wheel
 
     // Requirements
-    requirement REQ_001 {
+    public requirement REQ_001 {
         doc "The reaction wheel system shall exchange data through typed interfaces."
     }
 
-    requirement REQ_002 {
+    public requirement REQ_002 {
         doc "The reaction wheel system shall trace subsystem design to requirements."
     }
 
     // Component Definitions
-    part def DistributionSubsystem {
+    public part def DistributionSubsystem {
         attribute mass : Real [1];
         attribute power : Real [1];
         port cmdOut;
@@ -21,20 +21,20 @@ package arch_000009 {
         port dataOut;
     }
 
-    part def DistributionInterface {
+    public part def DistributionInterface {
         attribute mass : Real [1];
         attribute power : Real [1];
         port pwrOut;
         port dataOut;
     }
 
-    part def ProcessingModule {
+    public part def ProcessingModule {
         attribute mass : Real [1];
         attribute power : Real [1];
         port telemetryOut;
     }
 
-    part def PowerProcessor {
+    public part def PowerProcessor {
         attribute processingPower : Real [1];
         attribute memorySize : Real [1];
         port pwrOut;
@@ -42,7 +42,7 @@ package arch_000009 {
     }
 
     // System Definition
-    part def ReactionWheelSystem {
+    public part def ReactionWheelSystem {
         part distributionsubsystem : DistributionSubsystem {
             satisfy REQ_001;
             satisfy REQ_002;
