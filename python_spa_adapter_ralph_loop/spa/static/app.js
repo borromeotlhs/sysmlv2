@@ -24,27 +24,53 @@ async function postJson(url, body) {
 
 async function loadArchitectureFromPath(path) {
   try {
-    currentArchitecture = await getJson('/api/architecture/' + encodeURIComponent(path));
-    currentPath = path;
-
-    // Clear diagram cache
-    diagramCache = { bdd: null, ibd: null };
-
-    // Update info box
     const filename = path.split('/').pop();
-    const format = currentArchitecture.format || 'unknown';
     const isSysML = path.endsWith('.sysml');
 
-    $('architectureInfo').innerHTML = `
-      <strong>File: ${escapeHtml(filename)}</strong>
-      <p>ID: ${escapeHtml(currentArchitecture.id || 'N/A')}</p>
-      <p>Name: ${escapeHtml(currentArchitecture.name || 'N/A')}</p>
-      <p>Format: ${isSysML ? 'SysML v2 Textual' : 'JSON IR'} (${escapeHtml(format)})</p>
-      <p>Path: ${escapeHtml(path)}</p>
-    `;
+    // For .sysml files, fetch BOTH parsed JSON (for metadata) and raw content (for display)
+    if (isSysML) {
+      // Get metadata from parsed JSON
+      const metadata = await getJson('/api/architecture/' + encodeURIComponent(path));
+      currentArchitecture = metadata;
 
-    // Show architecture preview
-    $('architecturePreview').textContent = JSON.stringify(currentArchitecture, null, 2);
+      // Get raw .sysml content for display
+      const rawResponse = await fetch('/api/architecture/' + encodeURIComponent(path) + '?format=raw');
+      const rawContent = await rawResponse.text();
+
+      currentPath = path;
+      diagramCache = { bdd: null, ibd: null };
+
+      // Update info box with metadata
+      $('architectureInfo').innerHTML = `
+        <strong>File: ${escapeHtml(filename)}</strong>
+        <p>ID: ${escapeHtml(metadata.id || 'N/A')}</p>
+        <p>Name: ${escapeHtml(metadata.name || 'N/A')}</p>
+        <p>Format: SysML v2 Textual (${escapeHtml(metadata.format || 'unknown')})</p>
+        <p>Path: ${escapeHtml(path)}</p>
+      `;
+
+      // Show RAW .sysml textual syntax (not JSON!)
+      $('architecturePreview').textContent = rawContent;
+
+    } else {
+      // For JSON files, use existing behavior
+      currentArchitecture = await getJson('/api/architecture/' + encodeURIComponent(path));
+      currentPath = path;
+      diagramCache = { bdd: null, ibd: null };
+
+      const format = currentArchitecture.format || 'unknown';
+
+      $('architectureInfo').innerHTML = `
+        <strong>File: ${escapeHtml(filename)}</strong>
+        <p>ID: ${escapeHtml(currentArchitecture.id || 'N/A')}</p>
+        <p>Name: ${escapeHtml(currentArchitecture.name || 'N/A')}</p>
+        <p>Format: JSON IR (${escapeHtml(format)})</p>
+        <p>Path: ${escapeHtml(path)}</p>
+      `;
+
+      // Show JSON
+      $('architecturePreview').textContent = JSON.stringify(currentArchitecture, null, 2);
+    }
 
     // Reset to text tab
     switchTab('text');

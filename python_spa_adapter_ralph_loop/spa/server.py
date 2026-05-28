@@ -554,6 +554,37 @@ class Handler(BaseHTTPRequestHandler):
                     p = safe_data_path(ROOT, rel)
                     if not p.exists(): return self.send_json({'error': 'not found'}, 404)
 
+                    # Check if user wants raw content (for .sysml textual syntax display)
+                    from urllib.parse import parse_qs
+                    query_params = parse_qs(parsed.query)
+                    format_param = query_params.get('format', ['parsed'])[0]
+
+                    if format_param == 'raw':
+                        # Return raw file content (for .sysml files)
+                        if p.is_file():
+                            content = p.read_text(encoding='utf-8')
+                            # Return as text/plain for display
+                            self.send_response(200)
+                            self.send_header('Content-Type', 'text/plain; charset=utf-8')
+                            self.send_header('Content-Length', str(len(content.encode('utf-8'))))
+                            self.end_headers()
+                            self.wfile.write(content.encode('utf-8'))
+                            return
+                        elif p.is_dir():
+                            # For separated format, return model.sysml content
+                            model_file = p / 'model.sysml'
+                            if model_file.exists():
+                                content = model_file.read_text(encoding='utf-8')
+                                self.send_response(200)
+                                self.send_header('Content-Type', 'text/plain; charset=utf-8')
+                                self.send_header('Content-Length', str(len(content.encode('utf-8'))))
+                                self.end_headers()
+                                self.wfile.write(content.encode('utf-8'))
+                                return
+                            else:
+                                return self.send_json({'error': 'model.sysml not found'}, 404)
+
+                    # Default: Parse and return as JSON IR (existing behavior)
                     # Auto-detect format
                     fmt = detect_architecture_format(p)
 
