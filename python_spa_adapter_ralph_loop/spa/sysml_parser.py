@@ -296,6 +296,9 @@ def parse_sysml_to_json(sysml_content: str, file_path: Optional[Path] = None) ->
 
     Returns:
         Architecture dictionary with parsed content
+
+    Raises:
+        ValueError: If content is not valid SysML v2 (missing package declaration)
     """
 
     lines = sysml_content.split('\n')
@@ -306,6 +309,11 @@ def parse_sysml_to_json(sysml_content: str, file_path: Optional[Path] = None) ->
 
     # Extract package name and metadata
     package_name = extract_package_name(lines)
+
+    # Validate that package declaration exists
+    if not package_name:
+        raise ValueError("Invalid SysML v2 syntax: missing package declaration. Expected 'package <name> { ... }'")
+
     domain = extract_domain_comment(lines)
     name = extract_name_comment(lines)
 
@@ -328,7 +336,7 @@ def parse_sysml_to_json(sysml_content: str, file_path: Optional[Path] = None) ->
     source_type = 'view' if view_metadata else 'monolithic'
 
     result = {
-        'id': package_name or 'unknown',
+        'id': package_name,  # guaranteed to exist due to validation above
         'name': name or 'Unknown Architecture',
         'domain': domain or 'system',
         'format': 'sysml_v2_textual',
