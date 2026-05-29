@@ -5,6 +5,8 @@ import mimetypes
 import os
 import zlib
 import base64
+import urllib.request
+import urllib.error
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse, unquote
@@ -84,9 +86,78 @@ def validate_save_path(path_str: str, base_dir: Path = None) -> Path:
     return path
 
 
-def validate_sysml_content(content: str) -> dict:
+def validate_sysml_remote(content: str) -> dict:
     """
-    Validate SysML v2 textual content.
+    Validate SysML v2 content using remote validation API.
+
+    Args:
+        content: SysML content string
+
+    Returns:
+        Validation result dictionary with:
+        - valid: bool
+        - errors: list of error dicts
+        - validation_source: 'remote'
+
+    Raises:
+        Exception: If remote validation fails or times out
+    """
+    # Get remote validation endpoint from environment
+    remote_url = os.environ.get('SYSML_REMOTE_VALIDATOR_URL', '')
+    if not remote_url:
+        raise ValueError('SYSML_REMOTE_VALIDATOR_URL not configured')
+
+    # Prepare request payload
+    payload = json.dumps({'content': content}).encode('utf-8')
+
+    # Create request with timeout
+    req = urllib.request.Request(
+        remote_url,
+        data=payload,
+        headers={
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        method='POST'
+    )
+
+    try:
+        # Call remote API with 5 second timeout
+        with urllib.request.urlopen(req, timeout=5) as response:
+            result = json.loads(response.read().decode('utf-8'))
+
+            # Ensure response has expected format
+            if 'valid' not in result:
+                raise ValueError('Invalid response from remote validator: missing "valid" field')
+
+            # Add validation source
+            result['validation_source'] = 'remote'
+
+            # Ensure errors field exists
+            if 'errors' not in result:
+                result['errors'] = []
+
+            return result
+
+    except urllib.error.HTTPError as e:
+        # Try to extract error details from response
+        try:
+            error_body = e.read().decode('utf-8')
+            error_data = json.loads(error_body)
+            raise Exception(f'Remote validation HTTP {e.code}: {error_data.get("error", error_body)}')
+        except:
+            raise Exception(f'Remote validation HTTP {e.code}: {e.reason}')
+
+    except urllib.error.URLError as e:
+        raise Exception(f'Remote validation connection error: {str(e.reason)}')
+
+    except Exception as e:
+        raise Exception(f'Remote validation failed: {str(e)}')
+
+
+def validate_sysml_content_local(content: str) -> dict:
+    """
+    Validate SysML v2 textual content using local validator.
 
     Args:
         content: SysML content string
@@ -95,6 +166,7 @@ def validate_sysml_content(content: str) -> dict:
         Validation result dictionary with:
         - valid: bool
         - errors: list of error dicts with line, column, message, severity
+        - validation_source: 'local'
     """
     from tests.test_sysml_validation import SysMLValidator, ErrorSeverity
     import tempfile
@@ -125,13 +197,78 @@ def validate_sysml_content(content: str) -> dict:
 
         return {
             'valid': is_valid,
-            'errors': errors
+            'errors': errors,
+            'validation_source': 'local'
         }
 
     finally:
         # Clean up temp file
         if temp_path.exists():
             temp_path.unlink()
+
+
+def validate_sysml_content(content: str) -> dict:
+    """
+    Validate SysML v2 textual content with configurable validation strategy.
+
+    Environment variables:
+    - SYSML_VALIDATION_MODE: "remote", "local", or "auto" (default)
+      - "auto": Try remote first, fall back to local on failure
+      - "remote": Only use remote (fail if unavailable)
+      - "local": Only use local validator
+    - SYSML_REMOTE_VALIDATOR_URL: URL for remote validation endpoint
+
+    Args:
+        content: SysML content string
+
+    Returns:
+        Validation result dictionary with:
+        - valid: bool
+        - errors: list of error dicts with line, column, message, severity
+        - validation_source: 'remote' | 'local'
+    """
+    validation_mode = os.environ.get('SYSML_VALIDATION_MODE', 'auto').lower()
+
+    # Mode: remote only
+    if validation_mode == 'remote':
+        return validate_sysml_remote(content)
+
+    # Mode: local only
+    elif validation_mode == 'local':
+        return validate_sysml_content_local(content)
+
+    # Mode: auto (try remote, fall back to local)
+    else:
+        try:
+            # Attempt remote validation
+            return validate_sysml_remote(content)
+        except Exception as remote_error:
+            # Log the remote failure (in production, use proper logging)
+            if os.environ.get('SPA_QUIET') != '1':
+                print(f'Remote validation failed ({str(remote_error)}), falling back to local')
+
+            # Fall back to local validation
+            try:
+                return validate_sysml_content_local(content)
+            except Exception as local_error:
+                # If local also fails, try basic parser validation
+                try:
+                    result = validate_sysml_content_basic(content)
+                    result['validation_source'] = 'basic'
+                    return result
+                except Exception as basic_error:
+                    # All validation methods failed
+                    return {
+                        'valid': False,
+                        'errors': [{
+                            'line': None,
+                            'column': None,
+                            'message': f'All validation methods failed. Remote: {str(remote_error)}, Local: {str(local_error)}, Basic: {str(basic_error)}',
+                            'severity': 'error',
+                            'category': 'ValidationError'
+                        }],
+                        'validation_source': 'error'
+                    }
 
 
 def validate_sysml_content_basic(content: str) -> dict:
@@ -142,14 +279,15 @@ def validate_sysml_content_basic(content: str) -> dict:
         content: SysML content string
 
     Returns:
-        Validation result dictionary
+        Validation result dictionary with validation_source: 'basic'
     """
     try:
         # Try to parse the content
         parse_sysml_to_json(content)
         return {
             'valid': True,
-            'errors': []
+            'errors': [],
+            'validation_source': 'basic'
         }
     except Exception as e:
         # Parse error - extract useful information
@@ -170,7 +308,8 @@ def validate_sysml_content_basic(content: str) -> dict:
                 'message': error_msg,
                 'severity': 'error',
                 'category': 'ParseError'
-            }]
+            }],
+            'validation_source': 'basic'
         }
 
 
