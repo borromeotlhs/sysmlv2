@@ -436,24 +436,24 @@
         }
       };
 
-      // Verify THREE.OrbitControls is available before initializing
+      // Check if THREE.OrbitControls is available (warn but continue)
       if (typeof THREE.OrbitControls === 'undefined') {
-        console.error('THREE.OrbitControls not loaded yet - waiting...');
-        throw new Error('OrbitControls not available. Please reload the page.');
+        console.warn('THREE.OrbitControls not loaded - pan/tilt/zoom will not work, but scene will render');
       }
 
-      console.log('THREE.OrbitControls available, initializing renderer...');
+      console.log('Initializing renderer...');
       renderer = new SajaiThreeRenderer();
       renderer.init(viewportElement, eventEmitter);
 
       // Verify OrbitControls are initialized
       if (renderer.controls) {
-        console.log('OrbitControls initialized successfully');
-        console.log('Controls enabled:', renderer.controls.enabled);
-        console.log('Controls domElement:', renderer.controls.domElement);
+        console.log('✓ OrbitControls initialized - mouse controls enabled');
       } else {
-        console.error('OrbitControls NOT initialized - controls will not work');
-        throw new Error('OrbitControls failed to initialize');
+        console.warn('⚠ OrbitControls NOT available - mouse controls disabled. Scene will still render.');
+        // Show a non-blocking notification
+        setTimeout(() => {
+          alert('Note: Mouse controls (rotate/pan/zoom) are disabled because OrbitControls failed to load. The scene is still viewable. Try refreshing if you need controls.');
+        }, 1000);
       }
 
       // Populate scene selector
@@ -706,13 +706,20 @@
 
     function showError(message) {
       const overlay = document.getElementById('loadingOverlay');
+      const spinner = overlay.querySelector('.loading-spinner');
       const loadingText = document.getElementById('loadingText');
       const errorMessage = document.getElementById('errorMessage');
 
+      // Hide the spinner
+      if (spinner) {
+        spinner.style.display = 'none';
+      }
+
       overlay.classList.remove('hidden');
       loadingText.textContent = 'Error';
+      loadingText.style.color = '#ff6b6b';
       errorMessage.textContent = message;
-      errorMessage.classList.remove('hidden');
+      errorMessage.style.display = 'block';
 
       console.error(message);
     }

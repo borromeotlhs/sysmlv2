@@ -1,0 +1,309 @@
+{
+  "format": "SAJAI",
+  "version": "1.0",
+  "description": "Solar Array Reference Architecture 1 - Generated from SysML v2",
+  "scenes": {
+    "arch_000001": {
+      "id": "scene_arch_000001",
+      "name": "Solar Array Reference Architecture 1",
+      "contextRef": "arch_000001",
+      "camera": {
+        "position": [
+          15.0,
+          12.0,
+          15.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fov": 60.0,
+        "near": 0.1,
+        "far": 1000.0
+      },
+      "parts": [
+        {
+          "id": "part_solar_array_system",
+          "name": "SolarArraySystem",
+          "sysmlRef": "arch_000001::SolarArraySystem",
+          "qualifiedName": "arch_000001::SolarArraySystem",
+          "type": "SolarArraySystem",
+          "owner": "arch_000001",
+          "position": [
+            6.5,
+            0.0,
+            0.0
+          ],
+          "size": [
+            2.78,
+            1.94,
+            2.78
+          ],
+          "color": "#34495e",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {
+            "stereotype": "Block"
+          }
+        },
+        {
+          "id": "part_mission_bus",
+          "name": "MissionBus",
+          "sysmlRef": "arch_000001::MissionBus",
+          "qualifiedName": "arch_000001::MissionBus",
+          "type": "MissionBus",
+          "owner": "arch_000001",
+          "position": [
+            -3.25,
+            0.0,
+            5.63
+          ],
+          "size": [
+            2.19,
+            1.54,
+            2.19
+          ],
+          "color": "#7f8c8d",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {
+            "stereotype": "Block"
+          }
+        },
+        {
+          "id": "part_power_module",
+          "name": "PowerModule",
+          "sysmlRef": "arch_000001::PowerModule",
+          "qualifiedName": "arch_000001::PowerModule",
+          "type": "PowerModule",
+          "owner": "arch_000001",
+          "position": [
+            -3.25,
+            0.0,
+            -5.63
+          ],
+          "size": [
+            2.06,
+            1.44,
+            2.06
+          ],
+          "color": "#2ecc71",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {
+            "stereotype": "Block"
+          }
+        }
+      ],
+      "ports": [
+        {
+          "id": "port_mission_bus_data_in",
+          "name": "dataIn",
+          "sysmlRef": "arch_000001::MissionBus::dataIn",
+          "ownerPartId": "part_mission_bus",
+          "type": "DataIF",
+          "surface": "top",
+          "uv": [
+            0.39,
+            0.42
+          ],
+          "radius": 0.2,
+          "color": "#1abc9c",
+          "visible": true,
+          "connectedPortIds": [
+            "port_power_module_sensor_out",
+            "port_power_module_cmd_in"
+          ],
+          "metadata": {
+            "protocol": "Data"
+          }
+        },
+        {
+          "id": "port_power_module_sensor_out",
+          "name": "sensorOut",
+          "sysmlRef": "arch_000001::PowerModule::sensorOut",
+          "ownerPartId": "part_power_module",
+          "type": "DataIF",
+          "surface": "top",
+          "uv": [
+            0.6,
+            0.47
+          ],
+          "radius": 0.2,
+          "color": "#1abc9c",
+          "visible": true,
+          "connectedPortIds": [
+            "port_mission_bus_data_in"
+          ],
+          "metadata": {
+            "protocol": "Data"
+          }
+        },
+        {
+          "id": "port_power_module_config_in",
+          "name": "configIn",
+          "sysmlRef": "arch_000001::PowerModule::configIn",
+          "ownerPartId": "part_power_module",
+          "type": "StatusIF",
+          "surface": "top",
+          "uv": [
+            0.4,
+            0.44
+          ],
+          "radius": 0.2,
+          "color": "#95a5a6",
+          "visible": true,
+          "connectedPortIds": [],
+          "metadata": {
+            "protocol": "Generic"
+          }
+        },
+        {
+          "id": "port_power_module_cmd_in",
+          "name": "cmdIn",
+          "sysmlRef": "arch_000001::PowerModule::cmdIn",
+          "ownerPartId": "part_power_module",
+          "type": "CommandIF",
+          "surface": "top",
+          "uv": [
+            0.45,
+            0.45
+          ],
+          "radius": 0.2,
+          "color": "#3498db",
+          "visible": true,
+          "connectedPortIds": [
+            "port_mission_bus_data_in"
+          ],
+          "metadata": {
+            "protocol": "Command"
+          }
+        }
+      ],
+      "connectors": [
+        {
+          "id": "conn_link1",
+          "name": "link1",
+          "sysmlRef": "arch_000001::link1",
+          "sourcePortId": "port_mission_bus_data_in",
+          "targetPortId": "port_power_module_sensor_out",
+          "route": [
+            [
+              -3.4909,
+              0.77,
+              5.4548
+            ],
+            [
+              -3.27,
+              1.77,
+              -0.12
+            ],
+            [
+              -3.044,
+              0.72,
+              -5.6918
+            ]
+          ],
+          "color": "#1abc9c",
+          "visible": true,
+          "metadata": {
+            "itemFlow": ""
+          }
+        },
+        {
+          "id": "conn_link2",
+          "name": "link2",
+          "sysmlRef": "arch_000001::link2",
+          "sourcePortId": "port_power_module_cmd_in",
+          "targetPortId": "port_mission_bus_data_in",
+          "route": [
+            [
+              -3.3529999999999998,
+              0.72,
+              -5.733
+            ],
+            [
+              -3.42,
+              1.77,
+              -0.14
+            ],
+            [
+              -3.4909,
+              0.77,
+              5.4548
+            ]
+          ],
+          "color": "#3498db",
+          "visible": true,
+          "metadata": {
+            "itemFlow": ""
+          }
+        },
+        {
+          "id": "conn_conn_001",
+          "name": "conn_001",
+          "sysmlRef": "arch_000001::conn_001",
+          "sourcePortId": "port_mission_bus_data_in",
+          "targetPortId": "port_power_module_sensor_out",
+          "route": [
+            [
+              -3.4909,
+              0.77,
+              5.4548
+            ],
+            [
+              -3.27,
+              1.77,
+              -0.12
+            ],
+            [
+              -3.044,
+              0.72,
+              -5.6918
+            ]
+          ],
+          "color": "#1abc9c",
+          "visible": true,
+          "metadata": {
+            "itemFlow": ""
+          }
+        },
+        {
+          "id": "conn_conn_002",
+          "name": "conn_002",
+          "sysmlRef": "arch_000001::conn_002",
+          "sourcePortId": "port_power_module_cmd_in",
+          "targetPortId": "port_mission_bus_data_in",
+          "route": [
+            [
+              -3.3529999999999998,
+              0.72,
+              -5.733
+            ],
+            [
+              -3.42,
+              1.77,
+              -0.14
+            ],
+            [
+              -3.4909,
+              0.77,
+              5.4548
+            ]
+          ],
+          "color": "#3498db",
+          "visible": true,
+          "metadata": {
+            "itemFlow": ""
+          }
+        }
+      ],
+      "metadata": {
+        "generated": true,
+        "source": "sysml_v2",
+        "flat_architecture": true
+      }
+    }
+  }
+}

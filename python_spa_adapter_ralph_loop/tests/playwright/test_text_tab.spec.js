@@ -4,7 +4,7 @@ const { loadArchitecture, screenshot, verifyDownload, switchTab, waitForPageLoad
 test.describe('Text Tab', () => {
     test('shows .sysml content', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page);
     await loadArchitecture(page, 'architecture_001.sysml');
     // Ensure we're on the Text tab
     await switchTab(page, 'text');
@@ -25,7 +25,7 @@ test.describe('Text Tab', () => {
 
   test('displays formatted SysML code', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page);
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, 'text');
 
@@ -45,7 +45,7 @@ test.describe('Text Tab', () => {
 
   test('copy button works', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page);
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, 'text');
 
@@ -72,7 +72,7 @@ test.describe('Text Tab', () => {
 
   test('copy button copies actual content', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page);
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, 'text');
 
@@ -103,7 +103,7 @@ test.describe('Text Tab', () => {
 
   test('download button works', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page);
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, 'text');
 
@@ -144,7 +144,7 @@ test.describe('Text Tab', () => {
 
   test('handles large files without performance issues', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page);
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, 'text');
 
@@ -173,7 +173,7 @@ test.describe('Text Tab', () => {
 
   test('preserves content when switching tabs', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page);
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, 'text');
 
@@ -198,7 +198,7 @@ test.describe('Text Tab', () => {
 
   test('displays line numbers or proper formatting', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page);
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, 'text');
 

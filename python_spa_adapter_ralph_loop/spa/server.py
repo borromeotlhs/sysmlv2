@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 STATIC = Path(__file__).resolve().parent / 'static'
 ARCH_DIR = ROOT / 'data' / 'architectures'
 PAIR_DIR = ROOT / 'data' / 'pairs'
+SAJAI_DIR = STATIC / 'sample-data'
 
 # Security constants
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
@@ -988,6 +989,31 @@ class Handler(BaseHTTPRequestHandler):
                 p = safe_data_path(ROOT, rel)
                 if not p.exists(): return self.send_json({'error': 'not found'}, 404)
                 return self.send_json(json.loads(p.read_text(encoding='utf-8')))
+            if path == '/api/sajai-files':
+                # List available SAJAI files
+                files = []
+                if SAJAI_DIR.exists():
+                    for p in sorted(SAJAI_DIR.glob('*.sajai')):
+                        files.append({
+                            'name': p.name,
+                            'path': str(p.relative_to(STATIC)).replace('\\', '/')
+                        })
+                return self.send_json({'files': files})
+            if path.startswith('/api/sajai/'):
+                # Serve a specific SAJAI file
+                rel = unquote(path[len('/api/sajai/'):])
+                p = safe_data_path(STATIC, rel)
+                if not p.exists():
+                    return self.send_json({'error': 'SAJAI file not found'}, 404)
+                if not p.suffix.lower() == '.sajai':
+                    return self.send_json({'error': 'Not a SAJAI file'}, 400)
+                content = p.read_text(encoding='utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.send_header('Content-Length', str(len(content.encode('utf-8'))))
+                self.end_headers()
+                self.wfile.write(content.encode('utf-8'))
+                return
             if path.startswith('/api/diagram/bdd/'):
                 rel = unquote(path[len('/api/diagram/bdd/'):])
                 p = safe_data_path(ROOT, rel)
@@ -1051,6 +1077,97 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         parsed = urlparse(self.path)
         try:
+            if parsed.path == '/api/generate-sajai':
+                """
+                Generate SAJAI 3D model from SysML architecture.
+
+                Request body:
+                {
+                    "architecturePath": "data/architectures/arch_uav.sysml",
+                    "outputPath": "spa/static/sample-data/my_model.sajai"
+                }
+
+                Response:
+                {
+                    "ok": true,
+                    "path": "spa/static/sample-data/my_model.sajai",
+                    "scenes": 1,
+                    "parts": 5,
+                    "ports": 12,
+                    "connectors": 8
+                }
+                """
+                body = self.read_body_json()
+
+                # Validate request
+                if 'architecturePath' not in body:
+                    return self.send_json({'error': 'Missing required field: architecturePath'}, 400)
+                if 'outputPath' not in body:
+                    return self.send_json({'error': 'Missing required field: outputPath'}, 400)
+
+                arch_path_str = body['architecturePath']
+                output_path_str = body['outputPath']
+
+                # Resolve paths
+                try:
+                    arch_path = safe_data_path(ROOT, arch_path_str)
+                    if not arch_path.exists():
+                        return self.send_json({'error': f'Architecture file not found: {arch_path_str}'}, 404)
+
+                    # Output path - allow under spa/static/sample-data
+                    output_path = (ROOT / output_path_str).resolve()
+                    sajai_dir = (STATIC / 'sample-data').resolve()
+
+                    # Ensure output is under allowed directory
+                    if sajai_dir not in output_path.parents and output_path.parent != sajai_dir:
+                        return self.send_json({'error': 'Output path must be under spa/static/sample-data/'}, 400)
+
+                    # Ensure .sajai extension
+                    if not output_path.suffix.lower() == '.sajai':
+                        return self.send_json({'error': 'Output file must have .sajai extension'}, 400)
+
+                except Exception as e:
+                    return self.send_json({'error': f'Invalid path: {str(e)}'}, 400)
+
+                # Generate SAJAI
+                try:
+                    # Import SAJAI generator
+                    import sys
+                    lib_path = ROOT / 'lib'
+                    if str(lib_path) not in sys.path:
+                        sys.path.insert(0, str(lib_path))
+
+                    from sajai_generator import sysml_to_sajai
+
+                    # Generate
+                    sajai_data = sysml_to_sajai(arch_path, output_path)
+
+                    # Count elements
+                    scenes = sajai_data.get('scenes', {})
+                    total_parts = 0
+                    total_ports = 0
+                    total_connectors = 0
+
+                    for scene in scenes.values():
+                        total_parts += len(scene.get('parts', []))
+                        total_ports += len(scene.get('ports', []))
+                        total_connectors += len(scene.get('connectors', []))
+
+                    # Return success
+                    return self.send_json({
+                        'ok': True,
+                        'path': str(output_path.relative_to(ROOT)).replace('\\', '/'),
+                        'scenes': len(scenes),
+                        'parts': total_parts,
+                        'ports': total_ports,
+                        'connectors': total_connectors
+                    }, 201)
+
+                except Exception as e:
+                    import traceback
+                    traceback.print_exc()
+                    return self.send_json({'error': f'Failed to generate SAJAI: {str(e)}'}, 500)
+
             if parsed.path == '/api/save-pairs':
                 body = self.read_body_json()
                 filename = body.get('filename') or 'authored_pairs.json'

@@ -1,0 +1,256 @@
+{
+  "format": "SAJAI",
+  "version": "1.0",
+  "description": "Uav Payload Reference Architecture 1 - Generated from SysML v2",
+  "scenes": {
+    "arch_000001": {
+      "id": "scene_arch_000001",
+      "name": "Uav Payload Reference Architecture 1",
+      "contextRef": "arch_000001",
+      "camera": {
+        "position": [
+          15.0,
+          12.0,
+          15.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fov": 60.0,
+        "near": 0.1,
+        "far": 1000.0
+      },
+      "parts": [
+        {
+          "id": "part_uav_payload_system",
+          "name": "UavPayloadSystem",
+          "sysmlRef": "arch_000001::UavPayloadSystem",
+          "qualifiedName": "arch_000001::UavPayloadSystem",
+          "type": "UavPayloadSystem",
+          "owner": "arch_000001",
+          "position": [
+            7.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            2.0,
+            1.4,
+            2.0
+          ],
+          "color": "#34495e",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {
+            "stereotype": "Block"
+          }
+        },
+        {
+          "id": "part_mission_computer",
+          "name": "MissionComputer",
+          "sysmlRef": "arch_000001::MissionComputer",
+          "qualifiedName": "arch_000001::MissionComputer",
+          "type": "MissionComputer",
+          "owner": "arch_000001",
+          "position": [
+            0.0,
+            0.0,
+            7.0
+          ],
+          "size": [
+            2.16,
+            1.51,
+            2.16
+          ],
+          "color": "#3498db",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {
+            "stereotype": "Block"
+          }
+        },
+        {
+          "id": "part_sensor_payload",
+          "name": "SensorPayload",
+          "sysmlRef": "arch_000001::SensorPayload",
+          "qualifiedName": "arch_000001::SensorPayload",
+          "type": "SensorPayload",
+          "owner": "arch_000001",
+          "position": [
+            -7.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            2.58,
+            1.81,
+            2.58
+          ],
+          "color": "#e74c3c",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {
+            "stereotype": "Block"
+          }
+        },
+        {
+          "id": "part_power_unit",
+          "name": "PowerUnit",
+          "sysmlRef": "arch_000001::PowerUnit",
+          "qualifiedName": "arch_000001::PowerUnit",
+          "type": "PowerUnit",
+          "owner": "arch_000001",
+          "position": [
+            -0.0,
+            0.0,
+            -7.0
+          ],
+          "size": [
+            2.78,
+            1.95,
+            2.78
+          ],
+          "color": "#2ecc71",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {
+            "stereotype": "Block"
+          }
+        }
+      ],
+      "ports": [
+        {
+          "id": "port_mission_computer_cmd_out",
+          "name": "cmdOut",
+          "sysmlRef": "arch_000001::MissionComputer::cmdOut",
+          "ownerPartId": "part_mission_computer",
+          "type": "CommandIF",
+          "surface": "top",
+          "uv": [
+            0.56,
+            0.44
+          ],
+          "radius": 0.2,
+          "color": "#3498db",
+          "visible": true,
+          "connectedPortIds": [
+            "port_sensor_payload_data_out"
+          ],
+          "metadata": {
+            "protocol": "Command"
+          }
+        },
+        {
+          "id": "port_sensor_payload_data_out",
+          "name": "dataOut",
+          "sysmlRef": "arch_000001::SensorPayload::dataOut",
+          "ownerPartId": "part_sensor_payload",
+          "type": "DataIF",
+          "surface": "top",
+          "uv": [
+            0.59,
+            0.55
+          ],
+          "radius": 0.2,
+          "color": "#1abc9c",
+          "visible": true,
+          "connectedPortIds": [
+            "port_mission_computer_cmd_out",
+            "port_power_unit_pwr_out"
+          ],
+          "metadata": {
+            "protocol": "Data"
+          }
+        },
+        {
+          "id": "port_power_unit_pwr_out",
+          "name": "pwrOut",
+          "sysmlRef": "arch_000001::PowerUnit::pwrOut",
+          "ownerPartId": "part_power_unit",
+          "type": "PowerIF",
+          "surface": "top",
+          "uv": [
+            0.58,
+            0.53
+          ],
+          "radius": 0.2,
+          "color": "#f39c12",
+          "visible": true,
+          "connectedPortIds": [
+            "port_sensor_payload_data_out"
+          ],
+          "metadata": {
+            "protocol": "Power"
+          }
+        }
+      ],
+      "connectors": [
+        {
+          "id": "conn_cmd_link",
+          "name": "cmdLink",
+          "sysmlRef": "arch_000001::cmdLink",
+          "sourcePortId": "port_mission_computer_cmd_out",
+          "targetPortId": "port_sensor_payload_data_out",
+          "route": [
+            [
+              0.12960000000000013,
+              0.755,
+              6.8704
+            ],
+            [
+              -3.32,
+              1.91,
+              3.5
+            ],
+            [
+              -6.7678,
+              0.905,
+              0.12900000000000011
+            ]
+          ],
+          "color": "#3498db",
+          "visible": true,
+          "metadata": {
+            "itemFlow": "Command"
+          }
+        },
+        {
+          "id": "conn_power_link",
+          "name": "powerLink",
+          "sysmlRef": "arch_000001::powerLink",
+          "sourcePortId": "port_power_unit_pwr_out",
+          "targetPortId": "port_sensor_payload_data_out",
+          "route": [
+            [
+              0.22239999999999988,
+              0.975,
+              -6.9166
+            ],
+            [
+              -3.27,
+              1.98,
+              -3.39
+            ],
+            [
+              -6.7678,
+              0.905,
+              0.12900000000000011
+            ]
+          ],
+          "color": "#f39c12",
+          "visible": true,
+          "metadata": {
+            "itemFlow": "Power"
+          }
+        }
+      ],
+      "metadata": {
+        "generated": true,
+        "source": "sysml_v2",
+        "flat_architecture": true
+      }
+    }
+  }
+}

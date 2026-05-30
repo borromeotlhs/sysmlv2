@@ -15,7 +15,7 @@ test.describe('End-to-End Workflow', () => {
     // Step 1: Load application
     // Step 1: Load application
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page);
     await screenshot(page, 'e2e-01-app-loaded');
 
     // Step 2: Load architecture

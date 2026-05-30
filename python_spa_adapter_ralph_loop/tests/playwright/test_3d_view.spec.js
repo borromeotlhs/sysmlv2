@@ -15,7 +15,7 @@ const {
 test.describe('3D View Tab', () => {
   test('tab is visible and clickable', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
 
     // Find 3D View tab
@@ -36,7 +36,7 @@ test.describe('3D View Tab', () => {
 
   test('Generate 3D Model button is enabled when architecture selected', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -52,7 +52,7 @@ test.describe('3D View Tab', () => {
 
   test('clicking Generate opens modal', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -72,7 +72,7 @@ test.describe('3D View Tab', () => {
 
   test('modal has filename input', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -95,7 +95,7 @@ test.describe('3D View Tab', () => {
 
   test('Generate button in modal triggers conversion', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -122,7 +122,7 @@ test.describe('3D View Tab', () => {
 
   test('loading spinner shows during conversion', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -145,7 +145,7 @@ test.describe('3D View Tab', () => {
 
   test('success message appears after generation', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -175,7 +175,7 @@ test.describe('3D View Tab', () => {
 
   test('3D scene auto-loads after generation', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -204,7 +204,7 @@ test.describe('3D View Tab', () => {
 
   test('can see 3D canvas with rendered objects', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -235,7 +235,7 @@ test.describe('3D View Tab', () => {
 
   test('visibility toggles work correctly - Parts', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -260,7 +260,7 @@ test.describe('3D View Tab', () => {
 
   test('visibility toggles work correctly - Ports', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -285,7 +285,7 @@ test.describe('3D View Tab', () => {
 
   test('visibility toggles work correctly - Connectors', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -310,7 +310,7 @@ test.describe('3D View Tab', () => {
 
   test('property inspector shows element details on click', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -342,7 +342,7 @@ test.describe('3D View Tab', () => {
 
   test('pop-out button opens new window', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -377,7 +377,7 @@ test.describe('3D View Tab', () => {
 
   test('popout window controls work - rotation', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -416,7 +416,7 @@ test.describe('3D View Tab', () => {
 
   test('popout window controls work - panning', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -455,7 +455,7 @@ test.describe('3D View Tab', () => {
 
   test('popout window controls work - zooming', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -494,7 +494,7 @@ test.describe('3D View Tab', () => {
 
   test('download button exports SAJAI file', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, '3d-view');
 
@@ -528,7 +528,7 @@ test.describe('3D View Tab', () => {
 
   test('3D view handles complex architectures', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await waitForPageLoad(page, { skipTreeLoad: true });
+    await waitForPageLoad(page); // Wait for file tree to load
     await loadArchitecture(page, 'architecture_001.sysml');
     // Load a more complex architecture if available
     await loadArchitecture(page, 'architecture_010.sysml');
