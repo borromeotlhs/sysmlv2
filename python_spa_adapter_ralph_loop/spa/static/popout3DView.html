@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D View - SysML Architecture</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      overflow: hidden;
+    }
+
+    .header {
+      background: #2a2a2a;
+      border-bottom: 1px solid #3a3a3a;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .scene-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scene-selector label {
+      font-size: 13px;
+      color: #a0a0a0;
+    }
+
+    .scene-selector select {
+      padding: 4px 8px;
+      background: #3a3a3a;
+      color: #e0e0e0;
+      border: 1px solid #4a4a4a;
+      border-radius: 3px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button {
+      padding: 6px 12px;
+      border: 1px solid #4a4a4a;
+      background: #3a3a3a;
+      color: #e0e0e0;
+      cursor: pointer;
+      font-size: 13px;
+      border-radius: 3px;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #4a4a4a;
+    }
+
+    button:active {
+      background: #2a2a2a;
+    }
+
+    button.active {
+      background: #4a90e2;
+      border-color: #4a90e2;
+      color: white;
+    }
+
+    .main-container {
+      display: flex;
+      height: calc(100vh - 50px);
+    }
+
+    .viewport-container {
+      flex: 1;
+      position: relative;
+      background: #1a1a1a;
+    }
+
+    #viewport {
+      width: 100%;
+      height: 100%;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 26, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .loading-overlay.hidden {
+      display: none;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #3a3a3a;
+      border-top-color: #4a90e2;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      margin-top: 15px;
+      color: #a0a0a0;
+      font-size: 14px;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 14px;
+      margin-top: 10px;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .side-panel {
+      width: 300px;
+      background: #2a2a2a;
+      border-left: 1px solid #3a3a3a;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .side-panel.collapsed {
+      display: none;
+    }
+
+    .panel-section {
+      padding: 15px;
+      border-bottom: 1px solid #3a3a3a;
+    }
+
+    .panel-section h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .visibility-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      font-size: 13px;
+      color: #e0e0e0;
+      cursor: pointer;
+    }
+
+    .property-inspector {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+    }
+
+    .property-inspector h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .property-item {
+      margin-bottom: 12px;
+    }
+
+    .property-label {
+      font-size: 12px;
+      color: #a0a0a0;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .property-value {
+      font-size: 13px;
+      color: #e0e0e0;
+      padding: 6px 8px;
+      background: #1a1a1a;
+      border-radius: 3px;
+      border: 1px solid #3a3a3a;
+    }
+
+    .property-value.editable {
+      cursor: text;
+    }
+
+    .no-selection {
+      color: #666;
+      font-size: 13px;
+      font-style: italic;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .toolbar {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(42, 42, 42, 0.95);
+      border: 1px solid #4a4a4a;
+      border-radius: 4px;
+      padding: 8px;
+      display: flex;
+      gap: 8px;
+      z-index: 100;
+    }
+
+    .toolbar button {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    .stats {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(42, 42, 42, 0.9);
+      border: 1px solid #4a4a4a;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 11px;
+      color: #a0a0a0;
+      font-family: monospace;
+      z-index: 100;
+    }
+
+    .stats.hidden {
+      display: none;
+    }
+
+    .help-text {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(42, 42, 42, 0.9);
+      border: 1px solid #4a4a4a;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 11px;
+      color: #a0a0a0;
+      max-width: 250px;
+      z-index: 100;
+    }
+
+    .help-text.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-left">
+      <h1 id="windowTitle">3D View</h1>
+      <div class="scene-selector">
+        <label>Scene:</label>
+        <select id="sceneSelect">
+          <option value="">Loading...</option>
+        </select>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="toggleStats" title="Toggle statistics">Stats</button>
+      <button id="toggleHelp" title="Toggle help">Help</button>
+      <button id="togglePanel" title="Toggle side panel">Panel</button>
+      <button id="resetCamera" title="Reset camera view">Reset View</button>
+      <button id="frameScene" title="Frame all objects">Frame All</button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="viewport-container">
+      <div id="viewport"></div>
+
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Loading 3D scene...</div>
+        <div class="error-message hidden" id="errorMessage"></div>
+      </div>
+
+      <div class="stats hidden" id="stats">
+        <div>FPS: <span id="fps">0</span></div>
+        <div>Parts: <span id="partCount">0</span></div>
+        <div>Ports: <span id="portCount">0</span></div>
+        <div>Connectors: <span id="connectorCount">0</span></div>
+      </div>
+
+      <div class="toolbar">
+        <button id="toggleParts" class="active" title="Toggle parts visibility">Parts</button>
+        <button id="togglePorts" class="active" title="Toggle ports visibility">Ports</button>
+        <button id="toggleConnectors" class="active" title="Toggle connectors visibility">Connectors</button>
+      </div>
+
+      <div class="help-text hidden" id="helpText">
+        <strong>Controls:</strong><br>
+        Left Click: Rotate<br>
+        Right Click: Pan<br>
+        Scroll: Zoom<br>
+        Click Object: Select
+      </div>
+    </div>
+
+    <div class="side-panel" id="sidePanel">
+      <div class="property-inspector">
+        <h3>Properties</h3>
+        <div id="propertyContent">
+          <div class="no-selection">
+            Click on an object to view its properties
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three.js r160 from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- SAJAI modules -->
+  <script src="/sajaiParser.js"></script>
+  <script src="/sajaiSceneNormalizer.js"></script>
+  <script src="/sajaiThreeRenderer.js"></script>
+
+  <script>
+    // Global state
+    let renderer = null;
+    let sajaiData = null;
+    let currentSceneIndex = 0;
+    let stats = { fps: 0, lastTime: 0, frames: 0 };
+
+    // Initialize on load
+    window.addEventListener('load', async () => {
+      try {
+        await initializeViewer();
+      } catch (error) {
+        showError('Failed to initialize viewer: ' + error.message);
+      }
+    });
+
+    async function initializeViewer() {
+      // Load SAJAI data from localStorage or URL param
+      const sajaiJson = localStorage.getItem('popout3d_sajai');
+      const sessionId = new URLSearchParams(window.location.search).get('session');
+
+      if (sajaiJson) {
+        sajaiData = JSON.parse(sajaiJson);
+        document.getElementById('windowTitle').textContent = '3D View - ' + (sajaiData.metadata?.name || 'Architecture');
+      } else {
+        throw new Error('No SAJAI data found. Open this window from the main app.');
+      }
+
+      // Initialize Three.js renderer with proper event emitter
+      const viewportElement = document.getElementById('viewport');
+
+      // Log viewport dimensions to debug sizing issues
+      console.log('Viewport dimensions:', {
+        width: viewportElement.clientWidth,
+        height: viewportElement.clientHeight,
+        offsetWidth: viewportElement.offsetWidth,
+        offsetHeight: viewportElement.offsetHeight
+      });
+
+      // Create event emitter matching the main window pattern
+      const eventEmitter = {
+        listeners: {},
+        emit(event, data) {
+          if (this.listeners[event]) {
+            this.listeners[event].forEach(fn => fn(data));
+          }
+          // Also call handleRendererEvent for backwards compatibility
+          handleRendererEvent(event, data);
+        },
+        on(event, fn) {
+          if (!this.listeners[event]) {
+            this.listeners[event] = [];
+          }
+          this.listeners[event].push(fn);
+        }
+      };
+
+      // Verify THREE.OrbitControls is available before initializing
+      if (typeof THREE.OrbitControls === 'undefined') {
+        console.error('THREE.OrbitControls not loaded yet - waiting...');
+        throw new Error('OrbitControls not available. Please reload the page.');
+      }
+
+      console.log('THREE.OrbitControls available, initializing renderer...');
+      renderer = new SajaiThreeRenderer();
+      renderer.init(viewportElement, eventEmitter);
+
+      // Verify OrbitControls are initialized
+      if (renderer.controls) {
+        console.log('OrbitControls initialized successfully');
+        console.log('Controls enabled:', renderer.controls.enabled);
+        console.log('Controls domElement:', renderer.controls.domElement);
+      } else {
+        console.error('OrbitControls NOT initialized - controls will not work');
+        throw new Error('OrbitControls failed to initialize');
+      }
+
+      // Populate scene selector
+      populateSceneSelector();
+
+      // Load first scene
+      if (sajaiData.scenes && sajaiData.scenes.length > 0) {
+        loadScene(0);
+      } else {
+        throw new Error('No scenes found in SAJAI data');
+      }
+
+      // Setup event listeners
+      setupEventListeners();
+
+      // Hide loading overlay
+      document.getElementById('loadingOverlay').classList.add('hidden');
+
+      // Start stats update loop
+      startStatsLoop();
+
+      console.log('3D Viewer initialized');
+    }
+
+    function populateSceneSelector() {
+      const sceneSelect = document.getElementById('sceneSelect');
+      sceneSelect.innerHTML = '';
+
+      if (sajaiData.scenes && Array.isArray(sajaiData.scenes)) {
+        sajaiData.scenes.forEach((scene, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          option.textContent = scene.name || `Scene ${index + 1}`;
+          sceneSelect.appendChild(option);
+        });
+        sceneSelect.value = currentSceneIndex;
+      }
+    }
+
+    function loadScene(index) {
+      if (!sajaiData.scenes || !sajaiData.scenes[index]) {
+        console.error('Invalid scene index:', index);
+        return;
+      }
+
+      currentSceneIndex = index;
+      const sceneData = sajaiData.scenes[index];
+
+      // Load scene into renderer
+      renderer.loadScene(sceneData);
+
+      // Update stats
+      updateStats();
+
+      // Update scene selector
+      document.getElementById('sceneSelect').value = index;
+
+      console.log('Loaded scene:', sceneData.name || index);
+    }
+
+    function setupEventListeners() {
+      // Scene selector
+      document.getElementById('sceneSelect').addEventListener('change', (e) => {
+        loadScene(parseInt(e.target.value));
+      });
+
+      // Visibility toggles
+      document.getElementById('toggleParts').addEventListener('click', (e) => {
+        const isCurrentlyActive = e.target.classList.contains('active');
+        e.target.classList.toggle('active');
+        renderer.setVisibility('parts', !isCurrentlyActive);
+      });
+
+      document.getElementById('togglePorts').addEventListener('click', (e) => {
+        const isCurrentlyActive = e.target.classList.contains('active');
+        e.target.classList.toggle('active');
+        renderer.setVisibility('ports', !isCurrentlyActive);
+      });
+
+      document.getElementById('toggleConnectors').addEventListener('click', (e) => {
+        const isCurrentlyActive = e.target.classList.contains('active');
+        e.target.classList.toggle('active');
+        renderer.setVisibility('connectors', !isCurrentlyActive);
+      });
+
+      // Camera controls
+      document.getElementById('resetCamera').addEventListener('click', () => {
+        if (renderer && renderer.camera) {
+          renderer.camera.position.set(50, 50, 50);
+          renderer.camera.lookAt(0, 0, 0);
+          if (renderer.controls) {
+            renderer.controls.target.set(0, 0, 0);
+            renderer.controls.update();
+          }
+        }
+      });
+
+      document.getElementById('frameScene').addEventListener('click', () => {
+        if (renderer) {
+          renderer._frameScene();
+        }
+      });
+
+      // Toggle stats
+      document.getElementById('toggleStats').addEventListener('click', () => {
+        document.getElementById('stats').classList.toggle('hidden');
+      });
+
+      // Toggle help
+      document.getElementById('toggleHelp').addEventListener('click', () => {
+        document.getElementById('helpText').classList.toggle('hidden');
+      });
+
+      // Toggle side panel
+      document.getElementById('togglePanel').addEventListener('click', () => {
+        document.getElementById('sidePanel').classList.toggle('collapsed');
+      });
+
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        if (renderer && renderer._onWindowResize) {
+          renderer._onWindowResize();
+        }
+      });
+    }
+
+    function handleRendererEvent(eventName, data) {
+      if (eventName === 'element-selected') {
+        displayProperties(data);
+      } else if (eventName === 'element-deselected') {
+        clearProperties();
+      }
+    }
+
+    function displayProperties(elementData) {
+      const propertyContent = document.getElementById('propertyContent');
+      const { type, id, data } = elementData;
+
+      let html = `
+        <div class="property-item">
+          <div class="property-label">Type</div>
+          <div class="property-value">${type}</div>
+        </div>
+        <div class="property-item">
+          <div class="property-label">ID</div>
+          <div class="property-value">${id}</div>
+        </div>
+      `;
+
+      if (data.name) {
+        html += `
+          <div class="property-item">
+            <div class="property-label">Name</div>
+            <div class="property-value">${data.name}</div>
+          </div>
+        `;
+      }
+
+      if (type === 'part') {
+        if (data.position) {
+          html += `
+            <div class="property-item">
+              <div class="property-label">Position</div>
+              <div class="property-value">
+                x: ${data.position.x?.toFixed(2) || 0}<br>
+                y: ${data.position.y?.toFixed(2) || 0}<br>
+                z: ${data.position.z?.toFixed(2) || 0}
+              </div>
+            </div>
+          `;
+        }
+        if (data.size || data.width) {
+          const w = data.size?.width || data.width || 0;
+          const h = data.size?.height || data.height || 0;
+          const d = data.size?.depth || data.depth || 0;
+          html += `
+            <div class="property-item">
+              <div class="property-label">Size</div>
+              <div class="property-value">
+                w: ${w}<br>
+                h: ${h}<br>
+                d: ${d}
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      if (type === 'port') {
+        html += `
+          <div class="property-item">
+            <div class="property-label">Parent Part</div>
+            <div class="property-value">${data.parentId || data.partId || 'N/A'}</div>
+          </div>
+        `;
+        if (data.surface) {
+          html += `
+            <div class="property-item">
+              <div class="property-label">Surface</div>
+              <div class="property-value">${data.surface}</div>
+            </div>
+          `;
+        }
+      }
+
+      if (type === 'connector') {
+        html += `
+          <div class="property-item">
+            <div class="property-label">From Port</div>
+            <div class="property-value">${data.fromPortId || 'N/A'}</div>
+          </div>
+          <div class="property-item">
+            <div class="property-label">To Port</div>
+            <div class="property-value">${data.toPortId || 'N/A'}</div>
+          </div>
+        `;
+      }
+
+      propertyContent.innerHTML = html;
+    }
+
+    function clearProperties() {
+      const propertyContent = document.getElementById('propertyContent');
+      propertyContent.innerHTML = '<div class="no-selection">Click on an object to view its properties</div>';
+    }
+
+    function updateStats() {
+      if (renderer) {
+        document.getElementById('partCount').textContent = renderer.partMeshes.size;
+        document.getElementById('portCount').textContent = renderer.portMeshes.size;
+        document.getElementById('connectorCount').textContent = renderer.connectorObjects.size;
+      }
+    }
+
+    function startStatsLoop() {
+      function updateFPS() {
+        stats.frames++;
+        const now = performance.now();
+        if (now >= stats.lastTime + 1000) {
+          stats.fps = Math.round((stats.frames * 1000) / (now - stats.lastTime));
+          document.getElementById('fps').textContent = stats.fps;
+          stats.frames = 0;
+          stats.lastTime = now;
+        }
+        requestAnimationFrame(updateFPS);
+      }
+      stats.lastTime = performance.now();
+      updateFPS();
+    }
+
+    function showError(message) {
+      const overlay = document.getElementById('loadingOverlay');
+      const loadingText = document.getElementById('loadingText');
+      const errorMessage = document.getElementById('errorMessage');
+
+      overlay.classList.remove('hidden');
+      loadingText.textContent = 'Error';
+      errorMessage.textContent = message;
+      errorMessage.classList.remove('hidden');
+
+      console.error(message);
+    }
+
+    // Cleanup on window close
+    window.addEventListener('beforeunload', () => {
+      if (renderer) {
+        renderer.dispose();
+      }
+    });
+  </script>
+</body>
+</html>

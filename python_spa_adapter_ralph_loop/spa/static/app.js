@@ -7,6 +7,14 @@ let diagramCache = { bdd: null, ibd: null };
 let treeRoot = '';
 let projectRoot = '';
 
+// 3D View state
+let sajaiRenderer = null;
+let currentSajaiData = null;
+let normalizedSajaiData = null;
+let sceneHistory = [];
+let currentSceneIndex = 0;
+let sajaiFiles = [];
+
 const $ = (id) => document.getElementById(id);
 
 async function getJson(url) {
@@ -55,6 +63,9 @@ async function loadArchitectureFromPath(path) {
       // Show copy/download controls for .sysml files
       $('textControls').style.display = 'flex';
 
+      // Enable Generate 3D Model button
+      $('generateSajaiBtn').disabled = false;
+
     } else {
       // For JSON files, use existing behavior
       currentArchitecture = await getJson('/api/architecture/' + encodeURIComponent(path));
@@ -76,6 +87,9 @@ async function loadArchitectureFromPath(path) {
 
       // Hide copy/download controls for JSON files
       $('textControls').style.display = 'none';
+
+      // Disable Generate 3D Model button for JSON files
+      $('generateSajaiBtn').disabled = true;
     }
 
     // Reset to text tab
@@ -105,6 +119,9 @@ function switchTab(tabName) {
   }
   if (tabName === 'ibd' && currentPath && !diagramCache.ibd) {
     loadIbdDiagram(currentPath);
+  }
+  if (tabName === '3d') {
+    init3DView();
   }
 }
 
@@ -169,6 +186,17 @@ function copyIbdSource() {
 async function popoutBdd() {
   if (!currentArchitecture) return;
 
+  // Load BDD if not cached
+  if (!diagramCache.bdd) {
+    try {
+      const data = await getJson('/api/diagram/bdd/' + encodeURIComponent(currentPath));
+      diagramCache.bdd = data;
+    } catch (e) {
+      alert('Failed to load BDD: ' + e.message);
+      return;
+    }
+  }
+
   const win = window.open('', 'BDD_Diagram', 'width=1200,height=900,menubar=no,toolbar=no,location=no,status=no');
   if (!win) return;
 
@@ -211,67 +239,73 @@ async function popoutBdd() {
         </div>
       </div>
       <script>
-            let zoom = 1.0;
-            const wrapper = document.getElementById('wrapper');
-            const container = document.getElementById('container');
-            const zoomLevel = document.getElementById('zoomLevel');
+        let zoom = 1.0;
+        const wrapper = document.getElementById('wrapper');
+        const container = document.getElementById('container');
+        const zoomLevel = document.getElementById('zoomLevel');
 
-            function updateZoom() {
-              wrapper.style.transform = 'scale(' + zoom + ')';
-              zoomLevel.textContent = Math.round(zoom * 100) + '%';
+        // Fetch full diagram from server with ?full=true parameter
+        fetch('/api/diagram/bdd/${encodeURIComponent(currentPath)}?full=true')
+          .then(res => res.json())
+          .then(data => {
+            wrapper.innerHTML = '<img src="' + data.url + '" alt="Block Definition Diagram" id="diagram" />';
+          })
+          .catch(err => {
+            wrapper.innerHTML = '<div class="loading" style="color: red;">Error loading diagram: ' + err.message + '</div>';
+          });
+
+        function updateZoom() {
+          wrapper.style.transform = 'scale(' + zoom + ')';
+          zoomLevel.textContent = Math.round(zoom * 100) + '%';
+        }
+
+        function zoomIn() {
+          zoom = Math.min(zoom + 0.25, 5.0);
+          updateZoom();
+        }
+
+        function zoomOut() {
+          zoom = Math.max(zoom - 0.25, 0.25);
+          updateZoom();
+        }
+
+        function resetZoom() {
+          zoom = 1.0;
+          updateZoom();
+          container.scrollTop = 0;
+          container.scrollLeft = 0;
+        }
+
+        // Mouse wheel zoom
+        container.addEventListener('wheel', (e) => {
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            if (e.deltaY < 0) {
+              zoomIn();
+            } else {
+              zoomOut();
             }
+          }
+        });
 
-            function zoomIn() {
-              zoom = Math.min(zoom + 0.25, 5.0);
-              updateZoom();
-            }
-
-            function zoomOut() {
-              zoom = Math.max(zoom - 0.25, 0.25);
-              updateZoom();
-            }
-
-            function resetZoom() {
-              zoom = 1.0;
-              updateZoom();
-              container.scrollTop = 0;
-              container.scrollLeft = 0;
-            }
-
-            // Mouse wheel zoom
-            container.addEventListener('wheel', (e) => {
-              if (e.ctrlKey || e.metaKey) {
-                e.preventDefault();
-                if (e.deltaY < 0) {
-                  zoomIn();
-                } else {
-                  zoomOut();
-                }
-              }
-            });
-
-            // Keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-              if (e.key === '+' || e.key === '=') {
-                e.preventDefault();
-                zoomIn();
-              } else if (e.key === '-' || e.key === '_') {
-                e.preventDefault();
-                zoomOut();
-              } else if (e.key === '0' || e.key === 'r') {
-                e.preventDefault();
-                resetZoom();
-              }
-            });
-          </script>
-        </body>
-        </html>
-      `);
-      win.document.close();
-    }
-  } else {
-    alert('Load the BDD first by clicking the BDD tab');
-  }
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          if (e.key === '+' || e.key === '=') {
+            e.preventDefault();
+            zoomIn();
+          } else if (e.key === '-' || e.key === '_') {
+            e.preventDefault();
+            zoomOut();
+          } else if (e.key === '0' || e.key === 'r') {
+            e.preventDefault();
+            resetZoom();
+          }
+        });
+      </script>
+    </body>
+    </html>
+  `);
+  win.document.close();
 }
 
 function copySysmlContent() {
@@ -317,6 +351,17 @@ function downloadSysml() {
 
 async function popoutIbd() {
   if (!currentArchitecture) return;
+
+  // Load IBD if not cached
+  if (!diagramCache.ibd) {
+    try {
+      const data = await getJson('/api/diagram/ibd/' + encodeURIComponent(currentPath));
+      diagramCache.ibd = data;
+    } catch (e) {
+      alert('Failed to load IBD: ' + e.message);
+      return;
+    }
+  }
 
   const win = window.open('', 'IBD_Diagram', 'width=1200,height=900,menubar=no,toolbar=no,location=no,status=no');
   if (!win) return;
@@ -366,7 +411,7 @@ async function popoutIbd() {
         const zoomLevel = document.getElementById('zoomLevel');
 
         // Fetch full diagram from server with ?full=true parameter
-        fetch('/api/diagram/ibd/${encodeURIComponent(currentArchitecture.path)}?full=true')
+        fetch('/api/diagram/ibd/${encodeURIComponent(currentPath)}?full=true')
           .then(res => res.json())
           .then(data => {
             wrapper.innerHTML = '<img src="' + data.url + '" alt="Internal Block Diagram" id="diagram" />';
@@ -375,72 +420,58 @@ async function popoutIbd() {
             wrapper.innerHTML = '<div class="loading" style="color: red;">Error loading diagram: ' + err.message + '</div>';
           });
 
-            // Fetch full diagram from server with ?full=true parameter
-            fetch('/api/diagram/bdd/${encodeURIComponent(currentArchitecture.path)}?full=true')
-              .then(res => res.json())
-              .then(data => {
-                wrapper.innerHTML = '<img src="' + data.url + '" alt="Block Definition Diagram" id="diagram" />';
-              })
-              .catch(err => {
-                wrapper.innerHTML = '<div class="loading" style="color: red;">Error loading diagram: ' + err.message + '</div>';
-              });
+        function updateZoom() {
+          wrapper.style.transform = 'scale(' + zoom + ')';
+          zoomLevel.textContent = Math.round(zoom * 100) + '%';
+        }
 
-            function updateZoom() {
-              wrapper.style.transform = 'scale(' + zoom + ')';
-              zoomLevel.textContent = Math.round(zoom * 100) + '%';
+        function zoomIn() {
+          zoom = Math.min(zoom + 0.25, 5.0);
+          updateZoom();
+        }
+
+        function zoomOut() {
+          zoom = Math.max(zoom - 0.25, 0.25);
+          updateZoom();
+        }
+
+        function resetZoom() {
+          zoom = 1.0;
+          updateZoom();
+          container.scrollTop = 0;
+          container.scrollLeft = 0;
+        }
+
+        // Mouse wheel zoom
+        container.addEventListener('wheel', (e) => {
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            if (e.deltaY < 0) {
+              zoomIn();
+            } else {
+              zoomOut();
             }
+          }
+        });
 
-            function zoomIn() {
-              zoom = Math.min(zoom + 0.25, 5.0);
-              updateZoom();
-            }
-
-            function zoomOut() {
-              zoom = Math.max(zoom - 0.25, 0.25);
-              updateZoom();
-            }
-
-            function resetZoom() {
-              zoom = 1.0;
-              updateZoom();
-              container.scrollTop = 0;
-              container.scrollLeft = 0;
-            }
-
-            // Mouse wheel zoom
-            container.addEventListener('wheel', (e) => {
-              if (e.ctrlKey || e.metaKey) {
-                e.preventDefault();
-                if (e.deltaY < 0) {
-                  zoomIn();
-                } else {
-                  zoomOut();
-                }
-              }
-            });
-
-            // Keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-              if (e.key === '+' || e.key === '=') {
-                e.preventDefault();
-                zoomIn();
-              } else if (e.key === '-' || e.key === '_') {
-                e.preventDefault();
-                zoomOut();
-              } else if (e.key === '0' || e.key === 'r') {
-                e.preventDefault();
-                resetZoom();
-              }
-            });
-          </script>
-        </body>
-        </html>
-      `);
-      win.document.close();
-    }
-  } else {
-    alert('Load the IBD first by clicking the IBD tab');
-  }
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          if (e.key === '+' || e.key === '=') {
+            e.preventDefault();
+            zoomIn();
+          } else if (e.key === '-' || e.key === '_') {
+            e.preventDefault();
+            zoomOut();
+          } else if (e.key === '0' || e.key === 'r') {
+            e.preventDefault();
+            resetZoom();
+          }
+        });
+      </script>
+    </body>
+    </html>
+  `);
+  win.document.close();
 }
 
 async function refreshPairFiles() {
@@ -530,13 +561,22 @@ function escapeHtml(s) {
 
 async function refreshFileTree(root) {
   const url = root ? `/api/tree?root=${encodeURIComponent(root)}` : '/api/tree';
+  console.log('[refreshFileTree] Fetching tree from:', url);
+
+  // Show loading indicator
+  const treeContainer = $('fileTree');
+  treeContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #888;">Loading file tree...</div>';
+
   try {
     fileTree = await getJson(url);
+    console.log('[refreshFileTree] Tree loaded:', fileTree);
     treeRoot = fileTree.resolved_path || '';
     if (!projectRoot) projectRoot = treeRoot; // Store initial project root
     renderFileTree();
+    console.log('[refreshFileTree] Tree rendered successfully');
   } catch (e) {
-    alert('Failed to load directory tree: ' + e.message);
+    console.error('[refreshFileTree] Failed to load tree:', e);
+    treeContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #c00;">Failed to load file tree</div>';
   }
 }
 
@@ -641,6 +681,19 @@ $('popoutBdd').onclick = popoutBdd;
 $('popoutIbd').onclick = popoutIbd;
 $('copySysmlContent').onclick = copySysmlContent;
 $('downloadSysml').onclick = downloadSysml;
+
+// SAJAI Generation event listeners
+$('generateSajaiBtn').onclick = openSajaiGenerateModal;
+$('closeSajaiModal').onclick = closeSajaiGenerateModal;
+$('cancelSajaiGenerate').onclick = closeSajaiGenerateModal;
+$('confirmSajaiGenerate').onclick = generateSajaiFromArch;
+
+// Modal backdrop click to close
+$('sajaiGenerateModal').onclick = (e) => {
+  if (e.target.classList.contains('modal-backdrop')) {
+    closeSajaiGenerateModal();
+  }
+};
 
 // Allow Enter key in root path input
 $('rootPath').onkeypress = (e) => {
@@ -903,12 +956,15 @@ $('sysmlEditorModal').onclick = (e) => {
   }
 };
 
-// ESC key to close modal
+// ESC key to close modals
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    const modal = $('sysmlEditorModal');
-    if (modal.classList.contains('active')) {
+    const sysmlModal = $('sysmlEditorModal');
+    const sajaiModal = $('sajaiGenerateModal');
+    if (sysmlModal.classList.contains('active')) {
       closeSysmlEditor();
+    } else if (sajaiModal.classList.contains('active')) {
+      closeSajaiGenerateModal();
     }
   }
 });
@@ -928,8 +984,577 @@ $('sysmlEditor').addEventListener('scroll', () => {
 // Expose jumpToErrorLine globally
 window.jumpToErrorLine = jumpToErrorLine;
 
+// ========== SAJAI Generation Functions ==========
+
+/**
+ * Open SAJAI generation modal
+ */
+function openSajaiGenerateModal() {
+  if (!currentPath) {
+    alert('No architecture selected');
+    return;
+  }
+
+  const modal = $('sajaiGenerateModal');
+  const filenameInput = $('sajaiFilename');
+
+  // Generate default filename from architecture name
+  const archName = currentPath.split('/').pop().replace('.sysml', '');
+  filenameInput.value = `${archName}.sajai`;
+
+  // Show modal
+  modal.classList.add('active');
+
+  // Focus input
+  setTimeout(() => filenameInput.focus(), 100);
+}
+
+/**
+ * Close SAJAI generation modal
+ */
+function closeSajaiGenerateModal() {
+  const modal = $('sajaiGenerateModal');
+  modal.classList.remove('active');
+  $('sajaiFilename').value = '';
+}
+
+/**
+ * Generate SAJAI from current architecture
+ */
+async function generateSajaiFromArch() {
+  if (!currentPath) {
+    alert('No architecture selected');
+    return;
+  }
+
+  const filename = $('sajaiFilename').value.trim();
+  if (!filename) {
+    alert('Please enter a filename');
+    return;
+  }
+
+  // Ensure .sajai extension
+  const finalFilename = filename.endsWith('.sajai') ? filename : filename + '.sajai';
+  const outputPath = `spa/static/sample-data/${finalFilename}`;
+
+  // Close modal
+  closeSajaiGenerateModal();
+
+  // Show loading in 3D view tab
+  const generateBtn = $('generateSajaiBtn');
+  const originalText = generateBtn.textContent;
+  generateBtn.disabled = true;
+  generateBtn.textContent = '⟳ Generating...';
+
+  try {
+    // Call backend API
+    const result = await postJson('/api/generate-sajai', {
+      architecturePath: currentPath,
+      outputPath: outputPath
+    });
+
+    // Show success message
+    alert(`3D model generated successfully!\nSaved to: ${result.path}`);
+
+    // Switch to 3D view tab
+    switchTab('3d');
+
+    // Refresh SAJAI file list
+    await refreshSajaiFiles();
+
+    // Auto-select the newly generated file
+    const select = $('sajaiFileSelect');
+    const relativePath = result.path.replace('spa/static/', '');
+    for (let i = 0; i < select.options.length; i++) {
+      if (select.options[i].value === relativePath) {
+        select.selectedIndex = i;
+        break;
+      }
+    }
+
+    // Auto-load the file
+    await loadSelectedSajai();
+
+  } catch (e) {
+    alert('Failed to generate 3D model: ' + e.message);
+    console.error('SAJAI generation error:', e);
+  } finally {
+    // Restore button
+    generateBtn.disabled = false;
+    generateBtn.textContent = originalText;
+  }
+}
+
+// ========== 3D View Functions ==========
+
+/**
+ * Initialize 3D view when tab is first shown
+ */
+function init3DView() {
+  if (sajaiRenderer) return; // Already initialized
+
+  // Populate SAJAI file selector
+  refreshSajaiFiles();
+
+  // Load sample file automatically on first view
+  loadSampleSajai();
+}
+
+/**
+ * Refresh the list of available SAJAI files
+ */
+async function refreshSajaiFiles() {
+  try {
+    const response = await fetch('/api/sajai-files');
+    if (response.ok) {
+      const data = await response.json();
+      sajaiFiles = data.files || [];
+
+      const select = $('sajaiFileSelect');
+      select.innerHTML = '<option value="">Select a .sajai file...</option>' +
+        sajaiFiles.map(f => `<option value="${escapeHtml(f.path)}">${escapeHtml(f.name)}</option>`).join('');
+    }
+  } catch (e) {
+    console.error('Failed to load SAJAI files:', e);
+  }
+}
+
+/**
+ * Load sample SAJAI file
+ */
+async function loadSampleSajai() {
+  try {
+    showLoading3D('Loading sample UAV scene...');
+
+    const sajaiData = await SajaiParser.loadFromUrl('/sample-data/uav_example.sajai');
+    await loadSajaiData(sajaiData);
+
+    hideLoading3D();
+  } catch (e) {
+    console.error('Failed to load sample SAJAI:', e);
+    hideLoading3D();
+    show3DError('Failed to load sample file: ' + e.message);
+  }
+}
+
+/**
+ * Load selected SAJAI file from selector
+ */
+async function loadSelectedSajai() {
+  const path = $('sajaiFileSelect').value;
+  if (!path) {
+    alert('Please select a SAJAI file');
+    return;
+  }
+
+  try {
+    showLoading3D('Loading SAJAI file...');
+
+    const sajaiData = await SajaiParser.loadFromUrl('/api/sajai/' + encodeURIComponent(path));
+    await loadSajaiData(sajaiData);
+
+    hideLoading3D();
+  } catch (e) {
+    console.error('Failed to load SAJAI file:', e);
+    hideLoading3D();
+    show3DError('Failed to load file: ' + e.message);
+  }
+}
+
+/**
+ * Load and render SAJAI data
+ */
+async function loadSajaiData(sajaiData) {
+  currentSajaiData = sajaiData;
+
+  // Normalize the data
+  normalizedSajaiData = SajaiSceneNormalizer.normalize(sajaiData);
+
+  // Initialize renderer if needed
+  const container = $('threejsContainer');
+  if (!sajaiRenderer) {
+    // Clear placeholder
+    container.innerHTML = '';
+
+    // Create renderer with event system
+    const eventEmitter = {
+      listeners: {},
+      emit(event, data) {
+        if (this.listeners[event]) {
+          this.listeners[event].forEach(fn => fn(data));
+        }
+      },
+      on(event, fn) {
+        if (!this.listeners[event]) {
+          this.listeners[event] = [];
+        }
+        this.listeners[event].push(fn);
+      }
+    };
+
+    sajaiRenderer = new SajaiThreeRenderer();
+    sajaiRenderer.init(container, eventEmitter);
+
+    // Apply current checkbox states to renderer immediately after init
+    sajaiRenderer.visibility.parts = $('visibility-parts').checked;
+    sajaiRenderer.visibility.ports = $('visibility-ports').checked;
+    sajaiRenderer.visibility.connectors = $('visibility-connectors').checked;
+    sajaiRenderer.visibility.labels = $('visibility-labels').checked;
+    console.log('[3D View] Initialized renderer with visibility:', sajaiRenderer.visibility);
+
+    // Handle element selection
+    eventEmitter.on('element-selected', (data) => {
+      updatePropertyInspector(data);
+
+      // If port clicked, highlight connected ports
+      if (data.type === 'port' && data.data.connectedPortIds) {
+        highlightConnectedPorts(data.data.connectedPortIds);
+      }
+    });
+
+    eventEmitter.on('element-deselected', () => {
+      updatePropertyInspector(null);
+    });
+  }
+
+  // Reset scene history
+  sceneHistory = [normalizedSajaiData.scenes[0]];
+  currentSceneIndex = 0;
+
+  // Load first scene
+  if (normalizedSajaiData.scenes.length > 0) {
+    loadScene(normalizedSajaiData.scenes[0]);
+  }
+
+  // Sync checkbox states with renderer
+  syncVisibilityCheckboxes();
+
+  // Show download button
+  $('downloadUpdatedSajai').style.display = 'inline-block';
+
+  console.log('SAJAI data loaded:', SajaiParser.getSummary(sajaiData));
+}
+
+/**
+ * Load a specific scene
+ */
+function loadScene(sceneData) {
+  if (!sajaiRenderer) return;
+
+  sajaiRenderer.loadScene(sceneData);
+
+  // Update scene navigation
+  updateSceneNavigation(sceneData);
+}
+
+/**
+ * Update scene navigation UI
+ */
+function updateSceneNavigation(sceneData) {
+  const pathSpan = $('nav3dPath');
+  const backBtn = $('nav3dBack');
+  const forwardBtn = $('nav3dForward');
+
+  pathSpan.textContent = sceneData.name || sceneData.id || 'Root';
+
+  // Enable/disable navigation buttons
+  backBtn.disabled = currentSceneIndex === 0;
+  forwardBtn.disabled = currentSceneIndex >= sceneHistory.length - 1;
+}
+
+/**
+ * Navigate back in scene history
+ */
+function navigate3DBack() {
+  if (currentSceneIndex > 0) {
+    currentSceneIndex--;
+    loadScene(sceneHistory[currentSceneIndex]);
+  }
+}
+
+/**
+ * Navigate forward in scene history
+ */
+function navigate3DForward() {
+  if (currentSceneIndex < sceneHistory.length - 1) {
+    currentSceneIndex++;
+    loadScene(sceneHistory[currentSceneIndex]);
+  }
+}
+
+/**
+ * Navigate into a nested scene (e.g., double-click on part)
+ */
+function navigateIntoScene(sceneId) {
+  if (!normalizedSajaiData) return;
+
+  // Find scene by ID
+  const scene = normalizedSajaiData.scenes.find(s => s.id === sceneId);
+  if (!scene) {
+    alert('Nested scene not found: ' + sceneId);
+    return;
+  }
+
+  // Add to history (remove any forward history)
+  sceneHistory = sceneHistory.slice(0, currentSceneIndex + 1);
+  sceneHistory.push(scene);
+  currentSceneIndex = sceneHistory.length - 1;
+
+  // Load scene
+  loadScene(scene);
+}
+
+/**
+ * Update property inspector panel
+ */
+function updatePropertyInspector(elementData) {
+  const content = $('elementDetails');
+
+  if (!elementData) {
+    content.innerHTML = '<p class="hint">Click an element in the 3D view to inspect its properties</p>';
+    return;
+  }
+
+  const { type, id, data } = elementData;
+
+  let html = `
+    <div class="property-tag">${escapeHtml(type.toUpperCase())}</div>
+    <p><strong>ID:</strong> ${escapeHtml(id)}</p>
+    <p><strong>Name:</strong> ${escapeHtml(data.name || 'N/A')}</p>
+  `;
+
+  if (data.type) {
+    html += `<p><strong>Type:</strong> ${escapeHtml(data.type)}</p>`;
+  }
+
+  if (data.sysmlRef) {
+    html += `<p><strong>SysML Ref:</strong></p><div class="property-value">${escapeHtml(data.sysmlRef)}</div>`;
+  }
+
+  if (data.qualifiedName) {
+    html += `<p><strong>Qualified Name:</strong></p><div class="property-value">${escapeHtml(data.qualifiedName)}</div>`;
+  }
+
+  if (type === 'part') {
+    if (data.position) {
+      html += `<p><strong>Position:</strong> [${data.position[0].toFixed(1)}, ${data.position[1].toFixed(1)}, ${data.position[2].toFixed(1)}]</p>`;
+    }
+    if (data.size) {
+      html += `<p><strong>Size:</strong> [${data.size[0].toFixed(1)}, ${data.size[1].toFixed(1)}, ${data.size[2].toFixed(1)}]</p>`;
+    }
+    if (data.color) {
+      html += `<p><strong>Color:</strong> <span class="legend-color" style="background: ${data.color}; display: inline-block; vertical-align: middle;"></span> ${escapeHtml(data.color)}</p>`;
+    }
+
+    // Check for nested scene
+    if (data.metadata && data.metadata.doubleClickScene) {
+      html += `<p><em>Double-click to explore internals</em></p>`;
+    }
+  } else if (type === 'port') {
+    if (data.surface) {
+      html += `<p><strong>Surface:</strong> ${escapeHtml(data.surface)}</p>`;
+    }
+    if (data.uv) {
+      html += `<p><strong>UV:</strong> [${data.uv[0].toFixed(2)}, ${data.uv[1].toFixed(2)}]</p>`;
+    }
+    if (data.connectedPortIds && data.connectedPortIds.length > 0) {
+      html += `<p><strong>Connected Ports:</strong> ${data.connectedPortIds.length}</p>`;
+    }
+  } else if (type === 'connector') {
+    if (data.sourcePortId) {
+      html += `<p><strong>From Port:</strong> ${escapeHtml(data.sourcePortId)}</p>`;
+    }
+    if (data.targetPortId) {
+      html += `<p><strong>To Port:</strong> ${escapeHtml(data.targetPortId)}</p>`;
+    }
+  }
+
+  // Show metadata
+  if (data.metadata && Object.keys(data.metadata).length > 0) {
+    html += '<p><strong>Metadata:</strong></p>';
+    for (const [key, value] of Object.entries(data.metadata)) {
+      if (key !== 'doubleClickScene') {
+        html += `<p style="margin-left: 16px;"><strong>${escapeHtml(key)}:</strong> ${escapeHtml(String(value))}</p>`;
+      }
+    }
+  }
+
+  content.innerHTML = html;
+}
+
+/**
+ * Highlight connected ports
+ */
+function highlightConnectedPorts(portIds) {
+  // TODO: Implement visual highlighting of connected ports
+  console.log('Highlight connected ports:', portIds);
+}
+
+/**
+ * Handle visibility toggles
+ */
+function handleVisibilityToggle(type, checked) {
+  if (!sajaiRenderer) {
+    console.warn('[Visibility] Renderer not initialized yet');
+    return;
+  }
+
+  console.log(`[Visibility] Setting ${type} to ${checked}`);
+  sajaiRenderer.setVisibility(type, checked);
+}
+
+/**
+ * Sync checkbox states with renderer visibility state
+ */
+function syncVisibilityCheckboxes() {
+  if (!sajaiRenderer) return;
+
+  $('visibility-parts').checked = sajaiRenderer.visibility.parts;
+  $('visibility-ports').checked = sajaiRenderer.visibility.ports;
+  $('visibility-connectors').checked = sajaiRenderer.visibility.connectors;
+  $('visibility-labels').checked = sajaiRenderer.visibility.labels;
+}
+
+/**
+ * Download updated SAJAI file with modified positions
+ */
+function downloadUpdatedSajai() {
+  if (!currentSajaiData || !sajaiRenderer) {
+    alert('No SAJAI data loaded');
+    return;
+  }
+
+  // TODO: Collect position updates from renderer
+  // For now, just download the original data
+  const blob = new Blob([JSON.stringify(currentSajaiData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'updated_scene.sajai';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * Show loading indicator in 3D view
+ */
+function showLoading3D(message = 'Loading...') {
+  const container = $('threejsContainer');
+  const existing = container.querySelector('.threejs-loading');
+  if (existing) {
+    existing.textContent = message;
+  } else {
+    const loading = document.createElement('div');
+    loading.className = 'threejs-loading';
+    loading.textContent = message;
+    container.appendChild(loading);
+  }
+}
+
+/**
+ * Hide loading indicator
+ */
+function hideLoading3D() {
+  const container = $('threejsContainer');
+  const loading = container.querySelector('.threejs-loading');
+  if (loading) {
+    loading.remove();
+  }
+}
+
+/**
+ * Show error in 3D view
+ */
+function show3DError(message) {
+  const container = $('threejsContainer');
+  container.innerHTML = `<div class="threejs-placeholder"><p style="color: #dc2626;">${escapeHtml(message)}</p></div>`;
+}
+
+// 3D View event listeners
+$('loadSajaiBtn').onclick = loadSelectedSajai;
+$('nav3dBack').onclick = navigate3DBack;
+$('nav3dForward').onclick = navigate3DForward;
+$('downloadUpdatedSajai').onclick = downloadUpdatedSajai;
+
+// Visibility toggle listeners
+$('visibility-parts').onchange = (e) => {
+  handleVisibilityToggle('parts', e.target.checked);
+  console.log('[Visibility] Parts:', e.target.checked);
+};
+$('visibility-ports').onchange = (e) => {
+  handleVisibilityToggle('ports', e.target.checked);
+  console.log('[Visibility] Ports:', e.target.checked);
+};
+$('visibility-connectors').onchange = (e) => {
+  handleVisibilityToggle('connectors', e.target.checked);
+  console.log('[Visibility] Connectors:', e.target.checked);
+};
+$('visibility-labels').onchange = (e) => {
+  handleVisibilityToggle('labels', e.target.checked);
+  console.log('[Visibility] Labels:', e.target.checked);
+};
+
+// Pop-out 3D view
+$('popout3d').onclick = () => {
+  if (!currentSajaiData || !normalizedSajaiData) {
+    alert('Load a SAJAI file first');
+    return;
+  }
+
+  try {
+    // Store normalized SAJAI data in localStorage with unique session ID
+    const sessionId = 'session_' + Date.now();
+
+    // Store normalized data so popout doesn't need to normalize again
+    const popoutData = {
+      ...normalizedSajaiData,
+      metadata: {
+        ...(normalizedSajaiData.metadata || {}),
+        originalFormat: currentSajaiData.format || 'SAJAI',
+        sessionId: sessionId
+      }
+    };
+
+    localStorage.setItem('popout3d_sajai', JSON.stringify(popoutData));
+    localStorage.setItem('popout3d_session', sessionId);
+
+    // Open pop-out window
+    const win = window.open(
+      '/popout3DView.html?session=' + sessionId,
+      '3D_View_' + sessionId,
+      'width=1400,height=900,menubar=no,toolbar=no,location=no,status=no'
+    );
+
+    if (!win) {
+      alert('Pop-up blocked. Please allow pop-ups for this site.');
+      return;
+    }
+
+    console.log('Opened 3D view pop-out window with session:', sessionId);
+  } catch (error) {
+    console.error('Failed to open 3D view pop-out:', error);
+    alert('Failed to open 3D view: ' + error.message);
+  }
+};
+
 (async function init(){
-  await refreshPairFiles();
-  await refreshFileTree();
-  renderPairs();
+  console.log('[INIT] Starting application initialization...');
+  try {
+    console.log('[INIT] Refreshing pair files...');
+    await refreshPairFiles();
+
+    console.log('[INIT] Rendering pairs...');
+    renderPairs();
+
+    // Load file tree asynchronously in the background (non-blocking)
+    // Page is immediately interactive while tree loads
+    console.log('[INIT] Starting background file tree load...');
+    refreshFileTree().catch(e => {
+      console.error('[INIT] Background file tree load failed:', e);
+    });
+
+    console.log('[INIT] Application initialized successfully!');
+  } catch (e) {
+    console.error('[INIT] Initialization failed:', e);
+  }
 })();
