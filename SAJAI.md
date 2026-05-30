@@ -9,6 +9,17 @@ Context:
 * The SPA should parse `.sajai` and render an interactive 3D scene using Three.js.
 * The authoritative model remains the SysML/SysML-derived source. The `.sajai` file provides geometry, layout, presentation state, SysML element references, audit metadata, and introspection data.
 
+## Superposition Support
+
+**IMPORTANT**: SAJAI explicitly supports **superposition** - multiple elements may have identical position coordinates.
+
+This is valid and intentional behavior used for:
+- Hierarchical/nested representations where elements exist at the same location at different abstraction levels
+- Overlapping components that share physical space
+- Alternative views of the same system location
+
+Validators, parsers, and renderers MUST NOT reject files with duplicate positions. Elements at the same coordinates should render naturally (later elements on top, or with transparency to show overlap).
+
 Feature to add:
 Add a new “3d view” tab to the SPA, plus a “Pop Out” button that opens the same 3D scene in a separate popout window.
 

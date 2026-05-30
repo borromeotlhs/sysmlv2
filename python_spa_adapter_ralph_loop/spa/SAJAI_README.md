@@ -91,6 +91,8 @@ Each part represents a component with 3D geometry:
 }
 ```
 
+**Superposition**: Multiple parts MAY have identical `position` values. This is valid for representing hierarchical nesting, overlapping components, or multi-level abstractions.
+
 ### Ports
 
 Ports are placed on part surfaces:
@@ -140,6 +142,8 @@ Parts are arranged in a circular layout:
 - Radius scales with part count: `radius = 5.0 + (num_parts * 0.5)`
 
 Part sizes vary slightly based on name hash for visual interest.
+
+**Note on Superposition**: The layout algorithm may intentionally place multiple elements at the same coordinates. This is valid behavior for hierarchical or overlapping representations. Position uniqueness is NOT enforced.
 
 ### Port Surface Assignment
 

@@ -2398,5 +2398,17 @@
       "split": "train",
       "authoring_mode": "demo_editable"
     }
+  },
+  {
+    "id": "pair_000201_human_editable_demo",
+    "architecture_id": "UAVMission",
+    "prompt_id": "prompt_000201_human_editable_demo",
+    "prompt": "DEMO ONLY: write your real human-authored prompt for UAV System Architecture.",
+    "target_path": "data/architectures/arch_uav_system.sysml",
+    "target_format": "sysml_v2_textual",
+    "metadata": {
+      "split": "train",
+      "authoring_mode": "demo_editable"
+    }
   }
 ]

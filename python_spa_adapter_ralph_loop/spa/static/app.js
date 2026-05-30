@@ -120,9 +120,6 @@ function switchTab(tabName) {
   if (tabName === 'ibd' && currentPath && !diagramCache.ibd) {
     loadIbdDiagram(currentPath);
   }
-  if (tabName === '3d') {
-    init3DView();
-  }
 }
 
 async function loadBddDiagram(path) {
@@ -1056,24 +1053,24 @@ async function generateSajaiFromArch() {
     // Show success message
     alert(`3D model generated successfully!\nSaved to: ${result.path}`);
 
-    // Switch to 3D view tab
-    switchTab('3d');
-
     // Refresh SAJAI file list
     await refreshSajaiFiles();
 
-    // Auto-select the newly generated file
-    const select = $('sajaiFileSelect');
+    // Auto-select and load the newly generated file
     const relativePath = result.path.replace('spa/static/', '');
-    for (let i = 0; i < select.options.length; i++) {
-      if (select.options[i].value === relativePath) {
-        select.selectedIndex = i;
-        break;
-      }
-    }
+    const treeContainer = $('sajaiFileTree');
+    const fileItem = Array.from(treeContainer.querySelectorAll('.sajai-file-item')).find(
+      item => item.dataset.path === relativePath
+    );
 
-    // Auto-load the file
-    await loadSelectedSajai();
+    if (fileItem) {
+      // Remove selection from all items
+      treeContainer.querySelectorAll('.sajai-file-item').forEach(i => i.classList.remove('selected'));
+      // Select the new file
+      fileItem.classList.add('selected');
+      // Load it
+      await loadSajaiFromPath(relativePath);
+    }
 
   } catch (e) {
     alert('Failed to generate 3D model: ' + e.message);
@@ -1088,16 +1085,11 @@ async function generateSajaiFromArch() {
 // ========== 3D View Functions ==========
 
 /**
- * Initialize 3D view when tab is first shown
+ * Initialize 3D view - called on page load
  */
 function init3DView() {
-  if (sajaiRenderer) return; // Already initialized
-
-  // Populate SAJAI file selector
+  // Populate SAJAI file tree
   refreshSajaiFiles();
-
-  // Load sample file automatically on first view
-  loadSampleSajai();
 }
 
 /**
@@ -1110,45 +1102,41 @@ async function refreshSajaiFiles() {
       const data = await response.json();
       sajaiFiles = data.files || [];
 
-      const select = $('sajaiFileSelect');
-      select.innerHTML = '<option value="">Select a .sajai file...</option>' +
-        sajaiFiles.map(f => `<option value="${escapeHtml(f.path)}">${escapeHtml(f.name)}</option>`).join('');
+      // Populate SAJAI file tree
+      const treeContainer = $('sajaiFileTree');
+      if (sajaiFiles.length === 0) {
+        treeContainer.innerHTML = '<div style="padding: 12px; text-align: center; color: #888; font-size: 12px;">No .sajai files found</div>';
+      } else {
+        treeContainer.innerHTML = sajaiFiles.map(f =>
+          `<div class="sajai-file-item" data-path="${escapeHtml(f.path)}">${escapeHtml(f.name)}</div>`
+        ).join('');
+
+        // Add click handlers
+        treeContainer.querySelectorAll('.sajai-file-item').forEach(item => {
+          item.onclick = () => {
+            // Remove selection from all items
+            treeContainer.querySelectorAll('.sajai-file-item').forEach(i => i.classList.remove('selected'));
+            // Add selection to clicked item
+            item.classList.add('selected');
+            // Load the file
+            loadSajaiFromPath(item.dataset.path);
+          };
+        });
+      }
     }
   } catch (e) {
     console.error('Failed to load SAJAI files:', e);
+    const treeContainer = $('sajaiFileTree');
+    treeContainer.innerHTML = '<div style="padding: 12px; text-align: center; color: #c00; font-size: 12px;">Failed to load files</div>';
   }
 }
 
 /**
- * Load sample SAJAI file
+ * Load SAJAI file from path
  */
-async function loadSampleSajai() {
+async function loadSajaiFromPath(path) {
   try {
-    showLoading3D('Loading sample UAV scene...');
-
-    const sajaiData = await SajaiParser.loadFromUrl('/sample-data/uav_example.sajai');
-    await loadSajaiData(sajaiData);
-
-    hideLoading3D();
-  } catch (e) {
-    console.error('Failed to load sample SAJAI:', e);
-    hideLoading3D();
-    show3DError('Failed to load sample file: ' + e.message);
-  }
-}
-
-/**
- * Load selected SAJAI file from selector
- */
-async function loadSelectedSajai() {
-  const path = $('sajaiFileSelect').value;
-  if (!path) {
-    alert('Please select a SAJAI file');
-    return;
-  }
-
-  try {
-    showLoading3D('Loading SAJAI file...');
+    showLoading3D('Loading 3D model...');
 
     const sajaiData = await SajaiParser.loadFromUrl('/api/sajai/' + encodeURIComponent(path));
     await loadSajaiData(sajaiData);
@@ -1160,6 +1148,8 @@ async function loadSelectedSajai() {
     show3DError('Failed to load file: ' + e.message);
   }
 }
+
+/* loadSelectedSajai removed - now using tree-based selection with loadSajaiFromPath */
 
 /**
  * Load and render SAJAI data
@@ -1471,7 +1461,7 @@ function show3DError(message) {
 }
 
 // 3D View event listeners
-$('loadSajaiBtn').onclick = loadSelectedSajai;
+$('refreshSajaiTree').onclick = refreshSajaiFiles;
 $('nav3dBack').onclick = navigate3DBack;
 $('nav3dForward').onclick = navigate3DForward;
 $('downloadUpdatedSajai').onclick = downloadUpdatedSajai;
@@ -1552,6 +1542,10 @@ $('popout3d').onclick = () => {
     refreshFileTree().catch(e => {
       console.error('[INIT] Background file tree load failed:', e);
     });
+
+    // Initialize 3D view
+    console.log('[INIT] Initializing 3D view...');
+    init3DView();
 
     console.log('[INIT] Application initialized successfully!');
   } catch (e) {

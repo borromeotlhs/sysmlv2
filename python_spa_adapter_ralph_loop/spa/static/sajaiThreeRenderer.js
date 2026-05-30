@@ -184,6 +184,9 @@ class SajaiThreeRenderer {
    * @param {Object} part - Part data with position, size, color, etc.
    */
   _renderPart(part) {
+    // NOTE: This renderer supports superposition - multiple parts may have identical
+    // positions. They will render naturally with later elements appearing on top.
+    // Transparency/opacity can be used to show nested/layered structures.
     try {
       // Extract dimensions (handle both array [w,h,d] and object {width,height,depth} formats)
       let width, height, depth;
@@ -200,14 +203,16 @@ class SajaiThreeRenderer {
       // Create box geometry
       const geometry = new THREE.BoxGeometry(width, height, depth);
 
-      // Create material
+      // Create solid material (not wireframe)
       const color = part.color ? this._parseColor(part.color) : 0x4A90E2;
-      const opacity = part.opacity !== undefined ? part.opacity : 1.0;
+      const opacity = part.opacity !== undefined ? part.opacity : 0.9;
       const material = new THREE.MeshPhongMaterial({
         color: color,
         transparent: opacity < 1.0,
         opacity: opacity,
-        shininess: 30
+        shininess: 30,
+        side: THREE.FrontSide,
+        wireframe: false
       });
 
       // Create mesh
@@ -255,7 +260,7 @@ class SajaiThreeRenderer {
   }
 
   /**
-   * Render a port as a half-sphere/dome on part surface
+   * Render a port as a sphere on part surface
    * @private
    * @param {Object} port - Port data with parent part, surface, position
    */
@@ -269,11 +274,11 @@ class SajaiThreeRenderer {
         return;
       }
 
-      // Create half-sphere geometry
-      const radius = port.radius || 1.5;
-      const geometry = new THREE.SphereGeometry(radius, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2);
+      // Create full sphere geometry (proxy ports as spheres that protrude from parent)
+      const radius = port.radius || 0.4;
+      const geometry = new THREE.SphereGeometry(radius, 16, 16);
 
-      // Create material (distinct from parts)
+      // Create material with solid appearance
       const color = port.color ? this._parseColor(port.color) : 0xFF6B6B;
       const material = new THREE.MeshPhongMaterial({
         color: color,
@@ -285,13 +290,9 @@ class SajaiThreeRenderer {
       // Create mesh
       const mesh = new THREE.Mesh(geometry, material);
 
-      // Position on parent surface
+      // Position on parent surface (sphere will intersect/protrude from the box)
       const position = this._calculatePortPosition(port, parentMesh);
       mesh.position.copy(position);
-
-      // Orient to point outward from surface
-      const normal = this._calculateSurfaceNormal(port.surface, parentMesh);
-      mesh.lookAt(position.clone().add(normal));
 
       // Store reference
       mesh.userData = {

@@ -231,6 +231,10 @@ const SajaiParser = {
     if (connectors && !Array.isArray(connectors)) {
       errors.push(`Scene ${index} connectors must be an array`);
     }
+
+    // NOTE: Position uniqueness is NOT validated.
+    // SAJAI explicitly supports superposition (multiple elements at same coordinates)
+    // for hierarchical representations and overlapping components.
   },
 
   /**

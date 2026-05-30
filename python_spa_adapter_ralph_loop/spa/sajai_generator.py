@@ -478,7 +478,11 @@ def generate_scene(
 
 def auto_layout_parts(parts: List[dict]) -> List[dict]:
     """
-    Auto-layout parts in 3D space using circular arrangement.
+    Auto-layout parts in 3D space using circular arrangement with proper spacing.
+
+    NOTE: This function may intentionally create superposition (elements at same
+    coordinates) for hierarchical or multi-level representations. Position
+    uniqueness is NOT enforced as SAJAI explicitly supports overlapping elements.
 
     Args:
         parts: List of part dictionaries
@@ -496,9 +500,31 @@ def auto_layout_parts(parts: List[dict]) -> List[dict]:
         parts[0]['position'] = [0.0, 0.0, 0.0]
         return parts
 
-    # Arrange in circle
-    radius = 5.0 + (num_parts * 0.5)  # Scale radius with part count
+    # Calculate sizes first
+    base_size = 2.0
+    min_spacing = 3.0  # Minimum spacing between box edges to prevent clipping
+    max_box_size = 0.0
+
+    for part in parts:
+        # Vary size slightly based on hash of name for visual interest
+        size_factor = 1.0 + (hash_to_float(part['name']) * 0.4)
+        part['size'] = [
+            round(base_size * size_factor, 2),
+            round(base_size * 0.7 * size_factor, 2),
+            round(base_size * size_factor, 2)
+        ]
+        # Track largest box dimension
+        max_box_size = max(max_box_size, base_size * size_factor)
+
+    # Calculate radius with proper spacing
+    # Radius must be large enough that adjacent boxes don't overlap
+    # Distance between adjacent boxes = 2 * radius * sin(angle_step / 2)
+    # This distance must be >= max_box_size + min_spacing
     angle_step = (2 * math.pi) / num_parts
+    min_radius = (max_box_size + min_spacing) / (2 * math.sin(angle_step / 2))
+
+    # Add extra margin and scale with part count
+    radius = max(min_radius * 1.2, 5.0 + (num_parts * 0.8))
 
     for idx, part in enumerate(parts):
         angle = idx * angle_step
@@ -507,15 +533,6 @@ def auto_layout_parts(parts: List[dict]) -> List[dict]:
         y = 0.0  # All parts on same horizontal plane
 
         part['position'] = [round(x, 2), round(y, 2), round(z, 2)]
-
-        # Vary size slightly based on hash of name for visual interest
-        size_factor = 1.0 + (hash_to_float(part['name']) * 0.4)
-        base_size = 2.0
-        part['size'] = [
-            round(base_size * size_factor, 2),
-            round(base_size * 0.7 * size_factor, 2),
-            round(base_size * size_factor, 2)
-        ]
 
     return parts
 

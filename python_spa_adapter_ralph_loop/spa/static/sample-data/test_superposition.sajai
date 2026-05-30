@@ -1,0 +1,96 @@
+{
+  "format": "SAJAI",
+  "version": "1.0",
+  "description": "Test superposition support",
+  "scenes": {
+    "test_scene": {
+      "id": "scene_test",
+      "name": "Superposition Test Scene",
+      "contextRef": "TestArch::System",
+      "camera": {
+        "position": [
+          10.0,
+          10.0,
+          10.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fov": 60.0
+      },
+      "parts": [
+        {
+          "id": "part_outer",
+          "name": "OuterContainer",
+          "sysmlRef": "TestArch::OuterContainer",
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            5.0,
+            5.0,
+            5.0
+          ],
+          "color": "#3498db",
+          "opacity": 0.3,
+          "visible": true,
+          "metadata": {
+            "level": "outer"
+          }
+        },
+        {
+          "id": "part_inner",
+          "name": "InnerCore",
+          "sysmlRef": "TestArch::InnerCore",
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            2.0,
+            2.0,
+            2.0
+          ],
+          "color": "#e74c3c",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {
+            "level": "inner"
+          }
+        },
+        {
+          "id": "part_nucleus",
+          "name": "Nucleus",
+          "sysmlRef": "TestArch::Nucleus",
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            0.8,
+            0.8,
+            0.8
+          ],
+          "color": "#f39c12",
+          "opacity": 1.0,
+          "visible": true,
+          "metadata": {
+            "level": "nucleus"
+          }
+        }
+      ],
+      "ports": [],
+      "connectors": [],
+      "metadata": {
+        "test_type": "superposition",
+        "note": "Three parts at origin demonstrating valid superposition"
+      }
+    }
+  }
+}

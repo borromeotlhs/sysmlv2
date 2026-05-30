@@ -150,6 +150,10 @@ const SajaiSceneNormalizer = {
   /**
    * Normalize a part (3D box)
    * @private
+   *
+   * NOTE: Multiple parts MAY have identical positions (superposition).
+   * This is valid for hierarchical/nested representations.
+   * No position uniqueness validation is performed.
    */
   _normalizePart(rawPart, index, sceneId) {
     // Position: flexible field names and formats
