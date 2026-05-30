@@ -1,0 +1,32 @@
+{
+  "name": "sysmlv2-spa-playwright-tests",
+  "version": "1.0.0",
+  "description": "Comprehensive Playwright regression tests for SysML v2 SPA",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:file-tree": "playwright test test_file_tree.spec.js",
+    "test:text": "playwright test test_text_tab.spec.js",
+    "test:bdd": "playwright test test_bdd_tab.spec.js",
+    "test:ibd": "playwright test test_ibd_tab.spec.js",
+    "test:3d": "playwright test test_3d_view.spec.js",
+    "test:pairs": "playwright test test_pair_authoring.spec.js",
+    "test:e2e": "playwright test test_e2e_workflow.spec.js",
+    "report": "playwright show-report test-results/html-report",
+    "install:browsers": "playwright install chromium"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "sysml",
+    "spa",
+    "e2e"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}

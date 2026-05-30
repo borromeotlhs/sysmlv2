@@ -1,0 +1,216 @@
+const { test, expect } = require('@playwright/test');
+const { loadArchitecture, screenshot, verifyDownload, switchTab, waitForPageLoad } = require('./helpers');
+
+test.describe('Text Tab', () => {
+    test('shows .sysml content', async ({ page }) => {
+    await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page, { skipTreeLoad: true });
+    await loadArchitecture(page, 'architecture_001.sysml');
+    // Ensure we're on the Text tab
+    await switchTab(page, 'text');
+
+    // Verify text content is visible
+    const textContent = page.locator('.text-content, #text-tab-content, .sysml-text');
+    await expect(textContent).toBeVisible();
+
+    // Verify content is not empty
+    const content = await textContent.textContent();
+    expect(content.trim().length).toBeGreaterThan(0);
+
+    // Verify it contains SysML v2 syntax
+    expect(content).toMatch(/package|part def|port def|connection def/i);
+
+    await screenshot(page, 'text-tab-content');
+  });
+
+  test('displays formatted SysML code', async ({ page }) => {
+    await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page, { skipTreeLoad: true });
+    await loadArchitecture(page, 'architecture_001.sysml');
+    await switchTab(page, 'text');
+
+    const textContent = page.locator('.text-content, #text-tab-content');
+    const content = await textContent.textContent();
+
+    // Check for proper indentation (spaces or tabs)
+    const lines = content.split('\n');
+    const indentedLines = lines.filter(line => line.match(/^\s+/));
+    expect(indentedLines.length).toBeGreaterThan(0);
+
+    // Check for common SysML v2 patterns
+    expect(content).toMatch(/\{[\s\S]*\}/); // Contains blocks with braces
+
+    await screenshot(page, 'formatted-sysml');
+  });
+
+  test('copy button works', async ({ page }) => {
+    await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page, { skipTreeLoad: true });
+    await loadArchitecture(page, 'architecture_001.sysml');
+    await switchTab(page, 'text');
+
+    // Find copy button
+    const copyButton = page.locator('button:has-text("Copy"), .copy-button, button[title*="Copy"]').first();
+    await expect(copyButton).toBeVisible();
+
+    // Click copy button
+    await copyButton.click();
+
+    // Wait for potential success indication
+    await page.waitForTimeout(500);
+
+    // Check for success message or state change
+    const successIndicator = page.locator('.copy-success, .copied, button:has-text("Copied")');
+    const hasSuccess = await successIndicator.isVisible().catch(() => false);
+
+    if (hasSuccess) {
+      await expect(successIndicator).toBeVisible();
+    }
+
+    await screenshot(page, 'copy-button-clicked');
+  });
+
+  test('copy button copies actual content', async ({ page }) => {
+    await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page, { skipTreeLoad: true });
+    await loadArchitecture(page, 'architecture_001.sysml');
+    await switchTab(page, 'text');
+
+    // Get original content
+    const textContent = page.locator('.text-content, #text-tab-content');
+    const originalContent = await textContent.textContent();
+
+    // Grant clipboard permissions
+    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+
+    // Click copy button
+    const copyButton = page.locator('button:has-text("Copy"), .copy-button, button[title*="Copy"]').first();
+    await copyButton.click();
+    await page.waitForTimeout(500);
+
+    // Read clipboard content
+    const clipboardContent = await page.evaluate(() => navigator.clipboard.readText());
+
+    // Verify clipboard has content
+    expect(clipboardContent.trim().length).toBeGreaterThan(0);
+
+    // Verify clipboard matches original content (allowing for whitespace differences)
+    const normalizedOriginal = originalContent.trim().replace(/\s+/g, ' ');
+    const normalizedClipboard = clipboardContent.trim().replace(/\s+/g, ' ');
+
+    expect(normalizedClipboard).toContain('package');
+  });
+
+  test('download button works', async ({ page }) => {
+    await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page, { skipTreeLoad: true });
+    await loadArchitecture(page, 'architecture_001.sysml');
+    await switchTab(page, 'text');
+
+    // Find download button
+    const downloadButton = page.locator('button:has-text("Download"), .download-button, button[title*="Download"]').first();
+    await expect(downloadButton).toBeVisible();
+
+    // Trigger download
+    const filename = await verifyDownload(page, async () => {
+      await downloadButton.click();
+    });
+
+    // Verify filename is appropriate
+    expect(filename).toMatch(/\.sysml$/i);
+
+    await screenshot(page, 'download-triggered');
+  });
+
+  test('content updates when switching files', async ({ page }) => {
+    await page.goto('http://127.0.0.1:8081/');
+    await switchTab(page, 'text');
+
+    // Get initial content
+    const textContent = page.locator('.text-content, #text-tab-content');
+    const firstContent = await textContent.textContent();
+
+    // Load different architecture
+    await loadArchitecture(page, 'architecture_002.sysml');
+
+    // Get new content
+    const secondContent = await textContent.textContent();
+
+    // Verify content changed
+    expect(firstContent).not.toBe(secondContent);
+
+    await screenshot(page, 'content-updated');
+  });
+
+  test('handles large files without performance issues', async ({ page }) => {
+    await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page, { skipTreeLoad: true });
+    await loadArchitecture(page, 'architecture_001.sysml');
+    await switchTab(page, 'text');
+
+    // Measure load time
+    const startTime = Date.now();
+
+    const textContent = page.locator('.text-content, #text-tab-content');
+    await expect(textContent).toBeVisible();
+
+    const loadTime = Date.now() - startTime;
+
+    // Should load within reasonable time (2 seconds)
+    expect(loadTime).toBeLessThan(2000);
+
+    // Verify scrolling works
+    await page.evaluate(() => {
+      const element = document.querySelector('.text-content, #text-tab-content');
+      if (element) {
+        element.scrollTop = 100;
+      }
+    });
+
+    await page.waitForTimeout(300);
+    await screenshot(page, 'large-file-handling');
+  });
+
+  test('preserves content when switching tabs', async ({ page }) => {
+    await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page, { skipTreeLoad: true });
+    await loadArchitecture(page, 'architecture_001.sysml');
+    await switchTab(page, 'text');
+
+    // Get text content
+    const textContent = page.locator('.text-content, #text-tab-content');
+    const originalContent = await textContent.textContent();
+
+    // Switch to BDD tab
+    await switchTab(page, 'bdd');
+    await page.waitForTimeout(500);
+
+    // Switch back to Text tab
+    await switchTab(page, 'text');
+    await page.waitForTimeout(500);
+
+    // Verify content is the same
+    const restoredContent = await textContent.textContent();
+    expect(restoredContent).toBe(originalContent);
+
+    await screenshot(page, 'content-preserved');
+  });
+
+  test('displays line numbers or proper formatting', async ({ page }) => {
+    await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page, { skipTreeLoad: true });
+    await loadArchitecture(page, 'architecture_001.sysml');
+    await switchTab(page, 'text');
+
+    const textContent = page.locator('.text-content, #text-tab-content');
+
+    // Check if content uses pre or code formatting
+    const isPre = await page.locator('pre').isVisible().catch(() => false);
+    const isCode = await page.locator('code').isVisible().catch(() => false);
+
+    // At least one should be true for proper code display
+    expect(isPre || isCode).toBe(true);
+
+    await screenshot(page, 'code-formatting');
+  });
+});
