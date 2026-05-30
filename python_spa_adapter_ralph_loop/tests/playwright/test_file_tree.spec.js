@@ -6,11 +6,11 @@ test.describe('File Tree Navigation', () => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
     // Verify file tree container is visible
-    const fileTree = page.locator('.file-tree');
+    const fileTree = page.locator('#fileTree');
     await expect(fileTree).toBeVisible();
 
     // Verify at least one file is present
-    const files = page.locator('.file-tree a');
+    const files = page.locator('#fileTree a');
     const count = await files.count();
     expect(count).toBeGreaterThan(0);
 
@@ -38,7 +38,7 @@ test.describe('File Tree Navigation', () => {
       await screenshot(page, 'directory-toggled');
     } else {
       // If no directories, just verify files are visible
-      const files = page.locator('.file-tree a');
+      const files = page.locator('#fileTree a');
       await expect(files.first()).toBeVisible();
     }
   });
@@ -47,7 +47,7 @@ test.describe('File Tree Navigation', () => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
     // Find first .sysml file in tree
-    const sysmlFile = page.locator('.file-tree a').filter({ hasText: '.sysml' }).first();
+    const sysmlFile = page.locator('#fileTree a').filter({ hasText: '.sysml' }).first();
 
     await expect(sysmlFile).toBeVisible();
 
@@ -56,7 +56,7 @@ test.describe('File Tree Navigation', () => {
     await page.waitForTimeout(500);
 
     // Verify something happened (active state, content loaded, etc.)
-    const activeFile = page.locator('.file-tree a.active, .file-tree a.selected');
+    const activeFile = page.locator('#fileTree a.active, #fileTree a.selected');
     await expect(activeFile).toBeVisible();
 
     await screenshot(page, 'sysml-file-clicked');
@@ -66,14 +66,14 @@ test.describe('File Tree Navigation', () => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
     // Find and click first architecture file
-    const archFile = page.locator('.file-tree a').filter({ hasText: 'architecture' }).first();
+    const archFile = page.locator('#fileTree a').filter({ hasText: 'architecture' }).first();
 
     if (await archFile.isVisible()) {
       await archFile.click();
       await page.waitForTimeout(500);
 
       // Verify Text tab content is visible and populated
-      const textContent = page.locator('.text-content, #text-tab-content');
+      const textContent = page.locator('#architecturePreview');
       await expect(textContent).toBeVisible();
 
       // Verify content is not empty
@@ -91,7 +91,7 @@ test.describe('File Tree Navigation', () => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
     // Get list of architecture files
-    const archFiles = page.locator('.file-tree a').filter({ hasText: 'architecture' });
+    const archFiles = page.locator('#fileTree a').filter({ hasText: 'architecture' });
     const count = await archFiles.count();
 
     if (count >= 2) {
@@ -117,10 +117,10 @@ test.describe('File Tree Navigation', () => {
   test('file tree remains visible during navigation', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    const fileTree = page.locator('.file-tree');
+    const fileTree = page.locator('#fileTree');
 
     // Click a file
-    const firstFile = page.locator('.file-tree a').first();
+    const firstFile = page.locator('#fileTree a').first();
     await firstFile.click();
     await page.waitForTimeout(300);
 
@@ -128,7 +128,7 @@ test.describe('File Tree Navigation', () => {
     await expect(fileTree).toBeVisible();
 
     // Switch to BDD tab
-    const bddTab = page.locator('button:has-text("BDD"), [data-tab="bdd"]');
+    const bddTab = page.locator('.tab-btn[data-tab="bdd"]');
     if (await bddTab.isVisible()) {
       await bddTab.click();
       await page.waitForTimeout(300);
@@ -151,12 +151,12 @@ test.describe('File Tree Navigation', () => {
       await page.waitForTimeout(300);
 
       // Verify no active file
-      const activeFile = page.locator('.file-tree a.active, .file-tree a.selected');
+      const activeFile = page.locator('#fileTree a.active, #fileTree a.selected');
       await expect(activeFile).toHaveCount(0);
     }
 
     // File tree should still be visible and functional
-    const fileTree = page.locator('.file-tree');
+    const fileTree = page.locator('#fileTree');
     await expect(fileTree).toBeVisible();
   });
 });

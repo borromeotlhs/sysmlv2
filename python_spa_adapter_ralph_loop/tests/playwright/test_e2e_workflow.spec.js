@@ -24,7 +24,7 @@ test.describe('End-to-End Workflow', () => {
 
     // Step 3: View in Text tab
     await switchTab(page, 'text');
-    const textContent = page.locator('.text-content, #text-tab-content');
+    const textContent = page.locator('#architecturePreview');
     await expect(textContent).toBeVisible();
 
     const content = await textContent.textContent();
@@ -35,7 +35,7 @@ test.describe('End-to-End Workflow', () => {
     await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
 
-    const bddDiagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const bddDiagram = page.locator('#bddDiagram');
     await expect(bddDiagram).toBeVisible();
     await screenshot(page, 'e2e-04-bdd-view');
 
@@ -43,25 +43,25 @@ test.describe('End-to-End Workflow', () => {
     await switchTab(page, 'ibd');
     await waitForDiagram(page, 'ibd');
 
-    const ibdDiagram = page.locator('#ibd-diagram-image, .ibd-diagram img');
+    const ibdDiagram = page.locator('#ibdDiagram');
     await expect(ibdDiagram).toBeVisible();
     await screenshot(page, 'e2e-05-ibd-view');
 
     // Step 6: Generate 3D model
-    await switchTab(page, '3d-view');
+    // 3D view is always visible - no need to switch tabs
     await page.waitForTimeout(500);
 
-    const generateButton = page.locator('button:has-text("Generate 3D Model"), button:has-text("Generate"), #generate-3d-button').first();
+    const generateButton = page.locator('#generateSajaiBtn');
     await expect(generateButton).toBeVisible();
     await generateButton.click();
 
     // Handle modal if present
-    const modal = page.locator('#generate-modal, .modal, [role="dialog"]');
+    const modal = page.locator('#sajaiGenerateModal');
     const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
 
     if (modalVisible) {
-      await waitForModal(page, 'generate-modal');
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
+      await waitForModal(page, 'sajaiGenerateModal');
+      const modalGenerateButton = page.locator('#confirmSajaiGenerate');
       await modalGenerateButton.click();
     }
 
@@ -70,12 +70,12 @@ test.describe('End-to-End Workflow', () => {
     // Step 7: Wait for 3D scene to load
     await waitFor3DScene(page);
 
-    const canvas = page.locator('#three-canvas, canvas');
+    const canvas = page.locator('#threejsContainer canvas');
     await expect(canvas).toBeVisible();
     await screenshot(page, 'e2e-07-3d-scene-loaded');
 
     // Step 8: Interact with 3D view (toggle visibility)
-    const partsToggle = page.locator('#toggle-parts');
+    const partsToggle = page.locator('#visibility-parts');
     if (await partsToggle.isVisible()) {
       await partsToggle.click();
       await page.waitForTimeout(300);
@@ -94,7 +94,7 @@ test.describe('End-to-End Workflow', () => {
     await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
 
-    const bddDiagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const bddDiagram = page.locator('#bddDiagram');
     const firstBddSrc = await bddDiagram.getAttribute('src');
     await screenshot(page, 'e2e-compare-arch1-bdd');
 
@@ -139,7 +139,7 @@ test.describe('End-to-End Workflow', () => {
     await screenshot(page, 'e2e-export-bdd-diagram');
 
     // Generate and download 3D
-    await switchTab(page, '3d-view');
+    // 3D view is always visible - no need to switch tabs
     const generateButton = page.locator('button:has-text("Generate 3D Model"), button:has-text("Generate")').first();
     await generateButton.click();
 
@@ -162,7 +162,7 @@ test.describe('End-to-End Workflow', () => {
 
     // Should handle gracefully (show message or empty state)
     const errorOrEmpty = page.locator('.error-message, .no-content, .empty-state');
-    const diagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const diagram = page.locator('#bddDiagram');
 
     const hasError = await errorOrEmpty.isVisible().catch(() => false);
     const hasDiagram = await diagram.isVisible().catch(() => false);
@@ -186,7 +186,7 @@ test.describe('End-to-End Workflow', () => {
 
     // Load Text tab
     await switchTab(page, 'text');
-    const textContent = page.locator('.text-content, #text-tab-content');
+    const textContent = page.locator('#architecturePreview');
     const originalText = await textContent.textContent();
 
     // Navigate through all tabs
@@ -198,7 +198,7 @@ test.describe('End-to-End Workflow', () => {
     await waitForDiagram(page, 'ibd');
     await screenshot(page, 'e2e-nav-ibd');
 
-    await switchTab(page, '3d-view');
+    // 3D view is always visible - no need to switch tabs
     await page.waitForTimeout(500);
     await screenshot(page, 'e2e-nav-3d');
 
@@ -228,13 +228,13 @@ test.describe('End-to-End Workflow', () => {
       await popoutPage.waitForLoadState('domcontentloaded');
 
       // Main window: Generate 3D
-      await switchTab(page, '3d-view');
+      // 3D view is always visible - no need to switch tabs
       const generateButton = page.locator('button:has-text("Generate 3D Model"), button:has-text("Generate")').first();
       await generateButton.click();
 
       const modal = page.locator('#generate-modal, .modal');
       if (await modal.isVisible({ timeout: 2000 })) {
-        const modalGenerateButton = page.locator('.modal button:has-text("Generate")').first();
+        const modalGenerateButton = page.locator('#confirmSajaiGenerate');
         await modalGenerateButton.click();
       }
 
@@ -243,7 +243,7 @@ test.describe('End-to-End Workflow', () => {
       await screenshot(page, 'e2e-concurrent-main-3d');
 
       // Popout should still show BDD
-      const popoutDiagram = popoutPage.locator('#bdd-diagram-image, .bdd-diagram img, img');
+      const popoutDiagram = popoutPage.locator('#bddDiagram, img');
       await expect(popoutDiagram).toBeVisible();
       await screenshot(popoutPage, 'e2e-concurrent-popout-bdd');
 
@@ -256,7 +256,7 @@ test.describe('End-to-End Workflow', () => {
     await page.waitForLoadState('domcontentloaded');
 
     // 1. Verify file tree
-    const fileTree = page.locator('.file-tree');
+    const fileTree = page.locator('#fileTree');
     await expect(fileTree).toBeVisible();
     await screenshot(page, 'e2e-tour-01-file-tree');
 
@@ -266,7 +266,7 @@ test.describe('End-to-End Workflow', () => {
 
     // 3. View text
     await switchTab(page, 'text');
-    const textContent = page.locator('.text-content, #text-tab-content');
+    const textContent = page.locator('#architecturePreview');
     await expect(textContent).toBeVisible();
     await screenshot(page, 'e2e-tour-03-text');
 
@@ -289,7 +289,7 @@ test.describe('End-to-End Workflow', () => {
     await screenshot(page, 'e2e-tour-05-ibd');
 
     // 7. Generate 3D
-    await switchTab(page, '3d-view');
+    // 3D view is always visible - no need to switch tabs
     const generateButton = page.locator('button:has-text("Generate 3D Model"), button:has-text("Generate")').first();
 
     if (await generateButton.isVisible()) {
@@ -297,7 +297,7 @@ test.describe('End-to-End Workflow', () => {
 
       const modal = page.locator('#generate-modal, .modal');
       if (await modal.isVisible({ timeout: 2000 })) {
-        const modalGenerateButton = page.locator('.modal button:has-text("Generate")').first();
+        const modalGenerateButton = page.locator('#confirmSajaiGenerate');
         await modalGenerateButton.click();
       }
 
@@ -305,7 +305,7 @@ test.describe('End-to-End Workflow', () => {
       await screenshot(page, 'e2e-tour-06-3d-generated');
 
       // 8. Toggle visibility
-      const partsToggle = page.locator('#toggle-parts');
+      const partsToggle = page.locator('#visibility-parts');
       if (await partsToggle.isVisible()) {
         await partsToggle.click();
         await page.waitForTimeout(300);
@@ -317,7 +317,7 @@ test.describe('End-to-End Workflow', () => {
       }
 
       // 9. Interact with canvas
-      const canvas = page.locator('#three-canvas, canvas');
+      const canvas = page.locator('#threejsContainer canvas');
       await canvas.hover({ position: { x: 300, y: 300 } });
       await page.mouse.down();
       await page.mouse.move(350, 320);
@@ -346,7 +346,7 @@ test.describe('End-to-End Workflow', () => {
       await switchTab(page, 'text');
       await switchTab(page, 'bdd');
       await switchTab(page, 'ibd');
-      await switchTab(page, '3d-view');
+      // 3D view is always visible - no need to switch tabs
     }
 
     const endTime = Date.now();
@@ -369,7 +369,7 @@ test.describe('End-to-End Workflow', () => {
     await page.waitForLoadState('domcontentloaded');
 
     // Should return to initial state
-    const fileTree = page.locator('.file-tree');
+    const fileTree = page.locator('#fileTree');
     await expect(fileTree).toBeVisible();
 
     await screenshot(page, 'e2e-refresh-clean-slate');

@@ -10,12 +10,12 @@ test.describe('BDD Tab', () => {
     await waitForDiagram(page, 'bdd');
 
     // Verify image is visible
-    const diagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const diagram = page.locator('#bddDiagram');
     await expect(diagram).toBeVisible();
 
     // Verify image has loaded (has natural dimensions)
     const hasLoaded = await page.evaluate(() => {
-      const img = document.querySelector('#bdd-diagram-image, .bdd-diagram img');
+      const img = document.querySelector('#bddDiagram');
       return img && img.complete && img.naturalHeight > 0;
     });
 
@@ -31,7 +31,7 @@ test.describe('BDD Tab', () => {
     await waitForDiagram(page, 'bdd');
 
     // Verify diagram source is from PlantUML
-    const diagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const diagram = page.locator('#bddDiagram');
     const src = await diagram.getAttribute('src');
 
     // Should be PlantUML URL or base64 encoded SVG/PNG
@@ -47,7 +47,7 @@ test.describe('BDD Tab', () => {
     await waitForDiagram(page, 'bdd');
 
     // Find PlantUML source display
-    const sourceElement = page.locator('.plantuml-source, .diagram-source, pre:has-text("@startuml")');
+    const sourceElement = page.locator('#bddSource');
 
     // Source might be hidden by default, look for show source button
     const showSourceButton = page.locator('button:has-text("Show Source"), button:has-text("View Source")');
@@ -115,7 +115,7 @@ test.describe('BDD Tab', () => {
 
     // Verify diagram is visible in popout
     await popoutPage.waitForLoadState('domcontentloaded');
-    const popoutDiagram = popoutPage.locator('#bdd-diagram-image, .bdd-diagram img, img[src*="plantuml"]');
+    const popoutDiagram = popoutPage.locator('#bddDiagram, img[src*="plantuml"]');
     await expect(popoutDiagram).toBeVisible({ timeout: 10000 });
 
     await screenshot(popoutPage, 'bdd-popout-window');
@@ -140,7 +140,7 @@ test.describe('BDD Tab', () => {
 
       // Get diagram dimensions
       const dimensions = await popoutPage.evaluate(() => {
-        const img = document.querySelector('#bdd-diagram-image, .bdd-diagram img, img[src*="plantuml"]');
+        const img = document.querySelector('#bddDiagram, img[src*="plantuml"]');
         if (!img) return null;
         return {
           natural: { width: img.naturalWidth, height: img.naturalHeight },
@@ -162,7 +162,7 @@ test.describe('BDD Tab', () => {
     await waitForDiagram(page, 'bdd');
 
     // Get initial diagram source
-    const diagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const diagram = page.locator('#bddDiagram');
     const firstSrc = await diagram.getAttribute('src');
 
     // Load different architecture
@@ -188,7 +188,7 @@ test.describe('BDD Tab', () => {
 
     // Look for error message or placeholder
     const errorMessage = page.locator('.error-message, .no-diagram, .diagram-error');
-    const diagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const diagram = page.locator('#bddDiagram');
 
     // Either diagram loads or error message shows
     const diagramVisible = await diagram.isVisible({ timeout: 5000 }).catch(() => false);
@@ -205,7 +205,7 @@ test.describe('BDD Tab', () => {
     await loadArchitecture(page, 'architecture_001.sysml');
     await waitForDiagram(page, 'bdd');
 
-    const diagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const diagram = page.locator('#bddDiagram');
 
     // Try to zoom (if zoom controls exist)
     const zoomInButton = page.locator('button:has-text("Zoom In"), .zoom-in, button[title*="Zoom"]');
@@ -235,7 +235,7 @@ test.describe('BDD Tab', () => {
     await loadArchitecture(page, 'architecture_001.sysml');
     await waitForDiagram(page, 'bdd');
 
-    const diagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const diagram = page.locator('#bddDiagram');
     const originalSrc = await diagram.getAttribute('src');
 
     // Switch to Text tab

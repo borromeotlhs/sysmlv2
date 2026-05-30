@@ -10,7 +10,7 @@ test.describe('Text Tab', () => {
     await switchTab(page, 'text');
 
     // Verify text content is visible
-    const textContent = page.locator('.text-content, #text-tab-content, .sysml-text');
+    const textContent = page.locator('#architecturePreview');
     await expect(textContent).toBeVisible();
 
     // Verify content is not empty
@@ -29,7 +29,7 @@ test.describe('Text Tab', () => {
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, 'text');
 
-    const textContent = page.locator('.text-content, #text-tab-content');
+    const textContent = page.locator('#architecturePreview');
     const content = await textContent.textContent();
 
     // Check for proper indentation (spaces or tabs)
@@ -77,7 +77,7 @@ test.describe('Text Tab', () => {
     await switchTab(page, 'text');
 
     // Get original content
-    const textContent = page.locator('.text-content, #text-tab-content');
+    const textContent = page.locator('#architecturePreview');
     const originalContent = await textContent.textContent();
 
     // Grant clipboard permissions
@@ -127,7 +127,7 @@ test.describe('Text Tab', () => {
     await switchTab(page, 'text');
 
     // Get initial content
-    const textContent = page.locator('.text-content, #text-tab-content');
+    const textContent = page.locator('#architecturePreview');
     const firstContent = await textContent.textContent();
 
     // Load different architecture
@@ -151,7 +151,7 @@ test.describe('Text Tab', () => {
     // Measure load time
     const startTime = Date.now();
 
-    const textContent = page.locator('.text-content, #text-tab-content');
+    const textContent = page.locator('#architecturePreview');
     await expect(textContent).toBeVisible();
 
     const loadTime = Date.now() - startTime;
@@ -178,7 +178,7 @@ test.describe('Text Tab', () => {
     await switchTab(page, 'text');
 
     // Get text content
-    const textContent = page.locator('.text-content, #text-tab-content');
+    const textContent = page.locator('#architecturePreview');
     const originalContent = await textContent.textContent();
 
     // Switch to BDD tab
@@ -202,7 +202,7 @@ test.describe('Text Tab', () => {
     await loadArchitecture(page, 'architecture_001.sysml');
     await switchTab(page, 'text');
 
-    const textContent = page.locator('.text-content, #text-tab-content');
+    const textContent = page.locator('#architecturePreview');
 
     // Check if content uses pre or code formatting
     const isPre = await page.locator('pre').isVisible().catch(() => false);

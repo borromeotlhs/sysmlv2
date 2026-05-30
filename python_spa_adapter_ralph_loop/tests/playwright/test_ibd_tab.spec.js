@@ -10,12 +10,12 @@ test.describe('IBD Tab', () => {
     await waitForDiagram(page, 'ibd');
 
     // Verify image is visible
-    const diagram = page.locator('#ibd-diagram-image, .ibd-diagram img');
+    const diagram = page.locator('#ibdDiagram');
     await expect(diagram).toBeVisible();
 
     // Verify image has loaded (has natural dimensions)
     const hasLoaded = await page.evaluate(() => {
-      const img = document.querySelector('#ibd-diagram-image, .ibd-diagram img');
+      const img = document.querySelector('#ibdDiagram');
       return img && img.complete && img.naturalHeight > 0;
     });
 
@@ -31,7 +31,7 @@ test.describe('IBD Tab', () => {
     await waitForDiagram(page, 'ibd');
 
     // Verify diagram source is from PlantUML
-    const diagram = page.locator('#ibd-diagram-image, .ibd-diagram img');
+    const diagram = page.locator('#ibdDiagram');
     const src = await diagram.getAttribute('src');
 
     // Should be PlantUML URL or base64 encoded SVG/PNG
@@ -47,7 +47,7 @@ test.describe('IBD Tab', () => {
     await waitForDiagram(page, 'ibd');
 
     // Find PlantUML source display
-    const sourceElement = page.locator('.plantuml-source, .diagram-source, pre:has-text("@startuml")');
+    const sourceElement = page.locator('#ibdSource');
 
     // Source might be hidden by default, look for show source button
     const showSourceButton = page.locator('button:has-text("Show Source"), button:has-text("View Source")');
@@ -115,7 +115,7 @@ test.describe('IBD Tab', () => {
 
     // Verify diagram is visible in popout
     await popoutPage.waitForLoadState('domcontentloaded');
-    const popoutDiagram = popoutPage.locator('#ibd-diagram-image, .ibd-diagram img, img[src*="plantuml"]');
+    const popoutDiagram = popoutPage.locator('#ibdDiagram, img[src*="plantuml"]');
     await expect(popoutDiagram).toBeVisible({ timeout: 10000 });
 
     await screenshot(popoutPage, 'ibd-popout-window');
@@ -140,7 +140,7 @@ test.describe('IBD Tab', () => {
 
       // Get diagram dimensions
       const dimensions = await popoutPage.evaluate(() => {
-        const img = document.querySelector('#ibd-diagram-image, .ibd-diagram img, img[src*="plantuml"]');
+        const img = document.querySelector('#ibdDiagram, img[src*="plantuml"]');
         if (!img) return null;
         return {
           natural: { width: img.naturalWidth, height: img.naturalHeight },
@@ -165,10 +165,10 @@ test.describe('IBD Tab', () => {
 
     // IBD should show parts and connections
     // We can verify this by checking if the diagram has reasonable dimensions
-    const diagram = page.locator('#ibd-diagram-image, .ibd-diagram img');
+    const diagram = page.locator('#ibdDiagram');
 
     const dimensions = await page.evaluate(() => {
-      const img = document.querySelector('#ibd-diagram-image, .ibd-diagram img');
+      const img = document.querySelector('#ibdDiagram');
       if (!img) return null;
       return {
         width: img.naturalWidth,
@@ -188,7 +188,7 @@ test.describe('IBD Tab', () => {
     await waitForDiagram(page, 'ibd');
 
     // Get initial diagram source
-    const diagram = page.locator('#ibd-diagram-image, .ibd-diagram img');
+    const diagram = page.locator('#ibdDiagram');
     const firstSrc = await diagram.getAttribute('src');
 
     // Load different architecture
@@ -211,7 +211,7 @@ test.describe('IBD Tab', () => {
     await loadArchitecture(page, 'architecture_001.sysml');
     // Look for error message or placeholder
     const errorMessage = page.locator('.error-message, .no-diagram, .diagram-error');
-    const diagram = page.locator('#ibd-diagram-image, .ibd-diagram img');
+    const diagram = page.locator('#ibdDiagram');
 
     // Either diagram loads or error message shows
     const diagramVisible = await diagram.isVisible({ timeout: 5000 }).catch(() => false);
@@ -228,7 +228,7 @@ test.describe('IBD Tab', () => {
     await loadArchitecture(page, 'architecture_001.sysml');
     await waitForDiagram(page, 'ibd');
 
-    const diagram = page.locator('#ibd-diagram-image, .ibd-diagram img');
+    const diagram = page.locator('#ibdDiagram');
 
     // Try to zoom (if zoom controls exist)
     const zoomInButton = page.locator('button:has-text("Zoom In"), .zoom-in, button[title*="Zoom"]');
@@ -257,7 +257,7 @@ test.describe('IBD Tab', () => {
     await loadArchitecture(page, 'architecture_001.sysml');
     await waitForDiagram(page, 'ibd');
 
-    const diagram = page.locator('#ibd-diagram-image, .ibd-diagram img');
+    const diagram = page.locator('#ibdDiagram');
     const originalSrc = await diagram.getAttribute('src');
 
     // Switch to Text tab
@@ -280,13 +280,13 @@ test.describe('IBD Tab', () => {
     await loadArchitecture(page, 'architecture_001.sysml');
     // Load IBD
     await waitForDiagram(page, 'ibd');
-    const ibdDiagram = page.locator('#ibd-diagram-image, .ibd-diagram img');
+    const ibdDiagram = page.locator('#ibdDiagram');
     const ibdSrc = await ibdDiagram.getAttribute('src');
 
     // Switch to BDD
     await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
-    const bddDiagram = page.locator('#bdd-diagram-image, .bdd-diagram img');
+    const bddDiagram = page.locator('#bddDiagram');
     const bddSrc = await bddDiagram.getAttribute('src');
 
     // Diagrams should be different
