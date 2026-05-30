@@ -78,7 +78,7 @@ test.describe('BDD Tab', () => {
     await waitForDiagram(page, 'bdd');
 
     // Find copy source button
-    const copyButton = page.locator('button:has-text("Copy Source"), .copy-source-button').first();
+    const copyButton = page.locator('#copyBddSource');
 
     if (await copyButton.isVisible()) {
       // Grant clipboard permissions
@@ -104,11 +104,11 @@ test.describe('BDD Tab', () => {
     await waitForDiagram(page, 'bdd');
 
     // Find pop-out button
-    const popoutButton = page.locator('button:has-text("Pop out"), button:has-text("Open in new window"), .popout-button').first();
+    const popoutButton = page.locator('#popoutBdd');
     await expect(popoutButton).toBeVisible();
 
     // Open popout
-    const popoutPage = await openPopout(page, 'button:has-text("Pop out"), button:has-text("Open in new window"), .popout-button');
+    const popoutPage = await openPopout(page, '#popoutBdd');
 
     // Verify new window opened
     expect(popoutPage).toBeTruthy();
@@ -130,10 +130,10 @@ test.describe('BDD Tab', () => {
     await loadArchitecture(page, 'architecture_001.sysml');
     await waitForDiagram(page, 'bdd');
 
-    const popoutButton = page.locator('button:has-text("Pop out"), button:has-text("Open in new window"), .popout-button').first();
+    const popoutButton = page.locator('#popoutBdd');
 
     if (await popoutButton.isVisible()) {
-      const popoutPage = await openPopout(page, 'button:has-text("Pop out"), button:has-text("Open in new window"), .popout-button');
+      const popoutPage = await openPopout(page, '#popoutBdd');
 
       await popoutPage.waitForLoadState('domcontentloaded');
       await page.waitForTimeout(1000);

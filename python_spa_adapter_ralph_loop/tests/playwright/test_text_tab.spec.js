@@ -50,7 +50,7 @@ test.describe('Text Tab', () => {
     await switchTab(page, 'text');
 
     // Find copy button
-    const copyButton = page.locator('button:has-text("Copy"), .copy-button, button[title*="Copy"]').first();
+    const copyButton = page.locator('#copySysmlContent');
     await expect(copyButton).toBeVisible();
 
     // Click copy button
@@ -84,7 +84,7 @@ test.describe('Text Tab', () => {
     await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
 
     // Click copy button
-    const copyButton = page.locator('button:has-text("Copy"), .copy-button, button[title*="Copy"]').first();
+    const copyButton = page.locator('#copySysmlContent');
     await copyButton.click();
     await page.waitForTimeout(500);
 
@@ -108,7 +108,7 @@ test.describe('Text Tab', () => {
     await switchTab(page, 'text');
 
     // Find download button
-    const downloadButton = page.locator('button:has-text("Download"), .download-button, button[title*="Download"]').first();
+    const downloadButton = page.locator('#downloadSysml');
     await expect(downloadButton).toBeVisible();
 
     // Trigger download

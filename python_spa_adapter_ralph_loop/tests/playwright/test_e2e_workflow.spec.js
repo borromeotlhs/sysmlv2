@@ -121,7 +121,7 @@ test.describe('End-to-End Workflow', () => {
 
     // Export text
     await switchTab(page, 'text');
-    const copyButton = page.locator('button:has-text("Copy"), .copy-button').first();
+    const copyButton = page.locator('#copySysmlContent');
 
     if (await copyButton.isVisible()) {
       await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
@@ -140,12 +140,12 @@ test.describe('End-to-End Workflow', () => {
 
     // Generate and download 3D
     // 3D view is always visible - no need to switch tabs
-    const generateButton = page.locator('button:has-text("Generate 3D Model"), button:has-text("Generate")').first();
+    const generateButton = page.locator('#generateSajaiBtn');
     await generateButton.click();
 
-    const modal = page.locator('#generate-modal, .modal');
+    const modal = page.locator('#sajaiGenerateModal');
     if (await modal.isVisible({ timeout: 2000 })) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate")').first();
+      const modalGenerateButton = page.locator('#confirmSajaiGenerate');
       await modalGenerateButton.click();
     }
 
@@ -219,7 +219,7 @@ test.describe('End-to-End Workflow', () => {
     await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
 
-    const bddPopoutButton = page.locator('button:has-text("Pop out"), .popout-button').first();
+    const bddPopoutButton = page.locator('#popoutBdd');
 
     if (await bddPopoutButton.isVisible()) {
       const popoutPromise = page.context().waitForEvent('page');
@@ -229,10 +229,10 @@ test.describe('End-to-End Workflow', () => {
 
       // Main window: Generate 3D
       // 3D view is always visible - no need to switch tabs
-      const generateButton = page.locator('button:has-text("Generate 3D Model"), button:has-text("Generate")').first();
+      const generateButton = page.locator('#generateSajaiBtn');
       await generateButton.click();
 
-      const modal = page.locator('#generate-modal, .modal');
+      const modal = page.locator('#sajaiGenerateModal');
       if (await modal.isVisible({ timeout: 2000 })) {
         const modalGenerateButton = page.locator('#confirmSajaiGenerate');
         await modalGenerateButton.click();
@@ -271,7 +271,7 @@ test.describe('End-to-End Workflow', () => {
     await screenshot(page, 'e2e-tour-03-text');
 
     // 4. Copy text
-    const copyButton = page.locator('button:has-text("Copy")').first();
+    const copyButton = page.locator('#copySysmlContent');
     if (await copyButton.isVisible()) {
       await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
       await copyButton.click();
@@ -290,12 +290,12 @@ test.describe('End-to-End Workflow', () => {
 
     // 7. Generate 3D
     // 3D view is always visible - no need to switch tabs
-    const generateButton = page.locator('button:has-text("Generate 3D Model"), button:has-text("Generate")').first();
+    const generateButton = page.locator('#generateSajaiBtn');
 
     if (await generateButton.isVisible()) {
       await generateButton.click();
 
-      const modal = page.locator('#generate-modal, .modal');
+      const modal = page.locator('#sajaiGenerateModal');
       if (await modal.isVisible({ timeout: 2000 })) {
         const modalGenerateButton = page.locator('#confirmSajaiGenerate');
         await modalGenerateButton.click();
