@@ -1,14 +1,51 @@
 const { expect } = require('@playwright/test');
 
 /**
+ * Expand directories in file tree to find a file
+ * Simple approach: expand "architectures" directory where arch files live
+ * @param {import('@playwright/test').Page} page
+ * @param {string} filename - The file to search for
+ */
+async function expandDirectoriesToFindFile(page, filename) {
+  // Check if file is already visible (in root)
+  const fileLink = page.locator(`#fileTree .tree-item.file:has-text("${filename}")`);
+  const isVisible = await fileLink.isVisible({ timeout: 1000 }).catch(() => false);
+
+  if (isVisible) {
+    return true; // File found in root
+  }
+
+  // Expand the "architectures" directory (where arch files are)
+  const archDir = page.locator('#fileTree .tree-item.directory:has-text("architectures")').first();
+  const dirExists = await archDir.isVisible({ timeout: 1000 }).catch(() => false);
+
+  if (dirExists) {
+    await archDir.click();
+    await page.waitForTimeout(300); // Wait for expansion
+
+    // Check again if file is now visible
+    return await fileLink.isVisible({ timeout: 1000 }).catch(() => false);
+  }
+
+  return false;
+}
+
+/**
  * Load an architecture file from the file tree (left sidebar)
  * @param {import('@playwright/test').Page} page
- * @param {string} filename - The architecture filename (e.g., 'architecture_001.sysml')
+ * @param {string} filename - The architecture filename (e.g., 'arch_000001.sysml')
  */
 async function loadArchitecture(page, filename) {
   // Wait for file tree to be fully loaded (data-loaded="true")
   // This ensures lazy-loaded tree is populated before we search for files
   await page.waitForSelector('#fileTree[data-loaded="true"]', { timeout: 60000 });
+
+  // Expand directories to find the file
+  const found = await expandDirectoriesToFindFile(page, filename);
+
+  if (!found) {
+    throw new Error(`Could not find file "${filename}" in file tree after expanding directories`);
+  }
 
   // Find and click on the architecture file using correct tree-item selector
   // File tree uses <div class="tree-item file"> elements, NOT <a> tags

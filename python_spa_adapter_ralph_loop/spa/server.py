@@ -822,9 +822,20 @@ class Handler(BaseHTTPRequestHandler):
                     except Exception as e:
                         return self.send_json({'error': f'Invalid path: {str(e)}'}, 400)
 
-                tree = self.build_tree(ROOT)
-                tree['resolved_path'] = str(ROOT.resolve())
-                return self.send_json(tree)
+                # Left file tree shows architecture files from data/architectures
+                # Paths must be relative to ROOT for API compatibility
+                tree = self.build_tree(ARCH_DIR, rel_from=ROOT)
+                tree['resolved_path'] = str(ARCH_DIR.resolve())
+
+                # Add cache headers (60 second cache for tree data)
+                body = json.dumps(tree, indent=2).encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.send_header('Content-Length', str(len(body)))
+                self.send_header('Cache-Control', 'public, max-age=60')
+                self.end_headers()
+                self.wfile.write(body)
+                return
             if path == '/api/architectures':
                 ARCH_DIR.mkdir(parents=True, exist_ok=True)
                 items = []
@@ -1375,6 +1386,29 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json({'error': 'bad static path'}, 400)
         if not p.exists() or not p.is_file():
             return self.send_json({'error': 'not found'}, 404)
+
+        # Special handling for index.html: inject pre-loaded file tree
+        if rel == 'index.html':
+            html = p.read_text(encoding='utf-8')
+
+            # Build file tree once at page load
+            tree = self.build_tree(ARCH_DIR, rel_from=ROOT)
+            tree['resolved_path'] = str(ARCH_DIR.resolve())
+            tree_json = json.dumps(tree)
+
+            # Inject tree data into HTML before </head>
+            injection = f'<script>window.__INITIAL_FILE_TREE__={tree_json};</script>'
+            html = html.replace('</head>', f'{injection}</head>')
+
+            body = html.encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html; charset=utf-8')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+
+        # Regular static file serving
         ctype = mimetypes.guess_type(str(p))[0] or 'application/octet-stream'
         body = p.read_bytes()
         self.send_response(200)

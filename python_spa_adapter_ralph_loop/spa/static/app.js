@@ -557,11 +557,25 @@ function escapeHtml(s) {
 }
 
 async function refreshFileTree(root) {
+  const treeContainer = $('fileTree');
+
+  // Use pre-loaded tree if available (no custom root requested)
+  if (!root && window.__INITIAL_FILE_TREE__) {
+    console.log('[refreshFileTree] Using pre-loaded tree from HTML');
+    fileTree = window.__INITIAL_FILE_TREE__;
+    treeRoot = fileTree.resolved_path || '';
+    if (!projectRoot) projectRoot = treeRoot;
+    renderFileTree();
+    treeContainer.setAttribute('data-loaded', 'true');
+    console.log('[refreshFileTree] Pre-loaded tree rendered successfully');
+    return;
+  }
+
+  // Otherwise fetch from API
   const url = root ? `/api/tree?root=${encodeURIComponent(root)}` : '/api/tree';
   console.log('[refreshFileTree] Fetching tree from:', url);
 
   // Show loading indicator
-  const treeContainer = $('fileTree');
   treeContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #888;">Loading file tree...</div>';
   treeContainer.setAttribute('data-loaded', 'false');
 
