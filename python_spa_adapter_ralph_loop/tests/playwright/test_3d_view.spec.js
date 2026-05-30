@@ -9,7 +9,8 @@ const {
   verifyVisibilityToggle,
   openPopout,
   verifyDownload,
-  waitForPageLoad
+  waitForPageLoad,
+  waitForPopoutReady
 } = require('./helpers');
 
 test.describe('3D View Section (Always Visible)', () => {
@@ -152,15 +153,9 @@ test.describe('3D View Section (Always Visible)', () => {
     // Wait for completion
     await waitForLoadingComplete(page);
 
-    // Look for success message
-    const successMessage = page.locator('.success-message, .alert-success, [class*="success"]');
-    const hasSuccess = await successMessage.isVisible({ timeout: 10000 }).catch(() => false);
-
-    // Either success message or 3D scene appears
+    // Verify 3D scene appears (success is shown via browser alert which can't be tested via DOM)
     const canvas = page.locator('#threejsContainer canvas');
-    const hasCanvas = await canvas.isVisible({ timeout: 10000 }).catch(() => false);
-
-    expect(hasSuccess || hasCanvas).toBe(true);
+    await expect(canvas).toBeVisible({ timeout: 15000 });
 
     await screenshot(page, '3d-generation-success');
   });
@@ -390,6 +385,7 @@ test.describe('3D View Section (Always Visible)', () => {
 
     if (await popoutButton.isVisible()) {
       const popoutPage = await openPopout(page, '#popout3d');
+      await waitForPopoutReady(popoutPage);
       await waitFor3DScene(popoutPage);
 
       const canvas = popoutPage.locator('#threejsContainer canvas, canvas');
@@ -429,6 +425,7 @@ test.describe('3D View Section (Always Visible)', () => {
 
     if (await popoutButton.isVisible()) {
       const popoutPage = await openPopout(page, '#popout3d');
+      await waitForPopoutReady(popoutPage);
       await waitFor3DScene(popoutPage);
 
       const canvas = popoutPage.locator('#threejsContainer canvas, canvas');
@@ -468,6 +465,7 @@ test.describe('3D View Section (Always Visible)', () => {
 
     if (await popoutButton.isVisible()) {
       const popoutPage = await openPopout(page, '#popout3d');
+      await waitForPopoutReady(popoutPage);
       await waitFor3DScene(popoutPage);
 
       const canvas = popoutPage.locator('#threejsContainer canvas, canvas');

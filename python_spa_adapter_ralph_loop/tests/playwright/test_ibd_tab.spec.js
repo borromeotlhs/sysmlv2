@@ -185,6 +185,10 @@ test.describe('IBD Tab', () => {
 
   test('diagram updates when switching files', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page);
+
+    // Load first architecture
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'ibd');
 
     // Get initial diagram source
@@ -193,7 +197,6 @@ test.describe('IBD Tab', () => {
 
     // Load different architecture
     await loadArchitecture(page, 'arch_000002.sysml');
-    await switchTab(page, 'ibd');
     await waitForDiagram(page, 'ibd');
 
     // Get new diagram source
@@ -209,6 +212,11 @@ test.describe('IBD Tab', () => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
     await loadArchitecture(page, 'arch_000001.sysml');
+
+    // Switch to IBD tab to trigger diagram load
+    await switchTab(page, 'ibd');
+    await page.waitForTimeout(2000);
+
     // Look for error message or placeholder
     const errorMessage = page.locator('.error-message, .no-diagram, .diagram-error');
     const diagram = page.locator('#ibdDiagram');

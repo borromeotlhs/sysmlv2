@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { waitForFileTree, screenshot, waitForPageLoad } = require('./helpers');
+const { waitForFileTree, screenshot, waitForPageLoad, loadArchitecture } = require('./helpers');
 
 test.describe('File Tree Navigation', () => {
     test('file tree loads on startup', async ({ page }) => {
@@ -43,14 +43,9 @@ test.describe('File Tree Navigation', () => {
   test('can click on .sysml files', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    // Find first .sysml file in tree (using correct .tree-item.file selector)
-    const sysmlFile = page.locator('#fileTree .tree-item.file').filter({ hasText: '.sysml' }).first();
 
-    await expect(sysmlFile).toBeVisible();
-
-    // Click the file
-    await sysmlFile.click();
-    await page.waitForTimeout(500);
+    // Use loadArchitecture helper which properly expands directories before clicking
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // Verify architecture loaded (content preview visible)
     const preview = page.locator('#architecturePreview');
@@ -116,10 +111,8 @@ test.describe('File Tree Navigation', () => {
     await waitForPageLoad(page);
     const fileTree = page.locator('#fileTree');
 
-    // Click a file (using correct .tree-item.file selector)
-    const firstFile = page.locator('#fileTree .tree-item.file').first();
-    await firstFile.click();
-    await page.waitForTimeout(300);
+    // Use loadArchitecture helper which properly expands directories before clicking
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // Verify tree is still visible
     await expect(fileTree).toBeVisible();

@@ -159,6 +159,10 @@ test.describe('BDD Tab', () => {
 
   test('diagram updates when switching files', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
+    await waitForPageLoad(page);
+
+    // Load first architecture
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'bdd');
 
     // Get initial diagram source
@@ -167,7 +171,6 @@ test.describe('BDD Tab', () => {
 
     // Load different architecture
     await loadArchitecture(page, 'arch_000002.sysml');
-    await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
 
     // Get new diagram source
@@ -183,8 +186,10 @@ test.describe('BDD Tab', () => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
     await loadArchitecture(page, 'arch_000001.sysml');
-    // Try to load a file that might not have a BDD diagram
-    // or test error handling
+
+    // Switch to BDD tab to trigger diagram load
+    await switchTab(page, 'bdd');
+    await page.waitForTimeout(2000);
 
     // Look for error message or placeholder
     const errorMessage = page.locator('.error-message, .no-diagram, .diagram-error');

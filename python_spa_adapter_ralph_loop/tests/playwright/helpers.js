@@ -66,6 +66,9 @@ async function loadArchitecture(page, filename) {
  * @param {string} type - Diagram type: 'bdd' or 'ibd'
  */
 async function waitForDiagram(page, type) {
+  // Switch to the appropriate tab first (diagrams are lazy-loaded when tab is activated)
+  await switchTab(page, type);
+
   const selector = type === 'bdd' ? '#bddDiagram' : '#ibdDiagram';
 
   // Wait for the image element to be visible
@@ -90,20 +93,36 @@ async function waitForDiagram(page, type) {
  * @param {import('@playwright/test').Page} page
  */
 async function waitFor3DScene(page) {
-  // Wait for the 3D container to be visible (always visible in new UI)
-  await page.waitForSelector('#threejsContainer', { state: 'visible', timeout: 10000 });
+  // Check if this is a popout window or main window by checking for URL
+  // Popout uses popout3DView.html, main window uses index.html
+  const url = page.url();
+  const isPopout = url.includes('popout3DView.html');
 
-  // Wait for canvas to appear (created by Three.js renderer)
-  await page.waitForSelector('#threejsContainer canvas', { state: 'visible', timeout: 10000 });
+  if (isPopout) {
+    // Popout window: wait for viewport-container and its canvas
+    await page.waitForSelector('.viewport-container', { state: 'visible', timeout: 10000 });
+    await page.waitForSelector('.viewport-container canvas', { state: 'visible', timeout: 10000 });
 
-  // Wait for the scene to be initialized (check for canvas rendering)
-  await page.waitForFunction(
-    () => {
-      const canvas = document.querySelector('#threejsContainer canvas');
-      return canvas && canvas.offsetHeight > 0;
-    },
-    { timeout: 10000 }
-  );
+    await page.waitForFunction(
+      () => {
+        const canvas = document.querySelector('.viewport-container canvas');
+        return canvas && canvas.offsetHeight > 0;
+      },
+      { timeout: 10000 }
+    );
+  } else {
+    // Main window: wait for threejsContainer
+    await page.waitForSelector('#threejsContainer', { state: 'visible', timeout: 10000 });
+    await page.waitForSelector('#threejsContainer canvas', { state: 'visible', timeout: 10000 });
+
+    await page.waitForFunction(
+      () => {
+        const canvas = document.querySelector('#threejsContainer canvas');
+        return canvas && canvas.offsetHeight > 0;
+      },
+      { timeout: 10000 }
+    );
+  }
 
   // Small delay for rendering
   await page.waitForTimeout(1000);
@@ -314,6 +333,24 @@ async function waitForSajaiFileTree(page) {
   await page.waitForTimeout(300);
 }
 
+/**
+ * Wait for popout window to be fully ready with all scripts loaded
+ * Ensures THREE.js and OrbitControls are available before testing
+ * @param {import('@playwright/test').Page} page - Popout page context
+ */
+async function waitForPopoutReady(page) {
+  // Wait for network to be idle (all scripts loaded)
+  await page.waitForLoadState('networkidle', { timeout: 15000 });
+
+  // Wait for THREE.js and OrbitControls to be available
+  await page.waitForFunction(() => {
+    return window.THREE && window.THREE.OrbitControls;
+  }, { timeout: 10000 });
+
+  // Additional delay to ensure initialization is complete
+  await page.waitForTimeout(1000);
+}
+
 module.exports = {
   loadArchitecture,
   loadArchitectureDirectly,
@@ -329,5 +366,6 @@ module.exports = {
   waitForPageLoad,
   openPopout,
   loadSajaiFile,
-  waitForSajaiFileTree
+  waitForSajaiFileTree,
+  waitForPopoutReady
 };
