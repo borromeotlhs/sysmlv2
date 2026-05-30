@@ -6,8 +6,9 @@ const { expect } = require('@playwright/test');
  * @param {string} filename - The architecture filename (e.g., 'architecture_001.sysml')
  */
 async function loadArchitecture(page, filename) {
-  // Wait for file tree to load (increased timeout since /api/tree can be slow)
-  await page.waitForSelector('#fileTree', { timeout: 60000 });
+  // Wait for file tree to be fully loaded (data-loaded="true")
+  // This ensures lazy-loaded tree is populated before we search for files
+  await page.waitForSelector('#fileTree[data-loaded="true"]', { timeout: 60000 });
 
   // Find and click on the architecture file using correct tree-item selector
   // File tree uses <div class="tree-item file"> elements, NOT <a> tags
@@ -178,6 +179,9 @@ async function verifyDownload(page, action) {
  */
 async function waitForFileTree(page) {
   await page.waitForSelector('#fileTree', { state: 'visible', timeout: 60000 });
+
+  // Wait for tree to be fully loaded (data-loaded="true")
+  await page.waitForSelector('#fileTree[data-loaded="true"]', { timeout: 60000 });
 
   // Wait for at least one file to be present (using correct .tree-item selector)
   await page.waitForSelector('#fileTree .tree-item', { timeout: 10000 });

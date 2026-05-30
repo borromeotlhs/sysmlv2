@@ -32,7 +32,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('Generate 3D Model button is enabled when architecture selected', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // No need to switch to 3D tab - 3D section is always visible
     // Find generate button in the 3D section
@@ -48,7 +48,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('clicking Generate opens modal', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // Click generate button (no need to switch tabs)
     const generateButton = page.locator('#generateSajaiBtn');
@@ -67,7 +67,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('modal has filename input', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // Open modal
     const generateButton = page.locator('#generateSajaiBtn');
@@ -89,7 +89,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('Generate button in modal triggers conversion', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // Open modal
     const generateButton = page.locator('#generateSajaiBtn');
@@ -115,7 +115,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('loading spinner shows during conversion', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Open modal and trigger generation
@@ -138,7 +138,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('success message appears after generation', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Trigger generation
@@ -168,7 +168,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('3D scene auto-loads after generation', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Trigger generation
@@ -197,7 +197,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('can see 3D canvas with rendered objects', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Trigger generation and wait for scene
@@ -228,7 +228,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('visibility toggles work correctly - Parts', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Generate 3D model
@@ -253,7 +253,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('visibility toggles work correctly - Ports', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Generate 3D model
@@ -278,7 +278,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('visibility toggles work correctly - Connectors', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Generate 3D model
@@ -303,7 +303,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('property inspector shows element details on click', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Generate and load 3D
@@ -335,7 +335,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('pop-out button opens new window', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Generate 3D
@@ -370,7 +370,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('popout window controls work - rotation', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Generate and open popout
@@ -409,7 +409,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('popout window controls work - panning', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Generate and open popout
@@ -448,7 +448,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('popout window controls work - zooming', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Generate and open popout
@@ -487,7 +487,7 @@ test.describe('3D View Section (Always Visible)', () => {
   test('download button exports SAJAI file', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
     // Generate 3D
@@ -521,9 +521,9 @@ test.describe('3D View Section (Always Visible)', () => {
   test('3D view handles complex architectures', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page); // Wait for file tree to load
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // Load a more complex architecture if available
-    await loadArchitecture(page, 'architecture_010.sysml');
+    await loadArchitecture(page, 'arch_000010.sysml');
     // No need to switch to 3D view - it's always visible
 
     const generateButton = page.locator('#generateSajaiBtn');

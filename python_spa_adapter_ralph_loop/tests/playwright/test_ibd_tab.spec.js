@@ -5,7 +5,7 @@ test.describe('IBD Tab', () => {
     test('IBD diagram renders', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // Wait for diagram to load
     await waitForDiagram(page, 'ibd');
 
@@ -27,7 +27,7 @@ test.describe('IBD Tab', () => {
   test('IBD diagram displays PlantUML content', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'ibd');
 
     // Verify diagram source is from PlantUML
@@ -43,7 +43,7 @@ test.describe('IBD Tab', () => {
   test('shows PlantUML source', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'ibd');
 
     // Find PlantUML source display
@@ -74,7 +74,7 @@ test.describe('IBD Tab', () => {
   test('copy source button works', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'ibd');
 
     // Find copy source button
@@ -100,7 +100,7 @@ test.describe('IBD Tab', () => {
   test('pop-out button opens new window', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'ibd');
 
     // Find pop-out button
@@ -127,7 +127,7 @@ test.describe('IBD Tab', () => {
   test('popout window shows full diagram without truncation', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'ibd');
 
     const popoutButton = page.locator('#popoutIbd');
@@ -160,7 +160,7 @@ test.describe('IBD Tab', () => {
   test('IBD diagram shows internal structure', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'ibd');
 
     // IBD should show parts and connections
@@ -192,7 +192,7 @@ test.describe('IBD Tab', () => {
     const firstSrc = await diagram.getAttribute('src');
 
     // Load different architecture
-    await loadArchitecture(page, 'architecture_002.sysml');
+    await loadArchitecture(page, 'arch_000002.sysml');
     await switchTab(page, 'ibd');
     await waitForDiagram(page, 'ibd');
 
@@ -208,7 +208,7 @@ test.describe('IBD Tab', () => {
   test('handles missing or invalid diagrams gracefully', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // Look for error message or placeholder
     const errorMessage = page.locator('.error-message, .no-diagram, .diagram-error');
     const diagram = page.locator('#ibdDiagram');
@@ -225,7 +225,7 @@ test.describe('IBD Tab', () => {
   test('diagram is zoomable or pannable', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'ibd');
 
     const diagram = page.locator('#ibdDiagram');
@@ -254,7 +254,7 @@ test.describe('IBD Tab', () => {
   test('preserves diagram when switching tabs', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'ibd');
 
     const diagram = page.locator('#ibdDiagram');
@@ -277,7 +277,7 @@ test.describe('IBD Tab', () => {
   test('IBD different from BDD', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // Load IBD
     await waitForDiagram(page, 'ibd');
     const ibdDiagram = page.locator('#ibdDiagram');

@@ -19,7 +19,7 @@ test.describe('End-to-End Workflow', () => {
     await screenshot(page, 'e2e-01-app-loaded');
 
     // Step 2: Load architecture
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await screenshot(page, 'e2e-02-architecture-loaded');
 
     // Step 3: View in Text tab
@@ -90,7 +90,7 @@ test.describe('End-to-End Workflow', () => {
     await page.goto('http://127.0.0.1:8081/');
 
     // Load first architecture
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
 
@@ -99,7 +99,7 @@ test.describe('End-to-End Workflow', () => {
     await screenshot(page, 'e2e-compare-arch1-bdd');
 
     // Load second architecture
-    await loadArchitecture(page, 'architecture_002.sysml');
+    await loadArchitecture(page, 'arch_000002.sysml');
     await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
 
@@ -117,7 +117,7 @@ test.describe('End-to-End Workflow', () => {
 
   test('export workflow: text → diagrams → 3D', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // Export text
     await switchTab(page, 'text');
@@ -171,7 +171,7 @@ test.describe('End-to-End Workflow', () => {
     await screenshot(page, 'e2e-error-no-architecture');
 
     // Now load architecture and try again
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
 
@@ -182,7 +182,7 @@ test.describe('End-to-End Workflow', () => {
 
   test('tab navigation preserves state', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // Load Text tab
     await switchTab(page, 'text');
@@ -213,7 +213,7 @@ test.describe('End-to-End Workflow', () => {
 
   test('concurrent operations workflow', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // Open BDD in popout
     await switchTab(page, 'bdd');
@@ -261,7 +261,7 @@ test.describe('End-to-End Workflow', () => {
     await screenshot(page, 'e2e-tour-01-file-tree');
 
     // 2. Load architecture
-    await loadArchitecture(page, 'architecture_005.sysml');
+    await loadArchitecture(page, 'arch_000005.sysml');
     await screenshot(page, 'e2e-tour-02-loaded');
 
     // 3. View text
@@ -327,7 +327,7 @@ test.describe('End-to-End Workflow', () => {
     }
 
     // 10. Load different architecture
-    await loadArchitecture(page, 'architecture_010.sysml');
+    await loadArchitecture(page, 'arch_000010.sysml');
     await switchTab(page, 'text');
     await screenshot(page, 'e2e-tour-10-new-architecture');
 
@@ -337,7 +337,7 @@ test.describe('End-to-End Workflow', () => {
 
   test('performance: rapid tab switching', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
 
     // Rapidly switch between tabs
     const startTime = Date.now();
@@ -360,7 +360,7 @@ test.describe('End-to-End Workflow', () => {
 
   test('page refresh preserves no state (clean slate)', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
 

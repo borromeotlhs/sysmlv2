@@ -563,6 +563,7 @@ async function refreshFileTree(root) {
   // Show loading indicator
   const treeContainer = $('fileTree');
   treeContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #888;">Loading file tree...</div>';
+  treeContainer.setAttribute('data-loaded', 'false');
 
   try {
     fileTree = await getJson(url);
@@ -571,9 +572,12 @@ async function refreshFileTree(root) {
     if (!projectRoot) projectRoot = treeRoot; // Store initial project root
     renderFileTree();
     console.log('[refreshFileTree] Tree rendered successfully');
+    // Signal that tree is fully loaded
+    treeContainer.setAttribute('data-loaded', 'true');
   } catch (e) {
     console.error('[refreshFileTree] Failed to load tree:', e);
     treeContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #c00;">Failed to load file tree</div>';
+    treeContainer.setAttribute('data-loaded', 'error');
   }
 }
 

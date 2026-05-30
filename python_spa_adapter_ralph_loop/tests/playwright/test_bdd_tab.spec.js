@@ -5,7 +5,7 @@ test.describe('BDD Tab', () => {
     test('BDD diagram renders', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // Wait for diagram to load
     await waitForDiagram(page, 'bdd');
 
@@ -27,7 +27,7 @@ test.describe('BDD Tab', () => {
   test('BDD diagram displays PlantUML content', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'bdd');
 
     // Verify diagram source is from PlantUML
@@ -43,7 +43,7 @@ test.describe('BDD Tab', () => {
   test('shows PlantUML source', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'bdd');
 
     // Find PlantUML source display
@@ -74,7 +74,7 @@ test.describe('BDD Tab', () => {
   test('copy source button works', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'bdd');
 
     // Find copy source button
@@ -100,7 +100,7 @@ test.describe('BDD Tab', () => {
   test('pop-out button opens new window', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'bdd');
 
     // Find pop-out button
@@ -127,7 +127,7 @@ test.describe('BDD Tab', () => {
   test('popout window shows full diagram without truncation', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'bdd');
 
     const popoutButton = page.locator('#popoutBdd');
@@ -166,7 +166,7 @@ test.describe('BDD Tab', () => {
     const firstSrc = await diagram.getAttribute('src');
 
     // Load different architecture
-    await loadArchitecture(page, 'architecture_002.sysml');
+    await loadArchitecture(page, 'arch_000002.sysml');
     await switchTab(page, 'bdd');
     await waitForDiagram(page, 'bdd');
 
@@ -182,7 +182,7 @@ test.describe('BDD Tab', () => {
   test('handles missing or invalid diagrams gracefully', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     // Try to load a file that might not have a BDD diagram
     // or test error handling
 
@@ -202,7 +202,7 @@ test.describe('BDD Tab', () => {
   test('diagram is zoomable or pannable', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'bdd');
 
     const diagram = page.locator('#bddDiagram');
@@ -232,7 +232,7 @@ test.describe('BDD Tab', () => {
   test('preserves diagram when switching tabs', async ({ page }) => {
     await page.goto('http://127.0.0.1:8081/');
     await waitForPageLoad(page);
-    await loadArchitecture(page, 'architecture_001.sysml');
+    await loadArchitecture(page, 'arch_000001.sysml');
     await waitForDiagram(page, 'bdd');
 
     const diagram = page.locator('#bddDiagram');
