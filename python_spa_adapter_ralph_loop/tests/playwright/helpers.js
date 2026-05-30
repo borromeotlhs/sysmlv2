@@ -9,8 +9,9 @@ async function loadArchitecture(page, filename) {
   // Wait for file tree to load (increased timeout since /api/tree can be slow)
   await page.waitForSelector('#fileTree', { timeout: 60000 });
 
-  // Find and click on the architecture file
-  const fileLink = page.locator(`#fileTree a:has-text("${filename}")`);
+  // Find and click on the architecture file using correct tree-item selector
+  // File tree uses <div class="tree-item file"> elements, NOT <a> tags
+  const fileLink = page.locator(`#fileTree .tree-item.file:has-text("${filename}")`);
   await expect(fileLink).toBeVisible({ timeout: 10000 });
   await fileLink.click();
 
@@ -178,8 +179,8 @@ async function verifyDownload(page, action) {
 async function waitForFileTree(page) {
   await page.waitForSelector('#fileTree', { state: 'visible', timeout: 60000 });
 
-  // Wait for at least one file to be present
-  await page.waitForSelector('#fileTree a', { timeout: 10000 });
+  // Wait for at least one file to be present (using correct .tree-item selector)
+  await page.waitForSelector('#fileTree .tree-item', { timeout: 10000 });
 
   await page.waitForTimeout(300);
 }
