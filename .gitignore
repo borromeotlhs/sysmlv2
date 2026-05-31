@@ -251,10 +251,13 @@ public
 test-results/
 playwright-report/
 playwright/.cache/
-*.png
 *.webm
 test-failed-*.png
 error-context.md
+
+# Allow documentation screenshots
+!docs/**/*.png
+!docs/screenshots/*.png
 
 # ============================================================================
 # IDE and Editors
