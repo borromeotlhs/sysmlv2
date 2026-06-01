@@ -1,0 +1,161 @@
+{
+  "format": "SAJAI",
+  "version": "1.0",
+  "description": "Generated from SysML v2 architecture: Uav Payload Reference Architecture 1",
+  "scenes": {
+    "arch_000001": {
+      "id": "scene_arch_000001",
+      "name": "Uav Payload Reference Architecture 1",
+      "contextRef": "arch_000001",
+      "camera": {
+        "position": [
+          15.0,
+          12.0,
+          15.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fov": 60.0,
+        "near": 0.1,
+        "far": 1000.0
+      },
+      "parts": [
+        {
+          "id": "part_missioncomputer",
+          "name": "MissionComputer",
+          "sysmlRef": "UavPayloadSystem::MissionComputer",
+          "qualifiedName": "UavPayloadSystem::MissionComputer",
+          "type": "MissionComputer",
+          "owner": "UavPayloadSystem",
+          "position": [
+            -7.5,
+            0.0,
+            -7.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#3498db",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_sensorpayload",
+          "name": "SensorPayload",
+          "sysmlRef": "UavPayloadSystem::SensorPayload",
+          "qualifiedName": "UavPayloadSystem::SensorPayload",
+          "type": "SensorPayload",
+          "owner": "UavPayloadSystem",
+          "position": [
+            -2.5,
+            0.0,
+            -7.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#e74c3c",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_powerunit",
+          "name": "PowerUnit",
+          "sysmlRef": "UavPayloadSystem::PowerUnit",
+          "qualifiedName": "UavPayloadSystem::PowerUnit",
+          "type": "PowerUnit",
+          "owner": "UavPayloadSystem",
+          "position": [
+            2.5,
+            0.0,
+            -7.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#2ecc71",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        }
+      ],
+      "ports": [
+        {
+          "id": "port_missioncomputer_cmdout",
+          "name": "cmdOut",
+          "sysmlRef": "UavPayloadSystem::MissionComputer::cmdOut",
+          "qualifiedName": "UavPayloadSystem::MissionComputer::cmdOut",
+          "type": "CommandIF",
+          "owner": "MissionComputer",
+          "partId": "part_missioncomputer",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sensorpayload_dataout",
+          "name": "dataOut",
+          "sysmlRef": "UavPayloadSystem::SensorPayload::dataOut",
+          "qualifiedName": "UavPayloadSystem::SensorPayload::dataOut",
+          "type": "DataIF",
+          "owner": "SensorPayload",
+          "partId": "part_sensorpayload",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_powerunit_pwrout",
+          "name": "pwrOut",
+          "sysmlRef": "UavPayloadSystem::PowerUnit::pwrOut",
+          "qualifiedName": "UavPayloadSystem::PowerUnit::pwrOut",
+          "type": "PowerIF",
+          "owner": "PowerUnit",
+          "partId": "part_powerunit",
+          "surface": "right",
+          "uv": [
+            0.7,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        }
+      ],
+      "connectors": [
+        {
+          "id": "conn_port_missioncomputer_cmdout_to_port_sensorpayload_dataout",
+          "sourcePortId": "port_missioncomputer_cmdout",
+          "targetPortId": "port_sensorpayload_dataout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_powerunit_pwrout_to_port_sensorpayload_dataout",
+          "sourcePortId": "port_powerunit_pwrout",
+          "targetPortId": "port_sensorpayload_dataout",
+          "visible": true,
+          "metadata": {}
+        }
+      ]
+    }
+  }
+}

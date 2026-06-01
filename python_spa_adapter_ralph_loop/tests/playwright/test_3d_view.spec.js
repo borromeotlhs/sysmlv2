@@ -142,20 +142,13 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Trigger generation
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-    await waitForModal(page, 'sajaiGenerateModal');
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
+    await waitFor3DScene(page);
 
-    const modalGenerateButton = page.locator('#confirmSajaiGenerate');
-    await modalGenerateButton.click();
-
-    // Wait for completion
-    await waitForLoadingComplete(page);
-
-    // Verify 3D scene appears (success is shown via browser alert which can't be tested via DOM)
+    // Verify 3D scene appears
     const canvas = page.locator('#threejsContainer canvas');
-    await expect(canvas).toBeVisible({ timeout: 15000 });
+    await expect(canvas).toBeVisible({ timeout: 20000 });
 
     await screenshot(page, '3d-generation-success');
   });
@@ -166,20 +159,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Trigger generation
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    // Handle modal if it appears
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
-
-    // Wait for 3D scene
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for 3D scene to complete automatic generation
     await waitFor3DScene(page);
 
     // Verify canvas is visible
@@ -195,17 +176,7 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Trigger generation and wait for scene
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
-
+    // NEW: Wait for automatic generation to complete
     await waitFor3DScene(page);
 
     // Verify scene has objects
@@ -226,16 +197,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Generate 3D model
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
 
     await waitFor3DScene(page);
 
@@ -251,16 +214,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Generate 3D model
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
 
     await waitFor3DScene(page);
 
@@ -276,16 +231,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Generate 3D model
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
 
     await waitFor3DScene(page);
 
@@ -301,16 +248,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Generate and load 3D
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
 
     await waitFor3DScene(page);
 
@@ -333,16 +272,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Generate 3D
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
 
     await waitFor3DScene(page);
 
@@ -368,16 +299,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Generate and open popout
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
 
     await waitFor3DScene(page);
 
@@ -408,16 +331,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Generate and open popout
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
 
     await waitFor3DScene(page);
 
@@ -448,16 +363,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Generate and open popout
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
 
     await waitFor3DScene(page);
 
@@ -488,16 +395,8 @@ test.describe('3D View Section (Always Visible)', () => {
     await loadArchitecture(page, 'arch_000001.sysml');
     // No need to switch to 3D view - it's always visible
 
-    // Generate 3D
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-    if (modalVisible) {
-      const modalGenerateButton = page.locator('.modal button:has-text("Generate"), [role="dialog"] button:has-text("Generate")').first();
-      await modalGenerateButton.click();
-    }
+    // NEW: Generation happens automatically when .sysml file loads
+    // Wait for automatic generation to complete
 
     await waitFor3DScene(page);
 

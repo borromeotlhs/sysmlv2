@@ -1,0 +1,353 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "Adapter Pair Authoring SPA" [level=1] [ref=e3]
+    - paragraph [ref=e4]: Python-only, no npm. Author and edit prompt → architecture pairs.
+    - button "+ New Architecture" [ref=e5] [cursor=pointer]
+  - generic [ref=e6]:
+    - complementary [ref=e7]:
+      - generic [ref=e8]:
+        - heading "Architecture Files" [level=3] [ref=e9]
+        - button "↻" [ref=e10] [cursor=pointer]
+      - generic [ref=e11]:
+        - textbox "Enter directory path..." [ref=e12]: /mnt/c/Users/borrth/offline/_now/LEAD/Claude Code/sysmlv2/python_spa_adapter_ralph_loop/data/architectures
+        - button "Go" [ref=e13] [cursor=pointer]
+        - button "↑" [ref=e14] [cursor=pointer]
+        - button "⌂" [ref=e15] [cursor=pointer]
+      - generic [ref=e16]: /mnt/c/Users/borrth/offline/_now/LEAD/Claude Code/sysmlv2/python_spa_adapter_ralph_loop/data/architectures
+      - generic [ref=e17]:
+        - generic [ref=e93] [cursor=pointer]: ▼ architectures
+        - generic [ref=e105]:
+          - generic [ref=e106] [cursor=pointer]: ▶ arch_test_001
+          - text: ▶
+          - generic [ref=e107] [cursor=pointer]: ▶ claudeValidation
+          - text: ▶
+          - generic [ref=e108] [cursor=pointer]: ▶ data
+          - text: ▶
+          - generic [ref=e109] [cursor=pointer]: arch_000001.sysml
+          - generic [ref=e110] [cursor=pointer]: arch_000002.sysml
+          - generic [ref=e111] [cursor=pointer]: arch_000003.sysml
+          - generic [ref=e112] [cursor=pointer]: arch_000004.sysml
+          - generic [ref=e113] [cursor=pointer]: arch_000005.sysml
+          - generic [ref=e114] [cursor=pointer]: arch_000006.sysml
+          - generic [ref=e115] [cursor=pointer]: arch_000007.sysml
+          - generic [ref=e116] [cursor=pointer]: arch_000008.sysml
+          - generic [ref=e117] [cursor=pointer]: arch_000009.sysml
+          - generic [ref=e118] [cursor=pointer]: arch_000010.sysml
+          - generic [ref=e119] [cursor=pointer]: arch_000011.sysml
+          - generic [ref=e120] [cursor=pointer]: arch_000012.sysml
+          - generic [ref=e121] [cursor=pointer]: arch_000013.sysml
+          - generic [ref=e122] [cursor=pointer]: arch_000014.sysml
+          - generic [ref=e123] [cursor=pointer]: arch_000015.sysml
+          - generic [ref=e124] [cursor=pointer]: arch_000016.sysml
+          - generic [ref=e125] [cursor=pointer]: arch_000017.sysml
+          - generic [ref=e126] [cursor=pointer]: arch_000018.sysml
+          - generic [ref=e127] [cursor=pointer]: arch_000019.sysml
+          - generic [ref=e128] [cursor=pointer]: arch_000020.sysml
+          - generic [ref=e129] [cursor=pointer]: arch_000021.sysml
+          - generic [ref=e130] [cursor=pointer]: arch_000022.sysml
+          - generic [ref=e131] [cursor=pointer]: arch_000023.sysml
+          - generic [ref=e132] [cursor=pointer]: arch_000024.sysml
+          - generic [ref=e133] [cursor=pointer]: arch_000025.sysml
+          - generic [ref=e134] [cursor=pointer]: arch_000026.sysml
+          - generic [ref=e135] [cursor=pointer]: arch_000027.sysml
+          - generic [ref=e136] [cursor=pointer]: arch_000028.sysml
+          - generic [ref=e137] [cursor=pointer]: arch_000029.sysml
+          - generic [ref=e138] [cursor=pointer]: arch_000030.sysml
+          - generic [ref=e139] [cursor=pointer]: arch_000031.sysml
+          - generic [ref=e140] [cursor=pointer]: arch_000032.sysml
+          - generic [ref=e141] [cursor=pointer]: arch_000033.sysml
+          - generic [ref=e142] [cursor=pointer]: arch_000034.sysml
+          - generic [ref=e143] [cursor=pointer]: arch_000035.sysml
+          - generic [ref=e144] [cursor=pointer]: arch_000036.sysml
+          - generic [ref=e145] [cursor=pointer]: arch_000037.sysml
+          - generic [ref=e146] [cursor=pointer]: arch_000038.sysml
+          - generic [ref=e147] [cursor=pointer]: arch_000039.sysml
+          - generic [ref=e148] [cursor=pointer]: arch_000040.sysml
+          - generic [ref=e149] [cursor=pointer]: arch_000041.sysml
+          - generic [ref=e150] [cursor=pointer]: arch_000042.sysml
+          - generic [ref=e151] [cursor=pointer]: arch_000043.sysml
+          - generic [ref=e152] [cursor=pointer]: arch_000044.sysml
+          - generic [ref=e153] [cursor=pointer]: arch_000045.sysml
+          - generic [ref=e154] [cursor=pointer]: arch_000046.sysml
+          - generic [ref=e155] [cursor=pointer]: arch_000047.sysml
+          - generic [ref=e156] [cursor=pointer]: arch_000048.sysml
+          - generic [ref=e157] [cursor=pointer]: arch_000049.sysml
+          - generic [ref=e158] [cursor=pointer]: arch_000050.sysml
+          - generic [ref=e159] [cursor=pointer]: arch_000051.sysml
+          - generic [ref=e160] [cursor=pointer]: arch_000052.sysml
+          - generic [ref=e161] [cursor=pointer]: arch_000053.sysml
+          - generic [ref=e162] [cursor=pointer]: arch_000054.sysml
+          - generic [ref=e163] [cursor=pointer]: arch_000055.sysml
+          - generic [ref=e164] [cursor=pointer]: arch_000056.sysml
+          - generic [ref=e165] [cursor=pointer]: arch_000057.sysml
+          - generic [ref=e166] [cursor=pointer]: arch_000058.sysml
+          - generic [ref=e167] [cursor=pointer]: arch_000059.sysml
+          - generic [ref=e168] [cursor=pointer]: arch_000060.sysml
+          - generic [ref=e169] [cursor=pointer]: arch_000061.sysml
+          - generic [ref=e170] [cursor=pointer]: arch_000062.sysml
+          - generic [ref=e171] [cursor=pointer]: arch_000063.sysml
+          - generic [ref=e172] [cursor=pointer]: arch_000064.sysml
+          - generic [ref=e173] [cursor=pointer]: arch_000065.sysml
+          - generic [ref=e174] [cursor=pointer]: arch_000066.sysml
+          - generic [ref=e175] [cursor=pointer]: arch_000067.sysml
+          - generic [ref=e176] [cursor=pointer]: arch_000068.sysml
+          - generic [ref=e177] [cursor=pointer]: arch_000069.sysml
+          - generic [ref=e178] [cursor=pointer]: arch_000070.sysml
+          - generic [ref=e179] [cursor=pointer]: arch_000071.sysml
+          - generic [ref=e180] [cursor=pointer]: arch_000072.sysml
+          - generic [ref=e181] [cursor=pointer]: arch_000073.sysml
+          - generic [ref=e182] [cursor=pointer]: arch_000074.sysml
+          - generic [ref=e183] [cursor=pointer]: arch_000075.sysml
+          - generic [ref=e184] [cursor=pointer]: arch_000076.sysml
+          - generic [ref=e185] [cursor=pointer]: arch_000077.sysml
+          - generic [ref=e186] [cursor=pointer]: arch_000078.sysml
+          - generic [ref=e187] [cursor=pointer]: arch_000079.sysml
+          - generic [ref=e188] [cursor=pointer]: arch_000080.sysml
+          - generic [ref=e189] [cursor=pointer]: arch_000081.sysml
+          - generic [ref=e190] [cursor=pointer]: arch_000082.sysml
+          - generic [ref=e191] [cursor=pointer]: arch_000083.sysml
+          - generic [ref=e192] [cursor=pointer]: arch_000084.sysml
+          - generic [ref=e193] [cursor=pointer]: arch_000085.sysml
+          - generic [ref=e194] [cursor=pointer]: arch_000086.sysml
+          - generic [ref=e195] [cursor=pointer]: arch_000087.sysml
+          - generic [ref=e196] [cursor=pointer]: arch_000088.sysml
+          - generic [ref=e197] [cursor=pointer]: arch_000089.sysml
+          - generic [ref=e198] [cursor=pointer]: arch_000090.sysml
+          - generic [ref=e199] [cursor=pointer]: arch_000091.sysml
+          - generic [ref=e200] [cursor=pointer]: arch_000092.sysml
+          - generic [ref=e201] [cursor=pointer]: arch_000093.sysml
+          - generic [ref=e202] [cursor=pointer]: arch_000094.sysml
+          - generic [ref=e203] [cursor=pointer]: arch_000095.sysml
+          - generic [ref=e204] [cursor=pointer]: arch_000096.sysml
+          - generic [ref=e205] [cursor=pointer]: arch_000097.sysml
+          - generic [ref=e206] [cursor=pointer]: arch_000098.sysml
+          - generic [ref=e207] [cursor=pointer]: arch_000099.sysml
+          - generic [ref=e208] [cursor=pointer]: arch_000100.sysml
+          - generic [ref=e209] [cursor=pointer]: arch_000101.sysml
+          - generic [ref=e210] [cursor=pointer]: arch_000102.sysml
+          - generic [ref=e211] [cursor=pointer]: arch_000103.sysml
+          - generic [ref=e212] [cursor=pointer]: arch_000104.sysml
+          - generic [ref=e213] [cursor=pointer]: arch_000105.sysml
+          - generic [ref=e214] [cursor=pointer]: arch_000106.sysml
+          - generic [ref=e215] [cursor=pointer]: arch_000107.sysml
+          - generic [ref=e216] [cursor=pointer]: arch_000108.sysml
+          - generic [ref=e217] [cursor=pointer]: arch_000109.sysml
+          - generic [ref=e218] [cursor=pointer]: arch_000110.sysml
+          - generic [ref=e219] [cursor=pointer]: arch_000111.sysml
+          - generic [ref=e220] [cursor=pointer]: arch_000112.sysml
+          - generic [ref=e221] [cursor=pointer]: arch_000113.sysml
+          - generic [ref=e222] [cursor=pointer]: arch_000114.sysml
+          - generic [ref=e223] [cursor=pointer]: arch_000115.sysml
+          - generic [ref=e224] [cursor=pointer]: arch_000116.sysml
+          - generic [ref=e225] [cursor=pointer]: arch_000117.sysml
+          - generic [ref=e226] [cursor=pointer]: arch_000118.sysml
+          - generic [ref=e227] [cursor=pointer]: arch_000119.sysml
+          - generic [ref=e228] [cursor=pointer]: arch_000120.sysml
+          - generic [ref=e229] [cursor=pointer]: arch_000121.sysml
+          - generic [ref=e230] [cursor=pointer]: arch_000122.sysml
+          - generic [ref=e231] [cursor=pointer]: arch_000123.sysml
+          - generic [ref=e232] [cursor=pointer]: arch_000124.sysml
+          - generic [ref=e233] [cursor=pointer]: arch_000125.sysml
+          - generic [ref=e234] [cursor=pointer]: arch_000126.sysml
+          - generic [ref=e235] [cursor=pointer]: arch_000127.sysml
+          - generic [ref=e236] [cursor=pointer]: arch_000128.sysml
+          - generic [ref=e237] [cursor=pointer]: arch_000129.sysml
+          - generic [ref=e238] [cursor=pointer]: arch_000130.sysml
+          - generic [ref=e239] [cursor=pointer]: arch_000131.sysml
+          - generic [ref=e240] [cursor=pointer]: arch_000132.sysml
+          - generic [ref=e241] [cursor=pointer]: arch_000133.sysml
+          - generic [ref=e242] [cursor=pointer]: arch_000134.sysml
+          - generic [ref=e243] [cursor=pointer]: arch_000135.sysml
+          - generic [ref=e244] [cursor=pointer]: arch_000136.sysml
+          - generic [ref=e245] [cursor=pointer]: arch_000137.sysml
+          - generic [ref=e246] [cursor=pointer]: arch_000138.sysml
+          - generic [ref=e247] [cursor=pointer]: arch_000139.sysml
+          - generic [ref=e248] [cursor=pointer]: arch_000140.sysml
+          - generic [ref=e249] [cursor=pointer]: arch_000141.sysml
+          - generic [ref=e250] [cursor=pointer]: arch_000142.sysml
+          - generic [ref=e251] [cursor=pointer]: arch_000143.sysml
+          - generic [ref=e252] [cursor=pointer]: arch_000144.sysml
+          - generic [ref=e253] [cursor=pointer]: arch_000145.sysml
+          - generic [ref=e254] [cursor=pointer]: arch_000146.sysml
+          - generic [ref=e255] [cursor=pointer]: arch_000147.sysml
+          - generic [ref=e256] [cursor=pointer]: arch_000148.sysml
+          - generic [ref=e257] [cursor=pointer]: arch_000149.sysml
+          - generic [ref=e258] [cursor=pointer]: arch_000150.sysml
+          - generic [ref=e259] [cursor=pointer]: arch_000151.sysml
+          - generic [ref=e260] [cursor=pointer]: arch_000152.sysml
+          - generic [ref=e261] [cursor=pointer]: arch_000153.sysml
+          - generic [ref=e262] [cursor=pointer]: arch_000154.sysml
+          - generic [ref=e263] [cursor=pointer]: arch_000155.sysml
+          - generic [ref=e264] [cursor=pointer]: arch_000156.sysml
+          - generic [ref=e265] [cursor=pointer]: arch_000157.sysml
+          - generic [ref=e266] [cursor=pointer]: arch_000158.sysml
+          - generic [ref=e267] [cursor=pointer]: arch_000159.sysml
+          - generic [ref=e268] [cursor=pointer]: arch_000160.sysml
+          - generic [ref=e269] [cursor=pointer]: arch_000161.sysml
+          - generic [ref=e270] [cursor=pointer]: arch_000162.sysml
+          - generic [ref=e271] [cursor=pointer]: arch_000163.sysml
+          - generic [ref=e272] [cursor=pointer]: arch_000164.sysml
+          - generic [ref=e273] [cursor=pointer]: arch_000165.sysml
+          - generic [ref=e274] [cursor=pointer]: arch_000166.sysml
+          - generic [ref=e275] [cursor=pointer]: arch_000167.sysml
+          - generic [ref=e276] [cursor=pointer]: arch_000168.sysml
+          - generic [ref=e277] [cursor=pointer]: arch_000169.sysml
+          - generic [ref=e278] [cursor=pointer]: arch_000170.sysml
+          - generic [ref=e279] [cursor=pointer]: arch_000171.sysml
+          - generic [ref=e280] [cursor=pointer]: arch_000172.sysml
+          - generic [ref=e281] [cursor=pointer]: arch_000173.sysml
+          - generic [ref=e282] [cursor=pointer]: arch_000174.sysml
+          - generic [ref=e283] [cursor=pointer]: arch_000175.sysml
+          - generic [ref=e284] [cursor=pointer]: arch_000176.sysml
+          - generic [ref=e285] [cursor=pointer]: arch_000177.sysml
+          - generic [ref=e286] [cursor=pointer]: arch_000178.sysml
+          - generic [ref=e287] [cursor=pointer]: arch_000179.sysml
+          - generic [ref=e288] [cursor=pointer]: arch_000180.sysml
+          - generic [ref=e289] [cursor=pointer]: arch_000181.sysml
+          - generic [ref=e290] [cursor=pointer]: arch_000182.sysml
+          - generic [ref=e291] [cursor=pointer]: arch_000183.sysml
+          - generic [ref=e292] [cursor=pointer]: arch_000184.sysml
+          - generic [ref=e293] [cursor=pointer]: arch_000185.sysml
+          - generic [ref=e294] [cursor=pointer]: arch_000186.sysml
+          - generic [ref=e295] [cursor=pointer]: arch_000187.sysml
+          - generic [ref=e296] [cursor=pointer]: arch_000188.sysml
+          - generic [ref=e297] [cursor=pointer]: arch_000189.sysml
+          - generic [ref=e298] [cursor=pointer]: arch_000190.sysml
+          - generic [ref=e299] [cursor=pointer]: arch_000191.sysml
+          - generic [ref=e300] [cursor=pointer]: arch_000192.sysml
+          - generic [ref=e301] [cursor=pointer]: arch_000193.sysml
+          - generic [ref=e302] [cursor=pointer]: arch_000194.sysml
+          - generic [ref=e303] [cursor=pointer]: arch_000195.sysml
+          - generic [ref=e304] [cursor=pointer]: arch_000196.sysml
+          - generic [ref=e305] [cursor=pointer]: arch_000197.sysml
+          - generic [ref=e306] [cursor=pointer]: arch_000198.sysml
+          - generic [ref=e307] [cursor=pointer]: arch_000199.sysml
+          - generic [ref=e308] [cursor=pointer]: arch_000200.sysml
+          - generic [ref=e309] [cursor=pointer]: arch_uav_system.sysml
+          - generic [ref=e310] [cursor=pointer]: car_system.sysml
+          - generic [ref=e311] [cursor=pointer]: cat_system.sysml
+          - generic [ref=e312] [cursor=pointer]: claudeValidation_extracted.sysml
+          - generic [ref=e313] [cursor=pointer]: emf_framework.sysml
+          - generic [ref=e314] [cursor=pointer]: python_spa_adapter_system.sysml
+          - generic [ref=e315] [cursor=pointer]: python_spa_adapter_system_bdd.puml
+          - generic [ref=e316] [cursor=pointer]: test_view_filter.sysml
+    - main [ref=e18]:
+      - generic [ref=e19]:
+        - heading "1. Selected Architecture" [level=2] [ref=e20]
+        - generic [ref=e21]:
+          - strong [ref=e317]: "File: arch_000001.sysml"
+          - paragraph [ref=e318]: "ID: arch_000001"
+          - paragraph [ref=e319]: "Name: Uav Payload Reference Architecture 1"
+          - paragraph [ref=e320]: "Format: SysML v2 Textual (monolithic)"
+          - paragraph [ref=e321]: "Path: data/architectures/arch_000001.sysml"
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - generic [ref=e25]:
+              - button "Text" [ref=e26] [cursor=pointer]
+              - button "BDD" [ref=e27] [cursor=pointer]
+              - button "IBD" [ref=e28] [cursor=pointer]
+            - generic [ref=e336]:
+              - generic [ref=e337]:
+                - button "📋 Copy Source" [ref=e338]
+                - button "🗗 Pop Out" [ref=e339]
+              - img "Internal Block Diagram" [ref=e340]
+            - generic [ref=e325]:
+              - heading "Create Pair" [level=3] [ref=e326]
+              - generic [ref=e327]:
+                - text: Split
+                - combobox "Split" [ref=e328]:
+                  - option "train" [selected]
+                  - option "validation"
+              - text: Prompt
+              - textbox "Write the prompt you would have given to produce this architecture." [ref=e329]
+              - button "Add pair for this architecture" [ref=e330]
+          - generic [ref=e32]:
+            - generic [ref=e33]:
+              - complementary [ref=e34]:
+                - generic [ref=e35]:
+                  - heading "3D Models" [level=3] [ref=e36]
+                  - button "↻" [ref=e37] [cursor=pointer]
+                - generic [ref=e38]:
+                  - generic [ref=e94] [cursor=pointer]: arch_000001.sajai
+                  - generic [ref=e95] [cursor=pointer]: arch_000001_from_sysml.sajai
+                  - generic [ref=e96] [cursor=pointer]: arch_000002.sajai
+                  - generic [ref=e97] [cursor=pointer]: arch_000003.sajai
+                  - generic [ref=e98] [cursor=pointer]: arch_000005.sajai
+                  - generic [ref=e99] [cursor=pointer]: arch_000010.sajai
+                  - generic [ref=e100] [cursor=pointer]: generated_test.sajai
+                  - generic [ref=e101] [cursor=pointer]: python_spa_adapter_system.sajai
+                  - generic [ref=e102] [cursor=pointer]: test_conversion.sajai
+                  - generic [ref=e103] [cursor=pointer]: test_superposition.sajai
+                  - generic [ref=e104] [cursor=pointer]: uav_example.sajai
+              - generic [ref=e39]:
+                - button "🔮 Generate 3D Model" [ref=e40]
+                - button "🗗 Pop Out" [ref=e41]
+                - button "💾 Download Updated SAJAI" [ref=e341]
+            - generic [ref=e42]:
+              - generic [ref=e43]:
+                - button "← Back" [disabled] [ref=e44]
+                - button "Forward →" [disabled] [ref=e45]
+                - generic [ref=e46]: Uav Payload Reference Architecture 1
+              - generic [ref=e50]:
+                - strong [ref=e51]: "Legend:"
+                - generic [ref=e52]: Parts
+                - generic [ref=e54]: Ports
+                - generic [ref=e56]: Connectors
+              - generic [ref=e58]:
+                - heading "Property Inspector" [level=3] [ref=e59]
+                - paragraph [ref=e61]: Click an element in the 3D view to inspect its properties
+                - separator [ref=e62]
+                - heading "Visibility" [level=4] [ref=e63]
+                - generic [ref=e64]:
+                  - generic [ref=e65] [cursor=pointer]:
+                    - checkbox "Parts" [checked] [ref=e66]
+                    - text: Parts
+                  - generic [ref=e67] [cursor=pointer]:
+                    - checkbox "Ports" [checked] [ref=e68]
+                    - text: Ports
+                  - generic [ref=e69] [cursor=pointer]:
+                    - checkbox "Connectors" [checked] [ref=e70]
+                    - text: Connectors
+                  - generic [ref=e71] [cursor=pointer]:
+                    - checkbox "Labels" [ref=e72]
+                    - text: Labels
+                - separator [ref=e73]
+                - heading "Filters" [level=4] [ref=e74]
+                - generic [ref=e76]:
+                  - text: "Filter by type:"
+                  - combobox "Filter by type:" [ref=e77]:
+                    - option "All" [selected]
+                    - option "Parts only"
+                    - option "Ports only"
+                    - option "Connectors only"
+      - generic [ref=e78]:
+        - heading "2. Completed pair files" [level=2] [ref=e79]
+        - button "Refresh pair files" [ref=e80]
+        - combobox [ref=e81]:
+          - option "data/pairs/authored_pairs.json" [selected]
+          - option "data/pairs/mvp_saved_pairs.json"
+          - option "data/pairs/sample_pairs.json"
+          - option "data/pairs/test-file_123.json"
+          - option "data/pairs/test.json"
+          - option "data/pairs/test_concurrent_0.json"
+          - option "data/pairs/test_concurrent_1.json"
+          - option "data/pairs/test_concurrent_2.json"
+          - option "data/pairs/test_concurrent_3.json"
+          - option "data/pairs/test_concurrent_4.json"
+          - option "data/pairs/test_empty.json"
+          - option "data/pairs/test_integration.json"
+          - option "data/pairs/test_large.json"
+          - option "data/pairs/test_no_ext.json"
+          - option "data/pairs/test_unicode.json"
+        - button "Load pair file for editing" [ref=e82]
+        - paragraph [ref=e83]: This is the feature for reopening completed pair files, editing them, and saving again.
+      - generic [ref=e84]:
+        - heading "3. Pair collection" [level=2] [ref=e85]
+        - generic [ref=e86]:
+          - text: Output filename
+          - textbox "Output filename" [ref=e87]: authored_pairs.json
+        - generic [ref=e88]:
+          - button "Save all pairs" [ref=e89]
+          - button "Download current pairs" [ref=e90]
+          - button "Clear all pairs" [ref=e91]
+        - heading "Current pairs (0)" [level=3] [ref=e92]

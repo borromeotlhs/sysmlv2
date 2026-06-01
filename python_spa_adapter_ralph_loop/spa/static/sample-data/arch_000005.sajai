@@ -1,0 +1,317 @@
+{
+  "format": "SAJAI",
+  "version": "1.0",
+  "description": "Generated from SysML v2 architecture: Power Distribution System Reference Architecture 5",
+  "scenes": {
+    "arch_000005": {
+      "id": "scene_arch_000005",
+      "name": "Power Distribution System Reference Architecture 5",
+      "contextRef": "arch_000005",
+      "camera": {
+        "position": [
+          15.0,
+          12.0,
+          15.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fov": 60.0,
+        "near": 0.1,
+        "far": 1000.0
+      },
+      "parts": [
+        {
+          "id": "part_distributionsubsystem",
+          "name": "DistributionSubsystem",
+          "sysmlRef": "PowerDistributionSystemSystem::DistributionSubsystem",
+          "qualifiedName": "PowerDistributionSystemSystem::DistributionSubsystem",
+          "type": "DistributionSubsystem",
+          "owner": "PowerDistributionSystemSystem",
+          "position": [
+            -7.5,
+            0.0,
+            -7.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#3498db",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_datacontroller",
+          "name": "DataController",
+          "sysmlRef": "PowerDistributionSystemSystem::DataController",
+          "qualifiedName": "PowerDistributionSystemSystem::DataController",
+          "type": "DataController",
+          "owner": "PowerDistributionSystemSystem",
+          "position": [
+            -2.5,
+            0.0,
+            -7.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#e74c3c",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_flightinterface",
+          "name": "FlightInterface",
+          "sysmlRef": "PowerDistributionSystemSystem::FlightInterface",
+          "qualifiedName": "PowerDistributionSystemSystem::FlightInterface",
+          "type": "FlightInterface",
+          "owner": "PowerDistributionSystemSystem",
+          "position": [
+            2.5,
+            0.0,
+            -7.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#2ecc71",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_commassembly",
+          "name": "CommAssembly",
+          "sysmlRef": "PowerDistributionSystemSystem::CommAssembly",
+          "qualifiedName": "PowerDistributionSystemSystem::CommAssembly",
+          "type": "CommAssembly",
+          "owner": "PowerDistributionSystemSystem",
+          "position": [
+            -7.5,
+            0.0,
+            -2.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#f39c12",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_commsubsystem",
+          "name": "CommSubsystem",
+          "sysmlRef": "PowerDistributionSystemSystem::CommSubsystem",
+          "qualifiedName": "PowerDistributionSystemSystem::CommSubsystem",
+          "type": "CommSubsystem",
+          "owner": "PowerDistributionSystemSystem",
+          "position": [
+            -2.5,
+            0.0,
+            -2.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#9b59b6",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        }
+      ],
+      "ports": [
+        {
+          "id": "port_distributionsubsystem_cmdin",
+          "name": "cmdIn",
+          "sysmlRef": "PowerDistributionSystemSystem::DistributionSubsystem::cmdIn",
+          "qualifiedName": "PowerDistributionSystemSystem::DistributionSubsystem::cmdIn",
+          "type": "DataIF",
+          "owner": "DistributionSubsystem",
+          "partId": "part_distributionsubsystem",
+          "surface": "left",
+          "uv": [
+            0.5,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_distributionsubsystem_cmdin",
+          "name": "cmdIn",
+          "sysmlRef": "PowerDistributionSystemSystem::DistributionSubsystem::cmdIn",
+          "qualifiedName": "PowerDistributionSystemSystem::DistributionSubsystem::cmdIn",
+          "type": "StatusIF",
+          "owner": "DistributionSubsystem",
+          "partId": "part_distributionsubsystem",
+          "surface": "left",
+          "uv": [
+            0.3,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_datacontroller_pwrout",
+          "name": "pwrOut",
+          "sysmlRef": "PowerDistributionSystemSystem::DataController::pwrOut",
+          "qualifiedName": "PowerDistributionSystemSystem::DataController::pwrOut",
+          "type": "DataIF",
+          "owner": "DataController",
+          "partId": "part_datacontroller",
+          "surface": "right",
+          "uv": [
+            0.7,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_datacontroller_dataout",
+          "name": "dataOut",
+          "sysmlRef": "PowerDistributionSystemSystem::DataController::dataOut",
+          "qualifiedName": "PowerDistributionSystemSystem::DataController::dataOut",
+          "type": "ThermalIF",
+          "owner": "DataController",
+          "partId": "part_datacontroller",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_datacontroller_dataout",
+          "name": "dataOut",
+          "sysmlRef": "PowerDistributionSystemSystem::DataController::dataOut",
+          "qualifiedName": "PowerDistributionSystemSystem::DataController::dataOut",
+          "type": "ConfigIF",
+          "owner": "DataController",
+          "partId": "part_datacontroller",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_flightinterface_datain",
+          "name": "dataIn",
+          "sysmlRef": "PowerDistributionSystemSystem::FlightInterface::dataIn",
+          "qualifiedName": "PowerDistributionSystemSystem::FlightInterface::dataIn",
+          "type": "StatusIF",
+          "owner": "FlightInterface",
+          "partId": "part_flightinterface",
+          "surface": "left",
+          "uv": [
+            0.3,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_flightinterface_datain",
+          "name": "dataIn",
+          "sysmlRef": "PowerDistributionSystemSystem::FlightInterface::dataIn",
+          "qualifiedName": "PowerDistributionSystemSystem::FlightInterface::dataIn",
+          "type": "SignalIF",
+          "owner": "FlightInterface",
+          "partId": "part_flightinterface",
+          "surface": "left",
+          "uv": [
+            0.7,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_commassembly_dataout",
+          "name": "dataOut",
+          "sysmlRef": "PowerDistributionSystemSystem::CommAssembly::dataOut",
+          "qualifiedName": "PowerDistributionSystemSystem::CommAssembly::dataOut",
+          "type": "DataIF",
+          "owner": "CommAssembly",
+          "partId": "part_commassembly",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_commassembly_ctrlin",
+          "name": "ctrlIn",
+          "sysmlRef": "PowerDistributionSystemSystem::CommAssembly::ctrlIn",
+          "qualifiedName": "PowerDistributionSystemSystem::CommAssembly::ctrlIn",
+          "type": "ConfigIF",
+          "owner": "CommAssembly",
+          "partId": "part_commassembly",
+          "surface": "left",
+          "uv": [
+            0.7,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_commsubsystem_cmdin",
+          "name": "cmdIn",
+          "sysmlRef": "PowerDistributionSystemSystem::CommSubsystem::cmdIn",
+          "qualifiedName": "PowerDistributionSystemSystem::CommSubsystem::cmdIn",
+          "type": "ConfigIF",
+          "owner": "CommSubsystem",
+          "partId": "part_commsubsystem",
+          "surface": "left",
+          "uv": [
+            0.5,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        }
+      ],
+      "connectors": [
+        {
+          "id": "conn_port_distributionsubsystem_cmdin_to_port_datacontroller_dataout",
+          "sourcePortId": "port_distributionsubsystem_cmdin",
+          "targetPortId": "port_datacontroller_dataout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_flightinterface_datain_to_port_commassembly_dataout",
+          "sourcePortId": "port_flightinterface_datain",
+          "targetPortId": "port_commassembly_dataout",
+          "visible": true,
+          "metadata": {}
+        }
+      ]
+    }
+  }
+}

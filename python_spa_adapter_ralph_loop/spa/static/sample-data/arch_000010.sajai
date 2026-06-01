@@ -1,0 +1,385 @@
+{
+  "format": "SAJAI",
+  "version": "1.0",
+  "description": "Generated from SysML v2 architecture: Fuel Cell Reference Architecture 10",
+  "scenes": {
+    "arch_000010": {
+      "id": "scene_arch_000010",
+      "name": "Fuel Cell Reference Architecture 10",
+      "contextRef": "arch_000010",
+      "camera": {
+        "position": [
+          15.0,
+          12.0,
+          15.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fov": 60.0,
+        "near": 0.1,
+        "far": 1000.0
+      },
+      "parts": [
+        {
+          "id": "part_monitorbus",
+          "name": "MonitorBus",
+          "sysmlRef": "FuelCellSystem::MonitorBus",
+          "qualifiedName": "FuelCellSystem::MonitorBus",
+          "type": "MonitorBus",
+          "owner": "FuelCellSystem",
+          "position": [
+            -7.5,
+            0.0,
+            -7.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#3498db",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_processingbus",
+          "name": "ProcessingBus",
+          "sysmlRef": "FuelCellSystem::ProcessingBus",
+          "qualifiedName": "FuelCellSystem::ProcessingBus",
+          "type": "ProcessingBus",
+          "owner": "FuelCellSystem",
+          "position": [
+            -2.5,
+            0.0,
+            -7.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#e74c3c",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_monitormodule",
+          "name": "MonitorModule",
+          "sysmlRef": "FuelCellSystem::MonitorModule",
+          "qualifiedName": "FuelCellSystem::MonitorModule",
+          "type": "MonitorModule",
+          "owner": "FuelCellSystem",
+          "position": [
+            2.5,
+            0.0,
+            -7.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#2ecc71",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_thermalsubsystem",
+          "name": "ThermalSubsystem",
+          "sysmlRef": "FuelCellSystem::ThermalSubsystem",
+          "qualifiedName": "FuelCellSystem::ThermalSubsystem",
+          "type": "ThermalSubsystem",
+          "owner": "FuelCellSystem",
+          "position": [
+            -7.5,
+            0.0,
+            -2.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#f39c12",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_flightinterface",
+          "name": "FlightInterface",
+          "sysmlRef": "FuelCellSystem::FlightInterface",
+          "qualifiedName": "FuelCellSystem::FlightInterface",
+          "type": "FlightInterface",
+          "owner": "FuelCellSystem",
+          "position": [
+            -2.5,
+            0.0,
+            -2.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#9b59b6",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_thermalactuator",
+          "name": "ThermalActuator",
+          "sysmlRef": "FuelCellSystem::ThermalActuator",
+          "qualifiedName": "FuelCellSystem::ThermalActuator",
+          "type": "ThermalActuator",
+          "owner": "FuelCellSystem",
+          "position": [
+            2.5,
+            0.0,
+            -2.5
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#1abc9c",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        }
+      ],
+      "ports": [
+        {
+          "id": "port_monitorbus_telemetryout",
+          "name": "telemetryOut",
+          "sysmlRef": "FuelCellSystem::MonitorBus::telemetryOut",
+          "qualifiedName": "FuelCellSystem::MonitorBus::telemetryOut",
+          "type": "DataIF",
+          "owner": "MonitorBus",
+          "partId": "part_monitorbus",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_monitorbus_pwrin",
+          "name": "pwrIn",
+          "sysmlRef": "FuelCellSystem::MonitorBus::pwrIn",
+          "qualifiedName": "FuelCellSystem::MonitorBus::pwrIn",
+          "type": "ConfigIF",
+          "owner": "MonitorBus",
+          "partId": "part_monitorbus",
+          "surface": "left",
+          "uv": [
+            0.3,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_processingbus_telemetryout",
+          "name": "telemetryOut",
+          "sysmlRef": "FuelCellSystem::ProcessingBus::telemetryOut",
+          "qualifiedName": "FuelCellSystem::ProcessingBus::telemetryOut",
+          "type": "StatusIF",
+          "owner": "ProcessingBus",
+          "partId": "part_processingbus",
+          "surface": "right",
+          "uv": [
+            0.7,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_processingbus_pwrout",
+          "name": "pwrOut",
+          "sysmlRef": "FuelCellSystem::ProcessingBus::pwrOut",
+          "qualifiedName": "FuelCellSystem::ProcessingBus::pwrOut",
+          "type": "StatusIF",
+          "owner": "ProcessingBus",
+          "partId": "part_processingbus",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_monitormodule_pwrin",
+          "name": "pwrIn",
+          "sysmlRef": "FuelCellSystem::MonitorModule::pwrIn",
+          "qualifiedName": "FuelCellSystem::MonitorModule::pwrIn",
+          "type": "ConfigIF",
+          "owner": "MonitorModule",
+          "partId": "part_monitormodule",
+          "surface": "left",
+          "uv": [
+            0.5,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_monitormodule_datain",
+          "name": "dataIn",
+          "sysmlRef": "FuelCellSystem::MonitorModule::dataIn",
+          "qualifiedName": "FuelCellSystem::MonitorModule::dataIn",
+          "type": "ThermalIF",
+          "owner": "MonitorModule",
+          "partId": "part_monitormodule",
+          "surface": "left",
+          "uv": [
+            0.3,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_monitormodule_statusout",
+          "name": "statusOut",
+          "sysmlRef": "FuelCellSystem::MonitorModule::statusOut",
+          "qualifiedName": "FuelCellSystem::MonitorModule::statusOut",
+          "type": "StatusIF",
+          "owner": "MonitorModule",
+          "partId": "part_monitormodule",
+          "surface": "right",
+          "uv": [
+            0.7,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_thermalsubsystem_datain",
+          "name": "dataIn",
+          "sysmlRef": "FuelCellSystem::ThermalSubsystem::dataIn",
+          "qualifiedName": "FuelCellSystem::ThermalSubsystem::dataIn",
+          "type": "DiagnosticIF",
+          "owner": "ThermalSubsystem",
+          "partId": "part_thermalsubsystem",
+          "surface": "left",
+          "uv": [
+            0.3,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_thermalsubsystem_configin",
+          "name": "configIn",
+          "sysmlRef": "FuelCellSystem::ThermalSubsystem::configIn",
+          "qualifiedName": "FuelCellSystem::ThermalSubsystem::configIn",
+          "type": "SignalIF",
+          "owner": "ThermalSubsystem",
+          "partId": "part_thermalsubsystem",
+          "surface": "left",
+          "uv": [
+            0.7,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_thermalsubsystem_statusout",
+          "name": "statusOut",
+          "sysmlRef": "FuelCellSystem::ThermalSubsystem::statusOut",
+          "qualifiedName": "FuelCellSystem::ThermalSubsystem::statusOut",
+          "type": "ConfigIF",
+          "owner": "ThermalSubsystem",
+          "partId": "part_thermalsubsystem",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_flightinterface_pwrin",
+          "name": "pwrIn",
+          "sysmlRef": "FuelCellSystem::FlightInterface::pwrIn",
+          "qualifiedName": "FuelCellSystem::FlightInterface::pwrIn",
+          "type": "SignalIF",
+          "owner": "FlightInterface",
+          "partId": "part_flightinterface",
+          "surface": "left",
+          "uv": [
+            0.3,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_thermalactuator_statusout",
+          "name": "statusOut",
+          "sysmlRef": "FuelCellSystem::ThermalActuator::statusOut",
+          "qualifiedName": "FuelCellSystem::ThermalActuator::statusOut",
+          "type": "DiagnosticIF",
+          "owner": "ThermalActuator",
+          "partId": "part_thermalactuator",
+          "surface": "right",
+          "uv": [
+            0.7,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        }
+      ],
+      "connectors": [
+        {
+          "id": "conn_port_thermalsubsystem_datain_to_port_flightinterface_pwrin",
+          "sourcePortId": "port_thermalsubsystem_datain",
+          "targetPortId": "port_flightinterface_pwrin",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_thermalactuator_statusout_to_port_processingbus_telemetryout",
+          "sourcePortId": "port_thermalactuator_statusout",
+          "targetPortId": "port_processingbus_telemetryout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_monitorbus_pwrin_to_port_monitormodule_pwrin",
+          "sourcePortId": "port_monitorbus_pwrin",
+          "targetPortId": "port_monitormodule_pwrin",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_thermalsubsystem_statusout_to_port_monitormodule_datain",
+          "sourcePortId": "port_thermalsubsystem_statusout",
+          "targetPortId": "port_monitormodule_datain",
+          "visible": true,
+          "metadata": {}
+        }
+      ]
+    }
+  }
+}

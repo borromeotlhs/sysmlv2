@@ -1,0 +1,867 @@
+{
+  "format": "SAJAI",
+  "version": "1.0",
+  "description": "Generated from SysML v2 architecture: Port type definitions",
+  "scenes": {
+    "PythonSPAAdapterSystem": {
+      "id": "scene_PythonSPAAdapterSystem",
+      "name": "Port type definitions",
+      "contextRef": "PythonSPAAdapterSystem",
+      "camera": {
+        "position": [
+          15.0,
+          12.0,
+          15.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fov": 60.0,
+        "near": 0.1,
+        "far": 1000.0
+      },
+      "parts": [
+        {
+          "id": "part_spaserver",
+          "name": "SPAServer",
+          "sysmlRef": "PythonSPAAdapter::SPAServer",
+          "qualifiedName": "PythonSPAAdapter::SPAServer",
+          "type": "SPAServer",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            -10.0,
+            0.0,
+            -10.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#3498db",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_sysmlparser",
+          "name": "SysMLParser",
+          "sysmlRef": "PythonSPAAdapter::SysMLParser",
+          "qualifiedName": "PythonSPAAdapter::SysMLParser",
+          "type": "SysMLParser",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            -5.0,
+            0.0,
+            -10.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#e74c3c",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_sysmlgenerator",
+          "name": "SysMLGenerator",
+          "sysmlRef": "PythonSPAAdapter::SysMLGenerator",
+          "qualifiedName": "PythonSPAAdapter::SysMLGenerator",
+          "type": "SysMLGenerator",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            0.0,
+            0.0,
+            -10.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#2ecc71",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_sysmlvalidator",
+          "name": "SysMLValidator",
+          "sysmlRef": "PythonSPAAdapter::SysMLValidator",
+          "qualifiedName": "PythonSPAAdapter::SysMLValidator",
+          "type": "SysMLValidator",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            5.0,
+            0.0,
+            -10.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#f39c12",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_plantumlrenderer",
+          "name": "PlantUMLRenderer",
+          "sysmlRef": "PythonSPAAdapter::PlantUMLRenderer",
+          "qualifiedName": "PythonSPAAdapter::PlantUMLRenderer",
+          "type": "PlantUMLRenderer",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            -10.0,
+            0.0,
+            -5.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#9b59b6",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_testsuite",
+          "name": "TestSuite",
+          "sysmlRef": "PythonSPAAdapter::TestSuite",
+          "qualifiedName": "PythonSPAAdapter::TestSuite",
+          "type": "TestSuite",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            -5.0,
+            0.0,
+            -5.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#1abc9c",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_parsertests",
+          "name": "ParserTests",
+          "sysmlRef": "PythonSPAAdapter::ParserTests",
+          "qualifiedName": "PythonSPAAdapter::ParserTests",
+          "type": "ParserTests",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            0.0,
+            0.0,
+            -5.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#e67e22",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_vvtests",
+          "name": "VVTests",
+          "sysmlRef": "PythonSPAAdapter::VVTests",
+          "qualifiedName": "PythonSPAAdapter::VVTests",
+          "type": "VVTests",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            5.0,
+            0.0,
+            -5.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#34495e",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_integrationtests",
+          "name": "IntegrationTests",
+          "sysmlRef": "PythonSPAAdapter::IntegrationTests",
+          "qualifiedName": "PythonSPAAdapter::IntegrationTests",
+          "type": "IntegrationTests",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            -10.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#16a085",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_datasetpipeline",
+          "name": "DatasetPipeline",
+          "sysmlRef": "PythonSPAAdapter::DatasetPipeline",
+          "qualifiedName": "PythonSPAAdapter::DatasetPipeline",
+          "type": "DatasetPipeline",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            -5.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#c0392b",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_architecturegenerator",
+          "name": "ArchitectureGenerator",
+          "sysmlRef": "PythonSPAAdapter::ArchitectureGenerator",
+          "qualifiedName": "PythonSPAAdapter::ArchitectureGenerator",
+          "type": "ArchitectureGenerator",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#8e44ad",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "part_filestorage",
+          "name": "FileStorage",
+          "sysmlRef": "PythonSPAAdapter::FileStorage",
+          "qualifiedName": "PythonSPAAdapter::FileStorage",
+          "type": "FileStorage",
+          "owner": "PythonSPAAdapter",
+          "position": [
+            5.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            2.5,
+            2.0,
+            2.5
+          ],
+          "color": "#2980b9",
+          "opacity": 0.85,
+          "visible": true,
+          "metadata": {}
+        }
+      ],
+      "ports": [
+        {
+          "id": "port_spaserver_httpin",
+          "name": "httpIn",
+          "sysmlRef": "PythonSPAAdapter::SPAServer::httpIn",
+          "qualifiedName": "PythonSPAAdapter::SPAServer::httpIn",
+          "type": "HTTPPort",
+          "owner": "SPAServer",
+          "partId": "part_spaserver",
+          "surface": "left",
+          "uv": [
+            0.5,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_spaserver_dataout",
+          "name": "dataOut",
+          "sysmlRef": "PythonSPAAdapter::SPAServer::dataOut",
+          "qualifiedName": "PythonSPAAdapter::SPAServer::dataOut",
+          "type": "DataPort",
+          "owner": "SPAServer",
+          "partId": "part_spaserver",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_spaserver_filein",
+          "name": "fileIn",
+          "sysmlRef": "PythonSPAAdapter::SPAServer::fileIn",
+          "qualifiedName": "PythonSPAAdapter::SPAServer::fileIn",
+          "type": "FilePort",
+          "owner": "SPAServer",
+          "partId": "part_spaserver",
+          "surface": "left",
+          "uv": [
+            0.7,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sysmlparser_filein",
+          "name": "fileIn",
+          "sysmlRef": "PythonSPAAdapter::SysMLParser::fileIn",
+          "qualifiedName": "PythonSPAAdapter::SysMLParser::fileIn",
+          "type": "FilePort",
+          "owner": "SysMLParser",
+          "partId": "part_sysmlparser",
+          "surface": "left",
+          "uv": [
+            0.5,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sysmlparser_dataout",
+          "name": "dataOut",
+          "sysmlRef": "PythonSPAAdapter::SysMLParser::dataOut",
+          "qualifiedName": "PythonSPAAdapter::SysMLParser::dataOut",
+          "type": "DataPort",
+          "owner": "SysMLParser",
+          "partId": "part_sysmlparser",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sysmlparser_validationout",
+          "name": "validationOut",
+          "sysmlRef": "PythonSPAAdapter::SysMLParser::validationOut",
+          "qualifiedName": "PythonSPAAdapter::SysMLParser::validationOut",
+          "type": "ValidationPort",
+          "owner": "SysMLParser",
+          "partId": "part_sysmlparser",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sysmlgenerator_datain",
+          "name": "dataIn",
+          "sysmlRef": "PythonSPAAdapter::SysMLGenerator::dataIn",
+          "qualifiedName": "PythonSPAAdapter::SysMLGenerator::dataIn",
+          "type": "DataPort",
+          "owner": "SysMLGenerator",
+          "partId": "part_sysmlgenerator",
+          "surface": "left",
+          "uv": [
+            0.7,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sysmlgenerator_fileout",
+          "name": "fileOut",
+          "sysmlRef": "PythonSPAAdapter::SysMLGenerator::fileOut",
+          "qualifiedName": "PythonSPAAdapter::SysMLGenerator::fileOut",
+          "type": "FilePort",
+          "owner": "SysMLGenerator",
+          "partId": "part_sysmlgenerator",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sysmlgenerator_validationin",
+          "name": "validationIn",
+          "sysmlRef": "PythonSPAAdapter::SysMLGenerator::validationIn",
+          "qualifiedName": "PythonSPAAdapter::SysMLGenerator::validationIn",
+          "type": "ValidationPort",
+          "owner": "SysMLGenerator",
+          "partId": "part_sysmlgenerator",
+          "surface": "left",
+          "uv": [
+            0.7,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sysmlvalidator_filein",
+          "name": "fileIn",
+          "sysmlRef": "PythonSPAAdapter::SysMLValidator::fileIn",
+          "qualifiedName": "PythonSPAAdapter::SysMLValidator::fileIn",
+          "type": "FilePort",
+          "owner": "SysMLValidator",
+          "partId": "part_sysmlvalidator",
+          "surface": "left",
+          "uv": [
+            0.5,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sysmlvalidator_validationout",
+          "name": "validationOut",
+          "sysmlRef": "PythonSPAAdapter::SysMLValidator::validationOut",
+          "qualifiedName": "PythonSPAAdapter::SysMLValidator::validationOut",
+          "type": "ValidationPort",
+          "owner": "SysMLValidator",
+          "partId": "part_sysmlvalidator",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_sysmlvalidator_reportout",
+          "name": "reportOut",
+          "sysmlRef": "PythonSPAAdapter::SysMLValidator::reportOut",
+          "qualifiedName": "PythonSPAAdapter::SysMLValidator::reportOut",
+          "type": "DataPort",
+          "owner": "SysMLValidator",
+          "partId": "part_sysmlvalidator",
+          "surface": "right",
+          "uv": [
+            0.7,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_plantumlrenderer_datain",
+          "name": "dataIn",
+          "sysmlRef": "PythonSPAAdapter::PlantUMLRenderer::dataIn",
+          "qualifiedName": "PythonSPAAdapter::PlantUMLRenderer::dataIn",
+          "type": "DataPort",
+          "owner": "PlantUMLRenderer",
+          "partId": "part_plantumlrenderer",
+          "surface": "left",
+          "uv": [
+            0.5,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_plantumlrenderer_renderout",
+          "name": "renderOut",
+          "sysmlRef": "PythonSPAAdapter::PlantUMLRenderer::renderOut",
+          "qualifiedName": "PythonSPAAdapter::PlantUMLRenderer::renderOut",
+          "type": "RenderPort",
+          "owner": "PlantUMLRenderer",
+          "partId": "part_plantumlrenderer",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_plantumlrenderer_urlout",
+          "name": "urlOut",
+          "sysmlRef": "PythonSPAAdapter::PlantUMLRenderer::urlOut",
+          "qualifiedName": "PythonSPAAdapter::PlantUMLRenderer::urlOut",
+          "type": "DataPort",
+          "owner": "PlantUMLRenderer",
+          "partId": "part_plantumlrenderer",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_testsuite_testin",
+          "name": "testIn",
+          "sysmlRef": "PythonSPAAdapter::TestSuite::testIn",
+          "qualifiedName": "PythonSPAAdapter::TestSuite::testIn",
+          "type": "TestPort",
+          "owner": "TestSuite",
+          "partId": "part_testsuite",
+          "surface": "left",
+          "uv": [
+            0.7,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_testsuite_reportout",
+          "name": "reportOut",
+          "sysmlRef": "PythonSPAAdapter::TestSuite::reportOut",
+          "qualifiedName": "PythonSPAAdapter::TestSuite::reportOut",
+          "type": "DataPort",
+          "owner": "TestSuite",
+          "partId": "part_testsuite",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_parsertests_testout",
+          "name": "testOut",
+          "sysmlRef": "PythonSPAAdapter::ParserTests::testOut",
+          "qualifiedName": "PythonSPAAdapter::ParserTests::testOut",
+          "type": "TestPort",
+          "owner": "ParserTests",
+          "partId": "part_parsertests",
+          "surface": "right",
+          "uv": [
+            0.7,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_vvtests_testout",
+          "name": "testOut",
+          "sysmlRef": "PythonSPAAdapter::VVTests::testOut",
+          "qualifiedName": "PythonSPAAdapter::VVTests::testOut",
+          "type": "TestPort",
+          "owner": "VVTests",
+          "partId": "part_vvtests",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_integrationtests_testout",
+          "name": "testOut",
+          "sysmlRef": "PythonSPAAdapter::IntegrationTests::testOut",
+          "qualifiedName": "PythonSPAAdapter::IntegrationTests::testOut",
+          "type": "TestPort",
+          "owner": "IntegrationTests",
+          "partId": "part_integrationtests",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_datasetpipeline_datain",
+          "name": "dataIn",
+          "sysmlRef": "PythonSPAAdapter::DatasetPipeline::dataIn",
+          "qualifiedName": "PythonSPAAdapter::DatasetPipeline::dataIn",
+          "type": "DataPort",
+          "owner": "DatasetPipeline",
+          "partId": "part_datasetpipeline",
+          "surface": "left",
+          "uv": [
+            0.7,
+            0.5
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_datasetpipeline_fileout",
+          "name": "fileOut",
+          "sysmlRef": "PythonSPAAdapter::DatasetPipeline::fileOut",
+          "qualifiedName": "PythonSPAAdapter::DatasetPipeline::fileOut",
+          "type": "FilePort",
+          "owner": "DatasetPipeline",
+          "partId": "part_datasetpipeline",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_architecturegenerator_dataout",
+          "name": "dataOut",
+          "sysmlRef": "PythonSPAAdapter::ArchitectureGenerator::dataOut",
+          "qualifiedName": "PythonSPAAdapter::ArchitectureGenerator::dataOut",
+          "type": "DataPort",
+          "owner": "ArchitectureGenerator",
+          "partId": "part_architecturegenerator",
+          "surface": "right",
+          "uv": [
+            0.5,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_architecturegenerator_fileout",
+          "name": "fileOut",
+          "sysmlRef": "PythonSPAAdapter::ArchitectureGenerator::fileOut",
+          "qualifiedName": "PythonSPAAdapter::ArchitectureGenerator::fileOut",
+          "type": "FilePort",
+          "owner": "ArchitectureGenerator",
+          "partId": "part_architecturegenerator",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_filestorage_filein",
+          "name": "fileIn",
+          "sysmlRef": "PythonSPAAdapter::FileStorage::fileIn",
+          "qualifiedName": "PythonSPAAdapter::FileStorage::fileIn",
+          "type": "FilePort",
+          "owner": "FileStorage",
+          "partId": "part_filestorage",
+          "surface": "left",
+          "uv": [
+            0.7,
+            0.3
+          ],
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "port_filestorage_fileout",
+          "name": "fileOut",
+          "sysmlRef": "PythonSPAAdapter::FileStorage::fileOut",
+          "qualifiedName": "PythonSPAAdapter::FileStorage::fileOut",
+          "type": "FilePort",
+          "owner": "FileStorage",
+          "partId": "part_filestorage",
+          "surface": "right",
+          "uv": [
+            0.3,
+            0.7
+          ],
+          "visible": true,
+          "metadata": {}
+        }
+      ],
+      "connectors": [
+        {
+          "id": "conn_port_sysmlgenerator_datain_to_port_architecturegenerator_dataout",
+          "sourcePortId": "port_sysmlgenerator_datain",
+          "targetPortId": "port_architecturegenerator_dataout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_sysmlgenerator_fileout_to_port_filestorage_filein",
+          "sourcePortId": "port_sysmlgenerator_fileout",
+          "targetPortId": "port_filestorage_filein",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_sysmlgenerator_fileout_to_port_sysmlvalidator_filein",
+          "sourcePortId": "port_sysmlgenerator_fileout",
+          "targetPortId": "port_sysmlvalidator_filein",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_sysmlvalidator_validationout_to_port_sysmlgenerator_validationin",
+          "sourcePortId": "port_sysmlvalidator_validationout",
+          "targetPortId": "port_sysmlgenerator_validationin",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_filestorage_fileout_to_port_sysmlparser_filein",
+          "sourcePortId": "port_filestorage_fileout",
+          "targetPortId": "port_sysmlparser_filein",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_sysmlparser_dataout_to_port_sysmlgenerator_datain",
+          "sourcePortId": "port_sysmlparser_dataout",
+          "targetPortId": "port_sysmlgenerator_datain",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_sysmlparser_validationout_to_port_sysmlvalidator_validationout",
+          "sourcePortId": "port_sysmlparser_validationout",
+          "targetPortId": "port_sysmlvalidator_validationout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_sysmlparser_dataout_to_port_sysmlgenerator_datain",
+          "sourcePortId": "port_sysmlparser_dataout",
+          "targetPortId": "port_sysmlgenerator_datain",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_sysmlgenerator_fileout_to_port_sysmlparser_filein",
+          "sourcePortId": "port_sysmlgenerator_fileout",
+          "targetPortId": "port_sysmlparser_filein",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_sysmlparser_dataout_to_port_plantumlrenderer_datain",
+          "sourcePortId": "port_sysmlparser_dataout",
+          "targetPortId": "port_plantumlrenderer_datain",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_plantumlrenderer_urlout_to_port_spaserver_dataout",
+          "sourcePortId": "port_plantumlrenderer_urlout",
+          "targetPortId": "port_spaserver_dataout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_spaserver_filein_to_port_filestorage_fileout",
+          "sourcePortId": "port_spaserver_filein",
+          "targetPortId": "port_filestorage_fileout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_filestorage_fileout_to_port_spaserver_dataout",
+          "sourcePortId": "port_filestorage_fileout",
+          "targetPortId": "port_spaserver_dataout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_plantumlrenderer_urlout_to_port_spaserver_dataout",
+          "sourcePortId": "port_plantumlrenderer_urlout",
+          "targetPortId": "port_spaserver_dataout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_architecturegenerator_dataout_to_port_datasetpipeline_datain",
+          "sourcePortId": "port_architecturegenerator_dataout",
+          "targetPortId": "port_datasetpipeline_datain",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_datasetpipeline_fileout_to_port_filestorage_filein",
+          "sourcePortId": "port_datasetpipeline_fileout",
+          "targetPortId": "port_filestorage_filein",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_parsertests_testout_to_port_testsuite_testin",
+          "sourcePortId": "port_parsertests_testout",
+          "targetPortId": "port_testsuite_testin",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_vvtests_testout_to_port_testsuite_testin",
+          "sourcePortId": "port_vvtests_testout",
+          "targetPortId": "port_testsuite_testin",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_integrationtests_testout_to_port_testsuite_testin",
+          "sourcePortId": "port_integrationtests_testout",
+          "targetPortId": "port_testsuite_testin",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_testsuite_reportout_to_port_spaserver_dataout",
+          "sourcePortId": "port_testsuite_reportout",
+          "targetPortId": "port_spaserver_dataout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_sysmlvalidator_reportout_to_port_testsuite_reportout",
+          "sourcePortId": "port_sysmlvalidator_reportout",
+          "targetPortId": "port_testsuite_reportout",
+          "visible": true,
+          "metadata": {}
+        },
+        {
+          "id": "conn_port_testsuite_reportout_to_port_sysmlvalidator_filein",
+          "sourcePortId": "port_testsuite_reportout",
+          "targetPortId": "port_sysmlvalidator_filein",
+          "visible": true,
+          "metadata": {}
+        }
+      ]
+    }
+  }
+}

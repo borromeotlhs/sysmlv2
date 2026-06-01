@@ -47,27 +47,12 @@ test.describe('End-to-End Workflow', () => {
     await expect(ibdDiagram).toBeVisible();
     await screenshot(page, 'e2e-05-ibd-view');
 
-    // Step 6: Generate 3D model
-    // 3D view is always visible - no need to switch tabs
-    await page.waitForTimeout(500);
+    // Step 6: 3D model generation
+    // NEW: 3D generation happens automatically when .sysml file loads
+    // Just wait for it to complete
+    await screenshot(page, 'e2e-06-awaiting-3d-generation');
 
-    const generateButton = page.locator('#generateSajaiBtn');
-    await expect(generateButton).toBeVisible();
-    await generateButton.click();
-
-    // Handle modal if present
-    const modal = page.locator('#sajaiGenerateModal');
-    const modalVisible = await modal.isVisible({ timeout: 2000 }).catch(() => false);
-
-    if (modalVisible) {
-      await waitForModal(page, 'sajaiGenerateModal');
-      const modalGenerateButton = page.locator('#confirmSajaiGenerate');
-      await modalGenerateButton.click();
-    }
-
-    await screenshot(page, 'e2e-06-3d-generation-started');
-
-    // Step 7: Wait for 3D scene to load
+    // Step 7: Wait for automatic 3D generation to complete
     await waitFor3DScene(page);
 
     const canvas = page.locator('#threejsContainer canvas');
@@ -138,17 +123,8 @@ test.describe('End-to-End Workflow', () => {
     await waitForDiagram(page, 'bdd');
     await screenshot(page, 'e2e-export-bdd-diagram');
 
-    // Generate and download 3D
-    // 3D view is always visible - no need to switch tabs
-    const generateButton = page.locator('#generateSajaiBtn');
-    await generateButton.click();
-
-    const modal = page.locator('#sajaiGenerateModal');
-    if (await modal.isVisible({ timeout: 2000 })) {
-      const modalGenerateButton = page.locator('#confirmSajaiGenerate');
-      await modalGenerateButton.click();
-    }
-
+    // Wait for automatic 3D generation
+    // 3D view is always visible and generates automatically
     await waitFor3DScene(page);
     await screenshot(page, 'e2e-export-3d-complete');
   });
@@ -227,18 +203,8 @@ test.describe('End-to-End Workflow', () => {
       const popoutPage = await popoutPromise;
       await popoutPage.waitForLoadState('domcontentloaded');
 
-      // Main window: Generate 3D
-      // 3D view is always visible - no need to switch tabs
-      const generateButton = page.locator('#generateSajaiBtn');
-      await generateButton.click();
-
-      const modal = page.locator('#sajaiGenerateModal');
-      if (await modal.isVisible({ timeout: 2000 })) {
-        const modalGenerateButton = page.locator('#confirmSajaiGenerate');
-        await modalGenerateButton.click();
-      }
-
-      // Wait for 3D in main window
+      // Main window: Wait for automatic 3D generation
+      // 3D view is always visible and generates automatically
       await waitFor3DScene(page);
       await screenshot(page, 'e2e-concurrent-main-3d');
 
@@ -288,33 +254,22 @@ test.describe('End-to-End Workflow', () => {
     await waitForDiagram(page, 'ibd');
     await screenshot(page, 'e2e-tour-05-ibd');
 
-    // 7. Generate 3D
-    // 3D view is always visible - no need to switch tabs
-    const generateButton = page.locator('#generateSajaiBtn');
+    // 7. Wait for automatic 3D generation
+    // 3D view is always visible and generates automatically when .sysml loads
+    await waitFor3DScene(page);
+    await screenshot(page, 'e2e-tour-06-3d-generated');
 
-    if (await generateButton.isVisible()) {
-      await generateButton.click();
+    // 8. Toggle visibility
+    const partsToggle = page.locator('#visibility-parts');
+    if (await partsToggle.isVisible()) {
+      await partsToggle.click();
+      await page.waitForTimeout(300);
+      await screenshot(page, 'e2e-tour-07-3d-parts-hidden');
 
-      const modal = page.locator('#sajaiGenerateModal');
-      if (await modal.isVisible({ timeout: 2000 })) {
-        const modalGenerateButton = page.locator('#confirmSajaiGenerate');
-        await modalGenerateButton.click();
-      }
-
-      await waitFor3DScene(page);
-      await screenshot(page, 'e2e-tour-06-3d-generated');
-
-      // 8. Toggle visibility
-      const partsToggle = page.locator('#visibility-parts');
-      if (await partsToggle.isVisible()) {
-        await partsToggle.click();
-        await page.waitForTimeout(300);
-        await screenshot(page, 'e2e-tour-07-3d-parts-hidden');
-
-        await partsToggle.click();
-        await page.waitForTimeout(300);
-        await screenshot(page, 'e2e-tour-08-3d-parts-shown');
-      }
+      await partsToggle.click();
+      await page.waitForTimeout(300);
+      await screenshot(page, 'e2e-tour-08-3d-parts-shown');
+    }
 
       // 9. Interact with canvas
       const canvas = page.locator('#threejsContainer canvas');

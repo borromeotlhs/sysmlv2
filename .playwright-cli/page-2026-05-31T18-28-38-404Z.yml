@@ -1,0 +1,87 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "Adapter Pair Authoring SPA" [level=1] [ref=e3]
+    - paragraph [ref=e4]: Python-only, no npm. Author and edit prompt → architecture pairs.
+    - button "+ New Architecture" [ref=e5] [cursor=pointer]
+  - generic [ref=e6]:
+    - complementary [ref=e7]:
+      - generic [ref=e8]:
+        - heading "Architecture Files" [level=3] [ref=e9]
+        - button "↻" [ref=e10] [cursor=pointer]
+      - generic [ref=e11]:
+        - textbox "Enter directory path..." [ref=e12]
+        - button "Go" [ref=e13] [cursor=pointer]
+        - button "↑" [ref=e14] [cursor=pointer]
+        - button "⌂" [ref=e15] [cursor=pointer]
+    - main [ref=e18]:
+      - generic [ref=e19]:
+        - heading "1. Selected Architecture" [level=2] [ref=e20]
+        - paragraph [ref=e22]: Click on an architecture file in the tree to view it here.
+        - generic [ref=e23]:
+          - generic [ref=e25]:
+            - button "Text" [ref=e26] [cursor=pointer]
+            - button "BDD" [ref=e27] [cursor=pointer]
+            - button "IBD" [ref=e28] [cursor=pointer]
+          - generic [ref=e32]:
+            - generic [ref=e33]:
+              - complementary [ref=e34]:
+                - generic [ref=e35]:
+                  - heading "3D Models" [level=3] [ref=e36]
+                  - button "↻" [ref=e37] [cursor=pointer]
+              - generic [ref=e39]:
+                - button "🔮 Generate 3D Model" [disabled] [ref=e40]
+                - button "🗗 Pop Out" [ref=e41]
+            - generic [ref=e42]:
+              - generic [ref=e43]:
+                - button "← Back" [disabled] [ref=e44]
+                - button "Forward →" [disabled] [ref=e45]
+                - generic [ref=e46]: Root
+              - paragraph [ref=e49]: Select and load a .sajai file to view 3D scene
+              - generic [ref=e50]:
+                - strong [ref=e51]: "Legend:"
+                - generic [ref=e52]: Parts
+                - generic [ref=e54]: Ports
+                - generic [ref=e56]: Connectors
+              - generic [ref=e58]:
+                - heading "Property Inspector" [level=3] [ref=e59]
+                - paragraph [ref=e61]: Click an element in the 3D view to inspect its properties
+                - separator [ref=e62]
+                - heading "Visibility" [level=4] [ref=e63]
+                - generic [ref=e64]:
+                  - generic [ref=e65] [cursor=pointer]:
+                    - checkbox "Parts" [checked] [ref=e66]
+                    - text: Parts
+                  - generic [ref=e67] [cursor=pointer]:
+                    - checkbox "Ports" [checked] [ref=e68]
+                    - text: Ports
+                  - generic [ref=e69] [cursor=pointer]:
+                    - checkbox "Connectors" [checked] [ref=e70]
+                    - text: Connectors
+                  - generic [ref=e71] [cursor=pointer]:
+                    - checkbox "Labels" [ref=e72]
+                    - text: Labels
+                - separator [ref=e73]
+                - heading "Filters" [level=4] [ref=e74]
+                - generic [ref=e76]:
+                  - text: "Filter by type:"
+                  - combobox "Filter by type:" [ref=e77]:
+                    - option "All" [selected]
+                    - option "Parts only"
+                    - option "Ports only"
+                    - option "Connectors only"
+      - generic [ref=e78]:
+        - heading "2. Completed pair files" [level=2] [ref=e79]
+        - button "Refresh pair files" [ref=e80]
+        - combobox [ref=e81]
+        - button "Load pair file for editing" [ref=e82]
+        - paragraph [ref=e83]: This is the feature for reopening completed pair files, editing them, and saving again.
+      - generic [ref=e84]:
+        - heading "3. Pair collection" [level=2] [ref=e85]
+        - generic [ref=e86]:
+          - text: Output filename
+          - textbox "Output filename" [ref=e87]: authored_pairs.json
+        - generic [ref=e88]:
+          - button "Save all pairs" [ref=e89]
+          - button "Download current pairs" [ref=e90]
+          - button "Clear all pairs" [ref=e91]
+        - heading "Current pairs (0)" [level=3] [ref=e92]
