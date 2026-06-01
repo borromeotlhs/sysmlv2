@@ -115,12 +115,15 @@ async function waitFor3DScene(page) {
     await page.waitForSelector('#threejsContainer', { state: 'visible', timeout: 10000 });
 
     // NEW: Wait for generation to complete if in progress
-    // Check if "Generating 3D view..." message is present
-    const generatingMsg = await page.locator('#threejsContainer:has-text("Generating")').count();
-    if (generatingMsg > 0) {
-      // Wait for generation to finish (up to 20 seconds)
-      await page.waitForSelector('#threejsContainer:not(:has-text("Generating"))', { timeout: 20000 });
+    // Check if loading indicator (.threejs-loading) is present
+    const loadingIndicator = await page.locator('.threejs-loading').count();
+    if (loadingIndicator > 0) {
+      // Wait for loading indicator to disappear (up to 30 seconds for generation)
+      await page.waitForSelector('.threejs-loading', { state: 'hidden', timeout: 30000 });
     }
+
+    // Small delay for canvas to be inserted
+    await page.waitForTimeout(500);
 
     // Now wait for canvas to appear
     await page.waitForSelector('#threejsContainer canvas', { state: 'visible', timeout: 20000 });
