@@ -271,15 +271,14 @@ test.describe('End-to-End Workflow', () => {
       await screenshot(page, 'e2e-tour-08-3d-parts-shown');
     }
 
-      // 9. Interact with canvas
-      const canvas = page.locator('#threejsContainer canvas');
-      await canvas.hover({ position: { x: 300, y: 300 } });
-      await page.mouse.down();
-      await page.mouse.move(350, 320);
-      await page.mouse.up();
-      await page.waitForTimeout(300);
-      await screenshot(page, 'e2e-tour-09-3d-rotated');
-    }
+    // 9. Interact with canvas
+    const canvas = page.locator('#threejsContainer canvas');
+    await canvas.hover({ position: { x: 300, y: 300 } });
+    await page.mouse.down();
+    await page.mouse.move(350, 320);
+    await page.mouse.up();
+    await page.waitForTimeout(300);
+    await screenshot(page, 'e2e-tour-09-3d-rotated');
 
     // 10. Load different architecture
     await loadArchitecture(page, 'arch_000010.sysml');
