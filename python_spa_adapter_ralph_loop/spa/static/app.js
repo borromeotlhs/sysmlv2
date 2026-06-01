@@ -67,7 +67,11 @@ async function loadArchitectureFromPath(path) {
       $('generateSajaiBtn').disabled = false;
 
       // Auto-generate 3D view on-the-fly (don't wait for user to click button)
-      generateInMemorySajai(path);
+      // Don't await - let it run in background so UI remains responsive
+      generateInMemorySajai(path).catch(err => {
+        console.error('Auto-generation failed:', err);
+        // Silently fail - user can still manually generate if needed
+      });
 
     } else {
       // For JSON files, use existing behavior
@@ -1121,7 +1125,7 @@ async function generateSajaiFromArch() {
  */
 function openSave3DModal() {
   // Check if 3D scene is loaded
-  if (!window.sajaiRenderer || !window.sajaiRenderer.currentSajaiData) {
+  if (!currentSajaiData || !sajaiRenderer) {
     alert('No 3D model loaded. Load or generate a 3D model first.');
     return;
   }
@@ -1156,7 +1160,7 @@ function closeSave3DModal() {
  * Save current 3D model as SAJAI or GLB
  */
 async function save3DModel() {
-  if (!window.sajaiRenderer || !window.sajaiRenderer.currentSajaiData) {
+  if (!currentSajaiData || !sajaiRenderer) {
     alert('No 3D model to save');
     return;
   }
@@ -1187,7 +1191,7 @@ async function save3DModel() {
     if (format === 'sajai') {
       // Save SAJAI format
       const result = await postJson('/api/save-sajai', {
-        sajaiData: window.sajaiRenderer.currentSajaiData,
+        sajaiData: currentSajaiData,
         outputPath: outputPath
       });
 
@@ -1196,7 +1200,7 @@ async function save3DModel() {
     } else if (format === 'glb') {
       // Convert to GLB format
       const result = await postJson('/api/export-glb', {
-        sajaiData: window.sajaiRenderer.currentSajaiData,
+        sajaiData: currentSajaiData,
         outputPath: outputPath
       });
 
