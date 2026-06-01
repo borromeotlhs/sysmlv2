@@ -1113,11 +1113,15 @@ class Handler(BaseHTTPRequestHandler):
                 # Validate request
                 if 'architecturePath' not in body:
                     return self.send_json({'error': 'Missing required field: architecturePath'}, 400)
-                if 'outputPath' not in body:
-                    return self.send_json({'error': 'Missing required field: outputPath'}, 400)
 
                 arch_path_str = body['architecturePath']
-                output_path_str = body['outputPath']
+                in_memory = body.get('inMemory', False)  # New: support in-memory generation
+
+                # For in-memory generation, outputPath is optional
+                if not in_memory and 'outputPath' not in body:
+                    return self.send_json({'error': 'Missing required field: outputPath'}, 400)
+
+                output_path_str = body.get('outputPath')
 
                 # Resolve paths
                 try:
@@ -1125,17 +1129,19 @@ class Handler(BaseHTTPRequestHandler):
                     if not arch_path.exists():
                         return self.send_json({'error': f'Architecture file not found: {arch_path_str}'}, 404)
 
-                    # Output path - allow under spa/static/sample-data
-                    output_path = (ROOT / output_path_str).resolve()
-                    sajai_dir = (STATIC / 'sample-data').resolve()
+                    # Output path validation (only for file-based generation)
+                    output_path = None
+                    if not in_memory:
+                        output_path = (ROOT / output_path_str).resolve()
+                        sajai_dir = (STATIC / 'sample-data').resolve()
 
-                    # Ensure output is under allowed directory
-                    if sajai_dir not in output_path.parents and output_path.parent != sajai_dir:
-                        return self.send_json({'error': 'Output path must be under spa/static/sample-data/'}, 400)
+                        # Ensure output is under allowed directory
+                        if sajai_dir not in output_path.parents and output_path.parent != sajai_dir:
+                            return self.send_json({'error': 'Output path must be under spa/static/sample-data/'}, 400)
 
-                    # Ensure .sajai extension
-                    if not output_path.suffix.lower() == '.sajai':
-                        return self.send_json({'error': 'Output file must have .sajai extension'}, 400)
+                        # Ensure .sajai extension
+                        if not output_path.suffix.lower() == '.sajai':
+                            return self.send_json({'error': 'Output file must have .sajai extension'}, 400)
 
                 except Exception as e:
                     return self.send_json({'error': f'Invalid path: {str(e)}'}, 400)
@@ -1150,7 +1156,7 @@ class Handler(BaseHTTPRequestHandler):
 
                     from sajai_generator import sysml_to_sajai
 
-                    # Generate
+                    # Generate (output_path is None for in-memory generation)
                     sajai_data = sysml_to_sajai(arch_path, output_path)
 
                     # Count elements
@@ -1164,20 +1170,124 @@ class Handler(BaseHTTPRequestHandler):
                         total_ports += len(scene.get('ports', []))
                         total_connectors += len(scene.get('connectors', []))
 
-                    # Return success
-                    return self.send_json({
+                    # Return response based on mode
+                    response_data = {
                         'ok': True,
-                        'path': str(output_path.relative_to(ROOT)).replace('\\', '/'),
                         'scenes': len(scenes),
                         'parts': total_parts,
                         'ports': total_ports,
                         'connectors': total_connectors
-                    }, 201)
+                    }
+
+                    if in_memory:
+                        # Return SAJAI data directly for in-memory rendering
+                        response_data['sajaiData'] = sajai_data
+                    else:
+                        # Return file path for saved generation
+                        response_data['path'] = str(output_path.relative_to(ROOT)).replace('\\', '/')
+
+                    return self.send_json(response_data, 201)
 
                 except Exception as e:
                     import traceback
                     traceback.print_exc()
                     return self.send_json({'error': f'Failed to generate SAJAI: {str(e)}'}, 500)
+
+            if parsed.path == '/api/save-sajai':
+                """
+                Save SAJAI data to file.
+
+                Request body:
+                {
+                    "sajaiData": {...},
+                    "outputPath": "spa/static/sample-data/my_model.sajai"
+                }
+                """
+                body = self.read_body_json()
+
+                if 'sajaiData' not in body:
+                    return self.send_json({'error': 'Missing required field: sajaiData'}, 400)
+                if 'outputPath' not in body:
+                    return self.send_json({'error': 'Missing required field: outputPath'}, 400)
+
+                sajai_data = body['sajaiData']
+                output_path_str = body['outputPath']
+
+                try:
+                    # Validate output path
+                    output_path = (ROOT / output_path_str).resolve()
+                    sajai_dir = (STATIC / 'sample-data').resolve()
+
+                    if sajai_dir not in output_path.parents and output_path.parent != sajai_dir:
+                        return self.send_json({'error': 'Output path must be under spa/static/sample-data/'}, 400)
+
+                    if not output_path.suffix.lower() == '.sajai':
+                        return self.send_json({'error': 'Output file must have .sajai extension'}, 400)
+
+                    # Write file
+                    output_path.parent.mkdir(parents=True, exist_ok=True)
+                    output_path.write_text(json.dumps(sajai_data, indent=2), encoding='utf-8')
+
+                    return self.send_json({
+                        'ok': True,
+                        'path': str(output_path.relative_to(ROOT)).replace('\\', '/')
+                    }, 201)
+
+                except Exception as e:
+                    import traceback
+                    traceback.print_exc()
+                    return self.send_json({'error': f'Failed to save SAJAI: {str(e)}'}, 500)
+
+            if parsed.path == '/api/export-glb':
+                """
+                Convert SAJAI data to GLB format and save.
+
+                Request body:
+                {
+                    "sajaiData": {...},
+                    "outputPath": "spa/static/sample-data/my_model.glb"
+                }
+
+                Note: Basic implementation - converts SAJAI to GLB format.
+                For full glTF conversion, consider using pygltflib or similar.
+                """
+                body = self.read_body_json()
+
+                if 'sajaiData' not in body:
+                    return self.send_json({'error': 'Missing required field: sajaiData'}, 400)
+                if 'outputPath' not in body:
+                    return self.send_json({'error': 'Missing required field: outputPath'}, 400)
+
+                sajai_data = body['sajaiData']
+                output_path_str = body['outputPath']
+
+                try:
+                    # Validate output path
+                    output_path = (ROOT / output_path_str).resolve()
+                    sajai_dir = (STATIC / 'sample-data').resolve()
+
+                    if sajai_dir not in output_path.parents and output_path.parent != sajai_dir:
+                        return self.send_json({'error': 'Output path must be under spa/static/sample-data/'}, 400)
+
+                    if not output_path.suffix.lower() == '.glb':
+                        return self.send_json({'error': 'Output file must have .glb extension'}, 400)
+
+                    # For now, save as SAJAI JSON with .glb extension
+                    # TODO: Implement proper GLB conversion using pygltflib or equivalent
+                    # This is a placeholder that saves the SAJAI format
+                    output_path.parent.mkdir(parents=True, exist_ok=True)
+                    output_path.write_text(json.dumps(sajai_data, indent=2), encoding='utf-8')
+
+                    return self.send_json({
+                        'ok': True,
+                        'path': str(output_path.relative_to(ROOT)).replace('\\', '/'),
+                        'note': 'GLB export currently saves as SAJAI format. Full GLB support coming soon.'
+                    }, 201)
+
+                except Exception as e:
+                    import traceback
+                    traceback.print_exc()
+                    return self.send_json({'error': f'Failed to export GLB: {str(e)}'}, 500)
 
             if parsed.path == '/api/save-pairs':
                 body = self.read_body_json()

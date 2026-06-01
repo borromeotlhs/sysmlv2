@@ -301,13 +301,13 @@ def assign_port_uv(index: int, port_name: str) -> List[float]:
     return positions[index % len(positions)]
 
 
-def sysml_to_sajai(sysml_path: Path, output_path: Path) -> Dict[str, Any]:
+def sysml_to_sajai(sysml_path: Path, output_path: Optional[Path] = None) -> Dict[str, Any]:
     """
     Convert a SysML v2 file to SAJAI format.
 
     Args:
         sysml_path: Path to .sysml file
-        output_path: Path for output .sajai file
+        output_path: Optional path for output .sajai file (if None, data returned without saving)
 
     Returns:
         SAJAI dictionary

@@ -430,8 +430,8 @@ class SajaiThreeRenderer {
   _renderConnector(connector) {
     try {
       // Get endpoint positions
-      const fromPort = this.portMeshes.get(connector.fromPortId);
-      const toPort = this.portMeshes.get(connector.toPortId);
+      const fromPort = this.portMeshes.get(connector.sourcePortId);
+      const toPort = this.portMeshes.get(connector.targetPortId);
 
       if (!fromPort || !toPort) {
         console.warn('Connector endpoint ports not found:', connector);
@@ -748,8 +748,8 @@ class SajaiThreeRenderer {
   _updateConnectors() {
     this.connectorObjects.forEach((connectorObj, connectorId) => {
       const connectorData = connectorObj.userData.sajaiData;
-      const fromPort = this.portMeshes.get(connectorData.fromPortId);
-      const toPort = this.portMeshes.get(connectorData.toPortId);
+      const fromPort = this.portMeshes.get(connectorData.sourcePortId);
+      const toPort = this.portMeshes.get(connectorData.targetPortId);
 
       if (fromPort && toPort) {
         // Rebuild geometry with new positions

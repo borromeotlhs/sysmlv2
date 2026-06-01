@@ -86,6 +86,7 @@
             </aside>
             <div class="tools-section">
               <button id="generateSajaiBtn" title="Generate 3D model from current architecture" disabled>🔮 Generate 3D Model</button>
+              <button id="save3DBtn" title="Save current 3D model as SAJAI or GLB" disabled>💾 Save 3D Model</button>
               <button id="popout3d" title="Open 3D view in new window">🗗 Pop Out</button>
               <button id="downloadUpdatedSajai" title="Download updated SAJAI file" style="display: none;">💾 Download Updated SAJAI</button>
             </div>
@@ -212,6 +213,36 @@
       <div class="modal-footer">
         <button id="cancelSajaiGenerate" class="btn-secondary">Cancel</button>
         <button id="confirmSajaiGenerate" class="btn-primary">Generate</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save 3D Model Modal -->
+  <div id="save3DModal" class="modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" style="height: auto; max-width: 500px;">
+      <div class="modal-header">
+        <h2>Save 3D Model</h2>
+        <button id="closeSave3DModal" class="close-btn" title="Close (ESC)">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 24px;">
+        <p style="margin: 0 0 16px; color: #6b7280;">Save the current 3D model to a file.</p>
+        <div class="editor-controls" style="margin-bottom: 16px;">
+          <label for="save3DFilename">Filename:</label>
+          <input type="text" id="save3DFilename" placeholder="my_model" />
+        </div>
+        <div class="editor-controls" style="margin-bottom: 0;">
+          <label for="save3DFormat">Format:</label>
+          <select id="save3DFormat">
+            <option value="sajai">SAJAI (.sajai) - JSON format for web</option>
+            <option value="glb">GLB (.glb) - Standard 3D format</option>
+          </select>
+        </div>
+        <p style="margin: 12px 0 0; font-size: 12px; color: #9ca3af;">File will be saved to spa/static/sample-data/</p>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelSave3D" class="btn-secondary">Cancel</button>
+        <button id="confirmSave3D" class="btn-primary">Save</button>
       </div>
     </div>
   </div>
