@@ -7,12 +7,30 @@ A comprehensive toolkit for generating, visualizing, and validating SysML v2 arc
 This project provides a complete pipeline for working with SysML v2 architectures:
 
 ```text
-SysML.xtext → IR generator → renderer → .sysml → validator
-                                  ↓
-                            3D visualization (SAJAI)
-                                  ↓
-                            PlantUML diagrams (BDD/IBD)
+SysML Xtext Grammar
+       ↓
+   IR Generator
+       ↓
+    Renderer
+       ↓
+  .sysml (SysML v2 textual)
+       ↓
+   Validator
+       ↓
+  ┌────┴────┬─────────┐
+  ↓         ↓         ↓
+.glb/.sajai BDD      IBD
+(3D model)  (diagram) (diagram)
 ```
+
+**Pipeline Flow:**
+1. **SysML Xtext** - Grammar-based IR generation
+2. **Renderer** - Converts IR to valid SysML v2 textual notation
+3. **Validator** - Validates syntax and semantics
+4. **Multi-format output**:
+   - **3D Models** - SAJAI/GLB format for Three.js visualization
+   - **BDD Diagrams** - PlantUML Block Definition Diagrams
+   - **IBD Diagrams** - PlantUML Internal Block Diagrams
 
 ## ✨ Features
 
@@ -110,36 +128,43 @@ sysmlv2/
 
 ## 🔧 Core Pipeline
 
-### 1. IR Generation
+### 1. Generate SysML v2 from Xtext Grammar
 
-Generate intermediate representation from SysML grammar:
+Generate intermediate representation and render to SysML v2:
 
 ```bash
+# Generate IR from SysML Xtext grammar
 python3 scripts/generate_ir.py --seed 42
-```
 
-### 2. Rendering
-
-Convert IR to valid SysML v2 textual syntax:
-
-```bash
+# Render IR to SysML v2 textual notation
 python3 scripts/render_ir.py input.ir.json output.sysml
 ```
 
-### 3. Validation
+### 2. Validate SysML v2
 
-Validate SysML v2 syntax and semantics:
+Validate syntax and semantics:
 
 ```bash
 python3 scripts/validate_sysml.py architecture.sysml
 ```
 
-### 4. 3D Generation
+### 3. Generate Visualizations from SysML v2
 
-Convert SysML to SAJAI 3D format:
+After validation, generate multiple output formats:
 
+**3D Models (SAJAI/GLB):**
 ```bash
 python3 lib/sysml_to_sajai.py architecture.sysml output.sajai
+```
+
+**Block Definition Diagram (BDD):**
+```bash
+python3 lib/generate_bdd.py architecture.sysml output_bdd.puml
+```
+
+**Internal Block Diagram (IBD):**
+```bash
+python3 lib/generate_ibd.py architecture.sysml output_ibd.puml
 ```
 
 ## 🧪 Testing
@@ -249,17 +274,28 @@ The loop will:
 
 ### Key Constraint
 
-**Never generate raw SysML text directly.** Always use the IR pipeline:
+**Never generate raw SysML text directly.** Always use the grammar-driven pipeline:
 
 ```text
-generator → IR → renderer → .sysml → validator
+SysML Xtext → IR → Renderer → .sysml (validated) → Multi-format output
 ```
 
-The IR provides a structured control surface for generation, ensuring:
-- ✅ Consistent structure
-- ✅ Easier validation
-- ✅ Reproducible generation
-- ✅ Better debugging
+**Why this approach:**
+
+1. **Grammar-driven generation** - SysML Xtext grammar ensures correctness
+2. **IR as control surface** - Structured intermediate representation
+3. **Validation checkpoint** - All .sysml files are validated before visualization
+4. **Multi-format support** - Single .sysml source generates:
+   - 3D models (.sajai/.glb)
+   - BDD diagrams (PlantUML)
+   - IBD diagrams (PlantUML)
+
+**Benefits:**
+- ✅ Consistent structure from grammar rules
+- ✅ Validation before visualization
+- ✅ Reproducible generation from IR
+- ✅ Better debugging with intermediate artifacts
+- ✅ Multiple visualization formats from one source
 
 ## 🎮 Interactive Development
 
